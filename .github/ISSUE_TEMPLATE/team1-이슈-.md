@@ -1,7 +1,7 @@
 ---
 name: 'team1 이슈 '
 about: 해당 템플릿을 이용하세요 예상 완료일은 필수x
-title: 'type : 이슈 이름'
+title: 'Type : 이슈 이름'
 labels: ''
 assignees: ''
 
