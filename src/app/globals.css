@@ -43,143 +43,199 @@
   --color-danger: #dc2626;
 }
 
-@layer components {
-  .text-md40 {
+@utility text-md40 {
+  @layer components {
     font-size: 40px;
     line-height: 48px;
     font-weight: 500;
   }
-  .text-bold32 {
+}
+@utility text-bold32 {
+  @layer components {
     font-size: 32px;
     line-height: 38px;
     font-weight: 700;
   }
-  .text-semi32 {
+}
+@utility text-semi32 {
+  @layer components {
     font-size: 32px;
     line-height: 38px;
     font-weight: 600;
   }
-  .text-bold24 {
+}
+@utility text-bold24 {
+  @layer components {
     font-size: 24px;
     line-height: 28px;
     font-weight: 700;
   }
-  .text-semi24 {
+}
+@utility text-semi24 {
+  @layer components {
     font-size: 24px;
     line-height: 28px;
     font-weight: 600;
   }
-  .text-md24 {
+}
+@utility text-md24 {
+  @layer components {
     font-size: 24px;
     line-height: 28px;
     font-weight: 500;
   }
-  .text-rg24 {
+}
+
+@utility text-rg24 {
+  @layer components {
     font-size: 24px;
     line-height: 28px;
     font-weight: 400;
   }
-  .text-bold20 {
+}
+@utility text-bold20 {
+  @layer components {
     font-size: 20px;
     line-height: 24px;
     font-weight: 700;
   }
-  .text-semi20 {
+}
+@utility text-semi20 {
+  @layer components {
     font-size: 20px;
     line-height: 24px;
     font-weight: 600;
   }
-  .text-md20 {
+}
+@utility text-md20 {
+  @layer components {
     font-size: 20px;
     line-height: 24px;
     font-weight: 500;
   }
-  .text-rg20 {
+}
+@utility text-rg20 {
+  @layer components {
     font-size: 20px;
     line-height: 24px;
     font-weight: 400;
   }
-  .text-bold18 {
+}
+@utility text-bold18 {
+  @layer components {
     font-size: 18px;
     line-height: 21px;
     font-weight: 700;
   }
-  .text-semi18 {
+}
+@utility text-semi18 {
+  @layer components {
     font-size: 18px;
     line-height: 21px;
     font-weight: 600;
   }
-  .text-md18 {
+}
+@utility text-md18 {
+  @layer components {
     font-size: 18px;
     line-height: 26px;
     font-weight: 500;
   }
-  .text-rg18 {
+}
+@utility text-rg18 {
+  @layer components {
     font-size: 18px;
     line-height: 21px;
     font-weight: 400;
   }
-  .text-bold16 {
+}
+@utility text-bold16 {
+  @layer components {
     font-size: 16px;
     line-height: 19px;
     font-weight: 700;
   }
-  .text-semi16 {
+}
+@utility text-semi16 {
+  @layer components {
     font-size: 16px;
     line-height: 19px;
     font-weight: 600;
   }
-  .text-md16 {
+}
+@utility text-md16 {
+  @layer components {
     font-size: 16px;
     line-height: 19px;
     font-weight: 500;
   }
-  .text-rg16 {
+}
+@utility text-rg16 {
+  @layer components {
     font-size: 16px;
     line-height: 19px;
     font-weight: 400;
   }
-  .text-bold14 {
+}
+
+@utility text-bold14 {
+  @layer components {
     font-size: 14px;
     line-height: 17px;
     font-weight: 700;
   }
-  .text-semi14 {
+}
+@utility text-semi14 {
+  @layer components {
     font-size: 14px;
     line-height: 17px;
     font-weight: 600;
   }
-  .text-md14 {
+}
+@utility text-md14 {
+  @layer components {
     font-size: 14px;
     line-height: 17px;
     font-weight: 500;
   }
-  .text-rg14 {
+}
+@utility text-rg14 {
+  @layer components {
     font-size: 14px;
     line-height: 17px;
     font-weight: 400;
   }
-  .text-semi13 {
+}
+@utility text-semi13 {
+  @layer components {
     font-size: 13px;
     line-height: 16px;
     font-weight: 600;
   }
-  .text-md13 {
+}
+@utility text-md13 {
+  @layer components {
     font-size: 13px;
     line-height: 16px;
     font-weight: 500;
   }
-  .text-semi12 {
+}
+@utility text-semi12 {
+  @layer components {
     font-size: 12px;
     line-height: 14px;
     font-weight: 600;
   }
-  .text-md12 {
+}
+@utility text-md12 {
+  @layer components {
     font-size: 12px;
     line-height: 14px;
     font-weight: 500;
   }
-  .text-rg12 {
+}
+@utility text-rg12 {
+  @layer components {
     font-size: 12px;
     line-height: 14px;
     font-weight: 400;
