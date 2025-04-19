@@ -46,7 +46,7 @@ export function DropDown({ onClick, isOpen, value, taskOptions }: DropDownProps)
         <ul>
           {options?.map((option) => {
             return (
-              <li onClick={handleClick} key={option}>
+              <li className="h-[50px] w-[200px] text-red-500" onClick={handleClick} key={option}>
                 {option}
               </li>
             );
@@ -65,9 +65,6 @@ export function SelectedDropDown({ onClick, value, taskOptions, selected }: Sele
   const [currentSelected, setCurrentSelected] = useState(selected ?? '');
   const [isOpen, setIsOpen] = useState(false);
 
-  // const handleClickOption = (value: string) => {
-  //   setCurrentSelected(value);
-  // };
   return (
     <>
       <div onClick={() => setIsOpen(true)}>{currentSelected}</div>
