@@ -6,7 +6,6 @@
     color: var(--color-text-primary);
   }
   button {
-    background-image: var(--color-gradient);
     cursor: pointer;
   }
 }
@@ -24,11 +23,11 @@
   --color-rose: #f43f5e;
   --color-orange: #f97316;
   --color-yellow: #eab308;
+  --color-white: #ffffff;
 
   --color-bg-primary: #0f172a;
   --color-bg-secondary: #1e293b;
   --color-bg-tertiary: #334155;
-  --color-bg-white: #ffffff;
 
   --color-disabled: #94a3b8;
   --color-hover: #059669;
@@ -41,7 +40,6 @@
   --color-text-secondary: #cbd5e1;
   --color-text-tertiary: #e2e8f0;
   --color-text-default: #64748b;
-  --color-text-white: #ffffff;
 
   --color-danger: #dc2626;
 
