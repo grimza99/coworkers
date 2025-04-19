@@ -11,8 +11,8 @@ export default function Wrapper() {
         openBtn={<div>여기에 프로필 </div>}
       />
       <DropDown onClick={(value) => console.log(value)} value="item" />
-      <SelectedDropDown onClick={() => {}} value="recurring" />
-      <SelectedDropDown onClick={() => {}} value="recurring" />
+
+      <SelectedDropDown onClick={(value) => console.log(value)} value="recurring" />
     </div>
   );
 }

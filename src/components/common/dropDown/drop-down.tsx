@@ -13,12 +13,12 @@ type ArrayType = 'profile' | 'item' | 'recurring' | 'taskList' | 'sort';
 interface DropDownProps {
   onClick: (value: string) => void;
   value: ArrayType;
-  taskOptions?: string[];
+  taskList?: string[];
   openBtn?: ReactNode;
 }
 
 //기본 모달 (케밥,프로필 클릭시 나오는 )
-export function DropDown({ onClick, openBtn, value, taskOptions }: DropDownProps) {
+export function DropDown({ onClick, openBtn, value, taskList }: DropDownProps) {
   const [isOpen, setIsOpen] = useState(false);
   const ref = useRef<HTMLUListElement>(null);
   let options;
@@ -34,7 +34,7 @@ export function DropDown({ onClick, openBtn, value, taskOptions }: DropDownProps
       options = RECURRING_DROPDOWN_VALUE;
       break;
     case 'taskList':
-      options = taskOptions;
+      options = taskList;
       break;
     case 'sort':
       options = SORT_DROPDOWN_VALUE;
@@ -89,43 +89,28 @@ export function DropDown({ onClick, openBtn, value, taskOptions }: DropDownProps
 }
 
 interface SelectedDropDownProps {
-  onClick: () => void;
+  onClick: (value: string) => void;
   value: ArrayType;
-  taskOptions: string[];
-  selected: string;
+  taskList?: string[];
+  selected?: string;
 }
 
 //셀렉티드 모달 (최신-좋아요순 정렬 / 헤더의 태스크 드롭다운 / 반복일정)
-export function SelectedDropDown({ onClick, value, taskOptions, selected }: SelectedDropDownProps) {
-  const [currentSelected, setCurrentSelected] = useState(selected ?? '');
-  const [isOpen, setIsOpen] = useState(false);
+export function SelectedDropDown({ onClick, value, taskList, selected }: SelectedDropDownProps) {
+  const [currentSelected, setCurrentSelected] = useState(selected ?? '선택해주세요');
 
-  const handleClickOpen = () => {
-    setIsOpen((prev) => !prev);
-  };
-
-  const handleClickOption = () => {
-    setCurrentSelected(value);
-    onClick;
-  };
-
-  const handleClickClose = () => {
-    setIsOpen(false);
+  const handleClickOption = (targetText: string) => {
+    setCurrentSelected(targetText);
+    onClick(targetText);
   };
 
   return (
     <>
       <DropDown
-        openBtn={
-          <div className="cursor-pointer" onClick={handleClickOpen}>
-            {currentSelected}
-          </div>
-        }
-        onClose={handleClickClose}
+        openBtn={<div className="cursor-pointer">{currentSelected}</div>}
         onClick={handleClickOption}
-        isOpen={isOpen}
         value={value}
-        taskOptions={taskOptions}
+        taskList={taskList}
       />
     </>
   );
