@@ -1,1 +1,194 @@
-@import "tailwindcss";
+@import 'tailwindcss';
+
+@layer {
+  body {
+    font-family: 'Pretendard', sans-serif;
+    color: var(--color-text-primary);
+  }
+  button {
+    background-image: var(--color-gradient);
+    cursor: pointer;
+  }
+}
+
+@theme {
+  --color-primary: #10b981;
+  --color-secondary: #34d399;
+  --color-tertiary: #a3e635;
+  --color-gradient: linear-gradient(90deg, rgba(16, 185, 129, 1) 0%, rgba(163, 230, 53, 1) 100%);
+
+  --color-purple: #a855f7;
+  --color-blue: #3b82f6;
+  --color-cyan: #06b6d4;
+  --color-pink: #ec4899;
+  --color-rose: #f43f5e;
+  --color-orange: #f97316;
+  --color-yellow: #eab308;
+
+  --color-bg-primary: #0f172a;
+  --color-bg-secondary: #1e293b;
+  --color-bg-tertiary: #334155;
+  --color-bg-white: #ffffff;
+
+  --color-disabled: #94a3b8;
+  --color-hover: #059669;
+  --color-pressed: #047857;
+  --color-focused: #10b981;
+
+  --color-border: rgba(248, 250, 252, 0.5);
+
+  --color-text-primary: #f8fafc;
+  --color-text-secondary: #cbd5e1;
+  --color-text-tertiary: #e2e8f0;
+  --color-text-default: #64748b;
+  --color-text-white: #ffffff;
+
+  --color-danger: #dc2626;
+
+  --color-icon-primary: #64748b;
+  --color-icon-inverse: #f8fafc;
+  --color-icon-brand: #10b981;
+}
+
+@layer components {
+  .text-md40 {
+    font-size: 40px;
+    line-height: 48px;
+    font-weight: 500;
+  }
+  .text-bold32 {
+    font-size: 32px;
+    line-height: 38px;
+    font-weight: 700;
+  }
+  .text-semi32 {
+    font-size: 32px;
+    line-height: 38px;
+    font-weight: 600;
+  }
+  .text-bold24 {
+    font-size: 24px;
+    line-height: 28px;
+    font-weight: 700;
+  }
+  .text-semi24 {
+    font-size: 24px;
+    line-height: 28px;
+    font-weight: 600;
+  }
+  .text-md24 {
+    font-size: 24px;
+    line-height: 28px;
+    font-weight: 500;
+  }
+  .text-rg24 {
+    font-size: 24px;
+    line-height: 28px;
+    font-weight: 400;
+  }
+  .text-bold20 {
+    font-size: 20px;
+    line-height: 24px;
+    font-weight: 700;
+  }
+  .text-semi20 {
+    font-size: 20px;
+    line-height: 24px;
+    font-weight: 600;
+  }
+  .text-md20 {
+    font-size: 20px;
+    line-height: 24px;
+    font-weight: 500;
+  }
+  .text-rg20 {
+    font-size: 20px;
+    line-height: 24px;
+    font-weight: 400;
+  }
+  .text-bold18 {
+    font-size: 18px;
+    line-height: 21px;
+    font-weight: 700;
+  }
+  .text-semi18 {
+    font-size: 18px;
+    line-height: 21px;
+    font-weight: 600;
+  }
+  .text-md18 {
+    font-size: 18px;
+    line-height: 26px;
+    font-weight: 500;
+  }
+  .text-rg18 {
+    font-size: 18px;
+    line-height: 21px;
+    font-weight: 400;
+  }
+  .text-bold16 {
+    font-size: 16px;
+    line-height: 19px;
+    font-weight: 700;
+  }
+  .text-semi16 {
+    font-size: 16px;
+    line-height: 19px;
+    font-weight: 600;
+  }
+  .text-md16 {
+    font-size: 16px;
+    line-height: 19px;
+    font-weight: 500;
+  }
+  .text-rg16 {
+    font-size: 16px;
+    line-height: 19px;
+    font-weight: 400;
+  }
+  .text-bold14 {
+    font-size: 14px;
+    line-height: 17px;
+    font-weight: 700;
+  }
+  .text-semi14 {
+    font-size: 14px;
+    line-height: 17px;
+    font-weight: 600;
+  }
+  .text-md14 {
+    font-size: 14px;
+    line-height: 17px;
+    font-weight: 500;
+  }
+  .text-rg14 {
+    font-size: 14px;
+    line-height: 17px;
+    font-weight: 400;
+  }
+  .text-semi13 {
+    font-size: 13px;
+    line-height: 16px;
+    font-weight: 600;
+  }
+  .text-md13 {
+    font-size: 13px;
+    line-height: 16px;
+    font-weight: 500;
+  }
+  .text-semi12 {
+    font-size: 12px;
+    line-height: 14px;
+    font-weight: 600;
+  }
+  .text-md12 {
+    font-size: 12px;
+    line-height: 14px;
+    font-weight: 500;
+  }
+  .text-rg12 {
+    font-size: 12px;
+    line-height: 14px;
+    font-weight: 400;
+  }
+}
