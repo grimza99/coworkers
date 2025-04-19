@@ -43,201 +43,116 @@
   --color-danger: #dc2626;
 }
 
-@utility text-md40 {
-  @layer components {
-    font-size: 40px;
-    line-height: 48px;
-    font-weight: 500;
-  }
-}
-@utility text-bold32 {
-  @layer components {
-    font-size: 32px;
-    line-height: 38px;
-    font-weight: 700;
-  }
-}
-@utility text-semi32 {
-  @layer components {
-    font-size: 32px;
-    line-height: 38px;
-    font-weight: 600;
-  }
-}
-@utility text-bold24 {
-  @layer components {
-    font-size: 24px;
-    line-height: 28px;
-    font-weight: 700;
-  }
-}
-@utility text-semi24 {
-  @layer components {
-    font-size: 24px;
-    line-height: 28px;
-    font-weight: 600;
-  }
-}
-@utility text-md24 {
-  @layer components {
-    font-size: 24px;
-    line-height: 28px;
-    font-weight: 500;
-  }
-}
+@theme {
+  --text-4xl: 2.5rem;
+  --text-4xl--line-height: 3rem;
+  --text-4xl--font-weight: 500;
 
-@utility text-rg24 {
-  @layer components {
-    font-size: 24px;
-    line-height: 28px;
-    font-weight: 400;
-  }
-}
-@utility text-bold20 {
-  @layer components {
-    font-size: 20px;
-    line-height: 24px;
-    font-weight: 700;
-  }
-}
-@utility text-semi20 {
-  @layer components {
-    font-size: 20px;
-    line-height: 24px;
-    font-weight: 600;
-  }
-}
-@utility text-md20 {
-  @layer components {
-    font-size: 20px;
-    line-height: 24px;
-    font-weight: 500;
-  }
-}
-@utility text-rg20 {
-  @layer components {
-    font-size: 20px;
-    line-height: 24px;
-    font-weight: 400;
-  }
-}
-@utility text-bold18 {
-  @layer components {
-    font-size: 18px;
-    line-height: 21px;
-    font-weight: 700;
-  }
-}
-@utility text-semi18 {
-  @layer components {
-    font-size: 18px;
-    line-height: 21px;
-    font-weight: 600;
-  }
-}
-@utility text-md18 {
-  @layer components {
-    font-size: 18px;
-    line-height: 26px;
-    font-weight: 500;
-  }
-}
-@utility text-rg18 {
-  @layer components {
-    font-size: 18px;
-    line-height: 21px;
-    font-weight: 400;
-  }
-}
-@utility text-bold16 {
-  @layer components {
-    font-size: 16px;
-    line-height: 19px;
-    font-weight: 700;
-  }
-}
-@utility text-semi16 {
-  @layer components {
-    font-size: 16px;
-    line-height: 19px;
-    font-weight: 600;
-  }
-}
-@utility text-md16 {
-  @layer components {
-    font-size: 16px;
-    line-height: 19px;
-    font-weight: 500;
-  }
-}
-@utility text-rg16 {
-  @layer components {
-    font-size: 16px;
-    line-height: 19px;
-    font-weight: 400;
-  }
-}
+  --text-3xl-bold: 2rem;
+  --text-3xl-bold--line-height: 2.375rem;
+  --text-3xl-bold--font-weight: 700;
 
-@utility text-bold14 {
-  @layer components {
-    font-size: 14px;
-    line-height: 17px;
-    font-weight: 700;
-  }
-}
-@utility text-semi14 {
-  @layer components {
-    font-size: 14px;
-    line-height: 17px;
-    font-weight: 600;
-  }
-}
-@utility text-md14 {
-  @layer components {
-    font-size: 14px;
-    line-height: 17px;
-    font-weight: 500;
-  }
-}
-@utility text-rg14 {
-  @layer components {
-    font-size: 14px;
-    line-height: 17px;
-    font-weight: 400;
-  }
-}
-@utility text-semi13 {
-  @layer components {
-    font-size: 13px;
-    line-height: 16px;
-    font-weight: 600;
-  }
-}
-@utility text-md13 {
-  @layer components {
-    font-size: 13px;
-    line-height: 16px;
-    font-weight: 500;
-  }
-}
-@utility text-semi12 {
-  @layer components {
-    font-size: 12px;
-    line-height: 14px;
-    font-weight: 600;
-  }
-}
-@utility text-md12 {
-  @layer components {
-    font-size: 12px;
-    line-height: 14px;
-    font-weight: 500;
-  }
-}
-@utility text-rg12 {
-  @layer components {
-    font-size: 12px;
-    line-height: 14px;
-    font-weight: 400;
-  }
+  --text-3xl-semi: 2rem;
+  --text-3xl-semi--line-height: 2.375rem;
+  --text-3xl-semi--font-weight: 600;
+
+  --text-2xl-bold: 1.5rem;
+  --text-2xl-bold--line-height: 1.75rem;
+  --text-2xl-bold--font-weight: 700;
+
+  --text-2xl-semi: 1.5rem;
+  --text-2xl-semi--line-height: 1.75rem;
+  --text-2xl-semi--font-weight: 600;
+
+  --text-2xl-md: 1.5rem;
+  --text-2xl-md--line-height: 1.75rem;
+  --text-2xl-md--font-weight: 500;
+
+  --text-2xl-rg: 1.5rem;
+  --text-2xl-rg--line-height: 1.75rem;
+  --text-2xl-rg--font-weight: 400;
+
+  --text-xl-bold: 1.25rem;
+  --text-xl-bold--line-height: 1.5rem;
+  --text-xl-bold--font-weight: 700;
+
+  --text-xl-semi: 1.25rem;
+  --text-xl-semi--line-height: 1.5rem;
+  --text-xl-semi--font-weight: 600;
+
+  --text-xl-md: 1.25rem;
+  --text-xl-md--line-height: 1.5rem;
+  --text-xl-md--font-weight: 500;
+
+  --text-xl-rg: 1.25rem;
+  --text-xl-rg--line-height: 1.5rem;
+  --text-xl-rg--font-weight: 400;
+
+  --text-2lg-bold: 1.125rem;
+  --text-2lg-bold--line-height: 1.3125rem;
+  --text-2lg-bold--font-weight: 700;
+
+  --text-2lg-semi: 1.125rem;
+  --text-2lg-semi--line-height: 1.3125rem;
+  --text-2lg-semi--font-weight: 600;
+
+  --text-2lg-md: 1.125rem;
+  --text-2lg-md--line-height: 1.625rem;
+  --text-2lg-md--font-weight: 500;
+
+  --text-2lg-rg: 1.125rem;
+  --text-2lg-rg--line-height: 1.3125rem;
+  --text-2lg-rg--font-weight: 400;
+
+  --text-lg-bold: 1rem;
+  --text-lg-bold--line-height: 1.1875rem;
+  --text-lg-bold--font-weight: 700;
+
+  --text-lg-semi: 1rem;
+  --text-lg-semi--line-height: 1.1875rem;
+  --text-lg-semi--font-weight: 600;
+
+  --text-lg-md: 1rem;
+  --text-lg-md--line-height: 1.1875rem;
+  --text-lg-md--font-weight: 500;
+
+  --text-lg-rg: 1rem;
+  --text-lg-rg--line-height: 1.1875rem;
+  --text-lg-rg--font-weight: 400;
+
+  --text-md-bold: 0.875rem;
+  --text-md-bold--line-height: 1.0625rem;
+  --text-md-bold--font-weight: 700;
+
+  --text-md-semi: 0.875rem;
+  --text-md-semi--line-height: 1.0625rem;
+  --text-md-semi--font-weight: 600;
+
+  --text-md-md: 0.875rem;
+  --text-md-md--line-height: 1.0625rem;
+  --text-md-md--font-weight: 500;
+
+  --text-md-rg: 0.875rem;
+  --text-md-rg--line-height: 1.0625rem;
+  --text-md-rg--font-weight: 400;
+
+  --text-sm-semi: 0.8125rem;
+  --text-sm-semi--line-height: 1rem;
+  --text-sm-semi--font-weight: 600;
+
+  --text-sm-md: 0.8125rem;
+  --text-sm-md--line-height: 1rem;
+  --text-sm-md--font-weight: 500;
+
+  --text-xs-semi: 0.75rem;
+  --text-xs-semi--line-height: 0.875rem;
+  --text-xs-semi--font-weight: 600;
+
+  --text-xs-md: 0.75rem;
+  --text-xs-md--line-height: 0.875rem;
+  --text-xs-md--font-weight: 500;
+
+  --text-xs-rg: 0.75rem;
+  --text-xs-rg--line-height: 0.875rem;
+  --text-xs-rg--font-weight: 400;
 }
