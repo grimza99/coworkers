@@ -5,18 +5,14 @@ import { DropDown, SelectedDropDown } from './common/dropDown/drop-down';
 export default function Wrapper() {
   return (
     <div>
-      <DropDown onClick={(value) => console.log(value)} isOpen={true} value="profile" />
-      <DropDown onClick={(value) => console.log(value)} isOpen={true} value="item" />
-      <SelectedDropDown
+      <DropDown
         onClick={(value) => console.log(value)}
-        selected="테스트"
-        value="taskList"
+        value="profile"
+        openBtn={<div>여기에 프로필 </div>}
       />
-      <SelectedDropDown
-        onClick={(value) => console.log(value)}
-        selected="테스트"
-        value="recurring"
-      />
+      <DropDown onClick={(value) => console.log(value)} value="item" />
+      <SelectedDropDown onClick={() => {}} value="recurring" />
+      <SelectedDropDown onClick={() => {}} value="recurring" />
     </div>
   );
 }
