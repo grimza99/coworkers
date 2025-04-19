@@ -1,1 +1,158 @@
-@import "tailwindcss";
+@import 'tailwindcss';
+
+@layer {
+  body {
+    font-family: 'Pretendard', sans-serif;
+    color: var(--color-text-primary);
+  }
+  button {
+    cursor: pointer;
+  }
+}
+
+@theme {
+  --color-primary: #10b981;
+  --color-secondary: #34d399;
+  --color-tertiary: #a3e635;
+  --color-gradient: linear-gradient(90deg, rgba(16, 185, 129, 1) 0%, rgba(163, 230, 53, 1) 100%);
+
+  --color-purple: #a855f7;
+  --color-blue: #3b82f6;
+  --color-cyan: #06b6d4;
+  --color-pink: #ec4899;
+  --color-rose: #f43f5e;
+  --color-orange: #f97316;
+  --color-yellow: #eab308;
+  --color-white: #ffffff;
+
+  --color-bg100: #334155;
+  --color-bg200: #1e293b;
+  --color-bg300: #0f172a;
+
+  --color-primary-hover: #059669;
+  --color-primary-pressed: #047857;
+
+  --color-border: rgba(248, 250, 252, 0.5);
+
+  --color-gray100: #f8fafc;
+  --color-gray200: #e2e8f0;
+  --color-gray300: #cbd5e1;
+  --color-gray400: #94a3b8;
+  --color-gray500: #64748b;
+
+  --color-danger: #dc2626;
+}
+
+@theme {
+  --text-4xl: 2.5rem;
+  --text-4xl--line-height: 3rem;
+  --text-4xl--font-weight: 500;
+
+  --text-3xl-bold: 2rem;
+  --text-3xl-bold--line-height: 2.375rem;
+  --text-3xl-bold--font-weight: 700;
+
+  --text-3xl-semi: 2rem;
+  --text-3xl-semi--line-height: 2.375rem;
+  --text-3xl-semi--font-weight: 600;
+
+  --text-2xl-bold: 1.5rem;
+  --text-2xl-bold--line-height: 1.75rem;
+  --text-2xl-bold--font-weight: 700;
+
+  --text-2xl-semi: 1.5rem;
+  --text-2xl-semi--line-height: 1.75rem;
+  --text-2xl-semi--font-weight: 600;
+
+  --text-2xl-md: 1.5rem;
+  --text-2xl-md--line-height: 1.75rem;
+  --text-2xl-md--font-weight: 500;
+
+  --text-2xl-rg: 1.5rem;
+  --text-2xl-rg--line-height: 1.75rem;
+  --text-2xl-rg--font-weight: 400;
+
+  --text-xl-bold: 1.25rem;
+  --text-xl-bold--line-height: 1.5rem;
+  --text-xl-bold--font-weight: 700;
+
+  --text-xl-semi: 1.25rem;
+  --text-xl-semi--line-height: 1.5rem;
+  --text-xl-semi--font-weight: 600;
+
+  --text-xl-md: 1.25rem;
+  --text-xl-md--line-height: 1.5rem;
+  --text-xl-md--font-weight: 500;
+
+  --text-xl-rg: 1.25rem;
+  --text-xl-rg--line-height: 1.5rem;
+  --text-xl-rg--font-weight: 400;
+
+  --text-2lg-bold: 1.125rem;
+  --text-2lg-bold--line-height: 1.3125rem;
+  --text-2lg-bold--font-weight: 700;
+
+  --text-2lg-semi: 1.125rem;
+  --text-2lg-semi--line-height: 1.3125rem;
+  --text-2lg-semi--font-weight: 600;
+
+  --text-2lg-md: 1.125rem;
+  --text-2lg-md--line-height: 1.625rem;
+  --text-2lg-md--font-weight: 500;
+
+  --text-2lg-rg: 1.125rem;
+  --text-2lg-rg--line-height: 1.3125rem;
+  --text-2lg-rg--font-weight: 400;
+
+  --text-lg-bold: 1rem;
+  --text-lg-bold--line-height: 1.1875rem;
+  --text-lg-bold--font-weight: 700;
+
+  --text-lg-semi: 1rem;
+  --text-lg-semi--line-height: 1.1875rem;
+  --text-lg-semi--font-weight: 600;
+
+  --text-lg-md: 1rem;
+  --text-lg-md--line-height: 1.1875rem;
+  --text-lg-md--font-weight: 500;
+
+  --text-lg-rg: 1rem;
+  --text-lg-rg--line-height: 1.1875rem;
+  --text-lg-rg--font-weight: 400;
+
+  --text-md-bold: 0.875rem;
+  --text-md-bold--line-height: 1.0625rem;
+  --text-md-bold--font-weight: 700;
+
+  --text-md-semi: 0.875rem;
+  --text-md-semi--line-height: 1.0625rem;
+  --text-md-semi--font-weight: 600;
+
+  --text-md-md: 0.875rem;
+  --text-md-md--line-height: 1.0625rem;
+  --text-md-md--font-weight: 500;
+
+  --text-md-rg: 0.875rem;
+  --text-md-rg--line-height: 1.0625rem;
+  --text-md-rg--font-weight: 400;
+
+  --text-sm-semi: 0.8125rem;
+  --text-sm-semi--line-height: 1rem;
+  --text-sm-semi--font-weight: 600;
+
+  --text-sm-md: 0.8125rem;
+  --text-sm-md--line-height: 1rem;
+  --text-sm-md--font-weight: 500;
+
+  --text-xs-semi: 0.75rem;
+  --text-xs-semi--line-height: 0.875rem;
+  --text-xs-semi--font-weight: 600;
+
+  --text-xs-md: 0.75rem;
+  --text-xs-md--line-height: 0.875rem;
+  --text-xs-md--font-weight: 500;
+
+  --text-xs-rg: 0.75rem;
+  --text-xs-rg--line-height: 0.875rem;
+  --text-xs-rg--font-weight: 400;
+}
