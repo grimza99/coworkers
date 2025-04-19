@@ -25,27 +25,22 @@
   --color-yellow: #eab308;
   --color-white: #ffffff;
 
-  --color-bg-primary: #0f172a;
-  --color-bg-secondary: #1e293b;
-  --color-bg-tertiary: #334155;
+  --color-bg300: #0f172a;
+  --color-bg200: #1e293b;
+  --color-bg100: #334155;
 
-  --color-disabled: #94a3b8;
-  --color-hover: #059669;
-  --color-pressed: #047857;
-  --color-focused: #10b981;
+  --color-primary-hover: #059669;
+  --color-primary-pressed: #047857;
 
   --color-border: rgba(248, 250, 252, 0.5);
 
-  --color-text-primary: #f8fafc;
-  --color-text-secondary: #cbd5e1;
-  --color-text-tertiary: #e2e8f0;
-  --color-text-default: #64748b;
+  --color-gray100: #f8fafc;
+  --color-gray200: #e2e8f0;
+  --color-gray300: #cbd5e1;
+  --color-gray400: #94a3b8;
+  --color-gray500: #64748b;
 
   --color-danger: #dc2626;
-
-  --color-icon-primary: #64748b;
-  --color-icon-inverse: #f8fafc;
-  --color-icon-brand: #10b981;
 }
 
 @layer components {
