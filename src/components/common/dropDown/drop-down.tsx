@@ -3,9 +3,11 @@
 import Image from 'next/image';
 import { ReactNode, useEffect, useRef, useState } from 'react';
 import kebabIcon from '@/../public/icons/kebab-icon.svg';
+import clsx from 'clsx';
+
 const ITEM_DROPDOWN_VALUE = ['수정하기', '삭제하기'];
 const PROFILE_DROPDOWN_VALUE = ['마이 히스토리', '계정 설정', '팀 참여', '로그아웃'];
-const RECURRING_DROPDOWN_VALUE = ['한번', '매일', '주 반복', '월 반복'];
+const RECURRING_DROPDOWN_VALUE = ['반복안함', '한번', '매일', '주 반복', '월 반복'];
 const SORT_DROPDOWN_VALUE = ['최신순', '좋아요 많은순'];
 
 type ArrayType = 'profile' | 'item' | 'recurring' | 'taskList' | 'sort';
@@ -70,14 +72,20 @@ export function DropDown({ onClick, openBtn, value, taskList }: DropDownProps) {
       </div>
 
       {isOpen && (
-        <ul ref={ref}>
+        <ul
+          className={clsx(
+            'bg-bg200 text-gray100 rounded-xl border-1',
+            value === 'profile' && 'h-40 w-30 md:h-[184px] md:w-[135px]',
+            value === 'item' && 'h-20 w-30',
+            value === 'recurring' && '',
+            value === 'taskList' && '',
+            value === 'sort' && ''
+          )}
+          ref={ref}
+        >
           {options?.map((option) => {
             return (
-              <li
-                className="h-[50px] w-[200px] cursor-pointer text-red-500"
-                onClick={handleClickOption}
-                key={option}
-              >
+              <li className="cursor-pointer" onClick={handleClickOption} key={option}>
                 {option}
               </li>
             );
@@ -97,7 +105,14 @@ interface SelectedDropDownProps {
 
 //셀렉티드 모달 (최신-좋아요순 정렬 / 헤더의 태스크 드롭다운 / 반복일정)
 export function SelectedDropDown({ onClick, value, taskList, selected }: SelectedDropDownProps) {
-  const [currentSelected, setCurrentSelected] = useState(selected ?? '선택해주세요');
+  const defaultValue =
+    value === 'recurring'
+      ? RECURRING_DROPDOWN_VALUE[0]
+      : value === 'sort'
+        ? SORT_DROPDOWN_VALUE[0]
+        : taskList![0];
+
+  const [currentSelected, setCurrentSelected] = useState(selected ?? defaultValue);
 
   const handleClickOption = (targetText: string) => {
     setCurrentSelected(targetText);
