@@ -3,7 +3,7 @@
 @layer {
   body {
     font-family: 'Pretendard', sans-serif;
-    color: var(--color-text-primary);
+    color: var(--color-gray100);
   }
   button {
     cursor: pointer;
