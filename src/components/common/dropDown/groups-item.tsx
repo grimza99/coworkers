@@ -2,10 +2,10 @@ import Link from 'next/link';
 import kebabIcon from '@/../public/icons/kebab-icon.svg';
 import Image from 'next/image';
 
-interface DropDownGroupItemPropsType {
-  group: Group;
+interface DropDownGroupItem {
+  group: GroupApiResponse;
 }
-export default function DropDownGroupsItem({ group }: DropDownGroupItemPropsType) {
+export default function DropDownGroupsItem({ group }: DropDownGroupItem) {
   const { name, image, id } = group;
 
   return (

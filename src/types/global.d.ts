@@ -1,7 +1,7 @@
 export {};
 
 declare global {
-  interface Group {
+  interface GroupApiResponse {
     teamId: string;
     updatedAt: string;
     createdAt: string;
