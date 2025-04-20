@@ -49,7 +49,7 @@ export function DropDown({ onSelect, openBtn, options, size }: DropDownProps) {
       </div>
 
       {isOpen && (
-        <ul className={clsx('bg-bg200 rounded-lg', size === 'xl' && 'px-4 py-4')}>
+        <ul className={clsx('bg-bg200 z-100 rounded-lg', size === 'xl' && 'px-4 py-4')}>
           {options.optionsItem?.map((option, idx) => {
             return (
               <li
