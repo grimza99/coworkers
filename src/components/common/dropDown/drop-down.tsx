@@ -3,6 +3,8 @@
 import Image from 'next/image';
 import { ReactNode, useEffect, useRef, useState } from 'react';
 import kebabIcon from '@/../public/icons/kebab-icon.svg';
+import dropDownIcon from '@/../public/icons/dropdown-icon.svg';
+import taskListIcon from '@/../public/icons/tasklist-icon.svg';
 import clsx from 'clsx';
 
 const ITEM_DROPDOWN_VALUE = ['수정하기', '삭제하기'];
@@ -63,7 +65,7 @@ export function DropDown({ onClick, openBtn, value, taskList }: DropDownProps) {
 
   return (
     <>
-      <div onClick={() => setIsOpen((prev) => !prev)}>
+      <div className="h-fit w-fit cursor-pointer" onClick={() => setIsOpen((prev) => !prev)}>
         {value === 'item' ? (
           <Image src={kebabIcon} width={2} height={8} alt=":" />
         ) : (
@@ -74,18 +76,29 @@ export function DropDown({ onClick, openBtn, value, taskList }: DropDownProps) {
       {isOpen && (
         <ul
           className={clsx(
-            'bg-bg200 text-gray100 rounded-xl border-1',
-            value === 'profile' && 'h-40 w-30 md:h-[184px] md:w-[135px]',
-            value === 'item' && 'h-20 w-30',
-            value === 'recurring' && '',
-            value === 'taskList' && '',
-            value === 'sort' && ''
+            'bg-bg200 text-gray100 border-border z-100 cursor-pointer rounded-xl border-1',
+            value === 'profile' && 'sm:text-md-rg md:text-lg-rg w-30 md:w-[135px]',
+            value === 'item' && 'text-md-rg w-30',
+            value === 'recurring' && 'text-md-rg w-[109px]',
+            value === 'taskList' && 'text-lg-md max-h-[300px] w-[218px] px-4 py-4',
+            value === 'sort' && 'sm:text-xs-rg md:text-md-rg sm:w-[94px] md:w-30'
           )}
           ref={ref}
         >
           {options?.map((option) => {
             return (
-              <li className="cursor-pointer" onClick={handleClickOption} key={option}>
+              <li
+                className={clsx(
+                  'hover:bg-bg100 flex items-center justify-center rounded-xl',
+                  value === 'profile' && 'py-[14px]',
+                  value === 'item' && 'py-3',
+                  value === 'recurring' && 'py-3',
+                  value === 'taskList' && 'h-[46px]',
+                  value === 'sort' && 'py-[13px]'
+                )}
+                onClick={handleClickOption}
+                key={option}
+              >
                 {option}
               </li>
             );
@@ -122,7 +135,31 @@ export function SelectedDropDown({ onClick, value, taskList, selected }: Selecte
   return (
     <>
       <DropDown
-        openBtn={<div className="cursor-pointer">{currentSelected}</div>}
+        openBtn={
+          <div
+            className={clsx(
+              'text-gray100 flex items-center rounded-xl',
+              value === 'recurring' && 'bg-bg400 text-gray500 h-11 w-[109px] px-3 py-[10px]',
+              value === 'taskList' && 'bg-bg200 h-fit w-fit',
+              value === 'sort' &&
+                'sm:text-xs-rg md:text-md-rg bg-bg200 px-2 py-2 sm:h-10 sm:w-[94px] md:h-11 md:w-30'
+            )}
+          >
+            <div
+              className={clsx(
+                'flex w-full items-center',
+                value === 'taskList' ? 'gap-[11px]' : 'justify-between'
+              )}
+            >
+              {currentSelected}
+              {value !== 'taskList' ? (
+                <Image width={24} height={24} src={dropDownIcon} alt="\/" />
+              ) : (
+                <Image width={16} height={16} alt="^" src={taskListIcon} />
+              )}
+            </div>
+          </div>
+        }
         onClick={handleClickOption}
         value={value}
         taskList={taskList}
