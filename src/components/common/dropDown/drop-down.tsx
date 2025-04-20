@@ -67,7 +67,7 @@ export function DropDown({ onClick, openBtn, value, taskList }: DropDownProps) {
     <>
       <div className="h-fit w-fit cursor-pointer" onClick={() => setIsOpen((prev) => !prev)}>
         {value === 'item' ? (
-          <Image src={kebabIcon} width={2} height={8} alt=":" />
+          <Image src={kebabIcon} width={16} height={16} alt=":" />
         ) : (
           <div>{openBtn}</div>
         )}
