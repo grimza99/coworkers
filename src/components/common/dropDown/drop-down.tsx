@@ -108,7 +108,7 @@ export function DropDown({ onClick, openBtn, value, groupList }: DropDownProps) 
           ) : (
             <>
               {groupList.map((group) => {
-                return <DropDownGroupsItem group={group} />;
+                return <DropDownGroupsItem key={group.id} group={group} />;
               })}
               <Link href="/addteam">팀추가버튼시교체</Link>
             </>
