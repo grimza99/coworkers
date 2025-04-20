@@ -119,7 +119,7 @@ export function DropDown({ onClick, openBtn, value, groupList }: DropDownProps) 
 }
 
 interface SelectedDropDownProps {
-  onClick: (value: string) => void;
+  onClick?: (value: string) => void;
   value: ArrayType;
   groupList?: Group[];
   selected?: string;
@@ -138,6 +138,7 @@ export function SelectedDropDown({ onClick, value, groupList, selected }: Select
 
   const handleClickOption = (targetText: string) => {
     setCurrentSelected(targetText);
+    if (!onClick) return;
     onClick(targetText);
   };
 
@@ -150,7 +151,7 @@ export function SelectedDropDown({ onClick, value, groupList, selected }: Select
               'text-gray100 flex items-center rounded-xl',
               value === 'recurring' &&
                 'bg-bg400 text-gray500 h-11 w-[109px] justify-between px-3 py-[10px]',
-              value === 'groupList' && 'bg-bg200 h-fit w-fit gap-[11px]',
+              value === 'groupList' && 'h-fit w-fit gap-[11px]',
               value === 'sort' &&
                 'sm:text-xs-rg md:text-md-rg bg-bg200 justify-between px-2 py-2 sm:h-10 sm:w-[94px] md:h-11 md:w-30'
             )}
