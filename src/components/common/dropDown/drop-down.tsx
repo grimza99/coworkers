@@ -26,7 +26,7 @@ interface DropDownProps {
 //기본 모달 (케밥,프로필 클릭시 나오는 )
 export function DropDown({ onClick, openBtn, value, groupList }: DropDownProps) {
   const [isOpen, setIsOpen] = useState(false);
-  const ref = useRef<HTMLUListElement>(null);
+  const ref = useRef<HTMLDivElement>(null);
   let options;
 
   switch (value) {
@@ -64,7 +64,7 @@ export function DropDown({ onClick, openBtn, value, groupList }: DropDownProps) 
   };
 
   return (
-    <>
+    <div className="h-fit w-fit" ref={ref}>
       <div className="h-fit w-fit cursor-pointer" onClick={() => setIsOpen((prev) => !prev)}>
         {value === 'item' ? (
           <Image src={kebabIcon} width={16} height={16} alt=":" />
@@ -74,7 +74,7 @@ export function DropDown({ onClick, openBtn, value, groupList }: DropDownProps) 
       </div>
 
       {isOpen && (
-        <ul
+        <div
           className={clsx(
             'bg-bg200 text-gray100 border-border z-100 cursor-pointer rounded-xl border-1',
             value === 'profile' && 'sm:text-md-rg md:text-lg-rg w-30 md:w-[135px]',
@@ -83,7 +83,6 @@ export function DropDown({ onClick, openBtn, value, groupList }: DropDownProps) 
             value === 'groupList' && 'text-lg-md max-h-[300px] w-[218px] px-4 py-4',
             value === 'sort' && 'sm:text-xs-rg md:text-md-rg sm:w-[94px] md:w-30'
           )}
-          ref={ref}
         >
           {!groupList ? (
             <>
@@ -113,9 +112,9 @@ export function DropDown({ onClick, openBtn, value, groupList }: DropDownProps) 
               <Link href="/addteam">팀추가버튼시교체</Link>
             </>
           )}
-        </ul>
+        </div>
       )}
-    </>
+    </div>
   );
 }
 
@@ -149,27 +148,25 @@ export function SelectedDropDown({ onClick, value, groupList, selected }: Select
           <div
             className={clsx(
               'text-gray100 flex items-center rounded-xl',
-              value === 'recurring' && 'bg-bg400 text-gray500 h-11 w-[109px] px-3 py-[10px]',
-              value === 'groupList' && 'bg-bg200 h-fit w-fit',
+              value === 'recurring' &&
+                'bg-bg400 text-gray500 h-11 w-[109px] justify-between px-3 py-[10px]',
+              value === 'groupList' && 'bg-bg200 h-fit w-fit gap-[11px]',
               value === 'sort' &&
-                'sm:text-xs-rg md:text-md-rg bg-bg200 px-2 py-2 sm:h-10 sm:w-[94px] md:h-11 md:w-30'
+                'sm:text-xs-rg md:text-md-rg bg-bg200 justify-between px-2 py-2 sm:h-10 sm:w-[94px] md:h-11 md:w-30'
             )}
           >
-            <div
+            <p
               className={clsx(
-                'flex w-full items-center',
-                value === 'groupList' ? 'gap-[11px]' : 'justify-between'
+                value === 'groupList' && 'w-[110px] truncate overflow-hidden whitespace-nowrap'
               )}
             >
-              <p className="w-[110px] truncate overflow-hidden whitespace-nowrap">
-                {currentSelected}
-              </p>
-              {value !== 'groupList' ? (
-                <Image width={24} height={24} src={dropDownIcon} alt="\/" />
-              ) : (
-                <Image width={16} height={16} alt="^" src={taskListIcon} />
-              )}
-            </div>
+              {currentSelected}
+            </p>
+            {value !== 'groupList' ? (
+              <Image width={24} height={24} src={dropDownIcon} alt="\/" />
+            ) : (
+              <Image width={16} height={16} alt="^" src={taskListIcon} />
+            )}
           </div>
         }
         onClick={handleClickOption}
