@@ -12,11 +12,11 @@ type OptionsType = ReactNode[] | string[];
 interface DropDownProps {
   onSelect?: (e: React.MouseEvent<HTMLLIElement>) => void;
   options: OptionsType;
-  openBtn?: ReactNode;
+  dropDownOpenBtn?: ReactNode;
   size: Size;
 }
 
-export function DropDown({ onSelect, openBtn, options, size }: DropDownProps) {
+export function DropDown({ onSelect, dropDownOpenBtn, options, size }: DropDownProps) {
   const [isOpen, setIsOpen] = useState(false);
   const ref = useRef<HTMLDivElement>(null);
   const hashedIndex = size.charCodeAt(0) % options.length;
@@ -40,10 +40,11 @@ export function DropDown({ onSelect, openBtn, options, size }: DropDownProps) {
       onSelect(e);
     }
   };
+
   return (
     <div className="h-fit w-fit" ref={ref}>
       <div className="cursor-pointer" onClick={() => setIsOpen((prev) => !prev)}>
-        {openBtn}
+        {dropDownOpenBtn}
       </div>
 
       {isOpen && (
@@ -103,7 +104,7 @@ export function SelectedDropDown({ onSelect, options, selected, size }: Selected
   return (
     <>
       <DropDown
-        openBtn={dropDownOpenBtn}
+        dropDownOpenBtn={dropDownOpenBtn}
         onSelect={(e) => handleClickOption(e)}
         options={options}
         size={size}

@@ -5,6 +5,7 @@ import Image from 'next/image';
 interface DropDownGroupItem {
   group: GroupApiResponse;
 }
+
 export default function DropDownGroupsItem({ group }: DropDownGroupItem) {
   const { name, image, id } = group;
 
@@ -12,7 +13,7 @@ export default function DropDownGroupsItem({ group }: DropDownGroupItem) {
     <div className="hover:bg-bg100 flex w-[186px] cursor-pointer items-center justify-between rounded-lg px-2 py-[7px]">
       <Link className="text-lg-md text-gray400 flex items-center gap-3" href={`/${id}`}>
         <img src={image} className="h-8 w-8 rounded-md" />
-        <p className="w-[110px] truncate overflow-hidden whitespace-nowrap"> {name}</p>
+        <p className="w-[110px] truncate"> {name}</p>
       </Link>
       <Link href={`/${id}/edit`}>
         <Image width={16} height={16} src={kebabIcon} alt=":" />
