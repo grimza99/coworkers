@@ -220,50 +220,98 @@ export default function Header() {
 import Image from 'next/image';
 import logoLg from '@/assets/logo-lg.svg';
 import logoSm from '@/assets/logo-sm.svg';
+import { useState } from 'react';
+import DropDownGroupsItem from '@/components/common/dropDown/groups-item';
+import dropdownIcon from '@/../public/icons/dropdown-icon.svg';
 
-// 목데이터
-const userName = '안혜나';
-const teams = ['경영관리팀'];
-const selectedTeam = '경영관리팀';
+// 목데이터 (Swagger 참고: GET /users/me)
+const userData: { name: string; teams: GroupApiResponse[] } = {
+  name: '안혜나',
+  teams: [
+    {
+      id: 1,
+      name: '경영관리팀',
+      image: '/default-team-image.png',
+      teamId: 'team-1',
+      updatedAt: '',
+      createdAt: '',
+    },
+    {
+      id: 2,
+      name: '프로젝트팀',
+      image: '/default-team-image.png',
+      teamId: 'team-2',
+      updatedAt: '',
+      createdAt: '',
+    },
+  ],
+};
+
+const userName = userData.name;
+const selectedTeam = userData.teams[0]?.name || '';
 
 export default function Header() {
+  const [isDropdownOpen, setIsDropdownOpen] = useState(false);
+
   return (
-    <header className="bg-bg200 sticky top-0 h-[60px] w-full">
-      <div className="flex h-full w-full items-center gap-[32px] pl-[16px] md:pl-[24px] lg:gap-[40px] lg:pl-[360px]">
-        <div className="flex items-center gap-[16px]">
-          <Image
-            src="/icons/gnb-menu.svg"
-            alt="메뉴"
-            width={24}
-            height={24}
-            className="block md:hidden"
-          />
-          {/* 로고 */}
-          <div className="flex items-center">
+    <header className="bg-bg200 sticky top-0 flex h-[60px] w-full justify-center py-[14px]">
+      <div className="flex w-full max-w-300 items-center justify-between p-4">
+        <div className="flex items-center gap-8 lg:gap-[40px]">
+          <div className="flex items-center gap-[16px]">
             <Image
-              src={logoLg}
-              alt="Coworkers logo"
-              width={158}
-              height={32}
-              className="hidden lg:block"
+              src="/icons/gnb-menu.svg"
+              alt="메뉴"
+              width={24}
+              height={24}
+              className="block md:hidden"
             />
-            <Image
-              src={logoSm}
-              alt="Coworkers logo"
-              width={102}
-              height={20}
-              className="block lg:hidden"
-            />
+            {/* 로고 */}
+            <div className="flex items-center">
+              <Image
+                src={logoLg}
+                alt="Coworkers logo"
+                width={158}
+                height={32}
+                className="hidden lg:block"
+              />
+              <Image
+                src={logoSm}
+                alt="Coworkers logo"
+                width={102}
+                height={20}
+                className="block lg:hidden"
+              />
+            </div>
+          </div>
+
+          {/* 중앙: 팀 드롭다운 + 자유게시판 */}
+          <div className="text-gray100 text-lg-md hidden items-center gap-[32px] md:flex lg:gap-[40px]">
+            <div className="relative">
+              <button
+                onClick={() => setIsDropdownOpen((prev) => !prev)}
+                className="flex cursor-pointer items-center gap-1"
+              >
+                <span>{selectedTeam}</span>
+                <Image src={dropdownIcon} alt="드롭다운 아이콘" width={16} height={16} />
+              </button>
+
+              {isDropdownOpen && (
+                <div className="absolute top-full left-0 mt-2 w-[186px] rounded-lg bg-white p-1 shadow-md">
+                  {userData.teams.map((team) => (
+                    <DropDownGroupsItem
+                      key={team.id}
+                      group={{ id: team.id, name: team.name, image: '/default-team-image.png' }}
+                    />
+                  ))}
+                </div>
+              )}
+            </div>
+            <div>자유게시판</div>
           </div>
         </div>
-
-        {/* 중앙: 팀 드롭다운 + 자유게시판 */}
-        <div className="text-gray100 text-lg-md flex hidden items-center gap-[32px] md:flex lg:gap-[40px]">
-          <div>경영관리팀</div>
-          <div>자유게시판</div>
-        </div>
-        <div className="ml-auto flex items-center pr-[16px] md:pr-[24px] lg:pr-[360px]">
+        <div className="ml-auto flex items-center gap-2">
           <Image src="/icons/user.svg" alt="유저 아이콘" width={24} height={24} />
+          <span className="text-sm text-white">{userName}</span>
         </div>
       </div>
     </header>
