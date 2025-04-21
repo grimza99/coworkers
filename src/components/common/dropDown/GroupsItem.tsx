@@ -3,7 +3,14 @@ import kebabIcon from '@/../public/icons/kebab-icon.svg';
 import Image from 'next/image';
 
 interface GroupOptionProps {
-  group: GroupApiResponse;
+  group: {
+    teamId: string;
+    updatedAt: string;
+    createdAt: string;
+    image: string;
+    name: string;
+    id: number;
+  };
 }
 
 export default function DropDownGroupsItem({ group }: GroupOptionProps) {
