@@ -5,6 +5,7 @@
 
 import Image from 'next/image';
 import Link from 'next/link';
+<<<<<<< HEAD
 import { useState } from 'react';
 import Logo from './Logo';
 import DropDown from '@/components/common/dropdown';
@@ -220,9 +221,13 @@ export default function Header() {
 import Image from 'next/image';
 import logoLg from '@/assets/logo-lg.svg';
 import logoSm from '@/assets/logo-sm.svg';
+=======
+>>>>>>> b4435e7 (Refector : Logo 컴포넌트 분리)
 import { useState } from 'react';
-import DropDownGroupsItem from '@/components/common/dropDown/groups-item';
+import Logo from './Logo';
 import dropdownIcon from '@/../public/icons/dropdown-icon.svg';
+import DropDownGroupsItem from '@/components/common/dropDown/groups-item';
+import DropDownProfileItemList from '@/components/common/dropDown/profile-item';
 
 // 목데이터 (Swagger 참고: GET /users/me)
 const userData: { name: string; teams: GroupApiResponse[] } = {
@@ -252,12 +257,14 @@ const selectedTeam = userData.teams[0]?.name || '';
 
 export default function Header() {
   const [isDropdownOpen, setIsDropdownOpen] = useState(false);
+  const [isProfileDropdownOpen, setIsProfileDropdownOpen] = useState(false);
 
   return (
     <header className="bg-bg200 sticky top-0 flex h-[60px] w-full justify-center py-[14px]">
       <div className="flex w-full max-w-300 items-center justify-between p-4">
         <div className="flex items-center gap-8 lg:gap-[40px]">
           <div className="flex items-center gap-[16px]">
+            {/* sm일 때만 팀페이지, 게시판 대신에 보여지는 아이콘 */}
             <Image
               src="/icons/gnb-menu.svg"
               alt="메뉴"
@@ -265,29 +272,16 @@ export default function Header() {
               height={24}
               className="block md:hidden"
             />
+
             {/* 로고 */}
-            <div className="flex items-center">
-              <Image
-                src={logoLg}
-                alt="Coworkers logo"
-                width={158}
-                height={32}
-                className="hidden lg:block"
-              />
-              <Image
-                src={logoSm}
-                alt="Coworkers logo"
-                width={102}
-                height={20}
-                className="block lg:hidden"
-              />
-            </div>
+            <Logo />
           </div>
 
           {/* 중앙: 팀 드롭다운 + 자유게시판 */}
           <div className="text-gray100 text-lg-md hidden items-center gap-[32px] md:flex lg:gap-[40px]">
             <div className="relative">
               <button
+                type="button"
                 onClick={() => setIsDropdownOpen((prev) => !prev)}
                 className="flex cursor-pointer items-center gap-1"
               >
@@ -296,22 +290,35 @@ export default function Header() {
               </button>
 
               {isDropdownOpen && (
-                <div className="absolute top-full left-0 mt-2 w-[186px] rounded-lg bg-white p-1 shadow-md">
+                <div className="bg-bg200 absolute top-full left-0 mt-2 w-[186px] rounded-lg p-1 shadow-md">
                   {userData.teams.map((team) => (
-                    <DropDownGroupsItem
-                      key={team.id}
-                      group={{ id: team.id, name: team.name, image: '/default-team-image.png' }}
-                    />
+                    <DropDownGroupsItem key={team.id} group={team} />
                   ))}
                 </div>
               )}
             </div>
-            <div>자유게시판</div>
+            <Link href={`/articles`} className="cursor:pointer">
+              자유게시판
+            </Link>
           </div>
         </div>
-        <div className="ml-auto flex items-center gap-2">
-          <Image src="/icons/user.svg" alt="유저 아이콘" width={24} height={24} />
-          <span className="text-sm text-white">{userName}</span>
+
+        {/* 유저 아이콘 */}
+        <div className="relative ml-auto">
+          <button
+            type="button"
+            onClick={() => setIsProfileDropdownOpen((prev) => !prev)}
+            className="bg-bg flex items-center gap-2"
+          >
+            <Image src="/icons/user.svg" alt="유저 아이콘" width={24} height={24} />
+            <span className="text-sm text-white">{userName}</span>
+          </button>
+
+          {isProfileDropdownOpen && (
+            <div className="bg-bg200 text-lg-rg text-gray100 absolute top-full right-0 mt-2 w-[184px] rounded-lg p-2 shadow-md">
+              {DropDownProfileItemList}
+            </div>
+          )}
         </div>
       </div>
     </header>
