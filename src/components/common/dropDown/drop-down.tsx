@@ -1,6 +1,6 @@
 'use client';
 
-import { ReactNode, useEffect, useRef, useState } from 'react';
+import { ReactNode, useState } from 'react';
 import dropDownIcon from '@/../public/icons/dropdown-icon.svg';
 import clsx from 'clsx';
 import Image from 'next/image';
