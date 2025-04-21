@@ -4,10 +4,7 @@ export default function ModalFooter({
   className,
   children,
   ...props
-}: React.HTMLAttributes<HTMLDivElement> & {
-  className?: string;
-  children?: React.ReactNode;
-}) {
+}: React.ComponentProps<'div'>) {
   return (
     <div className={clsx('flex justify-center gap-2', className)} {...props}>
       {children}
