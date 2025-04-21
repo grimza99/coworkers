@@ -258,12 +258,14 @@ export default function Header() {
         </div>
 
         {/* 중앙: 팀 드롭다운 + 자유게시판 */}
-        <div className="text-gray100 text-lg-rg flex hidden items-center gap-[32px] md:flex lg:gap-[40px]">
+        <div className="text-gray100 text-lg-md flex hidden items-center gap-[32px] md:flex lg:gap-[40px]">
           <div>경영관리팀</div>
           <div>자유게시판</div>
         </div>
+        <div className="ml-auto flex items-center pr-[16px] md:pr-[24px] lg:pr-[360px]">
+          <Image src="/icons/user.svg" alt="유저 아이콘" width={24} height={24} />
+        </div>
       </div>
-      <div></div>
     </header>
   );
 }
