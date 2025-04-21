@@ -19,7 +19,7 @@ interface DropDownProps {
 export function DropDown({ onSelect, openBtn, options, size }: DropDownProps) {
   const [isOpen, setIsOpen] = useState(false);
   const ref = useRef<HTMLDivElement>(null);
-  const Id = size.charCodeAt(0) % options.length;
+  const hashedIndex = size.charCodeAt(0) % options.length;
 
   useEffect(() => {
     const handleClickOutside = (event: MouseEvent) => {
@@ -59,7 +59,7 @@ export function DropDown({ onSelect, openBtn, options, size }: DropDownProps) {
                   size === 'lg' && 'text-lg-rg h-[47px] w-[135px]'
                 )}
                 onClick={handleClickOption}
-                key={Id + idx}
+                key={hashedIndex + idx}
               >
                 {option}
               </li>
