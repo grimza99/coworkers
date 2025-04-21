@@ -7,10 +7,7 @@ import Image from 'next/image';
 
 type Size = 'xs' | 'sm' | 'md' | 'lg' | 'xl';
 
-interface OptionsType {
-  optionsItem: ReactNode[] | string[];
-  id: number;
-}
+type OptionsType = ReactNode[] | string[];
 
 interface DropDownProps {
   onSelect?: (e: React.MouseEvent<HTMLLIElement>) => void;
@@ -22,6 +19,7 @@ interface DropDownProps {
 export function DropDown({ onSelect, openBtn, options, size }: DropDownProps) {
   const [isOpen, setIsOpen] = useState(false);
   const ref = useRef<HTMLDivElement>(null);
+  const Id = size.charCodeAt(0) % options.length;
 
   useEffect(() => {
     const handleClickOutside = (event: MouseEvent) => {
@@ -50,7 +48,7 @@ export function DropDown({ onSelect, openBtn, options, size }: DropDownProps) {
 
       {isOpen && (
         <ul className={clsx('bg-bg200 z-100 rounded-lg', size === 'xl' && 'px-4 py-4')}>
-          {options.optionsItem?.map((option, idx) => {
+          {options.map((option, idx) => {
             return (
               <li
                 className={clsx(
@@ -61,7 +59,7 @@ export function DropDown({ onSelect, openBtn, options, size }: DropDownProps) {
                   size === 'lg' && 'text-lg-rg h-[47px] w-[135px]'
                 )}
                 onClick={handleClickOption}
-                key={options.id + idx}
+                key={Id + idx}
               >
                 {option}
               </li>
@@ -78,14 +76,14 @@ interface SelectedDropDownProps extends DropDownProps {
 }
 
 export function SelectedDropDown({ onSelect, options, selected, size }: SelectedDropDownProps) {
-  const [currentSelected, setCurrentSelected] = useState(selected ?? options.optionsItem[0]);
+  const [currentSelected, setCurrentSelected] = useState(selected ?? options[0]);
 
   const handleClickOption = (e: React.MouseEvent<HTMLLIElement>) => {
     setCurrentSelected(e.currentTarget.textContent!);
     onSelect?.(e);
   };
 
-  const openButton = (
+  const dropDownOpenBtn = (
     <div
       className={clsx(
         'bg-bg200 flex items-center justify-center rounded-xl',
@@ -105,7 +103,7 @@ export function SelectedDropDown({ onSelect, options, selected, size }: Selected
   return (
     <>
       <DropDown
-        openBtn={openButton}
+        openBtn={dropDownOpenBtn}
         onSelect={(e) => handleClickOption(e)}
         options={options}
         size={size}
