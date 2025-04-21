@@ -16,7 +16,7 @@ export default function ModalOverlay({
   return (
     <div
       className={clsx(
-        'fixed inset-0 z-50 flex items-center justify-center bg-black/50 backdrop-blur-xs',
+        'fixed inset-0 z-50 flex items-center justify-center bg-black/50 backdrop-blur-md transition',
         className
       )}
       onClick={handleClick}
