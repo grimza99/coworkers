@@ -262,8 +262,8 @@ export default function Header() {
   return (
     <header className="bg-bg200 sticky top-0 flex h-[60px] w-full justify-center py-[14px]">
       <div className="flex w-full max-w-300 items-center justify-between p-4">
-        <div className="flex items-center gap-8 lg:gap-[40px]">
-          <div className="flex items-center gap-[16px]">
+        <div className="flex items-center gap-8 lg:gap-10">
+          <div className="flex items-center gap-4">
             {/* sm일 때만 팀페이지, 게시판 대신에 보여지는 아이콘 */}
             <Image
               src="/icons/gnb-menu.svg"
@@ -278,7 +278,7 @@ export default function Header() {
           </div>
 
           {/* 중앙: 팀 드롭다운 + 자유게시판 */}
-          <div className="text-gray100 text-lg-md hidden items-center gap-[32px] md:flex lg:gap-[40px]">
+          <div className="text-gray100 text-lg-md hidden items-center gap-8 md:flex lg:gap-10">
             <div className="relative">
               <button
                 type="button"
