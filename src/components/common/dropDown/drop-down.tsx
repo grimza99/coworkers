@@ -4,6 +4,7 @@ import { ReactNode, useEffect, useRef, useState } from 'react';
 import dropDownIcon from '@/../public/icons/dropdown-icon.svg';
 import clsx from 'clsx';
 import Image from 'next/image';
+import { useOutSideClickAutoClose } from '@/utils/use-outside-click-auto-close';
 
 type Size = 'xs' | 'sm' | 'md' | 'lg' | 'xl';
 
@@ -17,22 +18,9 @@ interface DropDownProps {
 }
 
 export function DropDown({ onSelect, dropDownOpenBtn, options, size }: DropDownProps) {
-  const [isOpen, setIsOpen] = useState(false);
-  const ref = useRef<HTMLDivElement>(null);
+  const { ref, isOpen, setIsOpen } = useOutSideClickAutoClose(false);
+
   const hashedIndex = size.charCodeAt(0) % options.length;
-
-  useEffect(() => {
-    const handleClickOutside = (event: MouseEvent) => {
-      if (ref.current && !ref.current.contains(event.target as Node)) {
-        setIsOpen(false);
-      }
-    };
-
-    document.addEventListener('mousedown', handleClickOutside);
-    return () => {
-      document.removeEventListener('mousedown', handleClickOutside);
-    };
-  }, [setIsOpen]);
 
   const handleClickOption = (e: React.MouseEvent<HTMLLIElement>) => {
     setIsOpen(false);
