@@ -1,28 +1,22 @@
 'use client';
 
-import clsx from 'clsx';
 import { InputHTMLAttributes, useState } from 'react';
+import clsx from 'clsx';
 
 interface InputOrTextarea {
   leftSlot?: React.ReactNode;
   rightSlot?: React.ReactNode;
-  height?: number;
-  value?: string;
   isSuccess?: boolean;
   isFail?: boolean;
   className?: string;
   ref?: React.Ref<HTMLInputElement>;
 }
 
-interface InputProps
-  extends Omit<InputHTMLAttributes<HTMLInputElement>, 'height' | 'value'>,
-    InputOrTextarea {}
+interface InputProps extends InputHTMLAttributes<HTMLInputElement>, InputOrTextarea {}
 
 export default function Input({
   leftSlot = null,
   rightSlot = null,
-  height = 44,
-  value = '',
   isSuccess,
   isFail,
   className,
@@ -31,7 +25,6 @@ export default function Input({
 }: InputProps) {
   const [isBlurred, setIsBlurred] = useState(false);
   const [isFocused, setIsFocused] = useState(false);
-  const isValueTrim = value.trim() !== '';
 
   const handleFocus = (e: React.FocusEvent<HTMLInputElement>) => {
     setIsFocused(true);
@@ -44,26 +37,23 @@ export default function Input({
     rest.onBlur?.(e);
   };
 
-  const showSuccess = isBlurred && (isSuccess ?? isValueTrim);
-  const showError = isBlurred && (isFail ?? !isValueTrim);
+  const showSuccess = isBlurred && isSuccess === true;
+  const showError = isBlurred && isFail === true;
 
   return (
     <div
       className={clsx(
-        'bg-bg200 flex w-full gap-3 rounded-xl border px-4 py-2.5',
+        'bg-bg200 flex h-11 w-full gap-3 rounded-xl border px-4 py-2.5 sm:h-12',
         (isFocused || (!showSuccess && !showError)) && 'border-border',
         !isFocused && showSuccess && 'border-primary',
         !isFocused && showError && 'border-danger',
         className
       )}
-      style={{
-        height: `${height}px`,
-      }}
     >
       {leftSlot}
 
       <input
-        className="placeholder:text-gray500 placeholder:text-md-rg h-full w-full focus:outline-none"
+        className="placeholder:text-gray500 text-md-rg sm:text-lg-rg placeholder:text-md-rg sm:placeholder:text-lg-rg h-full w-full focus:outline-none"
         onFocus={handleFocus}
         onBlur={handleBlur}
         ref={ref}
