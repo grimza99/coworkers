@@ -12,7 +12,7 @@ export default function DropDownGroupsItem({ group }: GroupOptionProps) {
   return (
     <div className="hover:bg-bg100 flex w-[186px] cursor-pointer items-center justify-between rounded-lg px-2 py-[7px]">
       <Link className="text-lg-md text-gray400 flex items-center gap-3" href={`/${id}`}>
-        <img src={image} className="h-8 w-8 rounded-md" />
+        <Image src={image} width={32} height={32} alt="이미지" className="rounded-md" />
         <p className="w-[110px] truncate"> {name}</p>
       </Link>
       <Link href={`/${id}/edit`}>
