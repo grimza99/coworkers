@@ -82,8 +82,7 @@ export function SelectedDropDown({ onSelect, options, selected, size }: Selected
 
   const handleClickOption = (e: React.MouseEvent<HTMLLIElement>) => {
     setCurrentSelected(e.currentTarget.textContent!);
-    if (!onSelect) return;
-    onSelect(e);
+    onSelect?.(e);
   };
 
   const openButton = (
@@ -97,7 +96,7 @@ export function SelectedDropDown({ onSelect, options, selected, size }: Selected
       )}
     >
       <div className="flex w-full justify-between">
-        <p className="w-full truncate overflow-hidden whitespace-nowrap">{currentSelected} </p>
+        <p className="w-full truncate overflow-hidden whitespace-nowrap">{currentSelected}</p>
         <Image src={dropDownIcon} width={16} height={7} alt="\/" />
       </div>
     </div>
