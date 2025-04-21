@@ -23,7 +23,7 @@ function DropDownOpenBtn({ size, currentSelected }: DropDownOpenBtnProps) {
       )}
     >
       <div className="flex w-full justify-between">
-        <p className="w-full truncate overflow-hidden whitespace-nowrap">{currentSelected}</p>
+        <p className="w-full truncate">{currentSelected}</p>
         <Image src={dropDownIcon} width={16} height={7} alt="\/" />
       </div>
     </div>
