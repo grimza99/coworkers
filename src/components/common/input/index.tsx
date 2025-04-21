@@ -12,6 +12,9 @@ interface InputProps extends InputHTMLAttributes<HTMLInputElement> {
   ref?: React.Ref<HTMLInputElement>;
 }
 
+export const SHARE_TEXTFIELD_STYLE =
+  'placeholder:text-gray500 text-md-rg sm:text-lg-rg placeholder:text-md-rg sm:placeholder:text-lg-rg focus:outline-none';
+
 export default function Input({
   leftSlot = null,
   rightSlot = null,
@@ -51,7 +54,7 @@ export default function Input({
       {leftSlot}
 
       <input
-        className="placeholder:text-gray500 text-md-rg sm:text-lg-rg placeholder:text-md-rg sm:placeholder:text-lg-rg h-full w-full focus:outline-none"
+        className={clsx('w-full', SHARE_TEXTFIELD_STYLE)}
         onFocus={handleFocus}
         onBlur={handleBlur}
         ref={ref}

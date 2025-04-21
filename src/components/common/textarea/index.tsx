@@ -3,6 +3,7 @@
 import { useRef, useEffect, useCallback, TextareaHTMLAttributes } from 'react';
 import debounce from 'lodash.debounce';
 import clsx from 'clsx';
+import { SHARE_TEXTFIELD_STYLE } from '../input';
 
 interface TextareaProps extends TextareaHTMLAttributes<HTMLTextAreaElement> {
   rightSlot?: React.ReactNode;
@@ -51,7 +52,8 @@ export default function Textarea({
         ref={textareaRef}
         onInput={handleTextareaHeight}
         className={clsx(
-          'placeholder:text-gray500 text-md-rg sm:text-lg-rg placeholder:text-md-rg sm:placeholder:text-lg-rg flex max-h-60 w-full resize-none items-center justify-center pt-1 focus:outline-none',
+          'flex w-full resize-none items-center justify-center pt-1',
+          SHARE_TEXTFIELD_STYLE,
           className
         )}
         {...rest}
