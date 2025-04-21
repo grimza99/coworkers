@@ -1,4 +1,5 @@
 <<<<<<< HEAD
+<<<<<<< HEAD
 // Header.tsx
 'use client';
 
@@ -212,30 +213,57 @@ export default function Header() {
 }
 =======
 'use client ';
+=======
+'use client';
+>>>>>>> c462cf1 (Feat : 팀 드롭다운, 자유게시판 버튼의 반응형 추가)
 
 import Image from 'next/image';
 import logoLg from '@/assets/logo-lg.svg';
 import logoSm from '@/assets/logo-sm.svg';
 
+// 목데이터
+const userName = '안혜나';
+const teams = ['경영관리팀'];
+const selectedTeam = '경영관리팀';
+
 export default function Header() {
   return (
     <header className="bg-bg200 sticky top-0 h-[60px] w-full">
-      <div className="flex h-full w-full items-center pl-[16px] md:pl-[24px] lg:pl-[360px]">
-        <Image
-          src={logoLg}
-          alt="Coworkers logo"
-          width={158}
-          height={32}
-          className="hidden lg:block"
-        />
-        <Image
-          src={logoSm}
-          alt="Coworkers logo"
-          width={102}
-          height={20}
-          className="block lg:hidden"
-        />
+      <div className="flex h-full w-full items-center gap-[32px] pl-[16px] md:pl-[24px] lg:gap-[40px] lg:pl-[360px]">
+        <div className="flex items-center gap-[16px]">
+          <Image
+            src="/icons/gnb-menu.svg"
+            alt="메뉴"
+            width={24}
+            height={24}
+            className="block md:hidden"
+          />
+          {/* 로고 */}
+          <div className="flex items-center">
+            <Image
+              src={logoLg}
+              alt="Coworkers logo"
+              width={158}
+              height={32}
+              className="hidden lg:block"
+            />
+            <Image
+              src={logoSm}
+              alt="Coworkers logo"
+              width={102}
+              height={20}
+              className="block lg:hidden"
+            />
+          </div>
+        </div>
+
+        {/* 중앙: 팀 드롭다운 + 자유게시판 */}
+        <div className="text-gray100 text-lg-rg flex hidden items-center gap-[32px] md:flex lg:gap-[40px]">
+          <div>경영관리팀</div>
+          <div>자유게시판</div>
+        </div>
       </div>
+      <div></div>
     </header>
   );
 }
