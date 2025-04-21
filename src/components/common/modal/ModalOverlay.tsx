@@ -1,4 +1,5 @@
 'use client';
+import { useEffect } from 'react';
 import clsx from 'clsx';
 
 export default function ModalOverlay({
@@ -12,6 +13,15 @@ export default function ModalOverlay({
       onClick(e);
     }
   };
+
+  useEffect(() => {
+    const originalStyle = window.getComputedStyle(document.body).overflow;
+    document.body.style.overflow = 'hidden';
+
+    return () => {
+      document.body.style.overflow = originalStyle;
+    };
+  }, []);
 
   return (
     <div
