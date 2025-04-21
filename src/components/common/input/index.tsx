@@ -3,7 +3,7 @@
 import { InputHTMLAttributes, useState } from 'react';
 import clsx from 'clsx';
 
-interface InputOrTextarea {
+interface InputProps extends InputHTMLAttributes<HTMLInputElement> {
   leftSlot?: React.ReactNode;
   rightSlot?: React.ReactNode;
   isSuccess?: boolean;
@@ -11,8 +11,6 @@ interface InputOrTextarea {
   className?: string;
   ref?: React.Ref<HTMLInputElement>;
 }
-
-interface InputProps extends InputHTMLAttributes<HTMLInputElement>, InputOrTextarea {}
 
 export default function Input({
   leftSlot = null,
