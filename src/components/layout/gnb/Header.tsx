@@ -232,7 +232,9 @@ import DropDown from '@/components/common/dropdown';
 import { OptionSelector } from '@/components/common/dropdown/OptionSelector';
 import DropDownProfileItemList from '@/components/common/dropdown/ProfileItem';
 import DropDownGroupsItem from '@/components/common/dropdown/GroupsItem';
+import SideMenu from './SideMenu';
 
+// @TODO: 데이터 연결
 // 목데이터 (Swagger 참고: GET /users/me)
 const userData = {
   name: '안혜나',
@@ -331,38 +333,11 @@ export default function Header() {
 
       {/* 사이드 메뉴 (sm 전용) */}
       {/* @TODO: 슬라이드 애니메이션 효과 넣기 */}
-      {isSideMenuOpen && (
-        <>
-          <div
-            className="fixed inset-0 z-40 bg-black/50"
-            onClick={() => setIsSideMenuOpen(false)}
-          />
-          <div className="fixed left-0 top-0 z-50 h-[812px] w-[204px] bg-bg200 p-4 shadow-lg flex flex-col gap-6">
-            <button
-              onClick={() => setIsSideMenuOpen(false)}
-              className="self-end text-white"
-            >
-              ✕
-            </button>
-            <div className="flex flex-col gap-2">
-              {userData.teams.map((team) => (
-                <div
-                  key={team.id}
-                  className="text-white text-sm px-2 py-1 rounded hover:bg-bg300 cursor-pointer"
-                >
-                  {team.name}
-                </div>
-              ))}
-            </div>
-            <Link
-              href="/articles"
-              className="mt-4 text-white text-sm px-2 py-1 hover:underline"
-            >
-              자유게시판
-            </Link>
-          </div>
-        </>
-      )}
+      <SideMenu
+        teams={userData.teams}
+        isOpen={isSideMenuOpen}
+        onClose={() => setIsSideMenuOpen(false)}
+      />
     </header>
   );
 <<<<<<< HEAD
