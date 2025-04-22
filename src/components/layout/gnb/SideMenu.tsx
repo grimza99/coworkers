@@ -3,10 +3,15 @@
 
 import Link from 'next/link';
 <<<<<<< HEAD
+<<<<<<< HEAD
 import Image from 'next/image';
 import closeIcon from '@/../public/icons/close.svg';
 =======
 >>>>>>> 8423eb9 (Refector : sm시 나타나는 사이드메뉴 컴포넌트 분리)
+=======
+import Image from 'next/image';
+import closeIcon from '@/../public/icons/close.svg';
+>>>>>>> 394929f (Style : 닫기 버튼 close.svg 적용)
 
 interface Team {
   id: number;
@@ -43,8 +48,8 @@ export default function SideMenu({ teams, isOpen, onClose }: SideMenuProps) {
       {/* 사이드 메뉴 본체 */}
       <div className="fixed left-0 top-0 z-50 h-[812px] w-[204px] bg-bg200 p-4 shadow-lg flex flex-col gap-6">
         {/* 닫기 버튼 */}
-        <button onClick={onClose} className="self-end text-gray-500">
-          x
+        <button onClick={onClose} className="self-end">
+          <Image src={closeIcon} alt="닫기" width={24} height={24} />
         </button>
 
         {/* 팀 목록 */}
