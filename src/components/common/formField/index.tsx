@@ -1,25 +1,21 @@
 import clsx from 'clsx';
 import Input from './compound/Input';
 import Textarea from './compound/Textarea';
-import { InputProps, IOrTProps, TextareaProps } from './type';
+import { InputProps, InputOrTextareaProps, TextareaProps } from './type';
+import { GAP_SIZE, LABEL_SIZE } from './style';
 
 export default function FormField({
   textField = 'input',
-  gap = '3',
   label,
   required,
   errorMessage,
+  gapSize = '3',
+  labelSize = '16/16',
   ...rest
-}: IOrTProps) {
-  const GAP_SIZE = {
-    '3': 'gap-3',
-    '4': 'gap-4',
-    '6': 'gap-6',
-  } as const;
-
+}: InputOrTextareaProps) {
   return (
-    <div className={clsx('flex flex-col', GAP_SIZE[gap])}>
-      <label className="text-md-md sm:text-lg-md flex gap-1.5">
+    <div className={clsx('flex flex-col', GAP_SIZE[gapSize])}>
+      <label className={clsx('flex gap-1.5', LABEL_SIZE[labelSize])}>
         {required && <span className="text-tertiary text-2lg-bold sm:text-xl-bold">*</span>}
         {label}
       </label>

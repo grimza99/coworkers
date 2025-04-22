@@ -21,9 +21,10 @@ export interface FormFieldProps {
   label: string;
   required?: boolean;
   errorMessage?: string;
-  gap?: '3' | '4' | '6';
+  gapSize?: '3' | '4' | '6';
+  labelSize?: '16/16' | '14/16' | '16/20';
 }
 
-export type IOrTProps =
+export type InputOrTextareaProps =
   | (InputProps & FormFieldProps & { textField?: 'input' })
   | (TextareaProps & FormFieldProps & { textField?: 'textarea' });
