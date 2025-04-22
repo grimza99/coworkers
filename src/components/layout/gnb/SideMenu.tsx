@@ -43,8 +43,8 @@ export default function SideMenu({ teams, isOpen, onClose }: SideMenuProps) {
       {/* 사이드 메뉴 본체 */}
       <div className="fixed left-0 top-0 z-50 h-[812px] w-[204px] bg-bg200 p-4 shadow-lg flex flex-col gap-6">
         {/* 닫기 버튼 */}
-        <button onClick={onClose} className="self-end text-white">
-          ✕
+        <button onClick={onClose} className="self-end text-gray-500">
+          x
         </button>
 
         {/* 팀 목록 */}
