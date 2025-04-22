@@ -1,21 +1,31 @@
+import clsx from 'clsx';
 import Image from 'next/image';
 
 // doneAt이 빈 스트링이라도 내려오는 값인지 확인
 // 매일 반복 클릭하면 색상 primary 컬러로 바뀌도록 : svgr 추가되면 작업 예정
 
-export default function TaskList({
-  doneAt = '',
+interface TaskListItemProps {
+  doneAt?: string;
+  description: string;
+  commentCount?: number;
+  date?: string;
+  frequency?: string;
+}
+
+export default function TaskListItem({
+  doneAt,
   description = '이것저것 다 하기',
   commentCount = 3,
   date = '2025년 04월 23일',
-}) {
-  const checkIcon = doneAt === '' ? '/icons/none-check-box.svg' : '/icons/check-box.svg';
+  frequency = 'DAILY',
+}: TaskListItemProps) {
+  const checkIcon = Boolean(doneAt?.trim()) ? '/icons/check-box.svg' : '/icons/none-check-box.svg';
 
   return (
     <div className="bg-bg200 text-xs-rg text-gray500 flex w-full flex-col gap-2.5 rounded-lg px-[14px] py-3">
       <div className="flex justify-between">
         <div className="flex w-fit items-center justify-start gap-2">
-          <Image src={checkIcon} width={24} height={24} alt="checked" />
+          <Image src={checkIcon} width={24} height={24} alt="checked" className="cursor-pointer" />
           <span className="text-md-rg text-gray100 pt-0.5">{description}</span>
         </div>
         <div className="flex items-center gap-2">
@@ -40,7 +50,9 @@ export default function TaskList({
         <div className="bg-bg100 mx-2.5 h-2 w-0.25" />
         <div className="flex items-center gap-1.5">
           <div className="bg-bg100 h-4 w-4" />
-          <span className="pt-0.5">매일 반복</span>
+          <span className={clsx('pt-0.5', frequency === 'DAILY' ? 'text-primary' : 'text-gray500')}>
+            매일 반복
+          </span>
         </div>
       </div>
     </div>
