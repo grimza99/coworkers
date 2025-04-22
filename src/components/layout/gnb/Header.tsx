@@ -5,9 +5,9 @@ import Link from 'next/link';
 import { useOutSideClickAutoClose } from '@/utils/use-outside-click-auto-close';
 import Logo from './Logo';
 import SideMenu from './SideMenu';
-import { OptionSelector } from '@/components/common/dropdown/OptionSelector';
-import DropDownProfileItemList from '@/components/common/dropdown/ProfileItem';
-import DropDownGroupsItem from '@/components/common/dropdown/GroupsItem';
+import { OptionSelector } from '@/components/common/dropDown/OptionSelector';
+import DropDownProfileItemList from '@/components/common/dropDown/ProfileItem';
+import DropDownGroupsItem from '@/components/common/dropDown/GroupsItem';
 import DropDown from '@/components/common/dropdown';
 // @TODO: 주소별로 헤더가 다르게 뜨도록
 
