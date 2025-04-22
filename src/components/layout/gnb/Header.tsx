@@ -5,10 +5,10 @@ import Link from 'next/link';
 import { useOutSideClickAutoClose } from '@/utils/use-outside-click-auto-close';
 import Logo from './Logo';
 import SideMenu from './SideMenu';
-import { OptionSelector } from '@/components/common/dropdown/OptionSelector';
 import DropDownProfileItemList from '@/components/common/dropdown/ProfileItem';
 import DropDownGroupsItem from '@/components/common/dropdown/GroupsItem';
 import DropDown from '@/components/common/dropdown/index';
+import { OptionSelector } from '@/components/common/dropdown/OptionSelector';
 // @TODO: 주소별로 헤더가 다르게 뜨도록
 
 // @TODO: 데이터 연결
