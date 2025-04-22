@@ -1,4 +1,3 @@
-// Header.tsx
 'use client';
 
 import Image from 'next/image';
@@ -13,7 +12,7 @@ import SideMenu from './SideMenu';
 // @TODO: 주소별로 헤더가 다르게 뜨도록
 
 // @TODO: 데이터 연결
-// 목데이터 (Swagger 참고: GET /users/me)
+// 목데이터
 const userData = {
   name: '안혜나',
   teams: [
@@ -48,7 +47,6 @@ export default function Header() {
       <div className="flex w-full max-w-300 items-center justify-between p-4">
         <div className="flex items-center gap-8 lg:gap-10">
           <div className="flex items-center gap-4">
-            {/* sm일 때만 팀페이지, 게시판 대신에 보여지는 아이콘 */}
             <button
               onClick={() => setIsSideMenuOpen(true)}
               className="block md:hidden"
@@ -65,7 +63,6 @@ export default function Header() {
             <Logo />
           </div>
 
-          {/* 중앙: 팀 드롭다운 + 자유게시판 */}
           <div className="text-gray100 text-lg-md relative hidden items-center gap-8 md:flex lg:gap-10">
             <OptionSelector
               size="xl"
@@ -75,9 +72,12 @@ export default function Header() {
               })}
               onSelect={() => {}}
               footerBtn={
-                <button className="text-text-primary border border-text-primary w-46 h-12 rounded-xl">
+                <Link
+                  href={`/groups`}
+                  className="text-text-primary border border-text-primary w-46 h-12 rounded-xl flex items-center justify-center"
+                >
                   + 팀 추가하기
-                </button>
+                </Link>
               }
             />
             <Link href={`/articles`} className="cursor:pointer mt-0">
@@ -86,7 +86,6 @@ export default function Header() {
           </div>
         </div>
 
-        {/* 유저 아이콘 */}
         {/* @TODO: 유저 이미지 데이터로 받아오기 */}
         <div className="relative ml-auto">
           <DropDown
