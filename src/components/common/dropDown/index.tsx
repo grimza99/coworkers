@@ -22,7 +22,7 @@ export default function DropDown({
   dropDownOpenBtn,
   options,
   size,
-  footerBtn,
+  footerBtn = null,
   position,
 }: DropDownProps) {
   const { ref, isOpen, setIsOpen } = useOutSideClickAutoClose(false);
@@ -36,7 +36,7 @@ export default function DropDown({
 
   return (
     <div className="relative h-fit w-fit" ref={ref}>
-      <div className={clsx('cursor-pointer')} onClick={() => setIsOpen((prev) => !prev)}>
+      <div className="cursor-pointer" onClick={() => setIsOpen((prev) => !prev)}>
         {dropDownOpenBtn}
       </div>
 
@@ -68,7 +68,7 @@ export default function DropDown({
               );
             })}
           </div>
-          {footerBtn && footerBtn}
+          {footerBtn}
         </div>
       )}
     </div>
