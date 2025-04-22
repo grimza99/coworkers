@@ -39,10 +39,11 @@ export default function Textarea({
     <div
       className={clsx(
         'bg-bg200 flex w-full items-start gap-2',
-        !isBorder && 'border-border rounded-xl border px-4 py-2 sm:px-6 sm:py-4'
+        isBorder && 'border-border rounded-xl border px-4 py-2 sm:px-6 sm:py-4'
       )}
     >
       <textarea
+        {...rest}
         ref={textareaRef}
         onInput={resizeTextareaHeight}
         className={clsx(
@@ -50,7 +51,6 @@ export default function Textarea({
           COMMON_TEXTFIELD_STYLE,
           className
         )}
-        {...rest}
         style={{
           height: `${height}px`,
         }}

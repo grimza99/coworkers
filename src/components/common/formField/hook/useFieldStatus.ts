@@ -3,24 +3,35 @@
 import { useState, useCallback } from 'react';
 import { getBorderClassName } from '../style';
 
-export function useFieldStatus({
-  isSuccess,
-  isFailure,
-}: {
+interface UseFieldStatusProps {
   isSuccess?: boolean;
   isFailure?: boolean;
-}) {
+  onFocus?: React.FocusEventHandler<HTMLInputElement>;
+  onBlur?: React.FocusEventHandler<HTMLInputElement>;
+}
+
+export function useFieldStatus({ isSuccess, isFailure, onFocus, onBlur }: UseFieldStatusProps) {
   const [isFocused, setIsFocused] = useState(false);
   const [isTouched, setIsTouched] = useState(false);
 
-  const handleFocus = useCallback(() => {
-    setIsFocused(true);
-  }, []);
+  const handleFocus = useCallback(
+    (e: React.FocusEvent<HTMLInputElement>) => {
+      setIsFocused(true);
 
-  const handleBlur = useCallback(() => {
-    setIsFocused(false);
-    setIsTouched(true);
-  }, []);
+      onFocus?.(e);
+    },
+    [onFocus]
+  );
+
+  const handleBlur = useCallback(
+    (e: React.FocusEvent<HTMLInputElement>) => {
+      setIsFocused(false);
+      setIsTouched(true);
+
+      onBlur?.(e);
+    },
+    [onBlur]
+  );
 
   const showSuccess = isTouched && isSuccess === true;
   const showError = isTouched && isFailure === true;

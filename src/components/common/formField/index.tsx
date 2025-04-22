@@ -21,6 +21,8 @@ export default function FormField({
   const { isFocused, showError, borderClassName, handleFocus, handleBlur } = useFieldStatus({
     isSuccess,
     isFailure,
+    onFocus: (rest as InputProps).onFocus,
+    onBlur: (rest as InputProps).onBlur,
   });
 
   return (
