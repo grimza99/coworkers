@@ -1,9 +1,9 @@
 'use client';
 
-import { useState } from 'react';
 import clsx from 'clsx';
-import { COMMON_TEXTFIELD_STYLE } from './style';
+import { COMMON_TEXTFIELD_STYLE } from '../style';
 import { InputProps } from '../type';
+import { useFieldStatus } from '../hook/useFieldStatus';
 
 export default function Input({
   leftSlot = null,
@@ -14,22 +14,10 @@ export default function Input({
   ref,
   ...rest
 }: InputProps) {
-  const [isBlurred, setIsBlurred] = useState(false);
-  const [isFocused, setIsFocused] = useState(false);
-
-  const handleFocus = (e: React.FocusEvent<HTMLInputElement>) => {
-    setIsFocused(true);
-    rest.onFocus?.(e);
-  };
-
-  const handleBlur = (e: React.FocusEvent<HTMLInputElement>) => {
-    setIsFocused(false);
-    setIsBlurred(true);
-    rest.onBlur?.(e);
-  };
-
-  const showSuccess = isBlurred && isSuccess === true;
-  const showError = isBlurred && isFail === true;
+  const { isFocused, showSuccess, showError, handleFocus, handleBlur } = useFieldStatus({
+    isSuccess,
+    isFail,
+  });
 
   return (
     <div

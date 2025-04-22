@@ -3,7 +3,7 @@
 import { useRef, useEffect, useCallback } from 'react';
 import debounce from 'lodash.debounce';
 import clsx from 'clsx';
-import { COMMON_TEXTFIELD_STYLE } from './style';
+import { COMMON_TEXTFIELD_STYLE } from '../style';
 import { TextareaProps } from '../type';
 
 export default function Textarea({
