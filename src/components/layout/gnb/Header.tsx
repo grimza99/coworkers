@@ -233,6 +233,7 @@ import { OptionSelector } from '@/components/common/dropdown/OptionSelector';
 import DropDownProfileItemList from '@/components/common/dropdown/ProfileItem';
 import DropDownGroupsItem from '@/components/common/dropdown/GroupsItem';
 import SideMenu from './SideMenu';
+// @TODO: 주소별로 헤더가 다르게 뜨도록
 
 // @TODO: 데이터 연결
 // 목데이터 (Swagger 참고: GET /users/me)
@@ -255,7 +256,98 @@ const userData = {
       updatedAt: '',
       createdAt: '',
     },
-
+    {
+      id: 2,
+      name: '프로젝트팀',
+      image: '/default-team-image.png',
+      teamId: 'team-2',
+      updatedAt: '',
+      createdAt: '',
+    },    {
+      id: 2,
+      name: '프로젝트팀',
+      image: '/default-team-image.png',
+      teamId: 'team-2',
+      updatedAt: '',
+      createdAt: '',
+    },    {
+      id: 2,
+      name: '프로젝트팀',
+      image: '/default-team-image.png',
+      teamId: 'team-2',
+      updatedAt: '',
+      createdAt: '',
+    },    {
+      id: 2,
+      name: '프로젝트팀',
+      image: '/default-team-image.png',
+      teamId: 'team-2',
+      updatedAt: '',
+      createdAt: '',
+    },    {
+      id: 2,
+      name: '프로젝트팀',
+      image: '/default-team-image.png',
+      teamId: 'team-2',
+      updatedAt: '',
+      createdAt: '',
+    },    {
+      id: 2,
+      name: '프로젝트팀',
+      image: '/default-team-image.png',
+      teamId: 'team-2',
+      updatedAt: '',
+      createdAt: '',
+    },    {
+      id: 2,
+      name: '프로젝트팀',
+      image: '/default-team-image.png',
+      teamId: 'team-2',
+      updatedAt: '',
+      createdAt: '',
+    },    {
+      id: 2,
+      name: '프로젝트팀',
+      image: '/default-team-image.png',
+      teamId: 'team-2',
+      updatedAt: '',
+      createdAt: '',
+    },    {
+      id: 2,
+      name: '프로젝트팀',
+      image: '/default-team-image.png',
+      teamId: 'team-2',
+      updatedAt: '',
+      createdAt: '',
+    },    {
+      id: 2,
+      name: '프로젝트팀',
+      image: '/default-team-image.png',
+      teamId: 'team-2',
+      updatedAt: '',
+      createdAt: '',
+    },    {
+      id: 2,
+      name: '프로젝트팀',
+      image: '/default-team-image.png',
+      teamId: 'team-2',
+      updatedAt: '',
+      createdAt: '',
+    },    {
+      id: 2,
+      name: '프로젝트팀',
+      image: '/default-team-image.png',
+      teamId: 'team-2',
+      updatedAt: '',
+      createdAt: '',
+    },    {
+      id: 2,
+      name: '프로젝트팀',
+      image: '/default-team-image.png',
+      teamId: 'team-2',
+      updatedAt: '',
+      createdAt: '',
+    },
   ],
 };
 
@@ -285,7 +377,6 @@ export default function Header() {
               />
             </button>
 
-            {/* 로고 */}
             <Logo />
           </div>
 
@@ -304,13 +395,14 @@ export default function Header() {
                 </button>
               }
             />
-            <Link href={`/articles`} className="cursor:pointer">
+            <Link href={`/articles`} className="cursor:pointer mt-0">
               자유게시판
             </Link>
           </div>
         </div>
 
         {/* 유저 아이콘 */}
+        {/* @TODO: 유저 이미지 데이터로 받아오기 */}
         <div className="relative ml-auto">
           <DropDown
             size="lg"
@@ -332,7 +424,6 @@ export default function Header() {
       </div>
 
       {/* 사이드 메뉴 (sm 전용) */}
-      {/* @TODO: 슬라이드 애니메이션 효과 넣기 */}
       <SideMenu
         teams={userData.teams}
         isOpen={isSideMenuOpen}
