@@ -39,7 +39,6 @@ const userName = USER_DATA.name;
 const selectedTeam = USER_DATA.teams[0]?.name || '';
 
 export default function Header() {
-  const [isProfileDropdownOpen, setIsProfileDropdownOpen] = useState(false);
   const [isSideMenuOpen, setIsSideMenuOpen] = useState(false);
 
   return (

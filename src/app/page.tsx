@@ -1,5 +1,9 @@
+import Header from '@/components/layout/gnb/Header';
+
 export default function Home() {
   return (
-    <div>인덱스페이지</div>
+    <div>
+      <Header />
+    </div>
   );
 }
