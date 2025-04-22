@@ -3,7 +3,7 @@
 import { useRef, useEffect, useCallback, TextareaHTMLAttributes } from 'react';
 import debounce from 'lodash.debounce';
 import clsx from 'clsx';
-import { SHARE_TEXTFIELD_STYLE } from '../input';
+import { COMMON_TEXTFIELD_STYLE } from './style';
 
 interface TextareaProps extends TextareaHTMLAttributes<HTMLTextAreaElement> {
   rightSlot?: React.ReactNode;
@@ -53,7 +53,7 @@ export default function Textarea({
         onInput={resizeTextareaHeight}
         className={clsx(
           'flex w-full resize-none items-center justify-center pt-1',
-          SHARE_TEXTFIELD_STYLE,
+          COMMON_TEXTFIELD_STYLE,
           className
         )}
         {...rest}
