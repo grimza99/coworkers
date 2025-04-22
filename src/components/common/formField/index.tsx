@@ -14,7 +14,7 @@ export default function FormField({
   isSuccess,
   isFailure,
   errorMessage,
-  gapSize = '3',
+  gapSize = '12',
   labelSize = '16/16',
   ...rest
 }: InputOrTextareaProps) {
@@ -26,21 +26,23 @@ export default function FormField({
   });
 
   return (
-    <div className={clsx('flex flex-col', GAP_SIZE[gapSize])}>
-      <label className={clsx('flex gap-1.5', LABEL_SIZE[labelSize])}>
-        {required && <span className="text-tertiary text-2lg-bold sm:text-xl-bold">*</span>}
-        {label}
-      </label>
-      {textField === 'textarea' ? (
-        <Textarea {...(rest as TextareaProps)} />
-      ) : (
-        <Input
-          onFocus={handleFocus}
-          onBlur={handleBlur}
-          borderClassName={borderClassName}
-          {...(rest as InputProps)}
-        />
-      )}
+    <div className="flex flex-col gap-2">
+      <div className={clsx('flex flex-col', GAP_SIZE[gapSize])}>
+        <label className={clsx('flex gap-1.5', LABEL_SIZE[labelSize])}>
+          {required && <span className="text-tertiary text-2lg-bold sm:text-xl-bold">*</span>}
+          {label}
+        </label>
+        {textField === 'textarea' ? (
+          <Textarea {...(rest as TextareaProps)} />
+        ) : (
+          <Input
+            onFocus={handleFocus}
+            onBlur={handleBlur}
+            borderClassName={borderClassName}
+            {...(rest as InputProps)}
+          />
+        )}
+      </div>
       {!isFocused && showError && errorMessage && (
         <span className="text-danger text-md-md">{errorMessage}</span>
       )}

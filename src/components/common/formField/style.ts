@@ -2,9 +2,9 @@ export const COMMON_TEXTFIELD_STYLE =
   'placeholder:text-gray500 text-md-rg sm:text-lg-rg placeholder:text-md-rg sm:placeholder:text-lg-rg focus:outline-none';
 
 export const GAP_SIZE = {
-  '3': 'gap-3',
-  '4': 'gap-4',
-  '6': 'gap-6',
+  '12': 'gap-3',
+  '16': 'gap-4',
+  '24': 'gap-6',
 } as const;
 
 export const LABEL_SIZE = {
