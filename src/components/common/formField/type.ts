@@ -15,3 +15,15 @@ export interface TextareaProps extends TextareaHTMLAttributes<HTMLTextAreaElemen
   isBorder?: boolean;
   className?: string;
 }
+
+export interface FormFieldProps {
+  textField: 'input' | 'textarea';
+  label: string;
+  required?: boolean;
+  errorMessage?: string;
+  gap?: '3' | '4' | '6';
+}
+
+export type IOrTProps =
+  | (InputProps & FormFieldProps & { textField?: 'input' })
+  | (TextareaProps & FormFieldProps & { textField?: 'textarea' });
