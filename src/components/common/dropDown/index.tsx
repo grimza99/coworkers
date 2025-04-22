@@ -9,11 +9,12 @@ export type Size = 'xs' | 'sm' | 'md' | 'lg' | 'xl';
 export type OptionsType = ReactNode[] | string[];
 
 export interface DropDownProps {
-  onSelect?: (e: React.MouseEvent<HTMLLIElement>) => void;
+  onSelect?: (e: React.MouseEvent<HTMLDivElement>) => void;
   options: OptionsType;
   size: Size;
   dropDownOpenBtn?: JSX.Element;
   footerBtn?: ReactNode;
+  position: 'center' | 'left';
 }
 
 export default function DropDown({
@@ -21,36 +22,37 @@ export default function DropDown({
   dropDownOpenBtn,
   options,
   size,
-  footerBtn,
+  footerBtn = null,
+  position,
 }: DropDownProps) {
   const { ref, isOpen, setIsOpen } = useOutSideClickAutoClose(false);
 
   const hashedIndex = size.charCodeAt(0) % options.length;
 
-  const handleClickOption = (e: React.MouseEvent<HTMLLIElement>) => {
+  const handleClickOption = (e: React.MouseEvent<HTMLDivElement>) => {
     setIsOpen(false);
-    if (onSelect) {
-      onSelect(e);
-    }
+    onSelect?.(e);
   };
 
   return (
-    <div className="h-fit w-fit" ref={ref}>
+    <div className="relative h-fit w-fit" ref={ref}>
       <div className="cursor-pointer" onClick={() => setIsOpen((prev) => !prev)}>
         {dropDownOpenBtn}
       </div>
 
       {isOpen && (
-        <ul
+        <div
           className={clsx(
-            'bg-bg200 z-100 rounded-lg',
-            size === 'xl' && 'h-fit max-h-120 px-4 py-4'
+            'bg-bg200 absolute top-[calc(100%+8px)] z-100 rounded-lg',
+            size === 'xl' && 'top-[calc(100%+28.5px)] h-fit px-4 py-4',
+            position === 'left' && 'right-[80%]',
+            footerBtn && 'flex flex-col gap-4'
           )}
         >
-          <div className="overflow-scroll">
+          <div className="max-h-120 overflow-auto">
             {options.map((option, idx) => {
               return (
-                <li
+                <div
                   className={clsx(
                     'hover:bg-bg100 flex items-center justify-center rounded-lg',
                     size === 'xs' && 'text-xs-rg h-10 w-[94px]',
@@ -62,12 +64,12 @@ export default function DropDown({
                   key={hashedIndex + idx}
                 >
                   {option}
-                </li>
+                </div>
               );
             })}
           </div>
-          {footerBtn && <div className="mt-4 h-12 w-full">{footerBtn}</div>}
-        </ul>
+          {footerBtn}
+        </div>
       )}
     </div>
   );
