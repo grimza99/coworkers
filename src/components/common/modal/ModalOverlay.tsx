@@ -1,16 +1,18 @@
 'use client';
 import { useEffect } from 'react';
 import clsx from 'clsx';
+import { useModal } from '.';
 
 export default function ModalOverlay({
   className,
   children,
-  onClick,
   ...props
 }: React.ComponentProps<'div'>) {
+  const { closeModal } = useModal();
+
   const handleClick = (e: React.MouseEvent<HTMLDivElement>) => {
-    if (e.target === e.currentTarget && onClick) {
-      onClick(e);
+    if (e.target === e.currentTarget) {
+      closeModal();
     }
   };
 
