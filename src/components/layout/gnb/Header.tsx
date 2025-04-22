@@ -2,13 +2,13 @@
 
 import Image from 'next/image';
 import Link from 'next/link';
-import { useState } from 'react';
+import { useOutSideClickAutoClose } from '@/utils/use-outside-click-auto-close';
 import Logo from './Logo';
 import DropDown from '@/components/common/dropdown';
 import { OptionSelector } from '@/components/common/dropdown/OptionSelector';
 import DropDownProfileItemList from '@/components/common/dropdown/ProfileItem';
-import DropDownGroupsItem from '@/components/common/dropdown/GroupsItem';
 import SideMenu from './SideMenu';
+import DropDownGroupsItem from '@/components/common/dropdown/GroupsItem';
 // @TODO: 주소별로 헤더가 다르게 뜨도록
 
 // @TODO: 데이터 연결
@@ -39,7 +39,11 @@ const userName = USER_DATA.name;
 const selectedTeam = USER_DATA.teams[0]?.name || '';
 
 export default function Header() {
-  const [isSideMenuOpen, setIsSideMenuOpen] = useState(false);
+  const {
+    ref: sideMenuRef,
+    isOpen: isSideMenuOpen,
+    setIsOpen: setIsSideMenuOpen,
+  } = useOutSideClickAutoClose(false);
 
   return (
     <header className="bg-bg200 sticky top-0 flex h-15 w-full justify-center py-[14px]">
@@ -51,12 +55,7 @@ export default function Header() {
               className="block md:hidden"
               title="메뉴 열기"
             >
-              <Image
-                src="/icons/gnb-menu.svg"
-                alt="메뉴"
-                width={24}
-                height={24}
-              />
+              <Image src="/icons/gnb-menu.svg" alt="메뉴" width={24} height={24} />
             </button>
 
             <Logo />
@@ -73,7 +72,7 @@ export default function Header() {
               footerBtn={
                 <Link
                   href={`/groups`}
-                  className="text-text-primary border border-text-primary w-46 h-12 rounded-xl flex items-center justify-center"
+                  className="text-text-primary border-text-primary flex h-12 w-46 items-center justify-center rounded-xl border"
                 >
                   + 팀 추가하기
                 </Link>
@@ -86,17 +85,12 @@ export default function Header() {
         </div>
 
         {/* @TODO: 유저 이미지 데이터로 받아오기 */}
-        <div className="relative ml-auto">
+        <div className="ml-auto">
           <DropDown
             size="lg"
             dropDownOpenBtn={
-              <button className=" flex items-center gap-2">
-                <Image
-                  src="/icons/user.svg"
-                  alt="유저 아이콘"
-                  width={24}
-                  height={24}
-                />
+              <button className="flex items-center gap-2">
+                <Image src="/icons/user.svg" alt="유저 아이콘" width={24} height={24} />
                 <span className="text-md-md hidden lg:inline">{userName}</span>
               </button>
             }
@@ -107,6 +101,7 @@ export default function Header() {
       </div>
 
       <SideMenu
+        ref={sideMenuRef}
         teams={USER_DATA.teams}
         isOpen={isSideMenuOpen}
         onClose={() => setIsSideMenuOpen(false)}
