@@ -322,7 +322,7 @@ export default function Header() {
                   width={24}
                   height={24}
                 />
-                <span className="text-sm text-white">{userName}</span>
+                <span className="text-sm text-white hidden lg:inline">{userName}</span>
               </button>
             }
             options={DropDownProfileItemList}
