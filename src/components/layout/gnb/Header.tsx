@@ -1,7 +1,8 @@
 // Header.tsx
+'use client';
+
 import Image from 'next/image';
-import logoLg from '@/assets/logo-lg.svg';
-import logoSm from '@/assets/logo-sm.svg';
+import Link from 'next/link';
 import { useState } from 'react';
 import Logo from './Logo';
 import DropDown from '@/components/common/dropdown';
@@ -207,3 +208,4 @@ export default function Header() {
       />
     </header>
   );
+}
