@@ -8,7 +8,7 @@ import SideMenu from './SideMenu';
 import { OptionSelector } from '@/components/common/dropDown/OptionSelector';
 import DropDownProfileItemList from '@/components/common/dropDown/ProfileItem';
 import DropDownGroupsItem from '@/components/common/dropDown/GroupsItem';
-import DropDown from '@/components/common/dropdown';
+import DropDown from '@/components/common/dropDown/index';
 // @TODO: 주소별로 헤더가 다르게 뜨도록
 
 // @TODO: 데이터 연결
