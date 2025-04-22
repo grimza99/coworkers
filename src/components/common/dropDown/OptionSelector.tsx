@@ -40,10 +40,11 @@ export function OptionSelector({
   defaultValue,
   footerBtn,
   size,
+  position,
 }: SelectedDropDownProps) {
   const [currentSelected, setCurrentSelected] = useState(defaultValue ?? (options[0] as string));
 
-  const handleClickOption = (e: React.MouseEvent<HTMLLIElement>) => {
+  const handleClickOption = (e: React.MouseEvent<HTMLDivElement>) => {
     setCurrentSelected(e.currentTarget.textContent!);
     onSelect?.(e);
   };
@@ -56,6 +57,7 @@ export function OptionSelector({
         options={options}
         size={size}
         footerBtn={footerBtn}
+        position={position}
       />
     </>
   );
