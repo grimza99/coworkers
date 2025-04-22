@@ -8,20 +8,20 @@ import { SHARE_TEXTFIELD_STYLE } from '../input';
 interface TextareaProps extends TextareaHTMLAttributes<HTMLTextAreaElement> {
   rightSlot?: React.ReactNode;
   height?: number;
-  borderNone?: boolean;
+  isBorder?: boolean;
   className?: string;
 }
 
 export default function Textarea({
   rightSlot = null,
   height = 24,
-  borderNone = false,
+  isBorder = true,
   className,
   ...rest
 }: TextareaProps) {
   const textareaRef = useRef<HTMLTextAreaElement>(null);
 
-  const handleTextareaHeight = useCallback(() => {
+  const resizeTextareaHeight = useCallback(() => {
     const textarea = textareaRef.current;
 
     if (textarea) {
@@ -31,7 +31,7 @@ export default function Textarea({
   }, [height]);
 
   useEffect(() => {
-    const handleDebounce = debounce(handleTextareaHeight, 100);
+    const handleDebounce = debounce(resizeTextareaHeight, 100);
 
     window.addEventListener('resize', handleDebounce);
 
@@ -39,18 +39,18 @@ export default function Textarea({
       window.removeEventListener('resize', handleDebounce);
       handleDebounce.cancel();
     };
-  }, [handleTextareaHeight]);
+  }, [resizeTextareaHeight]);
 
   return (
     <div
       className={clsx(
         'bg-bg200 flex w-full items-start gap-2',
-        !borderNone && 'border-border rounded-xl border px-4 py-2 sm:px-6 sm:py-4'
+        !isBorder && 'border-border rounded-xl border px-4 py-2 sm:px-6 sm:py-4'
       )}
     >
       <textarea
         ref={textareaRef}
-        onInput={handleTextareaHeight}
+        onInput={resizeTextareaHeight}
         className={clsx(
           'flex w-full resize-none items-center justify-center pt-1',
           SHARE_TEXTFIELD_STYLE,
