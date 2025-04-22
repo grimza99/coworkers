@@ -1,11 +1,11 @@
-import OAuthBtnGroup from './OAuthBtnGroup';
+import OAuthButtonGroup from './OAuthBtnGroup';
 
 interface OAuthUIProps {
-  login?: boolean;
-  signUp?: boolean;
+  authType: 'login' | 'signup';
 }
 
-export default function OAuthUI({ login, signUp }: OAuthUIProps) {
+export default function OAuth({ authType }: OAuthUIProps) {
+  const authText = authType === 'login' ? '간편 로그인하기' : '간편 회원가입하기';
   return (
     <div className="flex flex-col gap-4 text-white">
       <div className="flex items-center gap-6">
@@ -14,9 +14,8 @@ export default function OAuthUI({ login, signUp }: OAuthUIProps) {
         <div className="border-border h-[1px] w-full border-1" />
       </div>
       <div className="flex justify-between">
-        {login && <p className="text-lg-md">간편 로그인하기</p>}
-        {signUp && <p className="text-lg-md">간편 회원가입하기</p>}
-        <OAuthBtnGroup />
+        <p className="text-lg-md">{authText}</p>
+        <OAuthButtonGroup />
       </div>
     </div>
   );
