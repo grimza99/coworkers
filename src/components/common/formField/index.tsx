@@ -1,18 +1,28 @@
+'use client';
+
 import clsx from 'clsx';
 import Input from './compound/Input';
 import Textarea from './compound/Textarea';
 import { InputProps, InputOrTextareaProps, TextareaProps } from './type';
 import { GAP_SIZE, LABEL_SIZE } from './style';
+import { useFieldStatus } from './hook/useFieldStatus';
 
 export default function FormField({
   textField = 'input',
   label,
   required,
+  isSuccess,
+  isFailure,
   errorMessage,
   gapSize = '3',
   labelSize = '16/16',
   ...rest
 }: InputOrTextareaProps) {
+  const { isFocused, showError, borderClassName, handleFocus, handleBlur } = useFieldStatus({
+    isSuccess,
+    isFailure,
+  });
+
   return (
     <div className={clsx('flex flex-col', GAP_SIZE[gapSize])}>
       <label className={clsx('flex gap-1.5', LABEL_SIZE[labelSize])}>
@@ -22,9 +32,14 @@ export default function FormField({
       {textField === 'textarea' ? (
         <Textarea {...(rest as TextareaProps)} />
       ) : (
-        <Input {...(rest as InputProps)} />
+        <Input
+          onFocus={handleFocus}
+          onBlur={handleBlur}
+          borderClassName={borderClassName}
+          {...(rest as InputProps)}
+        />
       )}
-      {(rest as InputProps).isFail && errorMessage && (
+      {!isFocused && showError && errorMessage && (
         <span className="text-danger text-md-md">{errorMessage}</span>
       )}
     </div>
