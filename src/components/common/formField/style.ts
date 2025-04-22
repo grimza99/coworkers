@@ -12,3 +12,23 @@ export const LABEL_SIZE = {
   '14/16': 'text-md-md sm:text-lg-md',
   '16/20': 'text-lg-md sm:text-xl-bold',
 } as const;
+
+export const getBorderClassName = ({
+  isFocused,
+  showSuccess,
+  showError,
+}: {
+  isFocused: boolean;
+  showSuccess: boolean;
+  showError: boolean;
+}) => {
+  const isDefault = isFocused || (!showSuccess && !showError);
+  const isSuccess = !isFocused && showSuccess;
+  const isError = !isFocused && showError;
+
+  if (isDefault) return 'border-border';
+  if (isSuccess) return 'border-primary';
+  if (isError) return 'border-danger';
+
+  return '';
+};

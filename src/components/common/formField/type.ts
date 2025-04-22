@@ -3,8 +3,7 @@ import { InputHTMLAttributes, TextareaHTMLAttributes } from 'react';
 export interface InputProps extends InputHTMLAttributes<HTMLInputElement> {
   leftSlot?: React.ReactNode;
   rightSlot?: React.ReactNode;
-  isSuccess?: boolean;
-  isFail?: boolean;
+  borderClassName?: string;
   className?: string;
   ref?: React.Ref<HTMLInputElement>;
 }
@@ -20,6 +19,8 @@ export interface FormFieldProps {
   textField: 'input' | 'textarea';
   label: string;
   required?: boolean;
+  isSuccess?: boolean;
+  isFailure?: boolean;
   errorMessage?: string;
   gapSize?: '3' | '4' | '6';
   labelSize?: '16/16' | '14/16' | '16/20';
