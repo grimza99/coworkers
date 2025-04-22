@@ -4,11 +4,11 @@ import Image from 'next/image';
 import Link from 'next/link';
 import { useOutSideClickAutoClose } from '@/utils/use-outside-click-auto-close';
 import Logo from './Logo';
+import SideMenu from './SideMenu';
+import DropDownGroupsItem from '@/components/common/dropdown/GroupsItem';
 import DropDown from '@/components/common/dropdown';
 import { OptionSelector } from '@/components/common/dropdown/OptionSelector';
 import DropDownProfileItemList from '@/components/common/dropdown/ProfileItem';
-import SideMenu from './SideMenu';
-import DropDownGroupsItem from '@/components/common/dropdown/GroupsItem';
 // @TODO: 주소별로 헤더가 다르게 뜨도록
 
 // @TODO: 데이터 연결
@@ -63,6 +63,7 @@ export default function Header() {
 
           <div className="text-lg-md relative hidden items-center gap-8 md:flex lg:gap-10">
             <OptionSelector
+              placement=""
               size="xl"
               defaultValue={selectedTeam}
               options={USER_DATA.teams.map((group) => {
