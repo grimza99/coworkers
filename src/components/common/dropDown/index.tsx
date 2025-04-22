@@ -14,7 +14,7 @@ export interface DropDownProps {
   size: Size;
   dropDownOpenBtn?: JSX.Element;
   footerBtn?: ReactNode;
-  position: 'center' | 'left';
+  placement: string;
 }
 
 export default function DropDown({
@@ -23,7 +23,7 @@ export default function DropDown({
   options,
   size,
   footerBtn = null,
-  position,
+  placement,
 }: DropDownProps) {
   const { ref, isOpen, setIsOpen } = useOutSideClickAutoClose(false);
 
@@ -43,10 +43,10 @@ export default function DropDown({
       {isOpen && (
         <div
           className={clsx(
-            'bg-bg200 absolute top-[calc(100%+8px)] z-100 rounded-lg',
-            size === 'xl' && 'top-[calc(100%+28.5px)] h-fit px-4 py-4',
-            position === 'left' && 'right-[80%]',
-            footerBtn && 'flex flex-col gap-4'
+            'bg-bg200 absolute z-100 rounded-lg',
+            size === 'xl' && 'h-fit px-4 py-4',
+            footerBtn && 'flex flex-col gap-4',
+            placement
           )}
         >
           <div className="max-h-120 overflow-auto">
