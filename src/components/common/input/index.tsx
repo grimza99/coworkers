@@ -3,7 +3,7 @@
 import { InputHTMLAttributes, useState } from 'react';
 import clsx from 'clsx';
 
-interface InputOrTextarea {
+interface InputProps extends InputHTMLAttributes<HTMLInputElement> {
   leftSlot?: React.ReactNode;
   rightSlot?: React.ReactNode;
   isSuccess?: boolean;
@@ -12,7 +12,8 @@ interface InputOrTextarea {
   ref?: React.Ref<HTMLInputElement>;
 }
 
-interface InputProps extends InputHTMLAttributes<HTMLInputElement>, InputOrTextarea {}
+export const SHARE_TEXTFIELD_STYLE =
+  'placeholder:text-gray500 text-md-rg sm:text-lg-rg placeholder:text-md-rg sm:placeholder:text-lg-rg focus:outline-none';
 
 export default function Input({
   leftSlot = null,
@@ -53,7 +54,7 @@ export default function Input({
       {leftSlot}
 
       <input
-        className="placeholder:text-gray500 text-md-rg sm:text-lg-rg placeholder:text-md-rg sm:placeholder:text-lg-rg h-full w-full focus:outline-none"
+        className={clsx('w-full', SHARE_TEXTFIELD_STYLE)}
         onFocus={handleFocus}
         onBlur={handleBlur}
         ref={ref}
