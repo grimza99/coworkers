@@ -13,7 +13,7 @@ import SideMenu from './SideMenu';
 
 // @TODO: 데이터 연결
 // 목데이터
-const userData = {
+const USER_DATA = {
   name: '안혜나',
   teams: [
     {
@@ -35,15 +35,15 @@ const userData = {
   ],
 };
 
-const userName = userData.name;
-const selectedTeam = userData.teams[0]?.name || '';
+const userName = USER_DATA.name;
+const selectedTeam = USER_DATA.teams[0]?.name || '';
 
 export default function Header() {
   const [isProfileDropdownOpen, setIsProfileDropdownOpen] = useState(false);
   const [isSideMenuOpen, setIsSideMenuOpen] = useState(false);
 
   return (
-    <header className="bg-bg200 sticky top-0 flex h-[60px] w-full justify-center py-[14px]">
+    <header className="bg-bg200 sticky top-0 flex h-15 w-full justify-center py-[14px]">
       <div className="flex w-full max-w-300 items-center justify-between p-4">
         <div className="flex items-center gap-8 lg:gap-10">
           <div className="flex items-center gap-4">
@@ -63,11 +63,11 @@ export default function Header() {
             <Logo />
           </div>
 
-          <div className="text-gray100 text-lg-md relative hidden items-center gap-8 md:flex lg:gap-10">
+          <div className="text-lg-md relative hidden items-center gap-8 md:flex lg:gap-10">
             <OptionSelector
               size="xl"
               defaultValue={selectedTeam}
-              options={userData.teams.map((group) => {
+              options={USER_DATA.teams.map((group) => {
                 return <DropDownGroupsItem key={group.id} group={group} />;
               })}
               onSelect={() => {}}
@@ -91,14 +91,14 @@ export default function Header() {
           <DropDown
             size="lg"
             dropDownOpenBtn={
-              <button className="bg-bg flex items-center gap-2">
+              <button className=" flex items-center gap-2">
                 <Image
                   src="/icons/user.svg"
                   alt="유저 아이콘"
                   width={24}
                   height={24}
                 />
-                <span className="text-sm text-white hidden lg:inline">{userName}</span>
+                <span className="text-md-md hidden lg:inline">{userName}</span>
               </button>
             }
             options={DropDownProfileItemList}
@@ -107,9 +107,8 @@ export default function Header() {
         </div>
       </div>
 
-      {/* 사이드 메뉴 (sm 전용) */}
       <SideMenu
-        teams={userData.teams}
+        teams={USER_DATA.teams}
         isOpen={isSideMenuOpen}
         onClose={() => setIsSideMenuOpen(false)}
       />
