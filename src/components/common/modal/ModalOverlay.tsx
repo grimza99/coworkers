@@ -14,7 +14,7 @@ export default function ModalOverlay({
     }
   };
 
-  useEffect(() => {
+  useEffect(function lockBodyScroll() {
     const originalStyle = window.getComputedStyle(document.body).overflow;
     document.body.style.overflow = 'hidden';
 
