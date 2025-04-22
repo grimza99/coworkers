@@ -1,17 +1,9 @@
 'use client';
 
-import { InputHTMLAttributes, useState } from 'react';
+import { useState } from 'react';
 import clsx from 'clsx';
 import { COMMON_TEXTFIELD_STYLE } from './style';
-
-interface InputProps extends InputHTMLAttributes<HTMLInputElement> {
-  leftSlot?: React.ReactNode;
-  rightSlot?: React.ReactNode;
-  isSuccess?: boolean;
-  isFail?: boolean;
-  className?: string;
-  ref?: React.Ref<HTMLInputElement>;
-}
+import { InputProps } from '../type';
 
 export default function Input({
   leftSlot = null,

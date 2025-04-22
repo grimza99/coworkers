@@ -1,16 +1,10 @@
 'use client';
 
-import { useRef, useEffect, useCallback, TextareaHTMLAttributes } from 'react';
+import { useRef, useEffect, useCallback } from 'react';
 import debounce from 'lodash.debounce';
 import clsx from 'clsx';
 import { COMMON_TEXTFIELD_STYLE } from './style';
-
-interface TextareaProps extends TextareaHTMLAttributes<HTMLTextAreaElement> {
-  rightSlot?: React.ReactNode;
-  height?: number;
-  isBorder?: boolean;
-  className?: string;
-}
+import { TextareaProps } from '../type';
 
 export default function Textarea({
   rightSlot = null,
