@@ -26,7 +26,7 @@ export default function SideMenu({ teams, isOpen, onClose }: SideMenuProps) {
       <div className="fixed inset-0 z-40 bg-black/40" onClick={onClose} />
       
       {/* 사이드 메뉴 */}
-      <div className="fixed overflow-scroll pb-10 left-0 top-0 z-50 h-[812px] w-[204px] bg-bg200 p-4 shadow-lg flex flex-col gap-6">
+      <div className="fixed overflow-scroll pb-10 left-0 top-0 z-50 h-screen w-[204px] bg-bg200 p-4 shadow-lg flex flex-col gap-6">
         <button onClick={onClose} className="self-end cursor-pointer" title="닫기">
         <Image src={closeIcon} alt="닫기" width={24} height={24} />
         </button>
