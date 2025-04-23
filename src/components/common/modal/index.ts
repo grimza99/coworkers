@@ -2,6 +2,7 @@ export { default as ModalProvider } from './core/ModalProvider';
 export { default as ModalPortal } from './core/ModalPortal';
 export { default as ModalCloseButton } from './ui/ModalCloseButton';
 export { default as ModalContainer } from './ui/ModalContainer';
+export { default as ModalContent } from './ui/ModalContent';
 export { default as ModalDescription } from './ui/ModalDescription';
 export { default as ModalFooter } from './ui/ModalFooter';
 export { default as ModalHeading } from './ui/ModalHeading';
