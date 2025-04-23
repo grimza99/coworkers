@@ -2,7 +2,7 @@
 import Image from 'next/image';
 import clsx from 'clsx';
 import xIcon from '@/../public/icons/x-icon.svg';
-import { useModal } from '.';
+import useModal from './useModal';
 
 export default function ModalCloseButton({
   className,

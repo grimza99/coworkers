@@ -1,19 +1,8 @@
 'use client';
 import { useRouter, useSearchParams } from 'next/navigation';
-import { createContext, use, useState, useEffect, Suspense } from 'react';
+import { useState, useEffect, Suspense } from 'react';
 import { createPortal } from 'react-dom';
-
-type ModalContextType = {
-  closeModal: () => void;
-};
-
-const ModalContext = createContext<ModalContextType | null>(null);
-
-export function useModal() {
-  const ctx = use(ModalContext);
-  if (!ctx) throw new Error('useModal must be used within ModalProvider');
-  return ctx;
-}
+import ModalContext from '@/components/common/modal/ModalContext';
 
 function ModalProvider({ children }: { children: React.ReactNode }) {
   const searchParams = useSearchParams();
@@ -39,11 +28,7 @@ function ModalProvider({ children }: { children: React.ReactNode }) {
     : null;
 }
 
-type ModalProps = {
-  children: React.ReactNode;
-};
-
-export default function Modal({ children }: ModalProps) {
+export default function Modal({ children }: { children: React.ReactNode }) {
   return (
     // 정적 렌더링되는 라우트 안에서 useSearchParams를 사용하는 컴포넌트에 <Suspense/> 경계를 씌워야합니다.
     // https://nextjs.org/docs/app/api-reference/functions/use-search-params#static-rendering
