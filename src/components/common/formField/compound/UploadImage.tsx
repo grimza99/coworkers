@@ -1,6 +1,6 @@
 import Image from 'next/image';
-import { UploadImageType } from './FileInput';
 import clsx from 'clsx';
+import { UploadImageType } from '../type';
 
 interface UploadImageProps {
   uploadType: UploadImageType;
