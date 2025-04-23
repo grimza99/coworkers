@@ -40,7 +40,7 @@ export function OptionSelector({
   defaultValue,
   footerBtn,
   size,
-  position,
+  placement,
 }: SelectedDropDownProps) {
   const [currentSelected, setCurrentSelected] = useState(defaultValue ?? (options[0] as string));
 
@@ -57,7 +57,7 @@ export function OptionSelector({
         options={options}
         size={size}
         footerBtn={footerBtn}
-        position={position}
+        placement={placement}
       />
     </>
   );
