@@ -29,4 +29,4 @@ export const variantStyles = {
   'red-background': 'bg-red-500 text-white hover:bg-red-600 border border-red-500',
 };
 
-export const disabledStyles = 'opacity-50 cursor-not-allowed';
+export const disabledStyles = 'cursor-not-allowed';

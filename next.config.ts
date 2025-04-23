@@ -1,14 +1,16 @@
 import type { NextConfig } from 'next';
-import type { Configuration } from 'webpack';
-/*
-  npm install 해주셔야합니다.
-*/
 
 const nextConfig: NextConfig = {
-  webpack(config: Configuration) {
-    config.module?.rules?.push({
+  images: {
+    domains: ['sprint-fe-project.s3.ap-northeast-2.amazonaws.com/'],
+  },
+  // 다른 설정이 있을 경우 추가
+  webpack(config) {
+    config.module.rules.push({
       test: /\.svg$/,
-      issuer: /\.[jt]sx?$/,
+      issuer: {
+        test: /\.(js|ts|tsx|jsx)$/,
+      },
       use: ['@svgr/webpack'],
     });
 
