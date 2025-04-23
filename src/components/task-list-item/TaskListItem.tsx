@@ -1,11 +1,12 @@
 import clsx from 'clsx';
 import Image from 'next/image';
 
-// doneAt이 빈 스트링이라도 내려오는 값인지 확인
 // 매일 반복 클릭하면 색상 primary 컬러로 바뀌도록 : svgr 추가되면 작업 예정
+// history kebab
 
 interface TaskListItemProps {
   type: 'history' | 'taskList';
+  onCheckStatusChange: () => void;
   isDone: boolean;
   description: string;
   commentCount?: number;
@@ -15,6 +16,7 @@ interface TaskListItemProps {
 
 export default function TaskListItem({
   type = 'history',
+  onCheckStatusChange,
   isDone = true,
   description = '이것저것 다 하기',
   commentCount = 3,
@@ -44,7 +46,13 @@ export default function TaskListItem({
             {taskDescription()}
             <div className="flex items-center gap-2">
               <div className="flex items-center gap-0.5">
-                <Image src="/icons/comment.svg" width={16} height={16} alt="comment" />
+                <Image
+                  src="/icons/comment.svg"
+                  width={16}
+                  height={16}
+                  onClick={onCheckStatusChange}
+                  alt="comment"
+                />
                 <span className="pt-0.5">{commentCount}</span>
               </div>
               <Image
