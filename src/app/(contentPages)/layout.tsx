@@ -1,22 +1,13 @@
-import type { Metadata } from 'next';
 import '@/app/globals.css';
 
-export const metadata: Metadata = {
-  title: 'Coworkers',
-};
-
-export default function RootLayout({
+export default function ContentPageLayout({
   children,
 }: Readonly<{
   children: React.ReactNode;
 }>) {
   return (
-    <html lang="ko">
-      <body>
-        <div className="flex justify-center">
-          <div className="mx-4 mt-6 h-dvh w-full max-w-300 min-w-[343px] md:mx-6">{children}</div>
-        </div>
-      </body>
-    </html>
+    <div className="flex justify-center">
+      <div className="mx-4 mt-6 h-dvh w-full max-w-300 min-w-[343px] md:mx-6">{children}</div>
+    </div>
   );
 }
