@@ -1,7 +1,7 @@
 'use client';
 import { useEffect } from 'react';
 import clsx from 'clsx';
-import useModalContext from '@/components/common/modal/useModalContext';
+import useModalContext from '@/components/common/modal/core/useModalContext';
 
 export default function ModalOverlay({
   className,

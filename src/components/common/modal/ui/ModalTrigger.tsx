@@ -1,5 +1,5 @@
 'use client';
-import useModalContext from '@/components/common/modal/useModalContext';
+import useModalContext from '@/components/common/modal/core/useModalContext';
 
 export default function ModalTrigger({
   onClick,
