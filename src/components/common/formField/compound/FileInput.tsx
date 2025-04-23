@@ -7,12 +7,12 @@ import UploadImage from './UploadImage';
 export type UploadImageType = 'board' | 'team' | 'user';
 
 interface FileInputProps {
-  type: UploadImageType;
+  uploadType: UploadImageType;
   image?: string;
   onImageChange: (e: React.ChangeEvent<HTMLInputElement>) => void;
 }
 
-export default function FileInput({ type = 'user', image, onImageChange }: FileInputProps) {
+export default function FileInput({ uploadType = 'user', image, onImageChange }: FileInputProps) {
   const inputRef = useRef<HTMLInputElement>(null);
 
   return (
@@ -24,7 +24,7 @@ export default function FileInput({ type = 'user', image, onImageChange }: FileI
         className="hidden"
         onChange={onImageChange}
       />
-      <UploadImage type={type} image={image} inputRef={inputRef} />
+      <UploadImage uploadType={uploadType} image={image} inputRef={inputRef} />
     </div>
   );
 }

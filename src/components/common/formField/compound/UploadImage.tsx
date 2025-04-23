@@ -3,21 +3,21 @@ import { UploadImageType } from './FileInput';
 import clsx from 'clsx';
 
 interface UploadImageProps {
-  type: UploadImageType;
+  uploadType: UploadImageType;
   image?: string;
   inputRef: React.RefObject<HTMLInputElement | null>;
 }
 
-export default function UploadImage({ type, image, inputRef }: UploadImageProps) {
+export default function UploadImage({ uploadType, image, inputRef }: UploadImageProps) {
   const triggerUploadClick = (e: React.MouseEvent<HTMLButtonElement>) => {
     e.preventDefault();
     inputRef.current?.click();
   };
 
-  const TEAM = type === 'team';
+  const TEAM = uploadType === 'team';
   const defaultIcon = TEAM ? '/icons/image-icon.svg' : '/icons/user-icon.svg';
 
-  if (type === 'board') {
+  if (uploadType === 'board') {
     return (
       <button
         onClick={triggerUploadClick}
@@ -35,7 +35,7 @@ export default function UploadImage({ type, image, inputRef }: UploadImageProps)
     );
   }
 
-  if (type === 'team' || 'user') {
+  if (uploadType === 'team' || 'user') {
     return (
       <button
         onClick={triggerUploadClick}
