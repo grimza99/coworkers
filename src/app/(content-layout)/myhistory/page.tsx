@@ -1,3 +1,13 @@
+import DailyTask from './_components/DailyTask';
+
 export default function Home() {
-  return <div className="bg-bg200 h-10 w-full">레이아웃 테스트를 위한 div입니다.</div>;
+  return (
+    <div className="flex flex-col gap-6 md:gap-[27px]">
+      <h3 className="text-xl-bold">마이 히스토리</h3>
+      <div className="flex flex-col gap-10">
+        <DailyTask date="2025-04-23T10:59:09.567Z" />
+        <DailyTask date="2025-04-23T10:59:09.567Z" />
+      </div>
+    </div>
+  );
 }
