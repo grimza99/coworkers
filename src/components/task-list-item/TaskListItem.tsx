@@ -95,7 +95,7 @@ export default function TaskListItem({
               <span
                 className={clsx(
                   'text-xs-rg pt-0.5',
-                  frequency === 'DAILY' ? 'text-primary' : 'text-gray500'
+                  frequency.toUpperCase() === 'DAILY' ? 'text-primary' : 'text-gray500'
                 )}
               >
                 매일 반복
