@@ -15,8 +15,16 @@ export interface TextareaProps extends TextareaHTMLAttributes<HTMLTextAreaElemen
   className?: string;
 }
 
+export type UploadImageType = 'board' | 'team' | 'user';
+
+export interface FileInputProps {
+  uploadType: UploadImageType;
+  image: string;
+  onImageChange: (e: React.ChangeEvent<HTMLInputElement>) => void;
+}
+
 export interface FormFieldProps {
-  textField: 'input' | 'textarea';
+  field: 'input' | 'textarea' | 'file-input';
   label: string;
   required?: boolean;
   isSuccess?: boolean;
@@ -27,5 +35,6 @@ export interface FormFieldProps {
 }
 
 export type InputOrTextareaProps =
-  | (InputProps & FormFieldProps & { textField?: 'input' })
-  | (TextareaProps & FormFieldProps & { textField?: 'textarea' });
+  | (InputProps & FormFieldProps & { field?: 'input' })
+  | (TextareaProps & FormFieldProps & { field?: 'textarea' })
+  | (FileInputProps & FormFieldProps & { field?: 'file-input' });

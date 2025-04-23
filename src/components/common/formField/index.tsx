@@ -3,12 +3,13 @@
 import clsx from 'clsx';
 import Input from './compound/Input';
 import Textarea from './compound/Textarea';
-import { InputProps, InputOrTextareaProps, TextareaProps } from './type';
+import { InputProps, InputOrTextareaProps, TextareaProps, FileInputProps } from './type';
 import { GAP_SIZE, LABEL_SIZE } from './style';
 import { useFieldStatus } from './hook/useFieldStatus';
+import FileInput from './compound/FileInput';
 
 export default function FormField({
-  textField = 'input',
+  field = 'input',
   label,
   required,
   isSuccess,
@@ -25,6 +26,26 @@ export default function FormField({
     onBlur: (rest as InputProps).onBlur,
   });
 
+  const inputsField = () => {
+    if (field === 'textarea') {
+      return <Textarea {...(rest as TextareaProps)} />;
+    }
+    if (field === 'input') {
+      return (
+        <Input
+          onFocus={handleFocus}
+          onBlur={handleBlur}
+          borderClassName={borderClassName}
+          {...(rest as InputProps)}
+        />
+      );
+    }
+    if (field === 'file-input') {
+      const { uploadType, image, onImageChange } = rest as FileInputProps;
+      return <FileInput uploadType={uploadType} image={image} onImageChange={onImageChange} />;
+    }
+  };
+
   return (
     <div className="flex flex-col gap-2">
       <div className={clsx('flex flex-col', GAP_SIZE[gapSize])}>
@@ -32,16 +53,7 @@ export default function FormField({
           {required && <span className="text-tertiary text-2lg-bold sm:text-xl-bold">*</span>}
           {label}
         </label>
-        {textField === 'textarea' ? (
-          <Textarea {...(rest as TextareaProps)} />
-        ) : (
-          <Input
-            onFocus={handleFocus}
-            onBlur={handleBlur}
-            borderClassName={borderClassName}
-            {...(rest as InputProps)}
-          />
-        )}
+        {inputsField()}
       </div>
       {!isFocused && showError && errorMessage && (
         <span className="text-danger text-md-md">{errorMessage}</span>
