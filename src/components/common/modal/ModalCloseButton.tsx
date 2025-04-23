@@ -2,14 +2,14 @@
 import Image from 'next/image';
 import clsx from 'clsx';
 import xIcon from '@/../public/icons/x-icon.svg';
-import useModal from './useModal';
+import useModalContext from './useModalContext';
 
 export default function ModalCloseButton({
   className,
   onClick,
   ...props
 }: React.ComponentProps<'button'>) {
-  const { closeModal } = useModal();
+  const { closeModal } = useModalContext();
 
   const handleClick = (e: React.MouseEvent<HTMLButtonElement>) => {
     if (onClick) {

@@ -1,16 +1,25 @@
 'use client';
-import { useRouter, useSearchParams } from 'next/navigation';
 import ModalContext from '@/components/common/modal/ModalContext';
+import { useState } from 'react';
 
 export default function ModalProvider({ children }: { children: React.ReactNode }) {
-  const searchParams = useSearchParams();
-  const router = useRouter();
+  const [isOpen, setIsOpen] = useState(false);
 
-  const closeModal = () => router.back();
+  const toggleModal = () => {
+    setIsOpen((prev) => !prev);
+  };
 
-  const show = searchParams.get('showModal') === 'y';
+  const openModal = () => {
+    setIsOpen(true);
+  };
+
+  const closeModal = () => {
+    setIsOpen(false);
+  };
 
   return (
-    <ModalContext.Provider value={{ closeModal }}>{show ? children : null}</ModalContext.Provider>
+    <ModalContext.Provider value={{ toggleModal, openModal, closeModal, isOpen }}>
+      {children}
+    </ModalContext.Provider>
   );
 }

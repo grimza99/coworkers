@@ -1,10 +1,13 @@
 'use client';
 import { createContext } from 'react';
 
-type ModalContextType = {
+type ModalContextValue = {
+  toggleModal: () => void;
+  openModal: () => void;
   closeModal: () => void;
+  isOpen: boolean;
 };
 
-const ModalContext = createContext<ModalContextType | null>(null);
+const ModalContext = createContext<ModalContextValue | null>(null);
 
 export default ModalContext;
