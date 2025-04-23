@@ -34,7 +34,6 @@ export default function TaskListItem({
 
   const onDropdownListClick = (e: React.MouseEvent<HTMLDivElement>) => {
     const option = e.currentTarget.textContent;
-    console.log(option);
 
     if (option === '수정하기') return onEdit?.();
     if (option === '삭제하기') return onDelete?.();
@@ -42,8 +41,15 @@ export default function TaskListItem({
 
   function taskDescription() {
     return (
-      <div className="flex w-fit items-center justify-start gap-2">
-        <Image src={checkIcon} width={24} height={24} alt="checked" className="cursor-pointer" />
+      <div className="flex shrink-0 items-center justify-start gap-2">
+        <Image
+          src={checkIcon}
+          onClick={onCheckStatusChange}
+          width={24}
+          height={24}
+          alt="checked"
+          className="cursor-pointer"
+        />
         <span className={clsx('text-md-rg text-gray100 pt-0.5', isDone && 'line-through')}>
           {description}
         </span>
@@ -61,13 +67,7 @@ export default function TaskListItem({
             {taskDescription()}
             <div className="flex items-center gap-2">
               <div className="flex items-center gap-0.5">
-                <Image
-                  src="/icons/comment.svg"
-                  width={16}
-                  height={16}
-                  onClick={onCheckStatusChange}
-                  alt="comment"
-                />
+                <Image src="/icons/comment.svg" width={16} height={16} alt="comment" />
                 <span className="pt-0.5">{commentCount}</span>
               </div>
 
