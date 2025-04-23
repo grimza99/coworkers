@@ -8,7 +8,7 @@ export default function ModalPortal({ children }: { children: React.ReactNode })
   const { isOpen } = useModalContext();
 
   useEffect(() => {
-    const modalElement = document.querySelector('#modal');
+    const modalElement = document.querySelector('#modal-container');
     setModalPortal(modalElement);
   }, []);
 
