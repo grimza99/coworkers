@@ -3,11 +3,11 @@ import Image from 'next/image';
 import DropDown from '../common/dropdown';
 
 // 매일 반복 클릭하면 색상 primary 컬러로 바뀌도록 : svgr 추가되면 작업 예정
-// onEdit, onDelete 파라미터 지정 필요
+// onEdit, onDelete, onCheckStatusChange 파라미터 지정 필요
 
 interface TaskListItemProps {
   type: 'history' | 'taskList';
-  onCheckStatusChange: () => void;
+  onCheckStatusChange?: () => void;
   onEdit?: () => void;
   onDelete?: () => void;
   isDone: boolean;
@@ -58,17 +58,17 @@ export default function TaskListItem({
   }
 
   return (
-    <div className="bg-bg200 text-xs-rg text-gray500 flex w-full flex-col gap-2.5 rounded-lg px-[14px] py-3">
+    <div className="bg-bg200 flex w-full flex-col gap-2.5 rounded-lg px-[14px] py-3">
       {type === 'history' ? (
         taskDescription()
       ) : (
         <>
-          <div className="flex justify-between">
+          <div className="flex justify-between sm:gap-3">
             {taskDescription()}
-            <div className="flex items-center gap-2">
+            <div className="flex items-center gap-2 sm:w-full sm:justify-between">
               <div className="flex items-center gap-0.5">
                 <Image src="/icons/comment.svg" width={16} height={16} alt="comment" />
-                <span className="pt-0.5">{commentCount}</span>
+                <span className="text-xs-rg text-gray500 pt-0.5">{commentCount}</span>
               </div>
 
               <DropDown
@@ -85,15 +85,18 @@ export default function TaskListItem({
           <div className="flex items-center">
             <div className="flex items-center gap-1.5">
               <Image src="/icons/calendar.svg" width={16} height={16} alt="calendar" />
-              <span className="pt-0.5">{date}</span>
+              <span className="text-xs-rg text-gray500 pt-0.5">{date}</span>
             </div>
 
             <div className="bg-bg100 mx-2.5 h-2 w-0.25" />
 
-            <div className="flex items-center gap-1.5">
+            <div className="flex cursor-pointer items-center gap-1.5">
               <div className="bg-bg100 h-4 w-4" />
               <span
-                className={clsx('pt-0.5', frequency === 'DAILY' ? 'text-primary' : 'text-gray500')}
+                className={clsx(
+                  'text-xs-rg pt-0.5',
+                  frequency === 'DAILY' ? 'text-primary' : 'text-gray500'
+                )}
               >
                 매일 반복
               </span>
