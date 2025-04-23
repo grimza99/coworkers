@@ -24,11 +24,11 @@ export default function TaskListItem({
   onCheckStatusChange,
   onEdit,
   onDelete,
-  isDone = true,
-  description = '이것저것 다 하기',
-  commentCount = 3,
-  date = '2025년 04월 23일',
-  frequency = 'DAILY',
+  isDone,
+  description,
+  commentCount,
+  date,
+  frequency,
 }: TaskListItemProps) {
   const checkIcon = isDone ? '/icons/check-box.svg' : '/icons/none-check-box.svg';
 
@@ -95,7 +95,7 @@ export default function TaskListItem({
               <span
                 className={clsx(
                   'text-xs-rg pt-0.5',
-                  frequency.toUpperCase() === 'DAILY' ? 'text-primary' : 'text-gray500'
+                  frequency?.toUpperCase() === 'DAILY' ? 'text-primary' : 'text-gray500'
                 )}
               >
                 매일 반복
