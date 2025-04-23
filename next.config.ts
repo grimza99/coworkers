@@ -9,7 +9,7 @@ const nextConfig: NextConfig = {
     config.module.rules.push({
       test: /\.svg$/,
       issuer: {
-        test: /\.(js|ts|tsx|jsx)$/,
+        and: [/\.(js|ts|tsx|jsx)$/],
       },
       use: ['@svgr/webpack'],
     });

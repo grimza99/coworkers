@@ -1,8 +1,7 @@
 'use client';
 
 import React, { ReactNode } from 'react';
-import { baseStyles, variantStyles, disabledStyles, sizeStyles } from './buttonStyles';
-import { twMerge } from 'tailwind-merge';
+import { baseStyles, variantStyles, disabledStyles, sizeStyles } from './ButtonStyles';
 
 interface ButtonProps extends React.ComponentPropsWithoutRef<'button'> {
   variant?:
@@ -37,13 +36,15 @@ const Button = ({
   type = 'button',
   ...props
 }: ButtonProps) => {
-  const composedClassName = twMerge(
+  const composedClassName = [
     baseStyles,
     sizeStyles[size],
     variantStyles[variant],
-    disabled && disabledStyles,
-    className
-  );
+    disabled ? disabledStyles : '',
+    className,
+  ]
+    .filter(Boolean)
+    .join(' ');
 
   return (
     <button
