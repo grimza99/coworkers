@@ -3,13 +3,14 @@ import Image from 'next/image';
 import DropDown from '../common/dropdown';
 
 // 매일 반복 클릭하면 색상 primary 컬러로 바뀌도록 : svgr 추가되면 작업 예정
-// onEdit, onDelete, onCheckStatusChange 파라미터 지정 필요
+// onEdit, onDelete, onClick, onCheckStatusChange 파라미터 지정 필요
 
 interface TaskListItemProps {
   type: 'history' | 'taskList';
   onCheckStatusChange?: () => void;
   onEdit?: () => void;
   onDelete?: () => void;
+  onClick?: () => void;
   isDone: boolean;
   description: string;
   commentCount?: number;
@@ -24,6 +25,7 @@ export default function TaskListItem({
   onCheckStatusChange,
   onEdit,
   onDelete,
+  onClick,
   isDone,
   description,
   commentCount,
@@ -58,7 +60,10 @@ export default function TaskListItem({
   }
 
   return (
-    <div className="bg-bg200 flex w-full flex-col gap-2.5 rounded-lg px-[14px] py-3">
+    <div
+      onClick={onClick}
+      className="bg-bg200 flex w-full flex-col gap-2.5 rounded-lg px-[14px] py-3"
+    >
       {type === 'history' ? (
         taskDescription()
       ) : (
