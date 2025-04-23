@@ -1,8 +1,7 @@
 'use client';
 import { useState, useEffect } from 'react';
 import { createPortal } from 'react-dom';
-import useModalContext from './useModalContext';
-// import ModalProvider from '@/components/common/modal/ModalProvider';
+import useModalContext from '@/components/common/modal/useModalContext';
 
 export default function ModalPortal({ children }: { children: React.ReactNode }) {
   const [modalPortal, setModalPortal] = useState<Element | null>(null);

@@ -1,6 +1,6 @@
 'use client';
 import { use } from 'react';
-import ModalContext from './ModalContext';
+import ModalContext from '@/components/common/modal/ModalContext';
 
 export default function useModalContext() {
   const ctx = use(ModalContext);

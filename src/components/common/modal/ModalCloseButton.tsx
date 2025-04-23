@@ -2,7 +2,7 @@
 import Image from 'next/image';
 import clsx from 'clsx';
 import xIcon from '@/../public/icons/x-icon.svg';
-import useModalContext from './useModalContext';
+import useModalContext from '@/components/common/modal/useModalContext';
 
 export default function ModalCloseButton({
   className,

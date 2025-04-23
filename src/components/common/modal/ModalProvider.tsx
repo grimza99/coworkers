@@ -1,6 +1,6 @@
 'use client';
-import ModalContext from '@/components/common/modal/ModalContext';
 import { useState } from 'react';
+import ModalContext from '@/components/common/modal/ModalContext';
 
 export default function ModalProvider({ children }: { children: React.ReactNode }) {
   const [isOpen, setIsOpen] = useState(false);
