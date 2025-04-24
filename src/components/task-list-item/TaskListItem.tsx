@@ -62,7 +62,10 @@ export default function TaskListItem({
   return (
     <div
       onClick={onClick}
-      className="bg-bg200 flex w-full flex-col gap-2.5 rounded-lg px-[14px] py-3"
+      className={clsx(
+        'bg-bg200 flex w-full flex-col gap-2.5 rounded-lg px-[14px] py-3',
+        type === 'taskList' && 'cursor-pointer'
+      )}
     >
       {type === 'history' ? (
         taskDescription()
