@@ -1,7 +1,7 @@
 import OAuth from '@/components/oauth';
 import LoginForm from './_login/LoginForm';
 
-export default function Home() {
+export default function LoginPage() {
   return (
     <div className="flex flex-col">
       <div className="mb-10 flex w-[460px] flex-col items-center">
