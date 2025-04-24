@@ -27,6 +27,7 @@ export default function LoginForm() {
           value={email}
           placeholder="이메일을 입력해주세요."
           onChange={(e) => setEmail(e.target.value)}
+          disabled={isPending}
         />
       </div>
       <div>
@@ -40,6 +41,7 @@ export default function LoginForm() {
           value={password}
           placeholder="비밀번호를 입력해주세요."
           onChange={(e) => setPassword(e.target.value)}
+          disabled={isPending}
         />
       </div>
       <button
