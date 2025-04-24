@@ -1,6 +1,6 @@
 'use client';
+import Link from 'next/link';
 import PATHS from '@/constants/paths';
-import { useRouter } from 'next/navigation';
 
 export default function StartButton({
   children,
@@ -14,16 +14,11 @@ export default function StartButton({
   // @TODO: 사용자의 그룹(팀) 데이터를 가져오는 로직 필요
   const userTeam = [{ id: 123 }, { id: 456 }];
 
-  const router = useRouter();
-
-  const handleClick = () => {
-    const href = isLoggedIn ? `${PATHS.getTeamPath(userTeam[0].id)}` : `${PATHS.LOGIN}`;
-    router.push(href);
-  };
+  const href = isLoggedIn ? `${PATHS.getTeamPath(userTeam[0].id)}` : `${PATHS.LOGIN}`;
 
   return (
-    <button className={className} onClick={handleClick}>
+    <Link href={href} className={className}>
       {children}
-    </button>
+    </Link>
   );
 }
