@@ -8,7 +8,7 @@ export default function HandleDate() {
   console.log(currentDate);
   return (
     <div>
-      <p></p>
+      <p>{currentDate}</p>
     </div>
   );
 }
