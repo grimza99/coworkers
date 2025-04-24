@@ -1,4 +1,4 @@
-import StartButton from '@/components/pages/home/StartButton';
+import StartButton from '@/app/_home/StartButton';
 
 export default function Home() {
   return (
