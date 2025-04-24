@@ -4,6 +4,7 @@ import Input from '@/components/common/formField/compound/Input';
 import login from './login';
 
 export default function LoginForm() {
+  // @TODO: 입력 변화에 따른 UI 변화, 입력값 검증
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [state, loginAction, isPending] = useActionState(login, { success: false });
