@@ -2,13 +2,14 @@
 
 import Image from 'next/image';
 import Link from 'next/link';
-import { useOutSideClickAutoClose } from '@/utils/use-outside-click-auto-close';
 import Logo from './Logo';
 import SideMenu from './SideMenu';
-import { OptionSelector } from '@/components/common/dropdown/OptionSelector';
 import DropDownProfileItemList from '@/components/common/dropdown/ProfileItem';
 import DropDownGroupsItem from '@/components/common/dropdown/GroupsItem';
 import DropDown from '@/components/common/dropdown/index';
+import { OptionSelector } from '@/components/common/dropdown/OptionSelector';
+import { useOutSideClickAutoClose } from '@/utils/use-outside-click-auto-close';
+import { usePathname } from 'next/navigation';
 // @TODO: 주소별로 헤더가 다르게 뜨도록
 
 // @TODO: 데이터 연결
@@ -39,11 +40,34 @@ const userName = USER_DATA.name;
 const selectedTeam = USER_DATA.teams[0]?.name || '';
 
 export default function Header() {
+  const pathname = usePathname();
   const {
     ref: sideMenuRef,
     isOpen: isSideMenuOpen,
     setIsOpen: setIsSideMenuOpen,
   } = useOutSideClickAutoClose(false);
+
+  const minimalHeaderPaths = [
+    '/',
+    '/login',
+    '/signup',
+    '/oauth/signup/kakao',
+    '/reset-password',
+    '/addteam',
+    '/jointeam',
+  ];
+
+  const isMinimalHeader = minimalHeaderPaths.includes(pathname);
+
+  if (isMinimalHeader) {
+    return (
+      <header className="bg-bg200 border-border sticky top-0 flex h-15 w-full justify-center border-b-1 py-[14px]">
+        <div className="flex w-full max-w-300 items-center justify-between p-4">
+          <Logo />
+        </div>
+      </header>
+    );
+  }
 
   return (
     <header className="bg-bg200 border-border sticky top-0 flex h-15 w-full justify-center border-b-1 py-[14px]">
