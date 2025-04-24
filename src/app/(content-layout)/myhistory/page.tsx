@@ -1,4 +1,4 @@
-import DailyTask from './_components/DailyTask';
+import DailyTask from './_myhistory/DailyTask';
 
 export default function Home() {
   return (
