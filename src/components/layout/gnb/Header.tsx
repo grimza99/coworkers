@@ -69,6 +69,8 @@ export default function Header() {
     );
   }
 
+  const hasTeam = USER_DATA.teams.length > 0;
+
   return (
     <header className="bg-bg200 border-border sticky top-0 flex h-15 w-full justify-center border-b-1 py-[14px]">
       <div className="flex w-full max-w-300 items-center justify-between p-4">
@@ -86,23 +88,25 @@ export default function Header() {
           </div>
 
           <div className="text-lg-md relative hidden items-center gap-8 md:flex lg:gap-10">
-            <OptionSelector
-              placement=""
-              size="xl"
-              defaultValue={selectedTeam}
-              options={USER_DATA.teams.map((group) => {
-                return <DropDownGroupsItem key={group.id} group={group} />;
-              })}
-              onSelect={() => {}}
-              footerBtn={
-                <Link
-                  href={`/groups`}
-                  className="text-text-primary border-text-primary flex h-12 w-46 items-center justify-center rounded-xl border"
-                >
-                  + 팀 추가하기
-                </Link>
-              }
-            />
+            {hasTeam && (
+              <OptionSelector
+                placement=""
+                size="xl"
+                defaultValue={selectedTeam}
+                options={USER_DATA.teams.map((group) => {
+                  return <DropDownGroupsItem key={group.id} group={group} />;
+                })}
+                onSelect={() => {}}
+                footerBtn={
+                  <Link
+                    href={`/groups`}
+                    className="text-text-primary border-text-primary flex h-12 w-46 items-center justify-center rounded-xl border"
+                  >
+                    + 팀 추가하기
+                  </Link>
+                }
+              />
+            )}
             <Link href={`/articles`} className="cursor:pointer mt-0">
               자유게시판
             </Link>
