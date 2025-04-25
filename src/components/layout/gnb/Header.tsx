@@ -11,6 +11,16 @@ import DropDown from '@/components/common/dropdown/index';
 import { OptionSelector } from '@/components/common/dropdown/OptionSelector';
 import { useOutSideClickAutoClose } from '@/utils/use-outside-click-auto-close';
 
+const MINIMAL_HEADER_PATHS = [
+  '/',
+  '/login',
+  '/signup',
+  '/oauth/signup/kakao',
+  '/reset-password',
+  '/addteam',
+  '/jointeam',
+];
+
 // @TODO: 데이터 연결
 // 목데이터
 const USER_DATA = {
@@ -46,17 +56,7 @@ export default function Header() {
     setIsOpen: setIsSideMenuOpen,
   } = useOutSideClickAutoClose(false);
 
-  const minimalHeaderPaths = [
-    '/',
-    '/login',
-    '/signup',
-    '/oauth/signup/kakao',
-    '/reset-password',
-    '/addteam',
-    '/jointeam',
-  ];
-
-  const isMinimalHeader = minimalHeaderPaths.includes(pathname);
+  const isMinimalHeader = MINIMAL_HEADER_PATHS.includes(pathname);
 
   if (isMinimalHeader) {
     return (
