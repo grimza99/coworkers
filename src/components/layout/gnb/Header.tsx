@@ -36,7 +36,7 @@ const USER_DATA = {
 };
 
 const userName = USER_DATA.name;
-const selectedTeam = USER_DATA.teams[0]?.name || '';
+const selectedTeam = USER_DATA.teams[0]?.name || ''; // @TODO: default value 선택한 index value로 할 수 있도록
 
 export default function Header() {
   const pathname = usePathname();
