@@ -1,13 +1,11 @@
 import Link from 'next/link';
-import LogoLg from '@/assets/logo-lg.svg';
-import LogoSm from '@/assets/logo-sm.svg';
+import CoworkersLogo from '@/assets/CoworkersLogo.svg';
 
 export default function Logo() {
   return (
-    <div>
-      <Link href="/" className="flex items-center">
-        <LogoLg className="hidden lg:block" />
-        <LogoSm className="block lg:hidden" />
+    <div className="h-5 w-[102px] lg:h-8 lg:w-[158px]">
+      <Link href="/">
+        <CoworkersLogo />
       </Link>
     </div>
   );
