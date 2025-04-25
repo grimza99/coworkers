@@ -20,7 +20,7 @@ export default function LoginForm() {
         name="email"
         label="이메일"
         type="email"
-        textField="input"
+        field="input"
         placeholder="이메일을 입력해주세요."
         value={email}
         onChange={(e: React.ChangeEvent<HTMLInputElement>) => {
@@ -32,7 +32,7 @@ export default function LoginForm() {
         name="password"
         label="비밀번호"
         type="password"
-        textField="input"
+        field="input"
         placeholder="비밀번호를 입력해주세요."
         value={password}
         onChange={(e: React.ChangeEvent<HTMLInputElement>) => {
