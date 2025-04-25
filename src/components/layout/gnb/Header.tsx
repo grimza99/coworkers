@@ -10,6 +10,7 @@ import DropDownGroupsItem from '@/components/common/dropdown/GroupsItem';
 import DropDown from '@/components/common/dropdown/index';
 import { OptionSelector } from '@/components/common/dropdown/OptionSelector';
 import { useOutSideClickAutoClose } from '@/utils/use-outside-click-auto-close';
+import Button from '@/components/common/Button/index';
 
 const MINIMAL_HEADER_PATHS = [
   '/',
@@ -97,12 +98,13 @@ export default function Header() {
                 })}
                 onSelect={() => {}}
                 footerBtn={
-                  <Link
-                    href={`/groups`}
-                    className="text-text-primary border-text-primary flex h-12 w-46 items-center justify-center rounded-xl border"
+                  <Button
+                    variant="ghost-white"
+                    fontSize="16"
+                    className="text-lg-md h-12 w-[186px] rounded-lg"
                   >
-                    + 팀 추가하기
-                  </Link>
+                    <Link href="/groups">+ 팀 추가하기</Link>
+                  </Button>
                 }
               />
             )}
