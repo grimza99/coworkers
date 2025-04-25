@@ -15,8 +15,8 @@ export const buttonSize = {
 
 export const buttonVariant = {
   solid: 'bg-primary text-white',
-  'outline-primary': 'bg-white text-primary text-primary border border-primary',
-  'outline-gray': 'bg-white text-gray500 text-primary border border-gray300',
+  'outline-primary': 'bg-white text-primary border border-primary',
+  'outline-gray': 'bg-white text-gray500 border border-gray300',
   'ghost-primary': 'bg-transparent text-primary border border-primary',
   'ghost-white': 'bg-transparent text-white border border-white',
   danger: 'bg-danger text-white',
@@ -25,9 +25,8 @@ export const buttonVariant = {
 
 export const disabledButton: Partial<Record<ButtonVariant, string>> = {
   solid: 'bg-gray400 text-white',
-  'outline-primary': 'border border-gray400 text-gray400',
-  'ghost-primary': 'border border-gray400 text-gray400',
-  'ghost-white': 'border border-gray400 text-gray400',
+  'outline-primary': 'bg-white text-gray400 border border-gray400',
+  'ghost-primary': 'bg-transparent text-gray400 border border-gray400',
 };
 
 export const buttonFontSize: Record<FontSize, string> = {
