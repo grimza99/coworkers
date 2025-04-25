@@ -2,20 +2,21 @@ import clsx from 'clsx';
 import Image from 'next/image';
 import DropDown from '../common/dropdown';
 
-// 매일 반복 클릭하면 색상 primary 컬러로 바뀌도록 : svgr 추가되면 작업 예정
 // onEdit, onDelete, onClick, onCheckStatusChange 파라미터 지정 필요
+
+type ScheduleType = 'DAILY' | 'WEEKLY' | 'MONTHLY' | 'ONCE';
 
 interface TaskListItemProps {
   type: 'history' | 'taskList';
   onCheckStatusChange?: () => void;
-  onEdit?: () => void;
-  onDelete?: () => void;
-  onClick?: () => void;
+  onEdit: () => void;
+  onDelete: () => void;
+  onClick: () => void;
   isDone: boolean;
   description: string;
-  commentCount?: number;
-  date?: string;
-  frequency?: string;
+  commentCount: number;
+  date: string;
+  frequency: ScheduleType;
 }
 
 const DROPDOWN_OPTION_LIST = ['수정하기', '삭제하기'];
@@ -103,7 +104,7 @@ export default function TaskListItem({
               <span
                 className={clsx(
                   'text-xs-rg pt-0.5',
-                  frequency?.toUpperCase() === 'DAILY' ? 'text-primary' : 'text-gray500'
+                  frequency === 'DAILY' ? 'text-primary' : 'text-gray500'
                 )}
               >
                 매일 반복
