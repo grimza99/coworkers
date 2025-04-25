@@ -1,10 +1,11 @@
 import Image from 'next/image';
 import clsx from 'clsx';
 import { UploadImageType } from '../type';
+import Plus from '@/assets/Plus';
 
 interface UploadImageProps {
   uploadType: UploadImageType;
-  image?: string;
+  image: string;
   inputRef: React.RefObject<HTMLInputElement | null>;
 }
 
@@ -21,14 +22,14 @@ export default function UploadImage({ uploadType, image, inputRef }: UploadImage
     return (
       <button
         onClick={triggerUploadClick}
-        className="bg-bg200 relative h-[282px] w-[282px] cursor-pointer rounded-xl"
+        className="bg-bg200 relative h-40 w-40 cursor-pointer rounded-xl sm:h-60 sm:w-60"
       >
         {image ? (
           <Image src={image} fill alt="profile" className="rounded-xl" />
         ) : (
           <div className="flex h-full w-full flex-col items-center justify-center gap-3">
-            <div className="bg-bg100 h-12 w-12" />
-            <span className="text-gray400 text-lg-rg">이미지 등록</span>
+            <Plus className="text-gray400 h-6 w-6 sm:h-12 sm:w-12" />
+            <span className="text-gray400 text-md-rg sm:text-lg-rg">이미지 등록</span>
           </div>
         )}
       </button>
