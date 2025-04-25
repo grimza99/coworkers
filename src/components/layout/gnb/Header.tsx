@@ -2,6 +2,7 @@
 
 import Image from 'next/image';
 import Link from 'next/link';
+import { usePathname } from 'next/navigation';
 import Logo from './Logo';
 import SideMenu from './SideMenu';
 import DropDownProfileItemList from '@/components/common/dropdown/ProfileItem';
@@ -9,8 +10,6 @@ import DropDownGroupsItem from '@/components/common/dropdown/GroupsItem';
 import DropDown from '@/components/common/dropdown/index';
 import { OptionSelector } from '@/components/common/dropdown/OptionSelector';
 import { useOutSideClickAutoClose } from '@/utils/use-outside-click-auto-close';
-import { usePathname } from 'next/navigation';
-// @TODO: 주소별로 헤더가 다르게 뜨도록
 
 // @TODO: 데이터 연결
 // 목데이터
