@@ -22,7 +22,6 @@ export default function SignupPage() {
             <FormField
               textField="input"
               label="이름"
-              required
               gapSize="16"
               isFailure={name === ''}
               isSuccess={name !== ''}
@@ -34,7 +33,6 @@ export default function SignupPage() {
             <FormField
               textField="input"
               label="이메일"
-              required
               gapSize="16"
               isFailure={!isValidEmail}
               isSuccess={isValidEmail}
@@ -46,7 +44,6 @@ export default function SignupPage() {
             <FormField
               textField="input"
               label="비밀번호"
-              required
               gapSize="16"
               isFailure
               isSuccess
@@ -58,7 +55,6 @@ export default function SignupPage() {
             <FormField
               textField="textarea"
               label="비밀번호 확인"
-              required
               gapSize="16"
               isFailure={confirmPassword !== password}
               isSuccess={confirmPassword !== '' && confirmPassword === password}
