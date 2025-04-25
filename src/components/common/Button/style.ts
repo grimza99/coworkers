@@ -11,7 +11,7 @@ export const buttonSize = {
   md: 'w-[125px] h-12 rounded-[40px]',
   lg: 'w-[138px] h-10 rounded-[40px]',
   xl: 'w-[373px] h-12 rounded-[40px]',
-};
+} as const;
 
 export const buttonVariant = {
   solid: 'bg-primary text-white',
@@ -20,10 +20,10 @@ export const buttonVariant = {
   'ghost-primary': 'bg-transparent text-primary border border-primary',
   'ghost-white': 'bg-transparent text-white border border-white',
   danger: 'bg-danger text-white',
-  gradient: 'bg-gradient text-white',
+  gradient: 'text-white',
 } as const;
 
-export const disabledButton: Partial<Record<keyof typeof buttonVariant, string>> = {
+export const disabledButton: Partial<Record<ButtonVariant, string>> = {
   solid: 'bg-gray400 text-white',
   'outline-primary': 'border border-gray400 text-gray400',
   'ghost-primary': 'border border-gray400 text-gray400',
