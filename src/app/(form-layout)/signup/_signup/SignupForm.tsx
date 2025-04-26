@@ -17,7 +17,7 @@ export default function SignupForm() {
       <form className="flex w-full flex-col gap-y-10 md:max-w-115">
         <div className="flex flex-col gap-4">
           <FormField
-            textField="input"
+            field="input"
             label="이름"
             isFailure={name === ''}
             isSuccess={name !== ''}
@@ -27,7 +27,7 @@ export default function SignupForm() {
             placeholder="이름을 입력해주세요."
           />
           <FormField
-            textField="input"
+            field="input"
             label="이메일"
             isFailure={!isValidEmail}
             isSuccess={isValidEmail}
@@ -37,7 +37,7 @@ export default function SignupForm() {
             placeholder="이메일을 입력해주세요."
           />
           <FormField
-            textField="input"
+            field="input"
             label="비밀번호"
             type="password"
             isFailure={password === ''}
@@ -48,7 +48,7 @@ export default function SignupForm() {
             placeholder="비밀번호를 입력해주세요."
           />
           <FormField
-            textField="input"
+            field="input"
             label="비밀번호 확인"
             type="password"
             isFailure={confirmPassword === '' || confirmPassword !== password}
