@@ -1,5 +1,5 @@
 import Link from 'next/link';
-import CoworkersLogo from '@/assets/CoworkersLogo.svg';
+import CoworkersLogo from '@/assets/CoworkersLogo';
 
 export default function Logo() {
   return (
