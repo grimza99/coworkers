@@ -1,5 +1,3 @@
-'use client';
-
 import { TaskDoneProp } from '../types/myhistory-page-type';
 import DailyTask from './DailyTask';
 
@@ -23,8 +21,6 @@ export default function DailyTaskList({ historyTaskData }: Props) {
     date,
     tasks,
   }));
-
-  console.log(groupedByDateArray);
 
   return (
     <>
