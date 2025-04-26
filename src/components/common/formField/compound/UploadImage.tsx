@@ -4,21 +4,21 @@ import { UploadImageType } from '../type';
 import Plus from '@/assets/Plus';
 
 interface UploadImageProps {
-  uploadType: UploadImageType;
+  FileInputUsage: UploadImageType;
   image: string;
   inputRef: React.RefObject<HTMLInputElement | null>;
 }
 
-export default function UploadImage({ uploadType, image, inputRef }: UploadImageProps) {
+export default function UploadImage({ FileInputUsage, image, inputRef }: UploadImageProps) {
   const triggerUploadClick = (e: React.MouseEvent<HTMLButtonElement>) => {
     e.preventDefault();
     inputRef.current?.click();
   };
 
-  const TEAM = uploadType === 'team';
+  const TEAM = FileInputUsage === 'team';
   const defaultIcon = TEAM ? '/icons/image-icon.svg' : '/icons/user-icon.svg';
 
-  if (uploadType === 'board') {
+  if (FileInputUsage === 'board') {
     return (
       <button
         onClick={triggerUploadClick}
@@ -36,12 +36,12 @@ export default function UploadImage({ uploadType, image, inputRef }: UploadImage
     );
   }
 
-  if (uploadType === 'team' || 'user') {
+  if (FileInputUsage === 'team' || 'user') {
     return (
       <button
         onClick={triggerUploadClick}
         className={clsx(
-          'bg-bg200 border-border relative flex h-16 w-16 cursor-pointer items-center justify-center rounded-full border-2',
+          'border-border relative flex h-16 w-16 cursor-pointer items-center justify-center rounded-full border-2',
           TEAM ? 'bg-bg200' : 'bg-bg100'
         )}
       >

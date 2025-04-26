@@ -5,7 +5,11 @@ import Input from './Input';
 import UploadImage from './UploadImage';
 import { FileInputProps } from '../type';
 
-export default function FileInput({ uploadType = 'user', image, onImageChange }: FileInputProps) {
+export default function FileInput({
+  FileInputUsage = 'user',
+  image,
+  onImageChange,
+}: FileInputProps) {
   const inputRef = useRef<HTMLInputElement>(null);
 
   return (
@@ -17,7 +21,7 @@ export default function FileInput({ uploadType = 'user', image, onImageChange }:
         className="hidden"
         onChange={onImageChange}
       />
-      <UploadImage uploadType={uploadType} image={image} inputRef={inputRef} />
+      <UploadImage FileInputUsage={FileInputUsage} image={image} inputRef={inputRef} />
     </div>
   );
 }

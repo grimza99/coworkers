@@ -3,7 +3,7 @@
 import clsx from 'clsx';
 import Input from './compound/Input';
 import Textarea from './compound/Textarea';
-import { InputProps, InputOrTextareaProps, TextareaProps, FileInputProps } from './type';
+import { InputProps, FieldComponentProps, TextareaProps, FileInputProps } from './type';
 import { GAP_SIZE, LABEL_SIZE } from './style';
 import { useFieldStatus } from './hook/useFieldStatus';
 import FileInput from './compound/FileInput';
@@ -18,7 +18,7 @@ export default function FormField({
   gapSize = '12',
   labelSize = '16/16',
   ...rest
-}: InputOrTextareaProps) {
+}: FieldComponentProps) {
   const { isFocused, showError, borderClassName, handleFocus, handleBlur } = useFieldStatus({
     isSuccess,
     isFailure,
@@ -41,8 +41,10 @@ export default function FormField({
       );
     }
     if (field === 'file-input') {
-      const { uploadType, image, onImageChange } = rest as FileInputProps;
-      return <FileInput uploadType={uploadType} image={image} onImageChange={onImageChange} />;
+      const { FileInputUsage, image, onImageChange } = rest as FileInputProps;
+      return (
+        <FileInput FileInputUsage={FileInputUsage} image={image} onImageChange={onImageChange} />
+      );
     }
   };
 

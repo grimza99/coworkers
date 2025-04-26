@@ -18,7 +18,7 @@ export interface TextareaProps extends TextareaHTMLAttributes<HTMLTextAreaElemen
 export type UploadImageType = 'board' | 'team' | 'user';
 
 export interface FileInputProps {
-  uploadType: UploadImageType;
+  FileInputUsage: UploadImageType;
   image: string;
   onImageChange: (e: React.ChangeEvent<HTMLInputElement>) => void;
 }
@@ -34,7 +34,7 @@ export interface FormFieldProps {
   labelSize?: '16/16' | '14/16' | '16/20';
 }
 
-export type InputOrTextareaProps =
+export type FieldComponentProps =
   | (InputProps & FormFieldProps & { field?: 'input' })
   | (TextareaProps & FormFieldProps & { field?: 'textarea' })
   | (FileInputProps & FormFieldProps & { field?: 'file-input' });
