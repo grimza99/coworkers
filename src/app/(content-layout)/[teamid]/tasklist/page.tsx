@@ -1,12 +1,11 @@
 'use client';
 
 import { useState } from 'react';
-import HandleDate from './_tasklist/HandleDate';
+import HandleDate from './_tasklist/components/HandleDate';
 import clsx from 'clsx';
-import TaskListItem from '@/components/task-list-item/TaskListItem';
-import { format, isValid } from 'date-fns';
 import { TaskTest1, TaskTest2, TaskTest3 } from './_tasklist/mockData';
 import { TaskListResponse } from './_tasklist/types/task-list-type';
+import ListItems from './_tasklist/components/ListItems';
 
 const MOCK_DATA = [TaskTest1, TaskTest2, TaskTest3];
 
@@ -22,21 +21,6 @@ export default function Page() {
   const handleClickCreateTask = () => {
     console.log('새로운 목록');
     //새로운 목록 모달 띄우기
-  };
-
-  const handleClickPopUpDetail = () => {
-    console.log('디테일');
-    //디테일 할일 팝업
-  };
-
-  const handleClickItemEdit = () => {
-    console.log('수정하기');
-    //수정
-  };
-
-  const handleClickItemDelete = () => {
-    console.log('삭제하기');
-    //삭제
   };
 
   return (
@@ -67,40 +51,7 @@ export default function Page() {
             );
           })}
         </div>
-        <div>
-          {currentTaskItem.map((item) => {
-            const [isDone, setIsDone] = useState(Boolean(item.doneAt));
-
-            const safeFormatDate = (dateString: string | undefined | null) => {
-              if (!dateString) return '';
-
-              const date = new Date(dateString);
-              if (!isValid(date)) return '';
-
-              return format(date, 'yyyy년 MM월 dd일');
-            };
-
-            const handleClickItemStatusChange = () => {
-              setIsDone((prev) => !prev);
-              //done 상태로 바꾸는 api 작성
-            };
-            return (
-              <TaskListItem
-                key={item.id}
-                type="taskList"
-                onCheckStatusChange={handleClickItemStatusChange}
-                onEdit={handleClickItemEdit}
-                onDelete={handleClickItemDelete}
-                onClick={handleClickPopUpDetail}
-                isDone={isDone}
-                description={item.description}
-                commentCount={item.commentCount}
-                date={safeFormatDate(item.date)}
-                frequency={item.frequency}
-              />
-            );
-          })}
-        </div>
+        <ListItems ListItem={currentTaskItem} />
       </div>
     </div>
   );
