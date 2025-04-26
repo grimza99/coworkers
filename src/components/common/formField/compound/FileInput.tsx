@@ -2,11 +2,11 @@
 
 import { useRef } from 'react';
 import Input from './Input';
-import UploadImage from './UploadImage';
+import ImageUploader from './ImageUploader';
 import { FileInputProps } from '../type';
 
 export default function FileInput({
-  FileInputUsage = 'user',
+  imageUploaderType = 'user',
   image,
   onImageChange,
 }: FileInputProps) {
@@ -21,7 +21,7 @@ export default function FileInput({
         className="hidden"
         onChange={onImageChange}
       />
-      <UploadImage FileInputUsage={FileInputUsage} image={image} inputRef={inputRef} />
+      <ImageUploader imageUploaderType={imageUploaderType} image={image} inputRef={inputRef} />
     </div>
   );
 }
