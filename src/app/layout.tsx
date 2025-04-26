@@ -1,5 +1,6 @@
 import type { Metadata } from 'next';
 import './globals.css';
+import Header from '@/components/layout/gnb/Header';
 
 export const metadata: Metadata = {
   title: 'Coworkers',
@@ -12,9 +13,9 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="ko">
-      <body>
-        {children}
-        <div id="modal-container"></div>
+      <body className="flex min-h-screen flex-col">
+        <Header />
+        <div>{children}</div>
       </body>
     </html>
   );

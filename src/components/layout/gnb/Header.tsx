@@ -2,14 +2,24 @@
 
 import Image from 'next/image';
 import Link from 'next/link';
-import { useOutSideClickAutoClose } from '@/utils/use-outside-click-auto-close';
+import { usePathname } from 'next/navigation';
 import Logo from './Logo';
 import SideMenu from './SideMenu';
-import { OptionSelector } from '@/components/common/dropdown/OptionSelector';
 import DropDownProfileItemList from '@/components/common/dropdown/ProfileItem';
 import DropDownGroupsItem from '@/components/common/dropdown/GroupsItem';
 import DropDown from '@/components/common/dropdown/index';
-// @TODO: 주소별로 헤더가 다르게 뜨도록
+import { OptionSelector } from '@/components/common/dropdown/OptionSelector';
+import { useOutSideClickAutoClose } from '@/utils/use-outside-click-auto-close';
+import Button from '@/components/common/Button';
+
+const MINIMAL_HEADER_PATHS = [
+  '/login',
+  '/signup',
+  '/oauth/signup/kakao',
+  '/reset-password',
+  '/addteam',
+  '/jointeam',
+];
 
 // @TODO: 데이터 연결
 // 목데이터
@@ -36,14 +46,29 @@ const USER_DATA = {
 };
 
 const userName = USER_DATA.name;
-const selectedTeam = USER_DATA.teams[0]?.name || '';
+const selectedTeam = USER_DATA.teams[0]?.name || ''; // @TODO: default value 선택한 index value로 할 수 있도록
 
 export default function Header() {
+  const pathname = usePathname();
   const {
     ref: sideMenuRef,
     isOpen: isSideMenuOpen,
     setIsOpen: setIsSideMenuOpen,
   } = useOutSideClickAutoClose(false);
+
+  const isMinimalHeader = MINIMAL_HEADER_PATHS.includes(pathname);
+
+  if (isMinimalHeader) {
+    return (
+      <header className="bg-bg200 border-border sticky top-0 flex h-15 w-full justify-center border-b-1 py-[14px]">
+        <div className="flex w-full max-w-300 items-center justify-between p-4">
+          <Logo />
+        </div>
+      </header>
+    );
+  }
+
+  const hasTeam = USER_DATA.teams.length > 0;
 
   return (
     <header className="bg-bg200 border-border sticky top-0 flex h-15 w-full justify-center border-b-1 py-[14px]">
@@ -61,24 +86,23 @@ export default function Header() {
             <Logo />
           </div>
 
-          <div className="text-lg-md relative hidden items-center gap-8 md:flex lg:gap-10">
-            <OptionSelector
-              placement=""
-              size="xl"
-              defaultValue={selectedTeam}
-              options={USER_DATA.teams.map((group) => {
-                return <DropDownGroupsItem key={group.id} group={group} />;
-              })}
-              onSelect={() => {}}
-              footerBtn={
-                <Link
-                  href={`/groups`}
-                  className="text-text-primary border-text-primary flex h-12 w-46 items-center justify-center rounded-xl border"
-                >
-                  + 팀 추가하기
-                </Link>
-              }
-            />
+          <div className="text-lg-md relative hidden items-center gap-8 md:flex lg:gap-y-10">
+            {hasTeam && (
+              <OptionSelector
+                placement=""
+                size="xl"
+                defaultValue={selectedTeam}
+                options={USER_DATA.teams.map((group) => {
+                  return <DropDownGroupsItem key={group.id} group={group} />;
+                })}
+                onSelect={() => {}}
+                footerBtn={
+                  <Button variant="ghost-white" size="fullWidth" fontSize="16">
+                    <Link href="/groups">+ 팀 추가하기</Link>
+                  </Button>
+                }
+              />
+            )}
             <Link href={`/articles`} className="cursor:pointer mt-0">
               자유게시판
             </Link>
