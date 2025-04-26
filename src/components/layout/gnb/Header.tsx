@@ -10,9 +10,9 @@ import DropDownGroupsItem from '@/components/common/dropdown/GroupsItem';
 import DropDown from '@/components/common/dropdown/index';
 import { OptionSelector } from '@/components/common/dropdown/OptionSelector';
 import { useOutSideClickAutoClose } from '@/utils/use-outside-click-auto-close';
+import Button from '@/components/common/Button';
 
 const MINIMAL_HEADER_PATHS = [
-  '/',
   '/login',
   '/signup',
   '/oauth/signup/kakao',
@@ -86,7 +86,7 @@ export default function Header() {
             <Logo />
           </div>
 
-          <div className="text-lg-md relative hidden items-center gap-8 md:flex lg:gap-10">
+          <div className="text-lg-md relative hidden items-center gap-8 md:flex lg:gap-y-10">
             {hasTeam && (
               <OptionSelector
                 placement=""
@@ -97,12 +97,9 @@ export default function Header() {
                 })}
                 onSelect={() => {}}
                 footerBtn={
-                  <Link
-                    href={`/groups`}
-                    className="text-text-primary border-text-primary flex h-12 w-46 items-center justify-center rounded-xl border"
-                  >
-                    + 팀 추가하기
-                  </Link>
+                  <Button variant="ghost-white" size="fullWidth" fontSize="16">
+                    <Link href="/groups">+ 팀 추가하기</Link>
+                  </Button>
                 }
               />
             )}
