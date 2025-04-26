@@ -2,6 +2,7 @@
 
 import { useState } from 'react';
 import FormField from '@/components/common/formField';
+import Button from '@/components/common/Button';
 
 export default function SignupForm() {
   const [name, setName] = useState('');
@@ -11,8 +12,8 @@ export default function SignupForm() {
   const isValidEmail = /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(mail);
 
   return (
-    <>
-      <form className="flex w-full flex-col gap-y-10">
+    <div className="flex w-full justify-center">
+      <form className="flex w-full max-w-[343px] flex-col gap-y-10 md:max-w-115">
         <div className="flex flex-col gap-4">
           <FormField
             textField="input"
@@ -59,13 +60,10 @@ export default function SignupForm() {
             placeholder="비밀번호를 다시 입력해주세요."
           />
         </div>
-        <button
-          type="submit"
-          className="bg-primary text-lg-semi h-12 items-center justify-center rounded-xl px-4 py-3"
-        >
+        <Button type="submit" variant="solid" size="fullWidth" fontSize="16">
           회원가입
-        </button>
+        </Button>
       </form>
-    </>
+    </div>
   );
 }
