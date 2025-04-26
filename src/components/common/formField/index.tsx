@@ -26,7 +26,7 @@ export default function FormField({
     onBlur: (rest as InputProps).onBlur,
   });
 
-  const inputsField = () => {
+  const renderField = () => {
     if (field === 'textarea') {
       return <Textarea {...(rest as TextareaProps)} />;
     }
@@ -53,7 +53,7 @@ export default function FormField({
           {required && <span className="text-tertiary text-2lg-bold sm:text-xl-bold">*</span>}
           {label}
         </label>
-        {inputsField()}
+        {renderField()}
       </div>
       {!isFocused && showError && errorMessage && (
         <span className="text-danger text-md-md">{errorMessage}</span>
