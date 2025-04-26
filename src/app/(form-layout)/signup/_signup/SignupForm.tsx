@@ -12,8 +12,9 @@ export default function SignupForm() {
   const isValidEmail = /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(mail);
 
   return (
-    <div className="flex w-full justify-center">
-      <form className="flex w-full max-w-[343px] flex-col gap-y-10 md:max-w-115">
+    // <form className="flex w-full max-w-[343px] flex-col gap-y-10 md:max-w-115">
+    <>
+      <form className="flex w-full flex-col gap-y-10 md:max-w-115">
         <div className="flex flex-col gap-4">
           <FormField
             textField="input"
@@ -64,6 +65,6 @@ export default function SignupForm() {
           회원가입
         </Button>
       </form>
-    </div>
+    </>
   );
 }
