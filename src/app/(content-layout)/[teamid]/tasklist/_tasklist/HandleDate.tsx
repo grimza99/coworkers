@@ -4,7 +4,7 @@ import { useState } from 'react';
 
 import prevIcon from '@/../public/icons/prev-arrow-icon.svg';
 import nextIcon from '@/../public/icons/next-arrow-icon.svg';
-import calendar from '@/../public/icons/calendar.icon.svg';
+import calendar from '@/../public/icons/calendar.svg';
 
 import Image from 'next/image';
 import { addDays, format, subDays } from 'date-fns';
