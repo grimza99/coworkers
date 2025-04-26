@@ -3,12 +3,13 @@
 import clsx from 'clsx';
 import Input from './compound/Input';
 import Textarea from './compound/Textarea';
-import { InputProps, InputOrTextareaProps, TextareaProps } from './type';
+import { InputProps, FieldComponentProps, TextareaProps, FileInputProps } from './type';
 import { GAP_SIZE, LABEL_SIZE } from './style';
 import { useFieldStatus } from './hook/useFieldStatus';
+import FileInput from './compound/FileInput';
 
 export default function FormField({
-  textField = 'input',
+  field = 'input',
   label,
   required,
   isSuccess,
@@ -17,13 +18,35 @@ export default function FormField({
   gapSize = '12',
   labelSize = '16/16',
   ...rest
-}: InputOrTextareaProps) {
+}: FieldComponentProps) {
   const { isFocused, showError, borderClassName, handleFocus, handleBlur } = useFieldStatus({
     isSuccess,
     isFailure,
     onFocus: (rest as InputProps).onFocus,
     onBlur: (rest as InputProps).onBlur,
   });
+
+  const renderField = () => {
+    if (field === 'textarea') {
+      return <Textarea {...(rest as TextareaProps)} />;
+    }
+    if (field === 'input') {
+      return (
+        <Input
+          onFocus={handleFocus}
+          onBlur={handleBlur}
+          borderClassName={borderClassName}
+          {...(rest as InputProps)}
+        />
+      );
+    }
+    if (field === 'file-input') {
+      const { FileInputUsage, image, onImageChange } = rest as FileInputProps;
+      return (
+        <FileInput FileInputUsage={FileInputUsage} image={image} onImageChange={onImageChange} />
+      );
+    }
+  };
 
   return (
     <div className="flex flex-col gap-2">
@@ -32,16 +55,7 @@ export default function FormField({
           {required && <span className="text-tertiary text-2lg-bold sm:text-xl-bold">*</span>}
           {label}
         </label>
-        {textField === 'textarea' ? (
-          <Textarea {...(rest as TextareaProps)} />
-        ) : (
-          <Input
-            onFocus={handleFocus}
-            onBlur={handleBlur}
-            borderClassName={borderClassName}
-            {...(rest as InputProps)}
-          />
-        )}
+        {renderField()}
       </div>
       {!isFocused && showError && errorMessage && (
         <span className="text-danger text-md-md">{errorMessage}</span>
