@@ -1,5 +1,7 @@
 type Frequency = 'DAILY' | 'WEEKLY' | 'ONCE' | 'MONTHLY';
 
+//teamId/groups/[groupId]/task-lists/id
+
 export interface TaskListItemResponse {
   doneBy: {
     user: {
@@ -19,17 +21,19 @@ export interface TaskListItemResponse {
   recurringId: number;
   frequency: Frequency;
   updatedAt: string;
-  doneAt: string | null;
+  doneAt: string;
   date: string;
   description: string;
   name: string;
   id: number;
 }
 
-export interface TaskListItemType {
-  commentCount: number;
-  date: string;
-  frequency: Frequency;
-  doneAt: string | null;
-  description: string;
+export interface TaskListResponse {
+  displayIndex: number;
+  groupId: number;
+  updatedAt: string;
+  createdAt: string;
+  name: string;
+  id: number;
+  tasks: TaskListItemResponse[];
 }
