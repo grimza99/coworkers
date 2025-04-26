@@ -1,16 +1,10 @@
 'use client';
 
-import { useRef, useEffect, useCallback, TextareaHTMLAttributes } from 'react';
+import { useRef, useEffect, useCallback } from 'react';
 import debounce from 'lodash.debounce';
 import clsx from 'clsx';
-import { SHARE_TEXTFIELD_STYLE } from '../input';
-
-interface TextareaProps extends TextareaHTMLAttributes<HTMLTextAreaElement> {
-  rightSlot?: React.ReactNode;
-  height?: number;
-  isBorder?: boolean;
-  className?: string;
-}
+import { COMMON_TEXTFIELD_STYLE } from '../style';
+import { TextareaProps } from '../type';
 
 export default function Textarea({
   rightSlot = null,
@@ -45,18 +39,18 @@ export default function Textarea({
     <div
       className={clsx(
         'bg-bg200 flex w-full items-start gap-2',
-        !isBorder && 'border-border rounded-xl border px-4 py-2 sm:px-6 sm:py-4'
+        isBorder && 'border-border rounded-xl border px-4 py-2 sm:px-6 sm:py-4'
       )}
     >
       <textarea
+        {...rest}
         ref={textareaRef}
         onInput={resizeTextareaHeight}
         className={clsx(
           'flex w-full resize-none items-center justify-center pt-1',
-          SHARE_TEXTFIELD_STYLE,
+          COMMON_TEXTFIELD_STYLE,
           className
         )}
-        {...rest}
         style={{
           height: `${height}px`,
         }}
