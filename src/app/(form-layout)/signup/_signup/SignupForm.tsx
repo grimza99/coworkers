@@ -5,11 +5,21 @@ import FormField from '@/components/common/formField';
 import Button from '@/components/common/Button';
 
 export default function SignupForm() {
-  const [name, setName] = useState('');
-  const [email, setEmail] = useState('');
-  const [password, setPassword] = useState('');
-  const [confirmPassword, setConfirmPassword] = useState('');
-  const isValidEmail = /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email);
+  const [formData, setFormData] = useState({
+    name: '',
+    email: '',
+    password: '',
+    confirmPassword: '',
+  });
+
+  const handleChange = (key: keyof typeof formData, value: string) => {
+    setFormData((prev) => ({
+      ...prev,
+      [key]: value.trim(),
+    }));
+  };
+
+  const isValidEmail = /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(formData.email);
 
   return (
     <>
@@ -18,11 +28,11 @@ export default function SignupForm() {
           <FormField
             field="input"
             label="이름"
-            isFailure={name === ''}
-            isSuccess={name !== ''}
+            isFailure={formData.name === ''}
+            isSuccess={formData.name !== ''}
             errorMessage="이름을 입력해주세요."
-            value={name}
-            onChange={(e) => setName(e.target.value.trim())}
+            value={formData.name}
+            onChange={(e) => handleChange('name', e.target.value)}
             placeholder="이름을 입력해주세요."
           />
           <FormField
@@ -31,32 +41,38 @@ export default function SignupForm() {
             isFailure={!isValidEmail}
             isSuccess={isValidEmail}
             errorMessage="유효한 이메일이 아닙니다."
-            value={email}
-            onChange={(e) => setEmail(e.target.value.trim())}
+            value={formData.email}
+            onChange={(e) => handleChange('email', e.target.value)}
             placeholder="이메일을 입력해주세요."
           />
           <FormField
             field="input"
             label="비밀번호"
             type="password"
-            isFailure={password === ''}
-            isSuccess={password !== ''}
+            isFailure={formData.password === ''}
+            isSuccess={formData.password !== ''}
             errorMessage="비밀번호를 입력해주세요."
-            value={password}
-            onChange={(e) => setPassword(e.target.value.trim())}
+            value={formData.password}
+            onChange={(e) => handleChange('password', e.target.value)}
             placeholder="비밀번호를 입력해주세요."
           />
           <FormField
             field="input"
             label="비밀번호 확인"
             type="password"
-            isFailure={confirmPassword === '' || confirmPassword !== password}
-            isSuccess={confirmPassword !== '' && confirmPassword === password}
-            errorMessage={
-              confirmPassword === '' ? '비밀번호를 입력해주세요.' : '비밀번호가 일치하지 않습니다.'
+            isFailure={
+              formData.confirmPassword === '' || formData.confirmPassword !== formData.password
             }
-            value={confirmPassword}
-            onChange={(e) => setConfirmPassword(e.target.value.trim())}
+            isSuccess={
+              formData.confirmPassword !== '' && formData.confirmPassword === formData.password
+            }
+            errorMessage={
+              formData.confirmPassword === ''
+                ? '비밀번호를 입력해주세요.'
+                : '비밀번호가 일치하지 않습니다.'
+            }
+            value={formData.confirmPassword}
+            onChange={(e) => handleChange('confirmPassword', e.target.value)}
             placeholder="비밀번호를 다시 입력해주세요."
           />
         </div>
