@@ -6,13 +6,12 @@ import Button from '@/components/common/Button';
 
 export default function SignupForm() {
   const [name, setName] = useState('');
-  const [mail, setMail] = useState('');
+  const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [confirmPassword, setConfirmPassword] = useState('');
-  const isValidEmail = /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(mail);
+  const isValidEmail = /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email);
 
   return (
-    // <form className="flex w-full max-w-[343px] flex-col gap-y-10 md:max-w-115">
     <>
       <form className="flex w-full flex-col gap-y-10 md:max-w-115">
         <div className="flex flex-col gap-4">
@@ -32,8 +31,8 @@ export default function SignupForm() {
             isFailure={!isValidEmail}
             isSuccess={isValidEmail}
             errorMessage="유효한 이메일이 아닙니다."
-            value={mail}
-            onChange={(e) => setMail(e.target.value)}
+            value={email}
+            onChange={(e) => setEmail(e.target.value)}
             placeholder="이메일을 입력해주세요."
           />
           <FormField
