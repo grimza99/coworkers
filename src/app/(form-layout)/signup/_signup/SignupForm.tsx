@@ -1,5 +1,3 @@
-'use client';
-
 import { useState, ChangeEvent } from 'react';
 import FormField from '@/components/common/formField';
 import Button from '@/components/common/Button';
