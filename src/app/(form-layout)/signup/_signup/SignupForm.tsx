@@ -22,7 +22,7 @@ export default function SignupForm() {
             isSuccess={name !== ''}
             errorMessage="이름을 입력해주세요."
             value={name}
-            onChange={(e) => setName(e.target.value)}
+            onChange={(e) => setName(e.target.value.trim())}
             placeholder="이름을 입력해주세요."
           />
           <FormField
@@ -32,7 +32,7 @@ export default function SignupForm() {
             isSuccess={isValidEmail}
             errorMessage="유효한 이메일이 아닙니다."
             value={email}
-            onChange={(e) => setEmail(e.target.value)}
+            onChange={(e) => setEmail(e.target.value.trim())}
             placeholder="이메일을 입력해주세요."
           />
           <FormField
@@ -43,7 +43,7 @@ export default function SignupForm() {
             isSuccess={password !== ''}
             errorMessage="비밀번호를 입력해주세요."
             value={password}
-            onChange={(e) => setPassword(e.target.value)}
+            onChange={(e) => setPassword(e.target.value.trim())}
             placeholder="비밀번호를 입력해주세요."
           />
           <FormField
@@ -56,7 +56,7 @@ export default function SignupForm() {
               confirmPassword === '' ? '비밀번호를 입력해주세요.' : '비밀번호가 일치하지 않습니다.'
             }
             value={confirmPassword}
-            onChange={(e) => setConfirmPassword(e.target.value)}
+            onChange={(e) => setConfirmPassword(e.target.value.trim())}
             placeholder="비밀번호를 다시 입력해주세요."
           />
         </div>
