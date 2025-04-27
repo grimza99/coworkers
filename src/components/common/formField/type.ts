@@ -18,7 +18,7 @@ export interface TextareaProps extends TextareaHTMLAttributes<HTMLTextAreaElemen
 export type ImageUploaderType = 'board' | 'team' | 'user';
 
 export interface FileInputProps {
-  imageUploaderType: ImageUploaderType;
+  imageUploaderType?: ImageUploaderType;
   image: string;
   onImageChange: (e: React.ChangeEvent<HTMLInputElement>) => void;
 }
