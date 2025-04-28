@@ -32,7 +32,7 @@ export default function SignupForm() {
       name: 'name',
       isFailure: !validateName(formData.name),
       isSuccess: validateName(formData.name),
-      errorMessage: '이름은 2자 이상 20자까지 입력할 수 있습니다.',
+      errorMessage: '닉네임은 1자 이상 30자까지 입력할 수 있습니다.',
       placeholder: '이름을 입력해주세요.',
     },
     {
@@ -51,7 +51,8 @@ export default function SignupForm() {
       type: 'password',
       isFailure: !validatePassword(formData.password),
       isSuccess: validatePassword(formData.password),
-      errorMessage: '8~20자의 영문 대소문자 및 특수문자를 포함해주세요.',
+      errorMessage:
+        '비밀번호는 8자 이상 20자 이하이며 영문자, 숫자, 특수문자(!@#$%^&*)만 사용할 수 있습니다.',
       placeholder: '비밀번호를 입력해주세요.',
     },
     {
