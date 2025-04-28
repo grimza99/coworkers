@@ -1,5 +1,4 @@
 export const validateEmail = (email: string) => {
-  // @TODO: 중복된 이메일인지 체크
   const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
   return emailRegex.test(email);
 };
@@ -14,6 +13,5 @@ export const validateConfirmPassword = (password: string, confirmPassword: strin
 };
 
 export const validateName = (name: string) => {
-  // @TODO: 트림, 중복된 이름인지도 체크
   return name.trim().length > 0;
 };
