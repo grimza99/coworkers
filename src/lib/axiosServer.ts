@@ -12,9 +12,8 @@ const axiosServer = axios.create({
 
 axiosServer.interceptors.request.use(async (config) => {
   const token = await getCookieInServer('accessToken');
-  if (token) {
-    config.headers.Authorization = `Bearer ${token}`;
-  }
+  if (!token) return config;
+  config.headers.set('Authorization', `Bearer ${token}`);
   return config;
 });
 
