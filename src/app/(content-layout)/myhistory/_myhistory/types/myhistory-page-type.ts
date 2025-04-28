@@ -1,3 +1,5 @@
+type FrequencyType = 'DAILY' | 'WEEKLY' | 'MONTHLY' | 'ONCE';
+
 export interface TaskDoneProp {
   description: string;
   doneAt: string;
@@ -10,7 +12,7 @@ export interface TaskDoneApiResponse extends TaskDoneProp {
   writerId: number;
   userId: number;
   deletedAt: string;
-  frequency: string;
+  frequency: FrequencyType;
   name: string;
   recurringId: number;
   updatedAt: string;
