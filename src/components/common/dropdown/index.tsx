@@ -36,7 +36,13 @@ export default function DropDown({
 
   return (
     <div className="relative h-fit w-fit" ref={ref}>
-      <div className="cursor-pointer" onClick={() => setIsOpen((prev) => !prev)}>
+      <div
+        className="cursor-pointer"
+        onClick={(e: React.MouseEvent) => {
+          e.stopPropagation();
+          setIsOpen((prev) => !prev);
+        }}
+      >
         {dropDownOpenBtn}
       </div>
 

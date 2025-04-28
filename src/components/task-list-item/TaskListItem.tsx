@@ -48,7 +48,10 @@ export default function TaskListItem({
       <div className="flex shrink-0 items-center justify-start gap-2">
         <Image
           src={checkIcon}
-          onClick={onCheckStatusChange}
+          onClick={(e: React.MouseEvent) => {
+            e.stopPropagation();
+            onCheckStatusChange?.();
+          }}
           width={24}
           height={24}
           alt="checked"
@@ -82,7 +85,10 @@ export default function TaskListItem({
               </div>
 
               <DropDown
-                onSelect={onDropdownListClick}
+                onSelect={(e: React.MouseEvent<HTMLDivElement>) => {
+                  e.stopPropagation();
+                  onDropdownListClick(e);
+                }}
                 options={DROPDOWN_OPTION_LIST}
                 size="md"
                 dropDownOpenBtn={
