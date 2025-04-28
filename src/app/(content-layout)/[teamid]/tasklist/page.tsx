@@ -3,8 +3,8 @@
 import { useState } from 'react';
 import HandleDate from './_tasklist/components/HandleDate';
 import clsx from 'clsx';
-import { TaskTest1, TaskTest2, TaskTest3 } from './_tasklist/mockData';
-import { TaskListResponse } from './_tasklist/types/task-list-type';
+import { TaskTest1, TaskTest2, TaskTest3 } from './_tasklist/mock-data-task-lits-page';
+import { TaskListResponse } from './_tasklist/types/task-list-page-type';
 import ListItems from './_tasklist/components/ListItems';
 import Button from '@/components/common/Button';
 

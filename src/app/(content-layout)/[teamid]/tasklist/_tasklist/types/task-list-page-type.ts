@@ -1,7 +1,7 @@
 type Frequency = 'DAILY' | 'WEEKLY' | 'ONCE' | 'MONTHLY';
 
 //teamId/groups/[groupId]/task-lists/id
-
+//스태시를 위한 주석
 export interface TaskListItemResponse {
   doneBy: {
     user: {

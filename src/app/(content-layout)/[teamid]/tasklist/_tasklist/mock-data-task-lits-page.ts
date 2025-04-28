@@ -1,5 +1,5 @@
-import { TaskListItemResponse, TaskListResponse } from './types/task-list-type';
-
+import { TaskListItemResponse, TaskListResponse } from './types/task-list-page-type';
+//스태시를 위한 주석
 export const Tasks1: TaskListItemResponse[] = [
   {
     doneBy: {
