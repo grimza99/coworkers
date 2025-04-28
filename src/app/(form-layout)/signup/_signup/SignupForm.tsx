@@ -9,7 +9,7 @@ import {
   validateConfirmPassword,
   validateLengthLimit,
 } from '@/utils/validators';
-import ToggleEyeButton from './PasswordToggleButton';
+import ToggleEyeButton from './ToggleEyeButton';
 
 export default function SignupForm() {
   const [formData, setFormData] = useState({
@@ -19,13 +19,22 @@ export default function SignupForm() {
     confirmPassword: '',
   });
 
-  const [showPassword, setShowPassword] = useState(false);
-  const [showConfirmPassword, setShowConfirmPassword] = useState(false);
+  const [isPasswordVisible, setIsPasswordVisible] = useState({
+    password: false,
+    confirmPassword: false,
+  });
 
   const setFieldValue = (key: keyof typeof formData, value: string) => {
     setFormData((prev) => ({
       ...prev,
       [key]: value.trim(),
+    }));
+  };
+
+  const togglePasswordVisibility = (key: 'password' | 'confirmPassword') => {
+    setIsPasswordVisible((prev) => ({
+      ...prev,
+      [key]: !prev[key],
     }));
   };
 
@@ -51,19 +60,24 @@ export default function SignupForm() {
     {
       label: '비밀번호',
       name: 'password',
-      type: showPassword ? 'text' : 'password',
+      type: isPasswordVisible.password ? 'text' : 'password',
       isFailure: !validatePassword(formData.password),
       errorMessage:
         formData.password.trim() === ''
           ? '비밀번호를 입력해주세요.'
           : '비밀번호는 8자 이상 20자 이하이며 영문자, 숫자, 특수문자(!@#$%^&*)만 사용할 수 있습니다.',
       placeholder: '비밀번호를 입력해주세요.',
-      rightSlot: <ToggleEyeButton isVisible={showPassword} onToggle={setShowPassword} />,
+      rightSlot: (
+        <ToggleEyeButton
+          isVisible={isPasswordVisible.password}
+          onToggle={() => togglePasswordVisibility('password')}
+        />
+      ),
     },
     {
       label: '비밀번호 확인',
       name: 'confirmPassword',
-      type: showConfirmPassword ? 'text' : 'password',
+      type: isPasswordVisible.confirmPassword ? 'text' : 'password',
       isFailure: !validateConfirmPassword(formData.password, formData.confirmPassword),
       errorMessage:
         formData.confirmPassword.trim() === ''
@@ -71,7 +85,10 @@ export default function SignupForm() {
           : '비밀번호가 일치하지 않습니다.',
       placeholder: '비밀번호를 다시 한 번 입력해주세요.',
       rightSlot: (
-        <ToggleEyeButton isVisible={showConfirmPassword} onToggle={setShowConfirmPassword} />
+        <ToggleEyeButton
+          isVisible={isPasswordVisible.confirmPassword}
+          onToggle={() => togglePasswordVisibility('confirmPassword')}
+        />
       ),
     },
   ];
