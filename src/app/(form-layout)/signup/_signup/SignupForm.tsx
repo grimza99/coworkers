@@ -7,7 +7,7 @@ import {
   validateEmail,
   validatePassword,
   validateConfirmPassword,
-  validateName,
+  validateEmptyField,
 } from '@/utils/validators';
 
 export default function SignupForm() {
@@ -29,7 +29,7 @@ export default function SignupForm() {
     {
       label: '이름',
       name: 'name',
-      isFailure: !validateName(formData.name),
+      isFailure: !validateEmptyField(formData.name),
       errorMessage: '닉네임은 10글자 이하로 작성해주세요.',
       placeholder: '이름을 입력해주세요.',
     },
