@@ -1,6 +1,7 @@
 'use client';
 
 import { useState, ChangeEvent } from 'react';
+import Image from 'next/image';
 import FormField from '@/components/common/formField';
 import Button from '@/components/common/Button';
 import {
@@ -9,6 +10,8 @@ import {
   validateConfirmPassword,
   validateEmptyField,
 } from '@/utils/validators';
+import visibilityOnIcon from '@/../public/icons/visibility_on.svg';
+import visibilityOffIcon from '@/../public/icons/visibility_off.svg';
 
 export default function SignupForm() {
   const [formData, setFormData] = useState({
@@ -17,6 +20,9 @@ export default function SignupForm() {
     password: '',
     confirmPassword: '',
   });
+
+  const [showPassword, setShowPassword] = useState(false);
+  const [showConfirmPassword, setShowConfirmPassword] = useState(false);
 
   const setFieldValue = (key: keyof typeof formData, value: string) => {
     setFormData((prev) => ({
@@ -47,24 +53,44 @@ export default function SignupForm() {
     {
       label: '비밀번호',
       name: 'password',
-      type: 'password',
+      type: showPassword ? 'text' : 'password',
       isFailure: !validatePassword(formData.password),
       errorMessage:
         formData.password.trim() === ''
           ? '비밀번호를 입력해주세요.'
           : '비밀번호는 8자 이상 20자 이하이며 영문자, 숫자, 특수문자(!@#$%^&*)만 사용할 수 있습니다.',
       placeholder: '비밀번호를 입력해주세요.',
+      rightSlot: (
+        <Image
+          src={showPassword ? visibilityOnIcon : visibilityOffIcon}
+          width={24}
+          height={24}
+          alt="Toggle Password Visibility"
+          className="cursor-pointer"
+          onClick={() => setShowPassword((prev) => !prev)}
+        />
+      ),
     },
     {
       label: '비밀번호 확인',
       name: 'confirmPassword',
-      type: 'password',
+      type: showConfirmPassword ? 'text' : 'password',
       isFailure: !validateConfirmPassword(formData.password, formData.confirmPassword),
       errorMessage:
         formData.confirmPassword.trim() === ''
           ? '비밀번호를 입력해주세요.'
           : '비밀번호가 일치하지 않습니다.',
       placeholder: '비밀번호를 다시 한 번 입력해주세요.',
+      rightSlot: (
+        <Image
+          src={showConfirmPassword ? visibilityOnIcon : visibilityOffIcon}
+          width={24}
+          height={24}
+          alt="Toggle Confirm Password Visibility"
+          className="cursor-pointer"
+          onClick={() => setShowConfirmPassword((prev) => !prev)}
+        />
+      ),
     },
   ];
 
@@ -84,6 +110,7 @@ export default function SignupForm() {
               setFieldValue(field.name as keyof typeof formData, e.target.value)
             }
             placeholder={field.placeholder}
+            rightSlot={field.rightSlot}
           />
         ))}
       </div>

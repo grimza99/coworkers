@@ -14,5 +14,5 @@ export const validateConfirmPassword = (password: string, confirmPassword: strin
 
 export const validateEmptyField = (name: string) => {
   const trimmedName = name.trim();
-  return trimmedName.length >= 1 && trimmedName.length <= 30;
+  return trimmedName.length >= 1 && trimmedName.length <= 10;
 };
