@@ -30,14 +30,18 @@ export default function SignupForm() {
       label: '이름',
       name: 'name',
       isFailure: !validateEmptyField(formData.name),
-      errorMessage: '닉네임은 10글자 이하로 작성해주세요.',
+      errorMessage:
+        formData.name.trim() === ''
+          ? '이름을 입력해주세요.'
+          : '닉네임은 10글자 이하로 작성해주세요.', // ✅ 조건별 에러메시지 다르게!
       placeholder: '이름을 입력해주세요.',
     },
     {
       label: '이메일',
       name: 'email',
       isFailure: !validateEmail(formData.email),
-      errorMessage: '올바른 이메일 형식이 아닙니다.',
+      errorMessage:
+        formData.email.trim() === '' ? '이메일을 입력해주세요.' : '올바른 이메일 형식이 아닙니다.',
       placeholder: '이메일을 입력해주세요.',
     },
     {
@@ -46,7 +50,9 @@ export default function SignupForm() {
       type: 'password',
       isFailure: !validatePassword(formData.password),
       errorMessage:
-        '비밀번호는 8자 이상 20자 이하이며 영문자, 숫자, 특수문자(!@#$%^&*)만 사용할 수 있습니다.',
+        formData.password.trim() === ''
+          ? '비밀번호를 입력해주세요.'
+          : '비밀번호는 8자 이상 20자 이하이며 영문자, 숫자, 특수문자(!@#$%^&*)만 사용할 수 있습니다.',
       placeholder: '비밀번호를 입력해주세요.',
     },
     {
@@ -55,7 +61,7 @@ export default function SignupForm() {
       type: 'password',
       isFailure: !validateConfirmPassword(formData.password, formData.confirmPassword),
       errorMessage:
-        formData.confirmPassword === ''
+        formData.confirmPassword.trim() === ''
           ? '비밀번호를 입력해주세요.'
           : '비밀번호가 일치하지 않습니다.',
       placeholder: '비밀번호를 다시 한 번 입력해주세요.',
