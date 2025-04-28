@@ -12,17 +12,11 @@ export default function AddTeam() {
           <FormField
             field="file-input"
             label="팀 프로필"
-            gapSize="24"
-            FileInputUsage="team"
+            imageUploaderType="team"
             image=""
             onImageChange={() => {}}
           />
-          <FormField
-            field="input"
-            label="팀 이름"
-            gapSize="24"
-            placeholder="팀 이름을 입력해 주세요."
-          />
+          <FormField field="input" label="팀 이름" placeholder="팀 이름을 입력해 주세요." />
         </div>
         <div className="flex flex-col gap-6">
           <Button type="submit" variant="solid" size="fullWidth">
