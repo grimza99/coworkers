@@ -7,7 +7,7 @@ interface Props {
   data: TaskDoneProp[];
 }
 
-export default function DailyTask({ date, data }: Props) {
+export default function GroupedByDateTaskItem({ date, data }: Props) {
   return (
     <div className="text-lg-md flex flex-col gap-4">
       <p>{format(date, 'yyyy년 MM월 dd일')}</p>

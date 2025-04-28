@@ -1,11 +1,11 @@
 import { TaskDoneProp } from '../types/myhistory-page-type';
-import DailyTask from './DailyTask';
+import GroupedByDateTaskItem from './GroupedByDateTaskItem';
 
 interface Props {
   historyTaskData: TaskDoneProp[];
 }
 
-export default function DailyTaskList({ historyTaskData }: Props) {
+export default function GroupedByDateTaskList({ historyTaskData }: Props) {
   const groupedByDateArray = Object.entries(
     historyTaskData.reduce(
       (acc, item) => {
@@ -26,7 +26,7 @@ export default function DailyTaskList({ historyTaskData }: Props) {
     <>
       <div className="flex flex-col gap-10">
         {groupedByDateArray.map((date, idx) => {
-          return <DailyTask key={idx} date={date.date} data={date.tasks} />;
+          return <GroupedByDateTaskItem key={idx} date={date.date} data={date.tasks} />;
         })}
       </div>
     </>
