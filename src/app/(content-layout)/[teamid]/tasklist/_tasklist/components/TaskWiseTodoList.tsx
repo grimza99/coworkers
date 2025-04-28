@@ -9,7 +9,7 @@ interface Props {
   ListItem: TaskListItemApiResponse[];
 }
 
-export default function DateWiseTaskListItemList({ ListItem }: Props) {
+export default function TaskWiseTodoList({ ListItem }: Props) {
   if (ListItem.length < 1) return null;
 
   return (

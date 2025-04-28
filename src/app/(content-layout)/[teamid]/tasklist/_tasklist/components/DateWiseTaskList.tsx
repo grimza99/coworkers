@@ -2,7 +2,7 @@ import { useEffect, useState } from 'react';
 import clsx from 'clsx';
 import { TaskTest1, TaskTest2, TaskTest3 } from '../mock-data-task-list-page';
 import { TaskListApiResponse } from '../types/task-list-page-type';
-import DateWiseTaskListItemList from './DateWiseTaskListItemList';
+import TaskWiseTodoList from './TaskWiseTodoList';
 
 const MOCK_DATA = [TaskTest1, TaskTest2, TaskTest3];
 
@@ -45,7 +45,7 @@ export default function DateWiseTaskList({ date }: Props) {
           );
         })}
       </div>
-      <DateWiseTaskListItemList ListItem={currentTaskItem} />
+      <TaskWiseTodoList ListItem={currentTaskItem} />
     </div>
   );
 }
