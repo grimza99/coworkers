@@ -31,7 +31,6 @@ export default function SignupForm() {
       label: '이름',
       name: 'name',
       isFailure: !validateName(formData.name),
-      isSuccess: validateName(formData.name),
       errorMessage: '닉네임은 1자 이상 30자까지 입력할 수 있습니다.',
       placeholder: '이름을 입력해주세요.',
     },
@@ -40,7 +39,6 @@ export default function SignupForm() {
       label: '이메일',
       name: 'email',
       isFailure: !validateEmail(formData.email),
-      isSuccess: validateEmail(formData.email),
       errorMessage: '올바른 이메일 형식이 아닙니다.',
       placeholder: '이메일을 입력해주세요.',
     },
@@ -50,7 +48,6 @@ export default function SignupForm() {
       name: 'password',
       type: 'password',
       isFailure: !validatePassword(formData.password),
-      isSuccess: validatePassword(formData.password),
       errorMessage:
         '비밀번호는 8자 이상 20자 이하이며 영문자, 숫자, 특수문자(!@#$%^&*)만 사용할 수 있습니다.',
       placeholder: '비밀번호를 입력해주세요.',
@@ -61,7 +58,6 @@ export default function SignupForm() {
       name: 'confirmPassword',
       type: 'password',
       isFailure: !validateConfirmPassword(formData.password, formData.confirmPassword),
-      isSuccess: validateConfirmPassword(formData.password, formData.confirmPassword),
       errorMessage:
         formData.confirmPassword === ''
           ? '비밀번호를 입력해주세요.'
@@ -80,7 +76,6 @@ export default function SignupForm() {
             label={field.label}
             type={field.type}
             isFailure={field.isFailure}
-            isSuccess={field.isSuccess}
             errorMessage={field.errorMessage}
             value={formData[field.name as keyof typeof formData]}
             onChange={(e: ChangeEvent<HTMLInputElement>) =>
