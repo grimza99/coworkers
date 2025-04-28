@@ -1,3 +1,4 @@
+'use client';
 import { useEffect, useState } from 'react';
 import clsx from 'clsx';
 import { TaskTest1, TaskTest2, TaskTest3 } from '../mock-data-task-list-page';
