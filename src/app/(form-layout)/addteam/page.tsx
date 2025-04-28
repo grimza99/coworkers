@@ -6,7 +6,7 @@ import FormField from '@/components/common/formField';
 export default function AddTeam() {
   return (
     <div className="flex w-full flex-col items-center gap-20">
-      <h1 className="text-4xl">팀 수정하기</h1>
+      <h1 className="text-4xl">팀 생성하기</h1>
       <form className="flex w-full flex-col gap-10">
         <div className="flex w-full flex-col gap-6">
           <FormField
