@@ -152,7 +152,7 @@ export const Tasks2: TaskListItemResponse[] = [
     date: '2025-04-26T06:57:31.589Z',
     description: '111111111111',
     name: '',
-    id: 0,
+    id: 1,
   },
   {
     doneBy: {
@@ -177,7 +177,7 @@ export const Tasks2: TaskListItemResponse[] = [
     date: '2025-04-26T06:57:31.589Z',
     description: '111111111111',
     name: '',
-    id: 0,
+    id: 2,
   },
   {
     doneBy: {
@@ -202,7 +202,7 @@ export const Tasks2: TaskListItemResponse[] = [
     date: '',
     description: '',
     name: '',
-    id: 0,
+    id: 3,
   },
 ];
 export const Tasks3: TaskListItemResponse[] = [
@@ -254,7 +254,7 @@ export const Tasks3: TaskListItemResponse[] = [
     date: '2025-04-26T06:57:31.589Z',
     description: '',
     name: '',
-    id: 0,
+    id: 1,
   },
   {
     doneBy: {
@@ -279,7 +279,7 @@ export const Tasks3: TaskListItemResponse[] = [
     date: '2025-04-26T06:57:31.589Z',
     description: '',
     name: '',
-    id: 0,
+    id: 2,
   },
   {
     doneBy: {
@@ -304,35 +304,34 @@ export const Tasks3: TaskListItemResponse[] = [
     date: '',
     description: '',
     name: '',
-    id: 0,
+    id: 3,
   },
 ];
 
 export const TaskTest1: TaskListResponse = {
   displayIndex: 0,
-  groupId: 0,
+  groupId: 123,
   updatedAt: '2025-04-26T06:57:31.589Z',
   createdAt: '2025-04-26T06:57:31.589Z',
   name: '태스크1',
-  id: 0,
+  id: 1545,
   tasks: Tasks1,
 };
-
 export const TaskTest2: TaskListResponse = {
   displayIndex: 0,
-  groupId: 0,
+  groupId: 34,
   updatedAt: '2025-04-26T06:57:31.589Z',
   createdAt: '2025-04-26T06:57:31.589Z',
   name: '태스크2',
-  id: 0,
+  id: 454,
   tasks: Tasks2,
 };
 export const TaskTest3: TaskListResponse = {
   displayIndex: 0,
-  groupId: 0,
+  groupId: 45,
   updatedAt: '2025-04-26T06:57:31.589Z',
   createdAt: '2025-04-26T06:57:31.589Z',
   name: '태스크3',
-  id: 0,
+  id: 56526,
   tasks: Tasks3,
 };
