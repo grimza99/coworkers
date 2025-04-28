@@ -12,7 +12,7 @@ export const validateConfirmPassword = (password: string, confirmPassword: strin
   return password.trim() !== '' && confirmPassword.trim() !== '' && password === confirmPassword;
 };
 
-export const validateEmptyField = (name: string) => {
+export const validateLengthLimit = (name: string) => {
   const trimmedName = name.trim();
   return trimmedName.length >= 1 && trimmedName.length <= 10;
 };

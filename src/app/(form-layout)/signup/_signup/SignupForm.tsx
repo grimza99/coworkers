@@ -8,7 +8,7 @@ import {
   validateEmail,
   validatePassword,
   validateConfirmPassword,
-  validateEmptyField,
+  validateLengthLimit,
 } from '@/utils/validators';
 import visibilityOnIcon from '@/../public/icons/visibility_on.svg';
 import visibilityOffIcon from '@/../public/icons/visibility_off.svg';
@@ -35,7 +35,7 @@ export default function SignupForm() {
     {
       label: '이름',
       name: 'name',
-      isFailure: !validateEmptyField(formData.name),
+      isFailure: !validateLengthLimit(formData.name),
       errorMessage:
         formData.name.trim() === ''
           ? '이름을 입력해주세요.'
