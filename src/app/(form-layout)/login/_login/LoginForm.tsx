@@ -2,7 +2,7 @@
 import { useState } from 'react';
 import FormField from '@/components/common/formField';
 import axiosClient from '@/lib/axiosClient';
-import { setCookieInClient } from '@/lib/cookie/client';
+import { setClientCookie } from '@/lib/cookie/client';
 
 export default function LoginForm() {
   // @TODO: 입력 변화에 따른 UI 변화, 입력값 검증
@@ -11,7 +11,7 @@ export default function LoginForm() {
 
   const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
-    const res = await axiosClient.post(`${process.env.NEXT_PUBLIC_API_URL}/auth/signIn`, {
+    const res = await axiosClient.post(`/auth/signIn`, {
       email: email,
       password: password,
     });
@@ -21,8 +21,8 @@ export default function LoginForm() {
     const accessToken = data?.accessToken;
     const refreshToken = data?.refreshToken;
 
-    setCookieInClient('accessToken', accessToken);
-    setCookieInClient('refreshToken', refreshToken);
+    setClientCookie('accessToken', accessToken);
+    setClientCookie('refreshToken', refreshToken);
   };
 
   return (
