@@ -1,5 +1,7 @@
 import axios from 'axios';
 import { getCookieInServer } from './cookie/server';
+import { redirect } from 'next/navigation';
+import PATHS from '@/constants/paths';
 
 const axiosServer = axios.create({
   baseURL: process.env.API_URL,
@@ -26,7 +28,7 @@ axiosServer.interceptors.response.use(
 
       const refreshToken = await getCookieInServer('refreshToken');
       if (!refreshToken) {
-        return Promise.reject(error);
+        redirect(`${PATHS.LOGIN}`);
       }
 
       try {
@@ -41,8 +43,8 @@ axiosServer.interceptors.response.use(
           originalRequest.headers.Authorization = `Bearer ${newAccessToken}`;
           return axiosServer(originalRequest);
         }
-      } catch (refreshError) {
-        return Promise.reject(refreshError);
+      } catch {
+        redirect(`${PATHS.LOGIN}`);
       }
     }
 
