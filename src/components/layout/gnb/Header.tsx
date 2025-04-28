@@ -13,6 +13,7 @@ import { useOutSideClickAutoClose } from '@/utils/use-outside-click-auto-close';
 import Button from '@/components/common/Button';
 
 const MINIMAL_HEADER_PATHS = [
+  '/',
   '/login',
   '/signup',
   '/oauth/signup/kakao',
