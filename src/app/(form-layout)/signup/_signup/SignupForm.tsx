@@ -27,15 +27,13 @@ export default function SignupForm() {
 
   const formFields = [
     {
-      field: 'input' as const,
       label: '이름',
       name: 'name',
       isFailure: !validateName(formData.name),
-      errorMessage: '닉네임은 1자 이상 30자까지 입력할 수 있습니다.',
+      errorMessage: '닉네임은 10글자 이하로 작성해주세요.',
       placeholder: '이름을 입력해주세요.',
     },
     {
-      field: 'input' as const,
       label: '이메일',
       name: 'email',
       isFailure: !validateEmail(formData.email),
@@ -43,7 +41,6 @@ export default function SignupForm() {
       placeholder: '이메일을 입력해주세요.',
     },
     {
-      field: 'input' as const,
       label: '비밀번호',
       name: 'password',
       type: 'password',
@@ -53,7 +50,6 @@ export default function SignupForm() {
       placeholder: '비밀번호를 입력해주세요.',
     },
     {
-      field: 'input' as const,
       label: '비밀번호 확인',
       name: 'confirmPassword',
       type: 'password',
@@ -72,7 +68,7 @@ export default function SignupForm() {
         {formFields.map((field) => (
           <FormField
             key={field.name}
-            field={field.field}
+            field="input"
             label={field.label}
             type={field.type}
             isFailure={field.isFailure}
