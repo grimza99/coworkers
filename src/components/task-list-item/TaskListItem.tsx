@@ -3,13 +3,12 @@ import Image from 'next/image';
 import DropDown from '../common/dropdown';
 import Repeat from '@/assets/Repeat';
 
-// onEdit, onDelete, onClick, onCheckStatusChange 파라미터 지정 필요
-
 type ScheduleType = 'DAILY' | 'WEEKLY' | 'MONTHLY' | 'ONCE';
 
 interface TaskListItemProps {
   type: 'history' | 'taskList';
   onCheckStatusChange?: () => void;
+  onClickToggleDailyMode?: () => void;
   onEdit: () => void;
   onDelete: () => void;
   onClick: () => void;
@@ -25,6 +24,7 @@ const DROPDOWN_OPTION_LIST = ['수정하기', '삭제하기'];
 export default function TaskListItem({
   type = 'taskList',
   onCheckStatusChange,
+  onClickToggleDailyMode,
   onEdit,
   onDelete,
   onClick,
@@ -106,7 +106,13 @@ export default function TaskListItem({
 
             <div className="bg-bg100 mx-2.5 h-2 w-0.25" />
 
-            <div className="flex cursor-pointer items-center gap-1.5">
+            <div
+              onClick={(e: React.MouseEvent) => {
+                e.stopPropagation();
+                onClickToggleDailyMode?.();
+              }}
+              className="flex cursor-pointer items-center gap-1.5"
+            >
               <Repeat
                 color={frequency === 'DAILY' ? 'var(--color-primary)' : 'var(--color-gray500)'}
               />

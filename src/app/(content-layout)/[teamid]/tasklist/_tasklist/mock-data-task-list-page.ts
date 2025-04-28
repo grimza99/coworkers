@@ -1,6 +1,211 @@
-import { TaskListItemResponse, TaskListResponse } from './types/task-list-page-type';
+import { TaskListApiResponse, TaskListItemApiResponse } from './types/task-list-page-type';
 //스태시를 위한 주석
-export const Tasks1: TaskListItemResponse[] = [
+export const Tasks1: TaskListItemApiResponse[] = [
+  {
+    doneBy: {
+      user: {
+        image: '',
+        nickname: 'string',
+        id: 0,
+      },
+    },
+    writer: {
+      image: '',
+      nickname: '',
+      id: 0,
+    },
+    displayIndex: 0,
+    commentCount: 0,
+    deletedAt: '',
+    recurringId: 0,
+    frequency: 'DAILY',
+    updatedAt: '',
+    doneAt: '',
+    date: '2025-04-26T06:57:31.589Z',
+    description: '',
+    name: '',
+    id: 0,
+  },
+  {
+    doneBy: {
+      user: {
+        image: '',
+        nickname: 'string',
+        id: 0,
+      },
+    },
+    writer: {
+      image: '',
+      nickname: '',
+      id: 0,
+    },
+    displayIndex: 0,
+    commentCount: 0,
+    deletedAt: '',
+    recurringId: 0,
+    frequency: 'ONCE',
+    updatedAt: '',
+    doneAt: '',
+    date: '2025-04-26T06:57:31.589Z',
+    description: '',
+    name: '',
+    id: 1,
+  },
+  {
+    doneBy: {
+      user: {
+        image: '',
+        nickname: 'string',
+        id: 0,
+      },
+    },
+    writer: {
+      image: '',
+      nickname: '',
+      id: 0,
+    },
+    displayIndex: 0,
+    commentCount: 0,
+    deletedAt: '',
+    recurringId: 0,
+    frequency: 'ONCE',
+    updatedAt: '',
+    doneAt: '',
+    date: '2025-04-26T06:57:31.589Z',
+    description: '',
+    name: '',
+    id: 2,
+  },
+  {
+    doneBy: {
+      user: {
+        image: '',
+        nickname: 'string',
+        id: 0,
+      },
+    },
+    writer: {
+      image: '',
+      nickname: '',
+      id: 0,
+    },
+    displayIndex: 0,
+    commentCount: 0,
+    deletedAt: '',
+    recurringId: 0,
+    frequency: 'ONCE',
+    updatedAt: '',
+    doneAt: '',
+    date: '',
+    description: '',
+    name: '',
+    id: 3,
+  },
+];
+
+export const Tasks2: TaskListItemApiResponse[] = [
+  {
+    doneBy: {
+      user: {
+        image: '',
+        nickname: 'string',
+        id: 0,
+      },
+    },
+    writer: {
+      image: '',
+      nickname: '',
+      id: 0,
+    },
+    displayIndex: 0,
+    commentCount: 0,
+    deletedAt: '',
+    recurringId: 0,
+    frequency: 'ONCE',
+    updatedAt: '',
+    doneAt: '',
+    date: '2025-04-26T06:57:31.589Z',
+    description: '111111111111',
+    name: '',
+    id: 0,
+  },
+  {
+    doneBy: {
+      user: {
+        image: '',
+        nickname: 'string',
+        id: 0,
+      },
+    },
+    writer: {
+      image: '',
+      nickname: '',
+      id: 0,
+    },
+    displayIndex: 0,
+    commentCount: 0,
+    deletedAt: '',
+    recurringId: 0,
+    frequency: 'ONCE',
+    updatedAt: '',
+    doneAt: '',
+    date: '2025-04-26T06:57:31.589Z',
+    description: '111111111111',
+    name: '',
+    id: 1,
+  },
+  {
+    doneBy: {
+      user: {
+        image: '',
+        nickname: 'string',
+        id: 0,
+      },
+    },
+    writer: {
+      image: '',
+      nickname: '',
+      id: 0,
+    },
+    displayIndex: 0,
+    commentCount: 0,
+    deletedAt: '',
+    recurringId: 0,
+    frequency: 'ONCE',
+    updatedAt: '',
+    doneAt: '',
+    date: '2025-04-26T06:57:31.589Z',
+    description: '111111111111',
+    name: '',
+    id: 2,
+  },
+  {
+    doneBy: {
+      user: {
+        image: '',
+        nickname: 'string',
+        id: 0,
+      },
+    },
+    writer: {
+      image: '',
+      nickname: '',
+      id: 0,
+    },
+    displayIndex: 0,
+    commentCount: 0,
+    deletedAt: '',
+    recurringId: 0,
+    frequency: 'ONCE',
+    updatedAt: '',
+    doneAt: '',
+    date: '',
+    description: '',
+    name: '',
+    id: 3,
+  },
+];
+export const Tasks3: TaskListItemApiResponse[] = [
   {
     doneBy: {
       user: {
@@ -103,212 +308,7 @@ export const Tasks1: TaskListItemResponse[] = [
   },
 ];
 
-export const Tasks2: TaskListItemResponse[] = [
-  {
-    doneBy: {
-      user: {
-        image: '',
-        nickname: 'string',
-        id: 0,
-      },
-    },
-    writer: {
-      image: '',
-      nickname: '',
-      id: 0,
-    },
-    displayIndex: 0,
-    commentCount: 0,
-    deletedAt: '',
-    recurringId: 0,
-    frequency: 'ONCE',
-    updatedAt: '',
-    doneAt: '',
-    date: '2025-04-26T06:57:31.589Z',
-    description: '111111111111',
-    name: '',
-    id: 0,
-  },
-  {
-    doneBy: {
-      user: {
-        image: '',
-        nickname: 'string',
-        id: 0,
-      },
-    },
-    writer: {
-      image: '',
-      nickname: '',
-      id: 0,
-    },
-    displayIndex: 0,
-    commentCount: 0,
-    deletedAt: '',
-    recurringId: 0,
-    frequency: 'ONCE',
-    updatedAt: '',
-    doneAt: '',
-    date: '2025-04-26T06:57:31.589Z',
-    description: '111111111111',
-    name: '',
-    id: 1,
-  },
-  {
-    doneBy: {
-      user: {
-        image: '',
-        nickname: 'string',
-        id: 0,
-      },
-    },
-    writer: {
-      image: '',
-      nickname: '',
-      id: 0,
-    },
-    displayIndex: 0,
-    commentCount: 0,
-    deletedAt: '',
-    recurringId: 0,
-    frequency: 'ONCE',
-    updatedAt: '',
-    doneAt: '',
-    date: '2025-04-26T06:57:31.589Z',
-    description: '111111111111',
-    name: '',
-    id: 2,
-  },
-  {
-    doneBy: {
-      user: {
-        image: '',
-        nickname: 'string',
-        id: 0,
-      },
-    },
-    writer: {
-      image: '',
-      nickname: '',
-      id: 0,
-    },
-    displayIndex: 0,
-    commentCount: 0,
-    deletedAt: '',
-    recurringId: 0,
-    frequency: 'ONCE',
-    updatedAt: '',
-    doneAt: '',
-    date: '',
-    description: '',
-    name: '',
-    id: 3,
-  },
-];
-export const Tasks3: TaskListItemResponse[] = [
-  {
-    doneBy: {
-      user: {
-        image: '',
-        nickname: 'string',
-        id: 0,
-      },
-    },
-    writer: {
-      image: '',
-      nickname: '',
-      id: 0,
-    },
-    displayIndex: 0,
-    commentCount: 0,
-    deletedAt: '',
-    recurringId: 0,
-    frequency: 'ONCE',
-    updatedAt: '',
-    doneAt: '',
-    date: '2025-04-26T06:57:31.589Z',
-    description: '',
-    name: '',
-    id: 0,
-  },
-  {
-    doneBy: {
-      user: {
-        image: '',
-        nickname: 'string',
-        id: 0,
-      },
-    },
-    writer: {
-      image: '',
-      nickname: '',
-      id: 0,
-    },
-    displayIndex: 0,
-    commentCount: 0,
-    deletedAt: '',
-    recurringId: 0,
-    frequency: 'ONCE',
-    updatedAt: '',
-    doneAt: '',
-    date: '2025-04-26T06:57:31.589Z',
-    description: '',
-    name: '',
-    id: 1,
-  },
-  {
-    doneBy: {
-      user: {
-        image: '',
-        nickname: 'string',
-        id: 0,
-      },
-    },
-    writer: {
-      image: '',
-      nickname: '',
-      id: 0,
-    },
-    displayIndex: 0,
-    commentCount: 0,
-    deletedAt: '',
-    recurringId: 0,
-    frequency: 'ONCE',
-    updatedAt: '',
-    doneAt: '',
-    date: '2025-04-26T06:57:31.589Z',
-    description: '',
-    name: '',
-    id: 2,
-  },
-  {
-    doneBy: {
-      user: {
-        image: '',
-        nickname: 'string',
-        id: 0,
-      },
-    },
-    writer: {
-      image: '',
-      nickname: '',
-      id: 0,
-    },
-    displayIndex: 0,
-    commentCount: 0,
-    deletedAt: '',
-    recurringId: 0,
-    frequency: 'ONCE',
-    updatedAt: '',
-    doneAt: '',
-    date: '',
-    description: '',
-    name: '',
-    id: 3,
-  },
-];
-
-export const TaskTest1: TaskListResponse = {
+export const TaskTest1: TaskListApiResponse = {
   displayIndex: 0,
   groupId: 123,
   updatedAt: '2025-04-26T06:57:31.589Z',
@@ -317,7 +317,7 @@ export const TaskTest1: TaskListResponse = {
   id: 1545,
   tasks: Tasks1,
 };
-export const TaskTest2: TaskListResponse = {
+export const TaskTest2: TaskListApiResponse = {
   displayIndex: 0,
   groupId: 34,
   updatedAt: '2025-04-26T06:57:31.589Z',
@@ -326,7 +326,7 @@ export const TaskTest2: TaskListResponse = {
   id: 454,
   tasks: Tasks2,
 };
-export const TaskTest3: TaskListResponse = {
+export const TaskTest3: TaskListApiResponse = {
   displayIndex: 0,
   groupId: 45,
   updatedAt: '2025-04-26T06:57:31.589Z',

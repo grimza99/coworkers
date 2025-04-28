@@ -45,6 +45,9 @@ export default function TaskWiseTodoList({ ListItem }: Props) {
           setIsDone((prev) => !prev);
           //done 상태로 바꾸는 api 작성
         };
+        const handleClickToggleDailyMode = () => {
+          console.log('데일리모드로 전환');
+        };
 
         return (
           <TaskListItem
@@ -54,6 +57,7 @@ export default function TaskWiseTodoList({ ListItem }: Props) {
             onEdit={handleClickItemEdit}
             onDelete={handleClickItemDelete}
             onClick={handleClickPopUpDetail}
+            onClickToggleDailyMode={handleClickToggleDailyMode}
             isDone={isDone}
             description={item.description}
             commentCount={item.commentCount}
