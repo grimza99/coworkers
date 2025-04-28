@@ -51,7 +51,7 @@ export default function SignupForm() {
       type: 'password',
       isFailure: !validatePassword(formData.password),
       isSuccess: validatePassword(formData.password),
-      errorMessage: '8자 이상, 대소문자 및 특수문자를 포함해주세요.',
+      errorMessage: '8자 이상의 영문 대문자 및 특수문자를 포함해주세요.',
       placeholder: '비밀번호를 입력해주세요.',
     },
     {
