@@ -12,7 +12,7 @@ export default function SignupForm() {
     confirmPassword: '',
   });
 
-  const handleChange = (key: keyof typeof formData, value: string) => {
+  const setFieldValue = (key: keyof typeof formData, value: string) => {
     setFormData((prev) => ({
       ...prev,
       [key]: value.trim(),
@@ -84,7 +84,7 @@ export default function SignupForm() {
               errorMessage={field.errorMessage}
               value={field.value}
               onChange={(e: ChangeEvent<HTMLInputElement>) =>
-                handleChange(field.name as keyof typeof formData, e.target.value)
+                setFieldValue(field.name as keyof typeof formData, e.target.value)
               }
               placeholder={field.placeholder}
             />
