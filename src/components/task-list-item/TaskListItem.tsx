@@ -8,15 +8,15 @@ type ScheduleType = 'DAILY' | 'WEEKLY' | 'MONTHLY' | 'ONCE';
 interface TaskListItemProps {
   type: 'history' | 'taskList';
   onCheckStatusChange?: () => void;
+  onEdit?: () => void;
+  onDelete?: () => void;
+  onClick?: () => void;
   onClickToggleDailyMode?: () => void;
-  onEdit: () => void;
-  onDelete: () => void;
-  onClick: () => void;
   isDone: boolean;
   description: string;
-  commentCount: number;
-  date: string;
-  frequency: ScheduleType;
+  commentCount?: number;
+  date?: string;
+  frequency?: ScheduleType;
 }
 
 const DROPDOWN_OPTION_LIST = ['수정하기', '삭제하기'];
