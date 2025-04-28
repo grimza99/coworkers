@@ -4,7 +4,8 @@ export const validateEmail = (email: string) => {
 };
 
 export const validatePassword = (password: string) => {
-  const passwordRegex = /^(?=.*[a-z])(?=.*[A-Z])(?=.*[!@#$%^&*()_\-+=~`[\]{}|\\:;"'<>,.?/]).{8,}$/;
+  const passwordRegex =
+    /^(?=.*[a-z])(?=.*[A-Z])(?=.*[!@#$%^&*()_\-+=~`[\]{}|\\:;"'<>,.?/]).{8,20}$/;
   return passwordRegex.test(password);
 };
 
@@ -13,5 +14,6 @@ export const validateConfirmPassword = (password: string, confirmPassword: strin
 };
 
 export const validateName = (name: string) => {
-  return name.trim().length > 0;
+  const trimmedName = name.trim();
+  return trimmedName.length >= 2 && trimmedName.length <= 20;
 };
