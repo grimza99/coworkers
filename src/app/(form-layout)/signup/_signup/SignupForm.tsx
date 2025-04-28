@@ -1,7 +1,6 @@
 'use client';
 
 import { useState, ChangeEvent } from 'react';
-import Image from 'next/image';
 import FormField from '@/components/common/formField';
 import Button from '@/components/common/Button';
 import {
@@ -10,8 +9,7 @@ import {
   validateConfirmPassword,
   validateLengthLimit,
 } from '@/utils/validators';
-import visibilityOnIcon from '@/../public/icons/visibility_on.svg';
-import visibilityOffIcon from '@/../public/icons/visibility_off.svg';
+import ToggleEyeButton from './PasswordToggleButton';
 
 export default function SignupForm() {
   const [formData, setFormData] = useState({
@@ -60,16 +58,7 @@ export default function SignupForm() {
           ? '비밀번호를 입력해주세요.'
           : '비밀번호는 8자 이상 20자 이하이며 영문자, 숫자, 특수문자(!@#$%^&*)만 사용할 수 있습니다.',
       placeholder: '비밀번호를 입력해주세요.',
-      rightSlot: (
-        <Image
-          src={showPassword ? visibilityOnIcon : visibilityOffIcon}
-          width={24}
-          height={24}
-          alt="Toggle Password Visibility"
-          className="cursor-pointer"
-          onClick={() => setShowPassword((prev) => !prev)}
-        />
-      ),
+      rightSlot: <ToggleEyeButton isVisible={showPassword} onToggle={setShowPassword} />,
     },
     {
       label: '비밀번호 확인',
@@ -82,14 +71,7 @@ export default function SignupForm() {
           : '비밀번호가 일치하지 않습니다.',
       placeholder: '비밀번호를 다시 한 번 입력해주세요.',
       rightSlot: (
-        <Image
-          src={showConfirmPassword ? visibilityOnIcon : visibilityOffIcon}
-          width={24}
-          height={24}
-          alt="Toggle Confirm Password Visibility"
-          className="cursor-pointer"
-          onClick={() => setShowConfirmPassword((prev) => !prev)}
-        />
+        <ToggleEyeButton isVisible={showConfirmPassword} onToggle={setShowConfirmPassword} />
       ),
     },
   ];
