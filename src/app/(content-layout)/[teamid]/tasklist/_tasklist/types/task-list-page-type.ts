@@ -37,8 +37,6 @@ export interface TaskListApiResponse {
   tasks: TaskListItemApiResponse[];
 }
 
-export interface TaskListProps {}
-
 //teamId/groups/[groupId]/task-lists/{taskListId}/tasks
 //특정 일자, 특정 할일 리스트이 할일 리스트 (date를 받음)- 배열 형태
 
