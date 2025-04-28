@@ -33,7 +33,7 @@ export default function SignupForm() {
       errorMessage:
         formData.name.trim() === ''
           ? '이름을 입력해주세요.'
-          : '닉네임은 10글자 이하로 작성해주세요.', // ✅ 조건별 에러메시지 다르게!
+          : '닉네임은 10글자 이하로 작성해주세요.',
       placeholder: '이름을 입력해주세요.',
     },
     {
