@@ -1,27 +1,25 @@
 'use client';
 
 import { useRef } from 'react';
-import Input from './Input';
-import UploadImage from './UploadImage';
-import { FileInputProps } from '../type';
 
-export default function FileInput({
-  FileInputUsage = 'user',
-  image,
-  onImageChange,
-}: FileInputProps) {
+interface FileInputProps {
+  onImageChange: (e: React.ChangeEvent<HTMLInputElement>) => void;
+  children: (props: { inputRef: React.RefObject<HTMLInputElement | null> }) => React.ReactNode;
+}
+
+export default function FileInput({ onImageChange, children }: FileInputProps) {
   const inputRef = useRef<HTMLInputElement>(null);
 
   return (
     <div>
-      <Input
+      <input
         type="file"
         accept="image/*"
         ref={inputRef}
         className="hidden"
         onChange={onImageChange}
       />
-      <UploadImage FileInputUsage={FileInputUsage} image={image} inputRef={inputRef} />
+      {children({ inputRef })}
     </div>
   );
 }

@@ -1,31 +1,31 @@
 import Image from 'next/image';
 import clsx from 'clsx';
-import { UploadImageType } from '../type';
+import { ImageUploaderType } from '../type';
 import Plus from '@/assets/Plus';
 
-interface UploadImageProps {
-  FileInputUsage: UploadImageType;
+interface ImageUploaderProps {
+  imageUploaderType?: ImageUploaderType;
   image: string;
   inputRef: React.RefObject<HTMLInputElement | null>;
 }
 
-export default function UploadImage({ FileInputUsage, image, inputRef }: UploadImageProps) {
+export default function ImageUploader({ imageUploaderType, image, inputRef }: ImageUploaderProps) {
   const triggerUploadClick = (e: React.MouseEvent<HTMLButtonElement>) => {
     e.preventDefault();
     inputRef.current?.click();
   };
 
-  const TEAM = FileInputUsage === 'team';
+  const TEAM = imageUploaderType === 'team';
   const defaultIcon = TEAM ? '/icons/image-icon.svg' : '/icons/user-icon.svg';
 
-  if (FileInputUsage === 'board') {
+  if (imageUploaderType === 'board') {
     return (
       <button
         onClick={triggerUploadClick}
         className="bg-bg200 relative h-40 w-40 cursor-pointer rounded-xl sm:h-60 sm:w-60"
       >
         {image ? (
-          <Image src={image} fill alt="profile" className="rounded-xl" />
+          <Image src={image} fill alt="image" className="rounded-xl" />
         ) : (
           <div className="flex h-full w-full flex-col items-center justify-center gap-3">
             <Plus className="text-gray400 h-6 w-6 sm:h-12 sm:w-12" />
@@ -36,7 +36,7 @@ export default function UploadImage({ FileInputUsage, image, inputRef }: UploadI
     );
   }
 
-  if (FileInputUsage === 'team' || 'user') {
+  if (imageUploaderType === 'team' || 'user') {
     return (
       <button
         onClick={triggerUploadClick}
@@ -46,7 +46,7 @@ export default function UploadImage({ FileInputUsage, image, inputRef }: UploadI
         )}
       >
         {image ? (
-          <Image src={image} fill alt="team image" className="rounded-full" />
+          <Image src={image} fill alt="profile" className="rounded-full" />
         ) : (
           <Image
             src={defaultIcon}
