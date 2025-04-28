@@ -10,8 +10,7 @@ export const validatePassword = (password: string) => {
 };
 
 export const validateConfirmPassword = (password: string, confirmPassword: string) => {
-  // @TODO: 비밀번호와 일치하는지 체크(지금은 길이만 됨)
-  return password === confirmPassword && confirmPassword.length > 0;
+  return password.trim() !== '' && confirmPassword.trim() !== '' && password === confirmPassword;
 };
 
 export const validateName = (name: string) => {
