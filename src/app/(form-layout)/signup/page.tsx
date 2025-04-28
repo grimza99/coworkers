@@ -1,5 +1,3 @@
-'use client';
-
 import SignupForm from './_signup/SignupForm';
 import OAuth from '@/components/oauth';
 
