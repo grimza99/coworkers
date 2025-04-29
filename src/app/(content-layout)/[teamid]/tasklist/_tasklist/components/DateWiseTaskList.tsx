@@ -3,7 +3,7 @@ import { useEffect, useState } from 'react';
 import clsx from 'clsx';
 import { TaskTest1, TaskTest2, TaskTest3 } from '../mock-data-task-list-page';
 import { TaskListApiResponse } from '../types/task-list-page-type';
-import TaskWiseTodoList from './TaskWiseTodoList';
+import TaskWiseTodoListItem from './TaskWiseTodoListItem';
 
 const MOCK_DATA = [TaskTest1, TaskTest2, TaskTest3];
 
@@ -13,11 +13,11 @@ interface Props {
 
 export default function DateWiseTaskList({ date }: Props) {
   const [currentTask, setCurrentTask] = useState(MOCK_DATA[0]);
-  const [currentTaskItem, setCurrentTaskItem] = useState(currentTask.tasks);
+  const [currentTaskTodoList, setCurrentTaskTodoList] = useState(currentTask.tasks);
 
   const handleClickChangeCurrentTask = (task: TaskListApiResponse) => {
     setCurrentTask(task);
-    setCurrentTaskItem(() => task.tasks);
+    setCurrentTaskTodoList(() => task.tasks);
   };
 
   useEffect(() => {
@@ -46,7 +46,21 @@ export default function DateWiseTaskList({ date }: Props) {
           );
         })}
       </div>
-      <TaskWiseTodoList listItem={currentTaskItem} />
+      <div>
+        {currentTaskTodoList.length > 0 ? (
+          <>
+            {currentTaskTodoList.map((item) => {
+              return <TaskWiseTodoListItem item={item} key={item.id} />;
+            })}
+          </>
+        ) : (
+          <p className="text-md-md text-gray-500">
+            아직 할 일 목록이 없습니다.
+            <br />
+            새로운 목록을 추가해주세요.
+          </p>
+        )}
+      </div>
     </div>
   );
 }

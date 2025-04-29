@@ -8,7 +8,7 @@ interface Props {
   item: TaskListItemApiResponse;
 }
 
-export default function TodoListItem({ item }: Props) {
+export default function TaskWiseTodoListItem({ item }: Props) {
   const [isDone, setIsDone] = useState(Boolean(item.doneAt));
 
   const safeFormatDate = (dateString: string | undefined | null) => {
