@@ -4,13 +4,16 @@ import { Comment } from './types';
 import { formatTimeDistance } from '@/utils/date';
 import ProfileBadge from '../profile-badge';
 
-export default function CommentItem({ comment }: { comment: Comment }) {
+interface CommentItemProps {
+  comment: Comment;
+}
+
+export default function CommentItem({ comment }: CommentItemProps) {
   const { content, updatedAt, user } = comment;
   return (
     <div className="flex flex-col gap-4">
       <div className="flex items-start justify-between">
         <div className="text-md-rg break-keep whitespace-pre-wrap">{content}</div>
-
         <button className="shrink-0">
           <Image width="16" height="16" src={kebabIcon} alt={'메뉴 열기'} />
         </button>
