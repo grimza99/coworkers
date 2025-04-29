@@ -8,7 +8,7 @@ export default function MyHistoryPage() {
   return (
     <div className="flex flex-col gap-6 md:gap-[27px]">
       <h3 className="text-xl-bold">마이 히스토리</h3>
-      {data ? (
+      {data.length > 0 ? (
         <GroupedByDateTaskList historyTaskData={data} />
       ) : (
         <div className="flex h-svh w-full items-center justify-center">
