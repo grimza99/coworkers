@@ -7,6 +7,7 @@ import { InputProps, FieldComponentProps, TextareaProps, FileInputProps } from '
 import { GAP_SIZE, LABEL_SIZE } from './style';
 import { useFieldStatus } from './hook/useFieldStatus';
 import FileInput from './compound/FileInput';
+import ImageUploader from './compound/ImageUploader';
 
 export default function FormField({
   field = 'input',
@@ -41,9 +42,17 @@ export default function FormField({
       );
     }
     if (field === 'file-input') {
-      const { FileInputUsage, image, onImageChange } = rest as FileInputProps;
+      const { imageUploaderType, image, onImageChange } = rest as FileInputProps;
       return (
-        <FileInput FileInputUsage={FileInputUsage} image={image} onImageChange={onImageChange} />
+        <FileInput onImageChange={onImageChange}>
+          {({ inputRef }) => (
+            <ImageUploader
+              imageUploaderType={imageUploaderType}
+              image={image}
+              inputRef={inputRef}
+            />
+          )}
+        </FileInput>
       );
     }
   };
