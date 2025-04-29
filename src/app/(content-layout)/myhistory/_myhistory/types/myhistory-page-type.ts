@@ -1,19 +1,28 @@
-type FrequencyType = 'DAILY' | 'WEEKLY' | 'MONTHLY' | 'ONCE';
+type Frequency = 'DAILY' | 'WEEKLY' | 'MONTHLY' | 'ONCE';
 
-export interface MyHistoryItemProps {
-  description: string;
-  doneAt: string;
+//기준이 되는 인터페이스
+export interface HistoryTaskItem {
   id: number;
+  updatedAt: string;
   date: string;
+  doneAt: string;
+  recurringId: number;
+  name: string;
+  description: string;
+  frequency: Frequency;
+  deletedAt: null;
+  userId: number;
+  writerId: number;
+  displayIndex: number;
 }
 
-export interface MyHistoryItem extends MyHistoryItemProps {
-  displayIndex: number;
-  writerId: number;
-  userId: number;
-  deletedAt: string;
-  frequency: FrequencyType;
-  name: string;
-  recurringId: number;
-  updatedAt: string;
+export interface HistoryApiResponse {
+  tasksDone: HistoryTaskItem[];
+}
+
+export interface GroupedByDateTaskListProps {
+  doneAt: HistoryTaskItem['doneAt'];
+  id: HistoryTaskItem['id'];
+  date: HistoryTaskItem['date'];
+  description: HistoryTaskItem['description'];
 }
