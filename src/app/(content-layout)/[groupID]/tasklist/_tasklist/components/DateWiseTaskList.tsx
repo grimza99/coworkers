@@ -4,6 +4,7 @@ import clsx from 'clsx';
 import { TaskTest1, TaskTest2, TaskTest3 } from '../mock-data-task-list-page';
 import { TaskListApiResponse } from '../types/task-list-page-type';
 import TaskWiseTodoListItem from './TaskWiseTodoListItem';
+import axiosClient from '@/lib/axiosClient';
 
 const MOCK_DATA = [TaskTest1, TaskTest2, TaskTest3];
 
@@ -20,7 +21,12 @@ export default function DateWiseTaskList({ date }: Props) {
     setCurrentTaskTodoList(() => task.tasks);
   };
 
+  const handleLoad = async () => {
+    const res = axiosClient(`/groups/${id}`);
+  };
+
   useEffect(() => {
+    handleLoad();
     setCurrentTask(MOCK_DATA[0]); // date가 바뀔때마다 일단 태스크 리스트의 첫번째로 돌아가게 구현
     // setCurrentTaskItem(바뀐 날짜에 의한 새로운 투두리스트...)
     //date가 바뀔 때마다 태스크안의 투두 아이템이 바뀌어야함
