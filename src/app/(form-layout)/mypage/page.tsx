@@ -6,7 +6,7 @@ import FormField from '@/components/common/formField';
 
 export default function MyTeam() {
   return (
-    <div className="flex w-full flex-col items-center">
+    <div className="flex w-full flex-col items-center md:-translate-y-15 lg:-translate-y-25">
       <h1 className="text-xl-bold flex w-full flex-col text-start">계정설정</h1>
       <form className="flex w-full flex-col gap-6">
         <FormField
