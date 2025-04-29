@@ -4,12 +4,12 @@ import Image from 'next/image';
 import visibilityOnIcon from '@/../public/icons/visibility_on.svg';
 import visibilityOffIcon from '@/../public/icons/visibility_off.svg';
 
-interface ToggleEyeButtonProps {
+interface PasswordToggleButtonProps {
   onToggle: (show: boolean) => void;
   isVisible: boolean;
 }
 
-export default function ToggleEyeButton({ onToggle, isVisible }: ToggleEyeButtonProps) {
+export default function PasswordToggleButton({ onToggle, isVisible }: PasswordToggleButtonProps) {
   return (
     <Image
       src={isVisible ? visibilityOnIcon : visibilityOffIcon}
