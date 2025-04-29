@@ -16,7 +16,7 @@ export default function JoinTeam() {
             참여하기
           </Button>
           <p className="text-lg-rg text-gray500 text-center">
-            공유받은 팀 링크를 입력해 참여할 수 있어요!
+            공유받은 팀 링크를 입력해 참여할 수 있어요.
           </p>
         </div>
       </form>
