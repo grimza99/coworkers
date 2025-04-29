@@ -46,7 +46,7 @@ export default function DateWiseTaskList({ date }: Props) {
           );
         })}
       </div>
-      <TaskWiseTodoList ListItem={currentTaskItem} />
+      <TaskWiseTodoList listItem={currentTaskItem} />
     </div>
   );
 }
