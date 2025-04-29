@@ -1,13 +1,13 @@
 type FrequencyType = 'DAILY' | 'WEEKLY' | 'MONTHLY' | 'ONCE';
 
-export interface TaskDoneProp {
+export interface MyHistoryItemProps {
   description: string;
   doneAt: string;
   id: number;
   date: string;
 }
 
-export interface TaskDoneApiResponse extends TaskDoneProp {
+export interface MyHistoryItem extends MyHistoryItemProps {
   displayIndex: number;
   writerId: number;
   userId: number;

@@ -1,8 +1,8 @@
-import { TaskDoneProp } from '../types/myhistory-page-type';
+import { MyHistoryItemProps } from '../types/myhistory-page-type';
 import GroupedByDateTaskItem from './GroupedByDateTaskItem';
 
 interface Props {
-  historyTaskData: TaskDoneProp[];
+  historyTaskData: MyHistoryItemProps[];
 }
 
 export default function GroupedByDateTaskList({ historyTaskData }: Props) {
@@ -15,7 +15,7 @@ export default function GroupedByDateTaskList({ historyTaskData }: Props) {
         acc[item.date].push(item);
         return acc;
       },
-      {} as Record<string, TaskDoneProp[]>
+      {} as Record<string, MyHistoryItemProps[]>
     )
   ).map(([date, tasks]) => ({
     date,

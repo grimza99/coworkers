@@ -1,10 +1,10 @@
 import TaskListItem from '@/components/task-list-item/TaskListItem';
 import { format } from 'date-fns';
-import { TaskDoneProp } from '../types/myhistory-page-type';
+import { MyHistoryItemProps } from '../types/myhistory-page-type';
 
 interface Props {
   date: string;
-  data: TaskDoneProp[];
+  data: MyHistoryItemProps[];
 }
 
 export default function GroupedByDateTaskItem({ date, data }: Props) {

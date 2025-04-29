@@ -1,9 +1,10 @@
 import GroupedByDateTaskList from './_myhistory/components/GroupedByDateTaskList';
 import axiosServer from '@/lib/axiosServer';
+import { MyHistoryItem } from './_myhistory/types/myhistory-page-type';
 
 export default async function MyHistoryPage() {
   const res = await axiosServer.get(`/user/history`);
-  const data = res.data.tasksDone;
+  const data: MyHistoryItem[] = res.data.tasksDone;
   console.log(data);
 
   return (
