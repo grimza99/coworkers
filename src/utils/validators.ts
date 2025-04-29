@@ -1,20 +1,18 @@
 export const validateEmail = (email: string) => {
-  // @TODO: 이메일 형식, 중복된 이메일인지도 체크
-  const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+  const emailRegex = /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/;
   return emailRegex.test(email);
 };
 
 export const validatePassword = (password: string) => {
-  // @TODO: 비밀번호 8자리 이상, 영어 대문자와 특수기호 포함 (지금은 8자리만 체크)
-  return password.length >= 8;
+  const passwordRegex = /^([a-zA-Z0-9!@#$%^&*]){8,20}$/;
+  return passwordRegex.test(password);
 };
 
 export const validateConfirmPassword = (password: string, confirmPassword: string) => {
-  // @TODO: 비밀번호와 일치하는지 체크(지금은 길이만 됨)
-  return password === confirmPassword && confirmPassword.length > 0;
+  return password.trim() !== '' && confirmPassword.trim() !== '' && password === confirmPassword;
 };
 
-export const validateName = (name: string) => {
-  // @TODO: 트림, 중복된 이름인지도 체크
-  return name.trim().length > 0;
+export const validateLengthLimit = (name: string) => {
+  const trimmedName = name.trim();
+  return trimmedName.length >= 1 && trimmedName.length <= 10;
 };
