@@ -29,7 +29,7 @@ const SideMenu = forwardRef<HTMLDivElement, SideMenuProps>(({ teams, isOpen, onC
       {/* 사이드 메뉴 */}
       <div
         ref={ref}
-        className="bg-bg200 fixed top-0 left-0 z-500 flex h-screen w-[204px] flex-col gap-6 overflow-scroll p-4 pb-10 shadow-lg"
+        className="bg-bg200 fixed top-0 left-0 z-300 flex h-screen w-[204px] flex-col gap-6 overflow-scroll p-4 pb-10 shadow-lg"
       >
         <button onClick={onClose} className="cursor-pointer self-end" title="닫기">
           <Image src={closeIcon} alt="닫기" width={24} height={24} />
