@@ -1,5 +1,5 @@
 'use server';
-export default async function login(_: unknown, formData: FormData) {
+export default async function Login(_: unknown, formData: FormData) {
   const credentials = {
     email: formData.get('email'),
     password: formData.get('password'),
