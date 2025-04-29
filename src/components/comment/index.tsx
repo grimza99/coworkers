@@ -7,6 +7,7 @@ interface CommentItemProps {
   comment: Comment;
 }
 
+// @TODO: 자유게시판 댓글 UI 추가해야함.
 export default function CommentItem({ comment }: CommentItemProps) {
   const { content, updatedAt, user } = comment;
   return (

@@ -11,6 +11,7 @@ export default function CommentItemDropdown() {
     <DropDown
       size="md"
       dropDownOpenBtn={
+        /* @FIXME: 해당 버튼에 `className="shrink-0"`를 적용하고 싶은데, dropdown으로 감싸는 경우 적용이 안되는 문제가 있습니다. */
         <button className="shrink-0">
           <Image width="16" height="16" src={kebabIcon} alt={'메뉴 열기'} />
         </button>
