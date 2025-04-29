@@ -8,7 +8,7 @@ import { addDays, format, subDays } from 'date-fns';
 import { useState } from 'react';
 import Button from '@/components/common/Button';
 import DateWiseTaskList from './_tasklist/components/DateWiseTaskList';
-
+import Plus from '@/assets/Plus';
 export default function Page() {
   const [currentDate, setCurrentDate] = useState(new Date());
 
@@ -65,7 +65,7 @@ export default function Page() {
         size="md"
         fontSize="16"
       >
-        + 할 일 추가
+        <Plus width="16" height="16" /> 할 일 추가
       </Button>
     </>
   );
