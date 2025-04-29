@@ -5,8 +5,8 @@ export default function Profile({
   height = '24',
   className = '',
 }: {
-  width?: string;
-  height?: string;
+  width?: string | number;
+  height?: string | number;
   className?: string;
 }) {
   return (
