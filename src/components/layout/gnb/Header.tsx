@@ -104,7 +104,7 @@ export default function Header() {
                 }
               />
             )}
-            <Link href={`/articles`} className="cursor:pointer mt-0">
+            <Link href={`/boards`} className="cursor:pointer mt-0">
               자유게시판
             </Link>
           </div>
