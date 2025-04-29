@@ -1,9 +1,10 @@
 import GroupedByDateTaskList from './_myhistory/components/GroupedByDateTaskList';
-import { HISTORY_MOCK_DATA } from './_myhistory/myhistory-mock-data';
+import axiosServer from '@/lib/axiosServer';
 
-export default function MyHistoryPage() {
-  const data = HISTORY_MOCK_DATA; // 마이 히스토리 페이지에 필요한 데이터 불러와서 담을 변수
-  // const data = ''; //data가 없을 경우
+export default async function MyHistoryPage() {
+  const res = await axiosServer.get(`/user/history`);
+  const data = res.data.tasksDone;
+  console.log(data);
 
   return (
     <div className="flex flex-col gap-6 md:gap-[27px]">
