@@ -7,6 +7,7 @@ import Button from '../common/Button';
 import FormField from '../common/formField';
 import { OptionSelector } from '../common/dropdown/OptionSelector';
 import CalendarSelect from '../calendar/CalendarSelect';
+import WeeklySelect from './WeeklySelect';
 
 // 수정 작업 진행할 때 h1과 button children 분기 처리 예정
 
@@ -15,10 +16,18 @@ const FREQUENCY_LIST = ['한 번', '매일', '주 반복', '월 반복'];
 export default function ManageTaskModal() {
   const [date, setDate] = useState(new Date());
   const [isCalendarOpen, setIsCalendarOpen] = useState(false);
+  const [selectedFrequency, setSelectedFrequency] = useState('');
+  const [selectedDays, setSelectedDays] = useState<number[]>([]);
 
   const handleCalendarDateChange = (selectedDate: Date) => {
     setDate(selectedDate);
     setIsCalendarOpen(false);
+  };
+
+  const toggleDay = (idx: number) => {
+    setSelectedDays((prev) =>
+      prev.includes(idx) ? prev.filter((i) => i !== idx) : [...prev, idx]
+    );
   };
 
   return (
@@ -57,8 +66,19 @@ export default function ManageTaskModal() {
 
         <div className="flex flex-col gap-4">
           <label>반복 설정</label>
-          <OptionSelector options={FREQUENCY_LIST} size="sm" placement="top-12" />
+          <OptionSelector
+            options={FREQUENCY_LIST}
+            size="sm"
+            placement="top-12"
+            onSelect={(e: React.MouseEvent<HTMLDivElement>) =>
+              setSelectedFrequency(e.currentTarget.textContent ?? '')
+            }
+          />
         </div>
+
+        {selectedFrequency === '주 반복' && (
+          <WeeklySelect selectedDays={selectedDays} toggleDay={(idx: number) => toggleDay(idx)} />
+        )}
 
         <FormField
           field="textarea"
