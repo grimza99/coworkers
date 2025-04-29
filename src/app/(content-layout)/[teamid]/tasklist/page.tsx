@@ -34,7 +34,7 @@ export default function Page() {
   };
 
   return (
-    <>
+    <div className="relative h-dvh w-full">
       <div className="flex flex-col gap-6">
         <p className="text-lg-bold md:text-xl-bold">할일</p>
         <div className="flex justify-between">
@@ -59,7 +59,7 @@ export default function Page() {
         <DateWiseTaskList date={currentDate} />
       </div>
       <Button
-        className="absolute right-6 -bottom-20"
+        className="absolute right-6 bottom-40"
         onClick={handleClickCreateTaskItem}
         variant="solid"
         size="md"
@@ -67,6 +67,6 @@ export default function Page() {
       >
         <Plus width="16" height="16" /> 할 일 추가
       </Button>
-    </>
+    </div>
   );
 }
