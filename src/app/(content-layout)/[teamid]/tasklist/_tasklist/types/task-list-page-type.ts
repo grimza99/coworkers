@@ -1,24 +1,21 @@
-type FrequencyType = 'DAILY' | 'WEEKLY' | 'ONCE' | 'MONTHLY';
+type Frequency = 'DAILY' | 'WEEKLY' | 'ONCE' | 'MONTHLY';
+interface User {
+  image: string;
+  nickname: string;
+  id: number;
+}
 
 //teamId/groups/[groupId]/task-lists/id
 export interface TaskListItemApiResponse {
   doneBy: {
-    user: {
-      image: string;
-      nickname: string;
-      id: number;
-    };
+    user: User;
   };
-  writer: {
-    image: string;
-    nickname: string;
-    id: number;
-  };
+  writer: User;
   displayIndex: number;
   commentCount: number;
   deletedAt: string;
   recurringId: number;
-  frequency: FrequencyType;
+  frequency: Frequency;
   updatedAt: string;
   doneAt: string;
   date: string;
@@ -43,7 +40,7 @@ export interface TaskListApiResponse {
 export interface TodoListProps {
   displayIndex: number;
   commentCount: number;
-  frequency: FrequencyType;
+  frequency: Frequency;
   doneAt: string;
   date: string;
   description: string;
@@ -51,17 +48,9 @@ export interface TodoListProps {
 
 export interface TodoListApiResponse extends TodoListProps {
   doneBy: {
-    user: {
-      image: string;
-      nickname: string;
-      id: number;
-    };
+    user: User;
   };
-  writer: {
-    image: string;
-    nickname: string;
-    id: number;
-  };
+  writer: User;
   deletedAt: string;
   recurringId: number;
   updatedAt: string;
@@ -73,11 +62,7 @@ export interface TodoListApiResponse extends TodoListProps {
 //할일 상세보기
 
 export interface TodoDetailContentProps {
-  writer: {
-    image: string;
-    nickname: string;
-    id: number;
-  };
+  writer: User;
   date: string;
   description: string;
   name: string;
@@ -86,17 +71,13 @@ export interface TodoDetailContentProps {
 
 export interface TodoDetailContentApiResponse extends TodoDetailContentProps {
   doneBy: {
-    user: {
-      image: string;
-      nickname: string;
-      id: number;
-    };
+    user: User;
   };
   displayIndex: number;
   commentCount: number;
   deletedAt: string;
   recurringId: number;
-  frequency: FrequencyType;
+  frequency: Frequency;
   updatedAt: string;
   doneAt: string;
 }
@@ -111,9 +92,5 @@ export interface ToDoCommentApiResponse {
   updatedAt: string;
   taskId: number;
   userId: number;
-  user: {
-    id: number;
-    nickname: string;
-    image: string | null;
-  };
+  user: User;
 }
