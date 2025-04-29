@@ -6,6 +6,12 @@ export default async function MyHistoryPage() {
   async function fetchHistory() {
     try {
       const { data } = await axiosServer.get<HistoryApiResponse>('/user/history');
+      // const { data } = await axiosServer.patch<HistoryApiResponse>('/user/history', {
+      //   headers: { 'Content-Type': 'application/json' },
+      //   fetchOptions: { cache: 'force-cache' },
+      // });
+      console.log(data);
+
       return (
         <>
           {data.tasksDone.length > 0 ? (
