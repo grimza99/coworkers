@@ -3,6 +3,7 @@ import TaskListItem from '@/components/task-list-item/TaskListItem';
 import { format, isValid } from 'date-fns';
 import { useState } from 'react';
 import { TaskListItemApiResponse } from '../types/task-list-page-type';
+import { TaskItemHandlers } from '../utils/todo-list-item-handlers';
 
 interface Props {
   item: TaskListItemApiResponse;
@@ -11,6 +12,14 @@ interface Props {
 export default function TaskWiseTodoListItem({ item }: Props) {
   const [isDone, setIsDone] = useState(Boolean(item.doneAt));
 
+  const {
+    handleClickPopUpDetail,
+    handleClickItemEdit,
+    handleClickItemDelete,
+    handleClickItemStatusChange,
+    handleClickToggleDailyMode,
+  } = TaskItemHandlers(item.id, setIsDone);
+  //추후 필요한 인자는 데이터 작업중 파악하여 추가 예정
   const safeFormatDate = (dateString: string | undefined | null) => {
     if (!dateString) return '';
 
@@ -18,29 +27,6 @@ export default function TaskWiseTodoListItem({ item }: Props) {
     if (!isValid(date)) return '';
 
     return format(date, 'yyyy년 MM월 dd일');
-  };
-
-  const handleClickPopUpDetail = () => {
-    console.log('디테일');
-    //디테일 할일 팝업
-  };
-
-  const handleClickItemEdit = () => {
-    console.log('수정하기');
-    //수정
-  };
-
-  const handleClickItemDelete = () => {
-    console.log('삭제하기');
-    //삭제
-  };
-  const handleClickItemStatusChange = () => {
-    console.log('던');
-    setIsDone((prev) => !prev);
-    //done 상태로 바꾸는 api 작성
-  };
-  const handleClickToggleDailyMode = () => {
-    console.log('데일리모드로 전환');
   };
 
   return (
