@@ -1,9 +1,8 @@
+'use client';
 import clsx from 'clsx';
 import Image from 'next/image';
 import DropDown from '../common/dropdown';
 import Repeat from '@/assets/Repeat';
-
-// onEdit, onDelete, onClick, onCheckStatusChange 파라미터 지정 필요
 
 type ScheduleType = 'DAILY' | 'WEEKLY' | 'MONTHLY' | 'ONCE';
 
@@ -13,6 +12,7 @@ interface TaskListItemProps {
   onEdit?: () => void;
   onDelete?: () => void;
   onClick?: () => void;
+  onClickToggleDailyMode?: () => void;
   isDone: boolean;
   description: string;
   commentCount?: number;
@@ -25,6 +25,7 @@ const DROPDOWN_OPTION_LIST = ['수정하기', '삭제하기'];
 export default function TaskListItem({
   type = 'taskList',
   onCheckStatusChange,
+  onClickToggleDailyMode,
   onEdit,
   onDelete,
   onClick,
@@ -48,7 +49,10 @@ export default function TaskListItem({
       <div className="flex shrink-0 items-center justify-start gap-2">
         <Image
           src={checkIcon}
-          onClick={onCheckStatusChange}
+          onClick={(e: React.MouseEvent) => {
+            e.stopPropagation();
+            onCheckStatusChange?.();
+          }}
           width={24}
           height={24}
           alt="checked"
@@ -82,7 +86,10 @@ export default function TaskListItem({
               </div>
 
               <DropDown
-                onSelect={onDropdownListClick}
+                onSelect={(e: React.MouseEvent<HTMLDivElement>) => {
+                  e.stopPropagation();
+                  onDropdownListClick(e);
+                }}
                 options={DROPDOWN_OPTION_LIST}
                 size="md"
                 dropDownOpenBtn={
@@ -100,7 +107,13 @@ export default function TaskListItem({
 
             <div className="bg-bg100 mx-2.5 h-2 w-0.25" />
 
-            <div className="flex cursor-pointer items-center gap-1.5">
+            <div
+              onClick={(e: React.MouseEvent) => {
+                e.stopPropagation();
+                onClickToggleDailyMode?.();
+              }}
+              className="flex cursor-pointer items-center gap-1.5"
+            >
               <Repeat
                 color={frequency === 'DAILY' ? 'var(--color-primary)' : 'var(--color-gray500)'}
               />
