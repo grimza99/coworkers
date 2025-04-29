@@ -1,8 +1,8 @@
 import Image from 'next/image';
-import Profile from '@/assets/Profile';
 import kebabIcon from '@/../public/icons/kebab-icon.svg';
 import { Comment } from './types';
 import { formatTimeDistance } from '@/utils/date';
+import ProfileBadge from '../profile-badge';
 
 export default function CommentItem({ comment }: { comment: Comment }) {
   const { content, updatedAt, user } = comment;
@@ -16,10 +16,7 @@ export default function CommentItem({ comment }: { comment: Comment }) {
         </button>
       </div>
       <div className="flex items-center justify-between gap-4">
-        <div className="flex shrink-0 items-center gap-3">
-          <Profile width="32" height="32" />
-          <div className="text-md-md">{user.nickname}</div>
-        </div>
+        <ProfileBadge user={user} />
         <div className="text-md-rg">{formatTimeDistance(updatedAt)}</div>
       </div>
     </div>
