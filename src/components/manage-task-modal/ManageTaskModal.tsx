@@ -46,7 +46,7 @@ export default function ManageTaskModal() {
 
         <div className="flex flex-col gap-2">
           <div className="flex flex-col gap-4">
-            <label>시간 날짜 및 시간</label>
+            <label className="text-lg-md">시간 날짜 및 시간</label>
             <span
               onClick={() => setIsCalendarOpen((prev) => !prev)}
               className={clsx(
@@ -65,7 +65,7 @@ export default function ManageTaskModal() {
         </div>
 
         <div className="flex flex-col gap-4">
-          <label>반복 설정</label>
+          <label className="text-lg-md">반복 설정</label>
           <OptionSelector
             options={FREQUENCY_LIST}
             size="sm"

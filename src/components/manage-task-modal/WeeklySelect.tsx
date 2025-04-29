@@ -10,7 +10,7 @@ const DAY_OF_THE_WEEK = ['일', '월', '화', '수', '목', '금', '토'];
 export default function WeeklySelect({ selectedDays, toggleDay }: WeeklySelectProps) {
   return (
     <div className="flex flex-col gap-4">
-      <label>반복 요일</label>
+      <label className="text-lg-md">반복 요일</label>
       <div className="flex justify-between">
         {DAY_OF_THE_WEEK.map((w, idx) => (
           <div
