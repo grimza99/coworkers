@@ -11,7 +11,7 @@ interface CommentItemProps {
 export default function CommentItem({ comment }: CommentItemProps) {
   const { content, updatedAt, user } = comment;
   return (
-    <div className="flex flex-col gap-4">
+    <div className="border-b-border flex flex-col gap-4 border-b-2 pb-4">
       <div className="flex items-start justify-between">
         <div className="text-md-rg break-keep whitespace-pre-wrap">{content}</div>
         <button className="shrink-0">

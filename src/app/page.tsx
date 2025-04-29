@@ -22,6 +22,7 @@ export default function Home() {
       </StartButton>
       <div className="flex w-[700px] flex-col">
         <Comment comment={hello} />
+        <Comment comment={hello} />
       </div>
     </div>
   );
