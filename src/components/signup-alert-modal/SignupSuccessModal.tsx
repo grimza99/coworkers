@@ -19,7 +19,7 @@ export default function SignupSuccessModal() {
       <ModalOverlay>
         <ModalContainer className="h-[211px] w-[384px] px-6 py-5">
           <ModalCloseButton />
-          <ModalHeading className="text-md-bold mb-2 text-white">회원가입 성공</ModalHeading>
+          <ModalHeading className="text-md-bold mb-2 text-white">회원가입 완료</ModalHeading>
           <ModalDescription className="text-gray300 text-sm">
             회원가입에 성공하셨습니다.
           </ModalDescription>
@@ -33,3 +33,5 @@ export default function SignupSuccessModal() {
     </div>
   );
 }
+
+// 바로 로그인 엑세스토큰처리

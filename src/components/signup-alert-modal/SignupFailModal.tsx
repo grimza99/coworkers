@@ -22,7 +22,12 @@ export default function SignupFailModal() {
             다시 시도해주세요.
           </ModalDescription>
           <ModalFooter className="mt-6">
-            <Button size="md" className="w-full" onClick={() => window.location.reload()}>
+            <Button
+              size="md"
+              variant="outline-gray"
+              className="w-full"
+              onClick={() => window.location.reload()}
+            >
               다시 시도하기
             </Button>
           </ModalFooter>
