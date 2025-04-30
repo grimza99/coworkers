@@ -42,9 +42,9 @@ export default function FormField({
       );
     }
     if (field === 'file-input') {
-      const { imageUploaderType, image, onImageChange } = rest as FileInputProps;
+      const { imageUploaderType, image } = rest as FileInputProps;
       return (
-        <FileInput onImageChange={onImageChange}>
+        <FileInput {...(rest as FileInputProps)}>
           {({ inputRef }) => (
             <ImageUploader
               imageUploaderType={imageUploaderType}
