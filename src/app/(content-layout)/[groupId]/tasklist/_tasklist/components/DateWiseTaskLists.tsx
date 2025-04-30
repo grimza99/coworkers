@@ -15,18 +15,22 @@ export default function DateWiseTaskLists({ date, groupId }: Props) {
   const [currentTaskList, setCurrentTaskList] = useState<TaskList>(taskLists[0]);
   const [currentTasks, setCurrentTasks] = useState<Task[]>([]);
 
-  const handleClickChangeCurrentTask = (taskList: TaskList) => {
+  const handleClickChangeCurrentTaskList = (taskList: TaskList) => {
     setCurrentTaskList(taskList);
-    setCurrentTasks(taskList.tasks);
+    fetchTaskListWiseTasks(taskList);
   };
 
-  const handleLoad = async () => {
+  const fetchTaskLists = async () => {
     const { data: taskListsData } = await axiosClient(`/groups/${groupId}`);
-
     setTaskLists(taskListsData.taskLists);
     setCurrentTaskList(taskListsData.taskLists[0]);
+    fetchTaskListWiseTasks(taskListsData.taskLists[0]);
+  };
+
+  const fetchTaskListWiseTasks = async (currentTaskList: TaskList) => {
+    if (!currentTaskList) return;
     const { data: tasksData } = await axiosClient(
-      `groups/${groupId}/task-lists/${taskListsData.taskLists[0].id}/tasks`,
+      `groups/${groupId}/task-lists/${currentTaskList.id}/tasks`,
       {
         params: { date },
       }
@@ -35,8 +39,7 @@ export default function DateWiseTaskLists({ date, groupId }: Props) {
   };
 
   useEffect(() => {
-    handleLoad();
-    //태스크가 바뀔때, 날짜가 바뀔때, 서로 유기적으로 동작해서 아래 아이템이 바뀌어야함함ㅎ맣ㅁ함함함ㅎ함ㅎ마하마하마함ㅎ
+    fetchTaskLists();
   }, [date]);
 
   return (
@@ -46,7 +49,7 @@ export default function DateWiseTaskLists({ date, groupId }: Props) {
           return (
             <p
               key={taskList.id}
-              onClick={() => handleClickChangeCurrentTask(taskList)}
+              onClick={() => handleClickChangeCurrentTaskList(taskList)}
               className={clsx(
                 'text-md-md cursor-pointer',
                 taskList === currentTaskList

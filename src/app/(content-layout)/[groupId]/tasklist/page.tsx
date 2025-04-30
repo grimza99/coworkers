@@ -38,36 +38,31 @@ export default function Page({ params }: Props) {
   };
 
   return (
-    <div className="relative h-dvh w-full">
-      <div className="flex flex-col gap-6">
-        <p className="text-lg-bold md:text-xl-bold">할일</p>
-        <div className="flex justify-between">
-          <div className="flex items-center gap-3">
-            <p className="text-lg-md">{format(currentDate, 'M월 dd일 (eee)', { locale: ko })}</p>
-            <div className="flex gap-1">
-              <button onClick={() => handleClickChangeDayIcon('prev')}>
-                <Image src={prevIcon} width={16} height={16} alt="<" />
-              </button>
-              <button onClick={() => handleClickChangeDayIcon('next')}>
-                <Image src={nextIcon} width={16} height={16} alt=">" />
-              </button>
-            </div>
-            <button onClick={handleClickCalendarPopUp}>
-              <Image src={calendar} width={24} height={24} alt=">" />
+    <div className="relative flex h-dvh w-full flex-col gap-6">
+      <p className="text-lg-bold md:text-xl-bold">할일</p>
+      <div className="flex justify-between">
+        <div className="flex items-center gap-3">
+          <p className="text-lg-md">{format(currentDate, 'M월 dd일 (eee)', { locale: ko })}</p>
+          <div className="flex gap-1">
+            <button onClick={() => handleClickChangeDayIcon('prev')}>
+              <Image src={prevIcon} width={16} height={16} alt="<" />
+            </button>
+            <button onClick={() => handleClickChangeDayIcon('next')}>
+              <Image src={nextIcon} width={16} height={16} alt=">" />
             </button>
           </div>
-          <ModalProvider>
-            <ModalTrigger className="text-primary size-20 w-fit">
-              + 새로운 목록 추가하기
-            </ModalTrigger>
-            <ModalPortal>
-              <CreateTaskListModal />
-            </ModalPortal>
-          </ModalProvider>
+          <button onClick={handleClickCalendarPopUp}>
+            <Image src={calendar} width={24} height={24} alt=">" />
+          </button>
         </div>
-        <DateWiseTaskList groupId={groupId} date={currentDate} />
+        <ModalProvider>
+          <ModalTrigger className="text-primary size-20 w-fit">+ 새로운 목록 추가하기</ModalTrigger>
+          <ModalPortal>
+            <CreateTaskListModal />
+          </ModalPortal>
+        </ModalProvider>
       </div>
-
+      <DateWiseTaskList groupId={groupId} date={currentDate} />
       <Button
         className="absolute right-6 bottom-40"
         onClick={handleClickCreateTaskItem}
