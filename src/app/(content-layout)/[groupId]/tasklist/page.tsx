@@ -7,7 +7,7 @@ import Image from 'next/image';
 import { addDays, format, subDays } from 'date-fns';
 import { use, useState } from 'react';
 import Button from '@/components/common/Button';
-import DateWiseTaskList from './_tasklist/components/DateWiseTaskList';
+import DateWiseTaskList from './_tasklist/components/DateWiseTaskLists';
 import Plus from '@/assets/Plus';
 
 interface Props {

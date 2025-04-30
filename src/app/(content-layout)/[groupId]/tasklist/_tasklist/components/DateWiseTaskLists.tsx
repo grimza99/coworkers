@@ -1,7 +1,7 @@
 'use client';
 import { useEffect, useState } from 'react';
 import clsx from 'clsx';
-import TaskWiseTodoListItem from './TaskWiseTodoListItem';
+import TaskWiseTodoListItem from './TaskListWiseTasks';
 import axiosClient from '@/lib/axiosClient';
 import { Task, TaskList } from '../types/task-list-page-type';
 
@@ -10,7 +10,7 @@ interface Props {
   groupId: string;
 }
 
-export default function DateWiseTaskList({ date, groupId }: Props) {
+export default function DateWiseTaskLists({ date, groupId }: Props) {
   const [taskLists, setTaskLists] = useState<TaskList[]>([]);
   const [currentTaskList, setCurrentTaskList] = useState<TaskList>(taskLists[0]);
   const [currentTasks, setCurrentTasks] = useState<Task[]>([]);
@@ -37,8 +37,6 @@ export default function DateWiseTaskList({ date, groupId }: Props) {
 
   useEffect(() => {
     handleLoad();
-    // setCurrentTaskItem(바뀐 날짜에 의한 새로운 투두리스트...)
-    //date가 바뀔 때마다 태스크안의 투두 아이템이 바뀌어야함
   }, [date]);
 
   return (
