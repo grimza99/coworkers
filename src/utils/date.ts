@@ -6,7 +6,7 @@ export function formatTimeDistance(date: string) {
 
   const diffInDays = differenceInDays(now, dateObj);
 
-  if (diffInDays >= 30) {
+  if (diffInDays >= 6) {
     return format(dateObj, 'yyyy.MM.dd');
   }
 
