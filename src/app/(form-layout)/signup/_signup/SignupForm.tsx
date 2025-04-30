@@ -1,6 +1,7 @@
 'use client';
 
 import { useState, ChangeEvent } from 'react';
+import { useRouter } from 'next/navigation';
 import axiosClient from '@/lib/axiosClient';
 import { setClientCookie } from '@/lib/cookie/client';
 import FormField from '@/components/common/formField';
@@ -27,6 +28,8 @@ export default function SignupForm() {
     password: false,
     confirmPassword: false,
   });
+
+  const router = useRouter();
 
   const setFieldValue = (key: keyof typeof formData, value: string) => {
     setFormData((prev) => ({
@@ -120,6 +123,7 @@ export default function SignupForm() {
       const { accessToken, refreshToken } = response.data;
       setClientCookie('accessToken', accessToken);
       setClientCookie('refreshToken', refreshToken);
+      router.push('/login');
     } catch (error: any) {
       console.error('❌ 회원가입 실패:', error);
 
