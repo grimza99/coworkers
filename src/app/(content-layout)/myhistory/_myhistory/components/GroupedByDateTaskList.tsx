@@ -1,8 +1,8 @@
-import { GroupedByDateTaskListProps } from '../types/myhistory-page-type';
+import { GroupedByDateTask } from '../types/myhistory-page-type';
 import GroupedByDateTaskItem from './GroupedByDateTaskItem';
 
 interface Props {
-  historyTaskData: GroupedByDateTaskListProps[];
+  historyTaskData: GroupedByDateTask[];
 }
 
 export default function GroupedByDateTaskList({ historyTaskData }: Props) {
@@ -15,7 +15,7 @@ export default function GroupedByDateTaskList({ historyTaskData }: Props) {
         acc[item.date].push(item);
         return acc;
       },
-      {} as Record<string, GroupedByDateTaskListProps[]>
+      {} as Record<string, GroupedByDateTask[]>
     )
   ).map(([date, tasks]) => ({
     date,
@@ -26,7 +26,7 @@ export default function GroupedByDateTaskList({ historyTaskData }: Props) {
     <>
       <div className="flex flex-col gap-10">
         {groupedByDateArray.map((date, idx) => {
-          return <GroupedByDateTaskItem key={idx} date={date.date} data={date.tasks} />;
+          return <GroupedByDateTaskItem key={idx} date={date.date} tasks={date.tasks} />;
         })}
       </div>
     </>

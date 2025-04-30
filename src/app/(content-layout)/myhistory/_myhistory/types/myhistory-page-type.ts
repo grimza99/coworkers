@@ -1,7 +1,9 @@
 type Frequency = 'DAILY' | 'WEEKLY' | 'MONTHLY' | 'ONCE';
 
+//데이터 구조 taskLists[] -> taskList{}-> tasks[]-> task{}
+
 //기준이 되는 인터페이스
-export interface HistoryTaskItem {
+export interface HistoryTask {
   id: number;
   updatedAt: string;
   date: string;
@@ -16,13 +18,13 @@ export interface HistoryTaskItem {
   displayIndex: number;
 }
 
-export interface HistoryApiResponse {
-  tasksDone: HistoryTaskItem[];
+export interface HistoryTasksApiResponse {
+  tasksDone: HistoryTask[];
 }
 
-export interface GroupedByDateTaskListProps {
-  doneAt: HistoryTaskItem['doneAt'];
-  id: HistoryTaskItem['id'];
-  date: HistoryTaskItem['date'];
-  description: HistoryTaskItem['description'];
+export interface GroupedByDateTask {
+  doneAt: HistoryTask['doneAt'];
+  id: HistoryTask['id'];
+  date: HistoryTask['date'];
+  description: HistoryTask['description'];
 }
