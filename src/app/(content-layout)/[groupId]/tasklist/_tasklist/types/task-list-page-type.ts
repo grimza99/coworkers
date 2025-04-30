@@ -1,7 +1,9 @@
+import { User } from '@/types/user';
+
 type Frequency = 'DAILY' | 'WEEKLY' | 'ONCE' | 'MONTHLY';
 type Role = 'ADMIN' | 'MEMBER';
 
-// taskLists[] -> taskList{}-> tasks[]-> task(기준){}
+// taskLists[] -> taskList{}-> tasks[]-> task(기준){} -> detailTask
 
 type Member = {
   role: Role;
@@ -11,12 +13,6 @@ type Member = {
   groupId: number;
   userId: number;
 };
-
-interface User {
-  image: string;
-  nickname: string;
-  id: number;
-}
 
 //teamId/groups/[groupId]:get
 export interface TaskListsApiResponse {
@@ -64,35 +60,5 @@ export interface Task {
 }
 
 //teamId/groups/[groupId]/task-lists/{taskListId}/tasks/{taskId}
-//할일 상세보기
 
-export interface DetailTaskApiResponse {
-  writer: User;
-  date: string;
-  description: string;
-  name: string;
-  id: number;
-  doneBy: {
-    user: User;
-  };
-  displayIndex: number;
-  commentCount: number;
-  deletedAt: string;
-  recurringId: number;
-  frequency: Frequency;
-  updatedAt: string;
-  doneAt: string;
-}
-
-//tasks/{taskId}/comments
-//할일 상세보기의 댓글 - 배열 형태
-
-export interface TaskCommentApiResponse {
-  id: number;
-  content: string;
-  createdAt: string;
-  updatedAt: string;
-  taskId: number;
-  userId: number;
-  user: User;
-}
+export type DetailTask = Task;
