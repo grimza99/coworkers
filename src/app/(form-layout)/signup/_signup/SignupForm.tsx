@@ -139,6 +139,12 @@ export default function SignupForm() {
     }
   };
 
+  const isFormInvalid =
+    !validateLengthLimit(formData.nickname) ||
+    !validateEmail(formData.email) ||
+    !validatePassword(formData.password) ||
+    !validateConfirmPassword(formData.password, formData.passwordConfirmation);
+
   return (
     <form className="flex w-full flex-col gap-y-10 md:max-w-115" onSubmit={handleSubmit}>
       <div className="flex flex-col gap-4">
@@ -160,7 +166,7 @@ export default function SignupForm() {
         ))}
       </div>
 
-      <Button type="submit" variant="solid" size="fullWidth" fontSize="16">
+      <Button type="submit" variant="solid" size="fullWidth" fontSize="16" disabled={isFormInvalid}>
         회원가입
       </Button>
     </form>
