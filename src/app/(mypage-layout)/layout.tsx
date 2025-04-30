@@ -7,9 +7,7 @@ export default function FormPageLayout({
 }>) {
   return (
     <div className="flex justify-center">
-      <div className="mx-4 mt-6 w-full max-w-198 min-w-[343px] md:mx-6 md:mt-25 lg:mt-35">
-        {children}
-      </div>
+      <div className="mx-4 mt-6 w-full max-w-198 min-w-[343px] md:mx-6 lg:mt-7">{children}</div>
     </div>
   );
 }
