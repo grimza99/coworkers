@@ -21,6 +21,8 @@ export default function SignupForm() {
     passwordConfirmation: '',
   });
 
+  const [duplicateError, setDuplicateError] = useState({ email: false, nickname: false });
+
   const [isPasswordVisible, setIsPasswordVisible] = useState({
     password: false,
     confirmPassword: false,
@@ -44,19 +46,29 @@ export default function SignupForm() {
     {
       label: '이름',
       name: 'nickname',
-      isFailure: !validateLengthLimit(formData.nickname),
+      isFailure: !validateLengthLimit(formData.nickname) || duplicateError.nickname,
       errorMessage:
         formData.nickname.trim() === ''
           ? '이름을 입력해주세요.'
-          : '닉네임은 10글자 이하로 작성해주세요.',
+          : !validateLengthLimit(formData.nickname)
+            ? '이름은 10글자 이하로 작성해주세요.'
+            : duplicateError.nickname
+              ? '이미 사용 중인 이름입니다.'
+              : '',
       placeholder: '이름을 입력해주세요.',
     },
     {
       label: '이메일',
       name: 'email',
-      isFailure: !validateEmail(formData.email),
+      isFailure: !validateEmail(formData.email) || duplicateError.email,
       errorMessage:
-        formData.email.trim() === '' ? '이메일을 입력해주세요.' : '올바른 이메일 형식이 아닙니다.',
+        formData.email.trim() === ''
+          ? '이메일을 입력해주세요.'
+          : !validateEmail(formData.email)
+            ? '올바른 이메일 형식이 아닙니다.'
+            : duplicateError.email
+              ? '이미 사용 중인 이메일입니다.'
+              : '',
       placeholder: '이메일을 입력해주세요.',
     },
     {
@@ -108,14 +120,17 @@ export default function SignupForm() {
       const { accessToken, refreshToken } = response.data;
       setClientCookie('accessToken', accessToken);
       setClientCookie('refreshToken', refreshToken);
-      // TODO: redirect if necessary
     } catch (error: any) {
       console.error('❌ 회원가입 실패:', error);
 
       if (error.response?.data?.message) {
-        alert(error.response.data.message);
+        const message = error.response.data.message;
+        setDuplicateError({
+          email: message.includes('이메일'),
+          nickname: message.includes('닉네임'),
+        });
       } else {
-        alert('회원가입에 실패했습니다.');
+        alert('회원가입에 실패했습니다.'); // 모달을 띄워서 다시 회원가입페이지로 돌아가서 시도할 수 있도록
       }
     }
   };
