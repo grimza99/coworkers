@@ -9,8 +9,7 @@ import { use, useState } from 'react';
 import Button from '@/components/common/Button';
 import DateWiseTaskList from './_tasklist/components/DateWiseTaskLists';
 import Plus from '@/assets/Plus';
-import CreateTaskListModal from './_tasklist/components/CreateTaskListModal';
-import { ModalPortal, ModalProvider, ModalTrigger } from '@/components/common/modal';
+import CreateTaskListModal from './_tasklist/components/ModalContents/CreateTaskListModal';
 import { ko } from 'date-fns/locale';
 
 interface Props {
@@ -55,12 +54,7 @@ export default function Page({ params }: Props) {
             <Image src={calendar} width={24} height={24} alt=">" />
           </button>
         </div>
-        <ModalProvider>
-          <ModalTrigger className="text-primary size-20 w-fit">+ 새로운 목록 추가하기</ModalTrigger>
-          <ModalPortal>
-            <CreateTaskListModal />
-          </ModalPortal>
-        </ModalProvider>
+        <CreateTaskListModal />
       </div>
       <DateWiseTaskList groupId={groupId} date={currentDate} />
       <Button
