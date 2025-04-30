@@ -63,7 +63,7 @@ export default function DateWiseTaskLists({ date, groupId }: Props) {
         {currentTasks.length > 0 || !currentTasks ? (
           <>
             {currentTasks.map((task) => {
-              return <TaskWiseTodoListItem item={task} key={task.id} />;
+              return <TaskWiseTodoListItem task={task} key={task.id} />;
             })}
           </>
         ) : (

@@ -2,15 +2,15 @@
 import TaskListItem from '@/components/task-list-item/TaskListItem';
 import { format, isValid } from 'date-fns';
 import { useState } from 'react';
-import { TaskListItemApiResponse } from '../types/task-list-page-type';
+import { Task } from '../types/task-list-page-type';
 import { TaskItemHandlers } from '../utils/todo-list-item-handlers';
 
 interface Props {
-  item: TaskListItemApiResponse;
+  task: Task;
 }
 
-export default function TaskListWiseTasks({ item }: Props) {
-  const [isDone, setIsDone] = useState(Boolean(item.doneAt));
+export default function TaskListWiseTasks({ task }: Props) {
+  const [isDone, setIsDone] = useState(Boolean(task.doneAt));
 
   const {
     handleClickPopUpDetail,
@@ -18,7 +18,7 @@ export default function TaskListWiseTasks({ item }: Props) {
     handleClickItemDelete,
     handleClickItemStatusChange,
     handleClickToggleDailyMode,
-  } = TaskItemHandlers(item.id, setIsDone);
+  } = TaskItemHandlers(task.id, setIsDone);
   //추후 필요한 인자는 데이터 작업중 파악하여 추가 예정
   const safeFormatDate = (dateString: string | undefined | null) => {
     if (!dateString) return '';
@@ -31,7 +31,7 @@ export default function TaskListWiseTasks({ item }: Props) {
 
   return (
     <TaskListItem
-      key={item.id}
+      key={task.id}
       type="taskList"
       onCheckStatusChange={handleClickItemStatusChange}
       onEdit={handleClickItemEdit}
@@ -39,10 +39,10 @@ export default function TaskListWiseTasks({ item }: Props) {
       onClick={handleClickPopUpDetail}
       onClickToggleDailyMode={handleClickToggleDailyMode}
       isDone={isDone}
-      description={item.description}
-      commentCount={item.commentCount}
-      date={safeFormatDate(item.date)}
-      frequency={item.frequency}
+      description={task.description}
+      commentCount={task.commentCount}
+      date={safeFormatDate(task.date)}
+      frequency={task.frequency}
     />
   );
 }
