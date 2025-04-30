@@ -8,6 +8,14 @@ export interface Comment {
   user: User;
 }
 
+export interface ArticleComment {
+  id: number;
+  content: string;
+  createdAt: string;
+  updatedAt: string;
+  writer: User;
+}
+
 export type CommentApiResponse = Comment;
 
 export type CommentsApiResponse = Comment[];
