@@ -8,11 +8,7 @@ export interface Comment {
   user: User;
 }
 
-export interface ArticleComment {
-  id: number;
-  content: string;
-  createdAt: string;
-  updatedAt: string;
+export interface ArticleComment extends Omit<Comment, 'user'> {
   writer: User;
 }
 
