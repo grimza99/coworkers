@@ -24,7 +24,7 @@ export function RemoveTaskModalContent({ taskName }: Props) {
       <ModalContainer>
         <Image src="/icons/danger.icon.svg" alt="!" width={20} height={20} />
         <ModalHeading className="mt-4 mb-2">
-          '{taskName}'<br />할 일을 정말 삭제하시겠어요?
+          <p>{`'${taskName}'${(<br />)}할 일을 정말 삭제하시겠어요?`}</p>
         </ModalHeading>
         <ModalDescription className="text-md-md mb-6 w-full text-gray-500">
           삭제 후에는 되돌릴 수 없습니다.
