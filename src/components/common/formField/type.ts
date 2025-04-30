@@ -25,6 +25,7 @@ export interface FileInputProps extends InputHTMLAttributes<HTMLInputElement> {
 
 export interface FormFieldProps {
   field: 'input' | 'textarea' | 'file-input';
+  imageUploaderType?: ImageUploaderType;
   label: string;
   required?: boolean;
   isSuccess?: boolean;

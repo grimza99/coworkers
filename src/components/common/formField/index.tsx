@@ -11,6 +11,7 @@ import ImageUploader from './compound/ImageUploader';
 
 export default function FormField({
   field = 'input',
+  imageUploaderType,
   label,
   required,
   isSuccess,
@@ -42,7 +43,7 @@ export default function FormField({
       );
     }
     if (field === 'file-input') {
-      const { imageUploaderType, image } = rest as FileInputProps;
+      const { image } = rest as FileInputProps;
       return (
         <FileInput {...(rest as FileInputProps)}>
           {({ inputRef }) => (
