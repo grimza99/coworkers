@@ -14,7 +14,9 @@ export default function CommentItem({ comment }: CommentItemProps) {
     <div className="border-b-border flex flex-col gap-4 border-b-2 pb-4">
       <div className="flex items-start justify-between">
         <div className="text-md-rg break-keep whitespace-pre-wrap">{content}</div>
-        <CommentItemDropdown />
+        <div className="shrink-0">
+          <CommentItemDropdown />
+        </div>
       </div>
       <div className="flex items-center justify-between gap-4">
         <ProfileBadge user={user} />
