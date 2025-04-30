@@ -13,25 +13,30 @@ interface Props {
 export default function DateWiseTaskList({ date, groupId }: Props) {
   const [taskLists, setTaskLists] = useState<TaskList[]>([]);
   const [currentTaskList, setCurrentTaskList] = useState<TaskList>(taskLists[0]);
-  const [currentTasks, setCurrentTasks] = useState<Task[]>(currentTaskList.tasks);
+  const [currentTasks, setCurrentTasks] = useState<Task[]>([]);
 
   const handleClickChangeCurrentTask = (taskList: TaskList) => {
     setCurrentTaskList(taskList);
-    // setCurrentTasks(task.tasks);
+    setCurrentTasks(taskList.tasks);
   };
 
   const handleLoad = async () => {
     const { data: taskListsData } = await axiosClient(`/groups/${groupId}`);
-    const { data: tasksData } = await axiosClient(`groups/task-lists/${currentTaskList.id}/tasks`, {
-      params: { date },
-    });
+
     setTaskLists(taskListsData.taskLists);
+    setCurrentTaskList(taskListsData.taskLists[0]);
+    const { data: tasksData } = await axiosClient(
+      `groups/${groupId}/task-lists/${taskListsData.taskLists[0].id}/tasks`,
+      {
+        params: { date },
+      }
+    );
+    console.log(tasksData);
     setCurrentTasks(tasksData);
   };
 
   useEffect(() => {
     handleLoad();
-    setCurrentTaskList(taskLists[0]); // date가 바뀔때마다 일단 태스크 리스트의 첫번째로 돌아가게 구현
     // setCurrentTaskItem(바뀐 날짜에 의한 새로운 투두리스트...)
     //date가 바뀔 때마다 태스크안의 투두 아이템이 바뀌어야함
   }, [date]);

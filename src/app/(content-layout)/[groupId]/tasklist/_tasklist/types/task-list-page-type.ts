@@ -18,9 +18,8 @@ interface User {
   id: number;
 }
 
-//teamId/groups/[groupId]
-
-export interface GroupApiResponse {
+//teamId/groups/[groupId]:get
+export interface TaskListsApiResponse {
   teamId: string;
   updatedAt: string;
   createdAt: string;
@@ -30,6 +29,20 @@ export interface GroupApiResponse {
   members: Member[];
   taskLists: TaskList[];
 }
+
+export interface TaskList {
+  displayIndex: number;
+  groupId: number;
+  updatedAt: string;
+  createdAt: string;
+  name: string;
+  id: number;
+  tasks: Task[];
+}
+
+//teamId/groups/[groupId]/task-lists/{taskListId}/tasks
+
+export type TasksApiResponse = Task[];
 
 //기준이 되는 인터페이스
 export interface Task {
@@ -49,19 +62,6 @@ export interface Task {
   name: string;
   id: number;
 }
-export interface TaskList {
-  displayIndex: number;
-  groupId: number;
-  updatedAt: string;
-  createdAt: string;
-  name: string;
-  id: number;
-  tasks: Task[];
-}
-
-//teamId/groups/[groupId]/task-lists/{taskListId}/tasks
-
-export type TasksApiResponse = Task[];
 
 //teamId/groups/[groupId]/task-lists/{taskListId}/tasks/{taskId}
 //할일 상세보기
