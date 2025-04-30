@@ -1,6 +1,8 @@
 'use client';
 
 import { useState, ChangeEvent } from 'react';
+import axiosClient from '@/lib/axiosClient';
+import { setClientCookie } from '@/lib/cookie/client';
 import FormField from '@/components/common/formField';
 import Button from '@/components/common/Button';
 import {
@@ -13,10 +15,10 @@ import PasswordToggleButton from './PasswordToggleButton';
 
 export default function SignupForm() {
   const [formData, setFormData] = useState({
-    name: '',
+    nickname: '',
     email: '',
     password: '',
-    confirmPassword: '',
+    passwordConfirmation: '',
   });
 
   const [isPasswordVisible, setIsPasswordVisible] = useState({
@@ -41,10 +43,10 @@ export default function SignupForm() {
   const formFields = [
     {
       label: '이름',
-      name: 'name',
-      isFailure: !validateLengthLimit(formData.name),
+      name: 'nickname',
+      isFailure: !validateLengthLimit(formData.nickname),
       errorMessage:
-        formData.name.trim() === ''
+        formData.nickname.trim() === ''
           ? '이름을 입력해주세요.'
           : '닉네임은 10글자 이하로 작성해주세요.',
       placeholder: '이름을 입력해주세요.',
@@ -76,11 +78,11 @@ export default function SignupForm() {
     },
     {
       label: '비밀번호 확인',
-      name: 'confirmPassword',
+      name: 'passwordConfirmation',
       type: isPasswordVisible.confirmPassword ? 'text' : 'password',
-      isFailure: !validateConfirmPassword(formData.password, formData.confirmPassword),
+      isFailure: !validateConfirmPassword(formData.password, formData.passwordConfirmation),
       errorMessage:
-        formData.confirmPassword.trim() === ''
+        formData.passwordConfirmation.trim() === ''
           ? '비밀번호를 입력해주세요.'
           : '비밀번호가 일치하지 않습니다.',
       placeholder: '비밀번호를 다시 한 번 입력해주세요.',
@@ -92,9 +94,34 @@ export default function SignupForm() {
       ),
     },
   ];
+  const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
+    e.preventDefault();
+    try {
+      console.log('📤 요청 보냄:', formData);
+      const response = await axiosClient.post('/auth/signUp', {
+        email: formData.email,
+        password: formData.password,
+        passwordConfirmation: formData.passwordConfirmation,
+        nickname: formData.nickname,
+      });
+
+      const { accessToken, refreshToken } = response.data;
+      setClientCookie('accessToken', accessToken);
+      setClientCookie('refreshToken', refreshToken);
+      // TODO: redirect if necessary
+    } catch (error: any) {
+      console.error('❌ 회원가입 실패:', error);
+
+      if (error.response?.data?.message) {
+        alert(error.response.data.message);
+      } else {
+        alert('회원가입에 실패했습니다.');
+      }
+    }
+  };
 
   return (
-    <form className="flex w-full flex-col gap-y-10 md:max-w-115">
+    <form className="flex w-full flex-col gap-y-10 md:max-w-115" onSubmit={handleSubmit}>
       <div className="flex flex-col gap-4">
         {formFields.map((field) => (
           <FormField
