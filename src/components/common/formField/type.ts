@@ -19,7 +19,7 @@ export type ImageUploaderType = 'board' | 'team' | 'user';
 
 export interface FileInputProps {
   imageUploaderType?: ImageUploaderType;
-  image: string;
+  image: string | null;
   onImageChange: (e: React.ChangeEvent<HTMLInputElement>) => void;
 }
 
