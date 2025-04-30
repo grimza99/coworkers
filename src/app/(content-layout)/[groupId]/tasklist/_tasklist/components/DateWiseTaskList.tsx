@@ -1,33 +1,38 @@
 'use client';
 import { useEffect, useState } from 'react';
 import clsx from 'clsx';
-import { TaskTest1, TaskTest2, TaskTest3 } from '../mock-data-task-list-page';
-import { TaskListApiResponse } from '../types/task-list-page-type';
+// import { TaskTest1, TaskTest2, TaskTest3 } from '../mock-data-task-list-page';
 import TaskWiseTodoListItem from './TaskWiseTodoListItem';
 import axiosClient from '@/lib/axiosClient';
+import { Task, TaskList, TasksApiResponse } from '../types/task-list-page-type';
 
-const MOCK_DATA = [TaskTest1, TaskTest2, TaskTest3];
+// const MOCK_DATA = [TaskTest1, TaskTest2, TaskTest3];
 
 interface Props {
   date: Date;
+  groupId: string;
 }
 
-export default function DateWiseTaskList({ date }: Props) {
-  const [currentTask, setCurrentTask] = useState(MOCK_DATA[0]);
-  const [currentTaskTodoList, setCurrentTaskTodoList] = useState(currentTask.tasks);
+export default function DateWiseTaskList({ date, groupId }: Props) {
+  const [taskList, setTaskList] = useState<TaskList[]>([]);
+  const [currentTask, setCurrentTask] = useState<TaskList>(taskList[0]);
+  const [currentTasks, setCurrentTasks] = useState<Task[]>(currentTask.tasks);
 
-  const handleClickChangeCurrentTask = (task: TaskListApiResponse) => {
+  const handleClickChangeCurrentTask = (task: TaskList) => {
     setCurrentTask(task);
-    setCurrentTaskTodoList(() => task.tasks);
+    // setCurrentTasks(task.tasks);
   };
 
   const handleLoad = async () => {
-    const res = axiosClient(`/groups/${id}`);
+    const { data: taskListData } = await axiosClient(`/groups/${groupId}`);
+    const { data: tasksData } = await axiosClient(`groups/${currentTask.id}/tasks`);
+    setTaskList(taskListData.taskLists);
+    setCurrentTasks(tasksData);
   };
 
   useEffect(() => {
     handleLoad();
-    setCurrentTask(MOCK_DATA[0]); // date가 바뀔때마다 일단 태스크 리스트의 첫번째로 돌아가게 구현
+    setCurrentTask(taskList[0]); // date가 바뀔때마다 일단 태스크 리스트의 첫번째로 돌아가게 구현
     // setCurrentTaskItem(바뀐 날짜에 의한 새로운 투두리스트...)
     //date가 바뀔 때마다 태스크안의 투두 아이템이 바뀌어야함
   }, [date]);
@@ -35,7 +40,7 @@ export default function DateWiseTaskList({ date }: Props) {
   return (
     <div className="flex flex-col gap-4">
       <div className="flex gap-3">
-        {MOCK_DATA.map((task) => {
+        {taskList.map((task) => {
           return (
             <p
               key={task.id}
@@ -53,9 +58,9 @@ export default function DateWiseTaskList({ date }: Props) {
         })}
       </div>
       <div>
-        {currentTaskTodoList.length > 0 ? (
+        {currentTasks.length > 0 || !currentTasks ? (
           <>
-            {currentTaskTodoList.map((item) => {
+            {currentTasks.map((item) => {
               return <TaskWiseTodoListItem item={item} key={item.id} />;
             })}
           </>

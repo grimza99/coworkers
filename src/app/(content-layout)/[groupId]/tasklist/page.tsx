@@ -5,11 +5,17 @@ import nextIcon from '@/../public/icons/next-arrow-icon.svg';
 import calendar from '@/../public/icons/calendar.svg';
 import Image from 'next/image';
 import { addDays, format, subDays } from 'date-fns';
-import { useState } from 'react';
+import { use, useState } from 'react';
 import Button from '@/components/common/Button';
 import DateWiseTaskList from './_tasklist/components/DateWiseTaskList';
 import Plus from '@/assets/Plus';
-export default function Page() {
+
+interface Props {
+  params: Promise<{ groupId: string }>;
+}
+
+export default function Page({ params }: Props) {
+  const { groupId } = use(params);
   const [currentDate, setCurrentDate] = useState(new Date());
 
   const handleClickChangeDayIcon = (value: string) => {
@@ -56,7 +62,7 @@ export default function Page() {
             + 새로운 목록 추가하기
           </div>
         </div>
-        <DateWiseTaskList date={currentDate} />
+        <DateWiseTaskList groupId={groupId} date={currentDate} />
       </div>
       <Button
         className="absolute right-6 bottom-40"

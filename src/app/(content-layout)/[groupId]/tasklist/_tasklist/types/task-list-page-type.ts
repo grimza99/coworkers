@@ -1,75 +1,77 @@
 type Frequency = 'DAILY' | 'WEEKLY' | 'ONCE' | 'MONTHLY';
+type Role = 'ADMIN' | 'MEMBER';
+
+// taskLists[] -> taskList{}-> tasks[]-> task(기준){}
+
+type Member = {
+  role: Role;
+  userImage: string;
+  userEmail: string;
+  userName: string;
+  groupId: number;
+  userId: number;
+};
+
 interface User {
   image: string;
   nickname: string;
   id: number;
 }
 
-//teamId/groups/[groupId]/task-lists/id
-export interface TaskListItemApiResponse {
+//teamId/groups/[groupId]
+
+export interface GroupApiResponse {
+  teamId: string;
+  updatedAt: string;
+  createdAt: string;
+  image: string;
+  name: string;
+  id: number;
+  members: Member[];
+  taskLists: TaskList[];
+}
+
+//기준이 되는 인터페이스
+export interface Task {
+  displayIndex: number;
+  commentCount: number;
+  frequency: Frequency;
+  doneAt: string;
+  date: string;
+  description: string;
   doneBy: {
     user: User;
   };
   writer: User;
-  displayIndex: number;
-  commentCount: number;
   deletedAt: string;
   recurringId: number;
-  frequency: Frequency;
   updatedAt: string;
-  doneAt: string;
-  date: string;
-  description: string;
   name: string;
   id: number;
 }
-
-export interface TaskListApiResponse {
+export interface TaskList {
   displayIndex: number;
   groupId: number;
   updatedAt: string;
   createdAt: string;
   name: string;
   id: number;
-  tasks: TaskListItemApiResponse[];
+  tasks: Task[];
 }
 
 //teamId/groups/[groupId]/task-lists/{taskListId}/tasks
-//특정 일자, 특정 할일 리스트이 할일 리스트 (date를 받음)- 배열 형태
 
-export interface TodoListProps {
-  displayIndex: number;
-  commentCount: number;
-  frequency: Frequency;
-  doneAt: string;
-  date: string;
-  description: string;
-}
-
-export interface TodoListApiResponse extends TodoListProps {
-  doneBy: {
-    user: User;
-  };
-  writer: User;
-  deletedAt: string;
-  recurringId: number;
-  updatedAt: string;
-  name: string;
-  id: number;
-}
+export type TasksApiResponse = Task[];
 
 //teamId/groups/[groupId]/task-lists/{taskListId}/tasks/{taskId}
 //할일 상세보기
 
-export interface TodoDetailContentProps {
+export interface DetailTaskApiResponse {
   writer: User;
   date: string;
   description: string;
   name: string;
   id: number;
-}
-
-export interface TodoDetailContentApiResponse extends TodoDetailContentProps {
   doneBy: {
     user: User;
   };
@@ -85,7 +87,7 @@ export interface TodoDetailContentApiResponse extends TodoDetailContentProps {
 //tasks/{taskId}/comments
 //할일 상세보기의 댓글 - 배열 형태
 
-export interface ToDoCommentApiResponse {
+export interface TaskCommentApiResponse {
   id: number;
   content: string;
   createdAt: string;
