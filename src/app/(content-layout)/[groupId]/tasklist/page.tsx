@@ -9,6 +9,8 @@ import { use, useState } from 'react';
 import Button from '@/components/common/Button';
 import DateWiseTaskList from './_tasklist/components/DateWiseTaskLists';
 import Plus from '@/assets/Plus';
+import CreateTaskListModal from './_tasklist/components/CreateTaskListModal';
+import { ModalPortal, ModalProvider, ModalTrigger } from '@/components/common/modal';
 
 interface Props {
   params: Promise<{ groupId: string }>;
@@ -28,11 +30,6 @@ export default function Page({ params }: Props) {
 
   const handleClickCalendarPopUp = () => {
     // 캘린더 띄움
-  };
-
-  const handleClickCreateTask = () => {
-    console.log('새로운 목록');
-    //새로운 목록 모달 띄우기
   };
 
   const handleClickCreateTaskItem = () => {
@@ -58,12 +55,18 @@ export default function Page({ params }: Props) {
               <Image src={calendar} width={24} height={24} alt=">" />
             </button>
           </div>
-          <div onClick={handleClickCreateTask} className="text-primary text-md-rg">
-            + 새로운 목록 추가하기
-          </div>
+          <ModalProvider>
+            <ModalTrigger className="text-primary size-20 w-fit">
+              + 새로운 목록 추가하기
+            </ModalTrigger>
+            <ModalPortal>
+              <CreateTaskListModal />
+            </ModalPortal>
+          </ModalProvider>
         </div>
         <DateWiseTaskList groupId={groupId} date={currentDate} />
       </div>
+
       <Button
         className="absolute right-6 bottom-40"
         onClick={handleClickCreateTaskItem}
