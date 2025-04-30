@@ -31,12 +31,12 @@ export default function DateWiseTaskLists({ date, groupId }: Props) {
         params: { date },
       }
     );
-    console.log(tasksData);
     setCurrentTasks(tasksData);
   };
 
   useEffect(() => {
     handleLoad();
+    //태스크가 바뀔때, 날짜가 바뀔때, 서로 유기적으로 동작해서 아래 아이템이 바뀌어야함함ㅎ맣ㅁ함함함ㅎ함ㅎ마하마하마함ㅎ
   }, [date]);
 
   return (
@@ -61,11 +61,11 @@ export default function DateWiseTaskLists({ date, groupId }: Props) {
       </div>
       <div>
         {currentTasks.length > 0 || !currentTasks ? (
-          <>
+          <div className="flex flex-col gap-4">
             {currentTasks.map((task) => {
               return <TaskWiseTodoListItem task={task} key={task.id} />;
             })}
-          </>
+          </div>
         ) : (
           <p className="text-md-md text-gray-500">
             아직 할 일 목록이 없습니다.

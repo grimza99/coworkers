@@ -11,6 +11,7 @@ import DateWiseTaskList from './_tasklist/components/DateWiseTaskLists';
 import Plus from '@/assets/Plus';
 import CreateTaskListModal from './_tasklist/components/CreateTaskListModal';
 import { ModalPortal, ModalProvider, ModalTrigger } from '@/components/common/modal';
+import { ko } from 'date-fns/locale';
 
 interface Props {
   params: Promise<{ groupId: string }>;
@@ -42,7 +43,7 @@ export default function Page({ params }: Props) {
         <p className="text-lg-bold md:text-xl-bold">할일</p>
         <div className="flex justify-between">
           <div className="flex items-center gap-3">
-            <p className="text-lg-md">{format(currentDate, 'M월 dd일')}</p>
+            <p className="text-lg-md">{format(currentDate, 'M월 dd일 (eee)', { locale: ko })}</p>
             <div className="flex gap-1">
               <button onClick={() => handleClickChangeDayIcon('prev')}>
                 <Image src={prevIcon} width={16} height={16} alt="<" />
