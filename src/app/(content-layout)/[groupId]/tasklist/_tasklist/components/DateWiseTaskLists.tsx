@@ -1,9 +1,9 @@
 'use client';
 import { useEffect, useState } from 'react';
 import clsx from 'clsx';
-import TaskWiseTodoListItem from './TaskListWiseTasks';
 import axiosClient from '@/lib/axiosClient';
 import { Task, TaskList } from '../types/task-list-page-type';
+import TaskListWiseTasks from './TaskListWiseTasks';
 
 interface Props {
   date: Date;
@@ -79,7 +79,7 @@ export default function DateWiseTaskLists({ date, groupId }: Props) {
         {currentTasks.length > 0 || !currentTasks ? (
           <div className="flex w-full flex-col gap-4">
             {currentTasks.map((task) => {
-              return <TaskWiseTodoListItem task={task} key={task.id} />;
+              return <TaskListWiseTasks task={task} key={task.id} />;
             })}
           </div>
         ) : (
