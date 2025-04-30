@@ -7,7 +7,7 @@ import FormField from '@/components/common/formField';
 export default function MyTeam() {
   return (
     <div className="flex w-full flex-col items-center md:-translate-y-15 lg:-translate-y-25">
-      <h1 className="text-xl-bold flex w-full flex-col text-start">계정설정</h1>
+      <h1 className="text-xl-bold flex w-full flex-col pb-3 text-start">계정설정</h1>
       <form className="flex w-full flex-col gap-6">
         <FormField
           field="file-input"
@@ -21,9 +21,11 @@ export default function MyTeam() {
             field="input"
             label="이름"
             rightSlot={
-              <Button size="xs" fontSize="14">
-                변경하기
-              </Button>
+              <div className="flex items-center">
+                <Button size="xs" fontSize="14" className="shrink-0">
+                  변경하기
+                </Button>
+              </div>
             }
           />
           <FormField field="input" label="이메일" />
@@ -32,9 +34,11 @@ export default function MyTeam() {
             type="password"
             label="비밀번호"
             rightSlot={
-              <Button size="xs" fontSize="14">
-                변경하기
-              </Button>
+              <div className="flex items-center">
+                <Button size="xs" fontSize="14" className="shrink-0">
+                  변경하기
+                </Button>
+              </div>
             }
           />
         </div>
