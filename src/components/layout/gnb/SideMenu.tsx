@@ -35,12 +35,13 @@ const SideMenu = forwardRef<HTMLDivElement, SideMenuProps>(({ teams, isOpen, onC
 
         <div className="flex flex-col gap-6">
           {teams.map((team) => (
-            <div
+            <Link
               key={team.id}
-              className="text-md-md hover:bg-bg300 cursor-pointer rounded px-2 py-1"
+              href={`/groups/${team.id}`}
+              className="text-md-md hover:bg-bg300 block cursor-pointer rounded px-2 py-1"
             >
               {team.name}
-            </div>
+            </Link>
           ))}
           <Link href="/articles" className="text-primary text-md-md cursor-pointer px-2 py-1">
             자유게시판
