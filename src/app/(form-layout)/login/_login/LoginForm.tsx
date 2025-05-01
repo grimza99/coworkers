@@ -1,31 +1,56 @@
 'use client';
 import { useState } from 'react';
+import { useRouter } from 'next/navigation';
+import { isAxiosError } from 'axios';
 import FormField from '@/components/common/formField';
 import Button from '@/components/common/Button';
 import PasswordToggleButton from '@/app/(form-layout)/signup/_signup/PasswordToggleButton';
 import axiosClient from '@/lib/axiosClient';
 import { setClientCookie } from '@/lib/cookie/client';
 import { validateEmail, validatePassword } from '@/utils/validators';
+import { User } from '@/types/user';
+import PATHS from '@/constants/paths';
+
+interface loginApiResponse {
+  accessToken: string;
+  refreshToken: string;
+  user: User;
+}
 
 export default function LoginForm() {
+  const router = useRouter();
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [isPasswordVisible, setIsPasswordVisible] = useState(false);
+  const [isLoggingIn, setIsLoggingIn] = useState(false);
+  const [isLoginFailed, setIsLoginFailed] = useState(false);
 
   const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
-    const res = await axiosClient.post(`/auth/signIn`, {
-      email: email,
-      password: password,
-    });
+    setIsLoggingIn(true);
+    setIsLoginFailed(false);
 
-    const data = await res.data;
+    try {
+      const res = await axiosClient.post<loginApiResponse>(`/auth/signIn`, {
+        email,
+        password,
+      });
 
-    const accessToken = data?.accessToken;
-    const refreshToken = data?.refreshToken;
+      const data = res.data;
+      setClientCookie('accessToken', data.accessToken);
+      setClientCookie('refreshToken', data.refreshToken);
 
-    setClientCookie('accessToken', accessToken);
-    setClientCookie('refreshToken', refreshToken);
+      router.push(PATHS.HOME);
+    } catch (error) {
+      if (isAxiosError(error)) {
+        setIsLoginFailed(true);
+      } else {
+        console.error('로그인 중 에러가 발생했습니다:', error);
+      }
+      setPassword('');
+    } finally {
+      setIsLoggingIn(false);
+    }
   };
 
   return (
@@ -43,7 +68,7 @@ export default function LoginForm() {
           }}
           isFailure={!validateEmail(email)}
           errorMessage="유효한 이메일이 아닙니다."
-          // disabled={isPending}
+          disabled={isLoggingIn}
         />
         <FormField
           name="password"
@@ -63,7 +88,7 @@ export default function LoginForm() {
               onToggle={() => setIsPasswordVisible((prev) => !prev)}
             />
           }
-          // disabled={isPending}
+          disabled={isLoggingIn}
         />
       </div>
       <button type="button" className="text-md-md text-primary mt-3 w-fit self-end underline">
@@ -75,10 +100,17 @@ export default function LoginForm() {
         size="fullWidth"
         fontSize="16"
         className="mt-10"
-        disabled={!(validateEmail(email) && validatePassword(password))}
+        disabled={!(validateEmail(email) && validatePassword(password)) || isLoggingIn}
       >
-        로그인
+        {isLoggingIn ? '...' : '로그인'}
       </Button>
+      {isLoginFailed ? (
+        <p className="text-md-md text-danger mt-4 self-center text-center">
+          이메일 또는 비밀번호가 잘못 되었습니다.
+          <br />
+          이메일과 비밀번호를 정확히 입력해주세요.
+        </p>
+      ) : null}
     </form>
   );
 }
