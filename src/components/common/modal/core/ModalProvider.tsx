@@ -2,23 +2,47 @@
 import { useState } from 'react';
 import ModalContext from '@/components/common/modal/core/ModalContext';
 
+export interface ModalState {
+  [id: string]: { isOpen: boolean };
+}
+
 export default function ModalProvider({ children }: { children: React.ReactNode }) {
-  const [isOpen, setIsOpen] = useState(false);
+  const [modals, setModals] = useState<ModalState>({});
 
-  const toggleModal = () => {
-    setIsOpen((prev) => !prev);
+  const openModal = (id: string) => {
+    setModals((prev) => ({
+      ...prev,
+      [id]: { isOpen: true },
+    }));
   };
 
-  const openModal = () => {
-    setIsOpen(true);
+  const closeModal = (id: string) => {
+    setModals((prev) => ({
+      ...prev,
+      [id]: { isOpen: false },
+    }));
   };
 
-  const closeModal = () => {
-    setIsOpen(false);
+  const toggleModal = (id: string) => {
+    setModals((prev) => ({
+      ...prev,
+      [id]: { isOpen: prev[id]?.isOpen !== true },
+    }));
+  };
+
+  const checkIsModalOpen = (id: string) => {
+    return !!modals[id]?.isOpen;
   };
 
   return (
-    <ModalContext.Provider value={{ toggleModal, openModal, closeModal, isOpen }}>
+    <ModalContext.Provider
+      value={{
+        openModal,
+        closeModal,
+        toggleModal,
+        checkIsModalOpen,
+      }}
+    >
       {children}
     </ModalContext.Provider>
   );
