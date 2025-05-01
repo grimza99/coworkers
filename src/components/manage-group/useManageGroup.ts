@@ -2,7 +2,7 @@ import { useState } from 'react';
 import { Group } from './ManageGroup';
 import postImageUrl from '@/utils/postImageUrl';
 import axiosClient from '@/lib/axiosClient';
-import manageGroupValidate, { State } from './group-validate';
+import manageGroupValidate, { Validation } from './group-validate';
 
 const INITIAL_GROUP_VALUE: Group = {
   image: null,
@@ -11,10 +11,10 @@ const INITIAL_GROUP_VALUE: Group = {
 
 export default function useManageGroup(groupData?: Group) {
   const [group, setGroup] = useState<Group>(groupData ?? INITIAL_GROUP_VALUE);
-  const [state, setState] = useState<State[]>([]);
+  const [validationMessage, setValidationMessage] = useState<Validation[]>([]);
 
   const getMessage = (field: keyof Group) => {
-    return state.find((state) => state.field === field)?.message || '';
+    return validationMessage.find((state) => state.field === field)?.message || '';
   };
 
   const handleNameChange = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -24,30 +24,31 @@ export default function useManageGroup(groupData?: Group) {
     }));
   };
 
-  const handleImageChange = async (e: React.ChangeEvent<HTMLInputElement>) => {
+  const handleImageChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const file = e.target.files?.[0];
     if (!file) return;
 
-    try {
-      const result = await postImageUrl(file);
-      setGroup((prev) => ({
-        ...prev,
-        image: result.url,
-      }));
+    postImageUrl(file)
+      .then((result) => {
+        setGroup((prev) => ({
+          ...prev,
+          image: result.url,
+        }));
 
-      setState((prev) => prev.filter((item) => item.field !== 'image'));
-    } catch (err) {
-      console.error(err);
-    }
+        setValidationMessage((prev) => prev.filter((item) => item.field !== 'image'));
+      })
+      .catch((err) => {
+        console.error(err);
+      });
   };
 
-  const handleAddGroupSubmit = async (e: React.FormEvent) => {
+  const handleAddGroupSubmit = (e: React.FormEvent) => {
     e.preventDefault();
 
     const validation = manageGroupValidate(group);
 
     if (validation.length > 0) {
-      setState(validation);
+      setValidationMessage(validation);
       return;
     }
 

@@ -1,6 +1,6 @@
 import { Group, GROUP_MESSAGE } from './ManageGroup';
 
-export interface State {
+export interface Validation {
   field: keyof Group;
   message: string;
 }
@@ -8,7 +8,7 @@ export interface State {
 const manageGroupValidate = (group: Group) => {
   const { image, name } = group;
 
-  const messageArray: State[] = [];
+  const messageArray: Validation[] = [];
 
   if (image === null || image === '') {
     messageArray.push({
