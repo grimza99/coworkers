@@ -1,7 +1,6 @@
 'use client';
 
 import { useState, ChangeEvent } from 'react';
-import { useRouter } from 'next/navigation';
 import axiosClient from '@/lib/axiosClient';
 import { setClientCookie } from '@/lib/cookie/client';
 import FormField from '@/components/common/formField';
@@ -13,6 +12,7 @@ import {
   validateLengthLimit,
 } from '@/utils/validators';
 import PasswordToggleButton from './PasswordToggleButton';
+import { ModalProvider } from '@/components/common/modal';
 
 export default function SignupForm() {
   const [formData, setFormData] = useState({
@@ -28,8 +28,6 @@ export default function SignupForm() {
     password: false,
     confirmPassword: false,
   });
-
-  const router = useRouter();
 
   const setFieldValue = (key: keyof typeof formData, value: string) => {
     setFormData((prev) => ({
@@ -123,7 +121,6 @@ export default function SignupForm() {
       const { accessToken, refreshToken } = response.data;
       setClientCookie('accessToken', accessToken);
       setClientCookie('refreshToken', refreshToken);
-      router.push('/login');
     } catch (error: any) {
       console.error('❌ 회원가입 실패:', error);
 
@@ -165,10 +162,17 @@ export default function SignupForm() {
           />
         ))}
       </div>
-
-      <Button type="submit" variant="solid" size="fullWidth" fontSize="16" disabled={isFormInvalid}>
-        회원가입
-      </Button>
+      <ModalProvider>
+        <Button
+          type="submit"
+          variant="solid"
+          size="fullWidth"
+          fontSize="16"
+          disabled={isFormInvalid}
+        >
+          회원가입
+        </Button>
+      </ModalProvider>
     </form>
   );
 }
