@@ -1,4 +1,5 @@
 import ManageGroup from '@/components/manage-group/ManageGroup';
+import DEFAULT_IMAGE from '@/constants/default-image';
 
 export default function EditGroup() {
   return (
@@ -7,8 +8,7 @@ export default function EditGroup() {
       <ManageGroup
         isEdit
         groupData={{
-          image:
-            'https://search.pstatic.net/common/?src=http%3A%2F%2Fblogfiles.naver.net%2FMjAyMzEwMjNfMzcg%2FMDAxNjk4MDI0MzkzMzUx.RwHtbPS1FBz90oRrZC4zwzxZ4kiBHvUJgRCAnvavfxgg.owrSXiA-gC7wxGdHz08JrurubmKEJanm4N1upq6yE1wg.JPEG.whenusmile%2Foutput_302590174.jpg&type=a340',
+          image: DEFAULT_IMAGE,
           name: 'hee',
         }}
       />
