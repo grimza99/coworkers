@@ -1,7 +1,7 @@
 import Link from 'next/link';
 import LoginForm from './_login/LoginForm';
-import PATHS from '@/constants/paths';
 import OAuth from '@/components/oauth';
+import PATHS from '@/constants/paths';
 
 export default function LoginPage() {
   return (
