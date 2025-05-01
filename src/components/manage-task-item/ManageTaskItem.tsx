@@ -3,7 +3,6 @@
 import { useState } from 'react';
 import clsx from 'clsx';
 import { format } from 'date-fns';
-import Button from '../common/Button';
 import FormField from '../common/formField';
 import { OptionSelector } from '../common/dropdown/OptionSelector';
 import CalendarSelect from '../calendar/CalendarSelect';
@@ -15,9 +14,7 @@ import {
   Task,
 } from '@/app/(content-layout)/[groupId]/tasklist/_tasklist/types/task-list-page-type';
 
-// 수정 작업 진행할 때 h1과 button children 분기 처리 예정
-
-interface TaskItem extends Pick<Task, 'id' | 'name' | 'frequency' | 'description'> {
+interface TaskItem extends Pick<Task, 'id' | 'name' | 'frequency' | 'weekDays' | 'description'> {
   date: Date | string;
 }
 
@@ -34,6 +31,7 @@ const INITIAL_TASK_ITEM: TaskItem = {
   description: '',
   date: new Date(),
   frequency: 'ONCE',
+  weekDays: [],
 };
 
 const FREQUENCY_MAP: Record<Frequency, string> = {
@@ -62,7 +60,6 @@ export default function ManageTaskItem({ task }: { task?: TaskItem }) {
   const [selectedFrequency, setSelectedFrequency] = useState(() => {
     return task?.frequency ? FREQUENCY_MAP[task.frequency] : '';
   });
-  const [selectedDays, setSelectedDays] = useState<number[]>([]);
   const [selectedTime, setSelectedTime] = useState<Time>({
     period: '오전',
     time: am[0],
@@ -117,9 +114,12 @@ export default function ManageTaskItem({ task }: { task?: TaskItem }) {
   };
 
   const toggleDay = (idx: number) => {
-    setSelectedDays((prev) =>
-      prev.includes(idx) ? prev.filter((i) => i !== idx) : [...prev, idx]
-    );
+    setTaskItem((prev) => ({
+      ...prev,
+      weekly: prev.weekDays.includes(idx)
+        ? prev.weekDays.filter((i) => i !== idx)
+        : [...prev.weekDays, idx],
+    }));
   };
 
   const updateTime = (key: 'period' | 'time', value: string) => {
@@ -135,11 +135,13 @@ export default function ManageTaskItem({ task }: { task?: TaskItem }) {
     });
   };
 
+  const headingText = task ? '수정하기' : '만들기';
+
   return (
-    <div className="bg-bg200 w-[384px] px-4 py-6">
-      <div className="mb-8 flex flex-col gap-6">
+    <div className="bg-bg200 w-[384px] pb-8">
+      <div className="flex flex-col gap-6">
         <div className="flex flex-col items-center gap-4">
-          <h1 className="text-lg-md">할 일 만들기</h1>
+          <h1 className="text-lg-md">할 일 {headingText}</h1>
           <p className="text-md-md text-gray500 text-center">
             할 일은 실제로 행동 가능한 작업 중심으로
             <br />
@@ -193,7 +195,10 @@ export default function ManageTaskItem({ task }: { task?: TaskItem }) {
         </div>
 
         {selectedFrequency === '주 반복' && (
-          <WeeklySelect selectedDays={selectedDays} toggleDay={(idx: number) => toggleDay(idx)} />
+          <WeeklySelect
+            selectedDays={taskItem.weekDays}
+            toggleDay={(idx: number) => toggleDay(idx)}
+          />
         )}
 
         <FormField
@@ -206,9 +211,6 @@ export default function ManageTaskItem({ task }: { task?: TaskItem }) {
           height={75}
         />
       </div>
-      <Button size="fullWidth" variant="solid">
-        만들기
-      </Button>
     </div>
   );
 }
