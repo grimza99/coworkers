@@ -10,8 +10,16 @@ import CalendarSelect from '../calendar/CalendarSelect';
 import WeeklySelect from './WeeklySelect';
 import TimePicker from './TimePicker';
 import generateTime from './time-table';
+import {
+  Frequency,
+  Task,
+} from '@/app/(content-layout)/[groupId]/tasklist/_tasklist/types/task-list-page-type';
 
 // 수정 작업 진행할 때 h1과 button children 분기 처리 예정
+
+interface TaskItem extends Pick<Task, 'id' | 'name' | 'frequency' | 'description'> {
+  date: Date | string;
+}
 
 export interface Time {
   period: '오전' | '오후';
@@ -20,13 +28,40 @@ export interface Time {
 
 const FREQUENCY_LIST = ['한 번', '매일', '주 반복', '월 반복'];
 
-export default function ManageTaskItem() {
+const INITIAL_TASK_ITEM: TaskItem = {
+  id: 0,
+  name: '',
+  description: '',
+  date: new Date(),
+  frequency: 'ONCE',
+};
+
+const FREQUENCY_MAP: Record<Frequency, string> = {
+  ONCE: '한 번',
+  DAILY: '매일',
+  WEEKLY: '주 반복',
+  MONTHLY: '월 반복',
+};
+
+const REVERSE_FREQUENCY_MAP: Record<string, Frequency> = {
+  '한 번': 'ONCE',
+  매일: 'DAILY',
+  '주 반복': 'WEEKLY',
+  '월 반복': 'MONTHLY',
+};
+
+export default function ManageTaskItem({ task }: { task?: TaskItem }) {
   const { am, pm } = generateTime();
 
-  const [date, setDate] = useState(new Date());
   const [isCalendarOpen, setIsCalendarOpen] = useState(false);
+  const [taskItem, setTaskItem] = useState<TaskItem>(() => ({
+    ...INITIAL_TASK_ITEM,
+    ...task,
+  }));
   const [isTimeOpen, setIsTimeOpen] = useState(false);
-  const [selectedFrequency, setSelectedFrequency] = useState('');
+  const [selectedFrequency, setSelectedFrequency] = useState(() => {
+    return task?.frequency ? FREQUENCY_MAP[task.frequency] : '';
+  });
   const [selectedDays, setSelectedDays] = useState<number[]>([]);
   const [selectedTime, setSelectedTime] = useState<Time>({
     period: '오전',
@@ -36,7 +71,7 @@ export default function ManageTaskItem() {
   const select = [
     {
       id: 'date',
-      value: format(date, 'yyyy년 MM월 dd일'),
+      value: format(taskItem.date, 'yyyy년 MM월 dd일'),
       onClick: () => {
         setIsCalendarOpen((prev) => !prev);
         setIsTimeOpen(false);
@@ -56,9 +91,29 @@ export default function ManageTaskItem() {
     },
   ];
 
+  const handleInputChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
+    const { name, value } = e.target;
+    setTaskItem((prev) => ({
+      ...prev,
+      [name]: value,
+    }));
+  };
+
   const handleCalendarDateChange = (selectedDate: Date) => {
-    setDate(selectedDate);
+    setTaskItem((prev) => ({
+      ...prev,
+      date: selectedDate,
+    }));
     setIsCalendarOpen(false);
+  };
+
+  const handleFrequencyChange = (e: React.MouseEvent<HTMLDivElement>) => {
+    const frequency = e.currentTarget.textContent ?? '';
+    setSelectedFrequency(frequency);
+    setTaskItem((prev) => ({
+      ...prev,
+      frequency: REVERSE_FREQUENCY_MAP[frequency] || 'ONCE',
+    }));
   };
 
   const toggleDay = (idx: number) => {
@@ -92,7 +147,14 @@ export default function ManageTaskItem() {
           </p>
         </div>
 
-        <FormField field="input" label="할 일 제목" placeholder="할 일 제목을 입력해 주세요." />
+        <FormField
+          field="input"
+          name="name"
+          value={taskItem.name}
+          onChange={handleInputChange}
+          label="할 일 제목"
+          placeholder="할 일 제목을 입력해 주세요."
+        />
 
         <div className="flex flex-col gap-2">
           <div className="flex flex-col gap-4">
@@ -113,7 +175,9 @@ export default function ManageTaskItem() {
               ))}
             </div>
           </div>
-          {isCalendarOpen && <CalendarSelect onDateChange={handleCalendarDateChange} date={date} />}
+          {isCalendarOpen && (
+            <CalendarSelect onDateChange={handleCalendarDateChange} date={taskItem.date as Date} />
+          )}
           {isTimeOpen && <TimePicker selectedTime={selectedTime} onTimeChange={updateTime} />}
         </div>
 
@@ -121,11 +185,10 @@ export default function ManageTaskItem() {
           <label className="text-lg-md">반복 설정</label>
           <OptionSelector
             options={FREQUENCY_LIST}
+            defaultValue={FREQUENCY_MAP[taskItem.frequency]}
             size="sm"
             placement="top-12"
-            onSelect={(e: React.MouseEvent<HTMLDivElement>) =>
-              setSelectedFrequency(e.currentTarget.textContent ?? '')
-            }
+            onSelect={handleFrequencyChange}
           />
         </div>
 
@@ -135,6 +198,9 @@ export default function ManageTaskItem() {
 
         <FormField
           field="textarea"
+          name="descripton"
+          value={taskItem.description}
+          onChange={handleInputChange}
           label="할 일 메모"
           placeholder="메모를 입력해 주세요."
           height={75}

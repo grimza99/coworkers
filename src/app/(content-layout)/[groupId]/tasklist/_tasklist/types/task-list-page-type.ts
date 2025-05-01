@@ -1,6 +1,6 @@
 import { User } from '@/types/user';
 
-type Frequency = 'DAILY' | 'WEEKLY' | 'ONCE' | 'MONTHLY';
+export type Frequency = 'DAILY' | 'WEEKLY' | 'ONCE' | 'MONTHLY';
 type Role = 'ADMIN' | 'MEMBER';
 
 // taskLists[] -> taskList{}-> tasks[]-> task(기준){} -> detailTask
