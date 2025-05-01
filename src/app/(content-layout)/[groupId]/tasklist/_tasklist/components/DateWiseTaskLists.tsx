@@ -1,10 +1,10 @@
 'use client';
 import { useEffect, useState } from 'react';
 import clsx from 'clsx';
-import TaskWiseTodoListItem from './TaskListWiseTasks';
 import axiosClient from '@/lib/axiosClient';
 import { Task, TaskList } from '../types/task-list-page-type';
 import { DetailTask } from './DetailTask';
+import TaskListWiseTasks from './TaskListWiseTasks';
 
 interface Props {
   date: Date;
@@ -27,7 +27,7 @@ export default function DateWiseTaskLists({ date, groupId }: Props) {
     if (taskListsData.length < 1) {
       return (
         <div className="flex items-center justify-center">
-          <p className="text-md-md text-gray-500">
+          <p className="text-md-md text-gray500">
             아직 할 일 목록이 없습니다.
             <br />
             새로운 목록을 추가해주세요.
@@ -67,8 +67,8 @@ export default function DateWiseTaskLists({ date, groupId }: Props) {
               className={clsx(
                 'text-md-md cursor-pointer',
                 taskList === currentTaskList
-                  ? 'text-gray-200 underline underline-offset-6'
-                  : 'text-gray-500'
+                  ? 'text-gray200 underline underline-offset-6'
+                  : 'text-gray500'
               )}
             >
               {taskList.name}
@@ -80,11 +80,11 @@ export default function DateWiseTaskLists({ date, groupId }: Props) {
         {currentTasks.length > 0 || !currentTasks ? (
           <div className="flex w-full flex-col gap-4">
             {currentTasks.map((task) => {
-              return <TaskWiseTodoListItem task={task} key={task.id} />;
+              return <TaskListWiseTasks task={task} key={task.id} />;
             })}
           </div>
         ) : (
-          <p className="text-md-md text-gray-500">
+          <p className="text-md-md text-gray500">
             아직 할 일이 없습니다.
             <br />할 일을 추가해보세요.
           </p>
