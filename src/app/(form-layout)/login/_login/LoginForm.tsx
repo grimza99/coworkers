@@ -1,14 +1,16 @@
 'use client';
 import { useState } from 'react';
 import FormField from '@/components/common/formField';
+import Button from '@/components/common/Button';
+import PasswordToggleButton from '@/app/(form-layout)/signup/_signup/PasswordToggleButton';
 import axiosClient from '@/lib/axiosClient';
 import { setClientCookie } from '@/lib/cookie/client';
-import Button from '@/components/common/Button';
+import { validateEmail, validatePassword } from '@/utils/validators';
 
 export default function LoginForm() {
-  // @TODO: 입력 변화에 따른 UI 변화, 입력값 검증
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
+  const [isPasswordVisible, setIsPasswordVisible] = useState(false);
 
   const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
@@ -39,25 +41,42 @@ export default function LoginForm() {
           onChange={(e: React.ChangeEvent<HTMLInputElement>) => {
             setEmail(e.target.value);
           }}
+          isFailure={!validateEmail(email)}
+          errorMessage="유효한 이메일이 아닙니다."
           // disabled={isPending}
         />
         <FormField
           name="password"
           label="비밀번호"
-          type="password"
+          type={isPasswordVisible ? 'text' : 'password'}
           field="input"
           placeholder="비밀번호를 입력해주세요."
           value={password}
           onChange={(e: React.ChangeEvent<HTMLInputElement>) => {
             setPassword(e.target.value);
           }}
+          isFailure={!validatePassword(password)}
+          errorMessage="비밀번호를 입력해주세요."
+          rightSlot={
+            <PasswordToggleButton
+              isVisible={isPasswordVisible}
+              onToggle={() => setIsPasswordVisible((prev) => !prev)}
+            />
+          }
           // disabled={isPending}
         />
       </div>
       <button type="button" className="text-md-md text-primary mt-3 w-fit self-end underline">
         비밀번호를 잊으셨나요?
       </button>
-      <Button type="submit" variant="solid" size="fullWidth" fontSize="16" className="mt-10">
+      <Button
+        type="submit"
+        variant="solid"
+        size="fullWidth"
+        fontSize="16"
+        className="mt-10"
+        disabled={!(validateEmail(email) && validatePassword(password))}
+      >
         로그인
       </Button>
     </form>
