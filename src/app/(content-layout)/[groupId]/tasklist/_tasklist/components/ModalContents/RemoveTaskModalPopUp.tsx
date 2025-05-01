@@ -9,8 +9,8 @@ interface Props {
 export default function RemoveTaskModal({ taskName }: Props) {
   return (
     <ModalProvider>
-      <ModalTrigger>삭제하기</ModalTrigger>
-      <ModalPortal>
+      <ModalTrigger modalId="1">삭제하기</ModalTrigger>
+      <ModalPortal modalId="1">
         <RemoveTaskModalContent taskName={taskName} />
       </ModalPortal>
     </ModalProvider>

@@ -2,10 +2,10 @@
 import { createContext } from 'react';
 
 type ModalContextValue = {
-  toggleModal: () => void;
-  openModal: () => void;
-  closeModal: () => void;
-  isOpen: boolean;
+  toggleModal: (id: string) => void;
+  openModal: (id: string) => void;
+  closeModal: (id: string) => void;
+  checkIsModalOpen: (id: string) => boolean;
 };
 
 const ModalContext = createContext<ModalContextValue | null>(null);
