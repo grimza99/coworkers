@@ -30,7 +30,7 @@ export default function LoginForm() {
 
   const isEmailValid = validateEmail(email);
   const isPasswordValid = validatePassword(password);
-  const isFormValid = isEmailValid && isPasswordValid && !isLoggingIn;
+  const isFormValid = isEmailValid && isPasswordValid;
 
   const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
@@ -123,7 +123,7 @@ export default function LoginForm() {
         size="fullWidth"
         fontSize="16"
         className="mt-10"
-        disabled={!isFormValid}
+        disabled={!isFormValid || isLoggingIn}
       >
         {isLoggingIn ? '...' : '로그인'}
       </Button>
