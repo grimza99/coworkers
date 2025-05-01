@@ -19,7 +19,16 @@ export default function DropDownGroupsItem({ group }: GroupOptionProps) {
   return (
     <div className="hover:bg-bg100 flex w-[186px] cursor-pointer items-center justify-between rounded-lg px-2 py-[7px]">
       <Link href={`/${id}`} className="text-lg-md text-gray400 flex items-center gap-3">
-        <Image src={image} width={32} height={32} alt="이미지" className="rounded-md" />
+        <Image
+          src={image?.replace(
+            'sprint-fe-project.s3.ap-northeast2.amazonaws.com',
+            'sprint-fe-project.s3.ap-northeast-2.amazonaws.com'
+          )}
+          width={32}
+          height={32}
+          alt="이미지"
+          className="rounded-md"
+        />
         <p className="w-[110px] truncate"> {name}</p>
       </Link>
       <Link href={`/${id}/edit`}>

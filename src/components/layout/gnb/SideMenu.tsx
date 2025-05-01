@@ -37,7 +37,7 @@ const SideMenu = forwardRef<HTMLDivElement, SideMenuProps>(({ teams, isOpen, onC
           {teams.map((team) => (
             <Link
               key={team.id}
-              href={`/groups/${team.id}`}
+              href={`/${team.id}`}
               className="text-md-md hover:bg-bg300 block cursor-pointer rounded px-2 py-1"
             >
               {team.name}
