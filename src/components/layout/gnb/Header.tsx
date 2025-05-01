@@ -2,7 +2,7 @@
 
 import Image from 'next/image';
 import Link from 'next/link';
-import { usePathname } from 'next/navigation';
+import { usePathname, useRouter } from 'next/navigation';
 import { useEffect, useState } from 'react';
 import Logo from './Logo';
 import SideMenu from './SideMenu';
@@ -54,8 +54,10 @@ export interface UserData extends User {
 
 export default function Header() {
   const pathname = usePathname();
+  const router = useRouter();
   const [userData, setUserData] = useState<UserData | null>(null);
   const [teams, setTeams] = useState<Group[]>([]);
+  const [selectedTeamName, setSelectedTeamName] = useState<string>('');
 
   useEffect(() => {
     const fetchUserData = async () => {
@@ -64,17 +66,21 @@ export default function Header() {
         setUserData(data);
 
         const extractedTeams = Array.isArray(data.memberships)
-          ? data.memberships.map((m: { group: string }) => m.group)
+          ? data.memberships.map((m: { group: Group }) => m.group)
           : [];
 
         setTeams(extractedTeams);
+
+        const currentPathId = pathname.split('/')[1];
+        const currentTeam = extractedTeams.find((team: Group) => String(team.id) === currentPathId);
+        setSelectedTeamName(currentTeam?.name || extractedTeams[0]?.name || '');
       } catch (error) {
         console.error('유저 정보 가져오기 실패', error);
       }
     };
 
     fetchUserData();
-  }, []);
+  }, [pathname]);
 
   const {
     ref: sideMenuRef,
@@ -95,7 +101,6 @@ export default function Header() {
   }
 
   const userName = userData?.nickname ?? '';
-  const selectedTeam = teams[0]?.name ?? '';
   const hasTeam = teams.length > 0;
 
   return (
@@ -120,11 +125,18 @@ export default function Header() {
               <OptionSelector
                 placement=""
                 size="xl"
-                defaultValue={selectedTeam}
+                defaultValue={selectedTeamName}
                 options={teams.map((group) => {
                   return <DropDownGroupsItem key={group.id} group={group} />;
                 })}
-                onSelect={() => {}}
+                onSelect={(e) => {
+                  const clickedTeamName = (e.target as HTMLElement).innerText;
+                  const selectedTeam = teams.find((team) => team.name === clickedTeamName);
+                  if (selectedTeam) {
+                    setSelectedTeamName(selectedTeam.name);
+                    router.push(`/${selectedTeam.id}`);
+                  }
+                }}
                 footerBtn={
                   <Button variant="ghost-white" size="fullWidth" fontSize="16">
                     <Link href="/addteam">+ 팀 추가하기</Link>
