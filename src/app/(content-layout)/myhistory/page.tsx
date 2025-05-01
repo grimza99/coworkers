@@ -21,7 +21,7 @@ export default async function MyHistoryPage() {
             <GroupedByDateTaskList historyTaskData={historyTasks.tasksDone} />
           ) : (
             <div className="flex h-svh w-full items-center justify-center">
-              <p className="text-md-md text-gray-500">아직 히스토리가 없습니다.</p>
+              <p className="text-md-md text-gray500">아직 히스토리가 없습니다.</p>
             </div>
           )}
         </>
@@ -29,7 +29,7 @@ export default async function MyHistoryPage() {
     } catch {
       return (
         <div className="flex h-svh w-full items-center justify-center">
-          <p className="text-md-md text-gray-500">데이터를 불러오는데 실패했습니다.</p>
+          <p className="text-md-md text-gray500">데이터를 불러오는데 실패했습니다.</p>
         </div>
       );
     }

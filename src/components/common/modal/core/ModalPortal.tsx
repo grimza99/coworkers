@@ -3,9 +3,15 @@ import { useState, useEffect } from 'react';
 import { createPortal } from 'react-dom';
 import useModalContext from '@/components/common/modal/core/useModalContext';
 
-export default function ModalPortal({ children }: { children: React.ReactNode }) {
+export default function ModalPortal({
+  children,
+  modalId,
+}: {
+  children: React.ReactNode;
+  modalId: string;
+}) {
   const [modalPortal, setModalPortal] = useState<Element | null>(null);
-  const { isOpen } = useModalContext();
+  const { checkIsModalOpen } = useModalContext();
 
   useEffect(
     function initializeModalPortal() {
@@ -17,5 +23,5 @@ export default function ModalPortal({ children }: { children: React.ReactNode })
 
   if (!modalPortal) return null;
 
-  return <>{createPortal(isOpen ? children : null, modalPortal)}</>;
+  return <>{createPortal(checkIsModalOpen(modalId) ? children : null, modalPortal)}</>;
 }

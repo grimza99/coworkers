@@ -20,17 +20,19 @@ export default function CreateTaskListModal() {
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     setCurrentValue(e.target.value.trim());
   };
-  const CreateTaskList = () => {};
+  const handleSubmitCreateTaskList = () => {};
 
   return (
     <ModalProvider>
-      <ModalTrigger className="text-primary size-20 w-fit">+ 새로운 목록 추가하기</ModalTrigger>
-      <ModalPortal>
-        <ModalOverlay>
+      <ModalTrigger className="text-primary size-20 w-fit" modalId="1">
+        + 새로운 목록 추가하기
+      </ModalTrigger>
+      <ModalPortal modalId="1">
+        <ModalOverlay modalId="1">
           <ModalContainer>
-            <ModalCloseButton />
+            <ModalCloseButton modalId="1" />
             <ModalHeading>새로운 목록 추가</ModalHeading>
-            <ModalDescription className="text-md-md mb-6 w-full text-gray-500">
+            <ModalDescription className="text-md-md text-gray500 mb-6 w-full">
               할 일에 대한 목록을 추가하고
               <br />
               목록별 할 일을 만들 수 있습니다.
@@ -48,7 +50,7 @@ export default function CreateTaskListModal() {
               onChange={handleChange}
             />
             <ModalFooter className="w-full">
-              <Button onClick={CreateTaskList} fontSize="16" size="fullWidth">
+              <Button onClick={handleSubmitCreateTaskList} fontSize="16" size="fullWidth">
                 만들기
               </Button>
             </ModalFooter>

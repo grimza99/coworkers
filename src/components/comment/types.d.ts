@@ -8,6 +8,10 @@ export interface Comment {
   user: User;
 }
 
+export interface ArticleComment extends Omit<Comment, 'user'> {
+  writer: User;
+}
+
 export type CommentApiResponse = Comment;
 
 export type CommentsApiResponse = Comment[];

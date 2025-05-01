@@ -38,7 +38,7 @@ export default function Page({ params }: Props) {
 
   return (
     <div className="relative flex h-dvh w-full flex-col gap-6">
-      <p className="text-lg-bold md:text-xl-bold">할일</p>
+      <p className="text-lg-bold md:text-xl-bold">할 일</p>
       <div className="flex justify-between">
         <div className="flex items-center gap-3">
           <p className="text-lg-md">{format(currentDate, 'M월 dd일 (eee)', { locale: ko })}</p>
@@ -60,7 +60,6 @@ export default function Page({ params }: Props) {
       <Button
         className="absolute right-6 bottom-40"
         onClick={handleClickCreateTaskItem}
-        variant="solid"
         size="md"
         fontSize="16"
       >
