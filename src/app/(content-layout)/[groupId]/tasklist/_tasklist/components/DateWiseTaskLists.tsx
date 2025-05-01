@@ -1,5 +1,5 @@
 'use client';
-import { useEffect, useState } from 'react';
+import { useCallback, useEffect, useState } from 'react';
 import clsx from 'clsx';
 import axiosClient from '@/lib/axiosClient';
 import { Task, TaskList } from '../types/task-list-page-type';
@@ -20,40 +20,36 @@ export default function DateWiseTaskLists({ date, groupId }: Props) {
     fetchTaskListWiseTasks(taskList);
   };
 
-  const fetchTaskLists = async () => {
+  const fetchTaskListWiseTasks = useCallback(
+    async (currentTaskList: TaskList) => {
+      if (!currentTaskList) return;
+      const { data: tasksData } = await axiosClient(
+        `groups/${groupId}/task-lists/${currentTaskList.id}/tasks`,
+        {
+          params: { date },
+        }
+      );
+      setCurrentTasks(tasksData);
+    },
+    [groupId, date]
+  );
+
+  const fetchTaskLists = useCallback(async () => {
     const { data: taskListsData } = await axiosClient(`/groups/${groupId}`);
 
     if (taskListsData.length < 1) {
-      return (
-        <div className="flex items-center justify-center">
-          <p className="text-md-md text-gray500">
-            아직 할 일 목록이 없습니다.
-            <br />
-            새로운 목록을 추가해주세요.
-          </p>
-        </div>
-      );
+      console.warn('할 일 목록 없음');
+      return;
     }
 
     setTaskLists(taskListsData.taskLists);
     setCurrentTaskList(taskListsData.taskLists[0]);
     fetchTaskListWiseTasks(taskListsData.taskLists[0]);
-  };
-
-  const fetchTaskListWiseTasks = async (currentTaskList: TaskList) => {
-    if (!currentTaskList) return;
-    const { data: tasksData } = await axiosClient(
-      `groups/${groupId}/task-lists/${currentTaskList.id}/tasks`,
-      {
-        params: { date },
-      }
-    );
-    setCurrentTasks(tasksData);
-  };
+  }, [groupId, fetchTaskListWiseTasks]);
 
   useEffect(() => {
     fetchTaskLists();
-  }, [date]);
+  }, [date, fetchTaskLists]);
 
   return (
     <div className="flex flex-col gap-4">
