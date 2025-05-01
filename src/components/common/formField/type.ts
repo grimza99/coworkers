@@ -31,7 +31,7 @@ export interface FormFieldProps {
   isSuccess?: boolean;
   isFailure?: boolean;
   errorMessage?: string;
-  gapSize?: '12' | '16' | '24';
+  gapSize?: '12' | '16' | '24' | '32';
   labelSize?: '16/16' | '14/16' | '16/20';
 }
 
