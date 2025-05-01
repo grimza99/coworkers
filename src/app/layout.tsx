@@ -16,6 +16,7 @@ export default function RootLayout({
       <body className="flex min-h-screen flex-col">
         <Header />
         <div>{children}</div>
+        <div id="modal-container"></div>
       </body>
     </html>
   );
