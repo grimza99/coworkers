@@ -1,7 +1,7 @@
 'use client';
-import { useState } from 'react';
+import { useRef, useState, useEffect } from 'react';
 import { useRouter } from 'next/navigation';
-import { isAxiosError } from 'axios';
+import axios, { CancelTokenSource, isAxiosError } from 'axios';
 import FormField from '@/components/common/formField';
 import Button from '@/components/common/Button';
 import PasswordToggleButton from '@/app/(form-layout)/signup/_signup/PasswordToggleButton';
@@ -19,39 +19,62 @@ interface loginApiResponse {
 
 export default function LoginForm() {
   const router = useRouter();
+  const cancelTokenRef = useRef<CancelTokenSource | null>(null);
+
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [isPasswordVisible, setIsPasswordVisible] = useState(false);
+
   const [isLoggingIn, setIsLoggingIn] = useState(false);
   const [isLoginFailed, setIsLoginFailed] = useState(false);
 
+  const isEmailValid = validateEmail(email);
+  const isPasswordValid = validatePassword(password);
+  const isFormValid = isEmailValid && isPasswordValid && !isLoggingIn;
+
   const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
+
+    if (isLoggingIn && cancelTokenRef.current) {
+      cancelTokenRef.current.cancel();
+    }
+
     setIsLoggingIn(true);
     setIsLoginFailed(false);
+    cancelTokenRef.current = axios.CancelToken.source();
 
     try {
-      const res = await axiosClient.post<loginApiResponse>(`/auth/signIn`, {
-        email,
-        password,
-      });
+      const res = await axiosClient.post<loginApiResponse>(
+        `/auth/signIn`,
+        { email, password },
+        { cancelToken: cancelTokenRef.current.token }
+      );
 
       const data = res.data;
       setClientCookie('accessToken', data.accessToken);
       setClientCookie('refreshToken', data.refreshToken);
-
       router.push(PATHS.HOME);
+      setIsLoggingIn(false);
     } catch (error) {
+      if (axios.isCancel(error)) return;
+
       if (isAxiosError(error)) {
         setIsLoginFailed(true);
       } else {
-        console.error('로그인 중 에러가 발생했습니다:', error);
+        console.error('로그인 중 에러 발생:', error);
       }
       setPassword('');
-    } finally {
       setIsLoggingIn(false);
     }
   };
+
+  useEffect(() => {
+    return () => {
+      if (cancelTokenRef.current) {
+        cancelTokenRef.current.cancel();
+      }
+    };
+  }, []);
 
   return (
     <form onSubmit={handleSubmit} className="flex w-full flex-col">
@@ -63,10 +86,10 @@ export default function LoginForm() {
           field="input"
           placeholder="이메일을 입력해주세요."
           value={email}
-          onChange={(e: React.ChangeEvent<HTMLInputElement>) => {
+          onChange={(e) => {
             setEmail(e.target.value);
           }}
-          isFailure={!validateEmail(email)}
+          isFailure={!isEmailValid}
           errorMessage="유효한 이메일이 아닙니다."
           disabled={isLoggingIn}
         />
@@ -77,10 +100,10 @@ export default function LoginForm() {
           field="input"
           placeholder="비밀번호를 입력해주세요."
           value={password}
-          onChange={(e: React.ChangeEvent<HTMLInputElement>) => {
+          onChange={(e) => {
             setPassword(e.target.value);
           }}
-          isFailure={!validatePassword(password)}
+          isFailure={!isPasswordValid}
           errorMessage="비밀번호를 입력해주세요."
           rightSlot={
             <PasswordToggleButton
@@ -100,17 +123,17 @@ export default function LoginForm() {
         size="fullWidth"
         fontSize="16"
         className="mt-10"
-        disabled={!(validateEmail(email) && validatePassword(password)) || isLoggingIn}
+        disabled={!isFormValid}
       >
         {isLoggingIn ? '...' : '로그인'}
       </Button>
-      {isLoginFailed ? (
+      {isLoginFailed && (
         <p className="text-md-md text-danger mt-4 self-center text-center">
           이메일 또는 비밀번호가 잘못 되었습니다.
           <br />
           이메일과 비밀번호를 정확히 입력해주세요.
         </p>
-      ) : null}
+      )}
     </form>
   );
 }
