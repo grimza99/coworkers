@@ -36,7 +36,7 @@ export default function Header() {
         setUserData(data);
 
         const extractedTeams = Array.isArray(data.memberships)
-          ? data.memberships.map((m) => m.group)
+          ? data.memberships.map((m: { group: string }) => m.group)
           : [];
 
         setTeams(extractedTeams);
@@ -98,7 +98,7 @@ export default function Header() {
                 onSelect={() => {}}
                 footerBtn={
                   <Button variant="ghost-white" size="fullWidth" fontSize="16">
-                    <Link href="/groups">+ 팀 추가하기</Link>
+                    <Link href="/addteam">+ 팀 추가하기</Link>
                   </Button>
                 }
               />
@@ -109,7 +109,6 @@ export default function Header() {
           </div>
         </div>
 
-        {/* @TODO: 유저 이미지 데이터로 받아오기 */}
         <div className="ml-auto">
           <DropDown
             size="lg"
