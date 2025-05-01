@@ -13,6 +13,7 @@ import { useOutSideClickAutoClose } from '@/utils/use-outside-click-auto-close';
 import Button from '@/components/common/Button';
 import { useEffect, useState } from 'react';
 import axiosClient from '@/lib/axiosClient';
+import { User } from '@/types/user';
 
 const MINIMAL_HEADER_PATHS = [
   '/',
@@ -24,10 +25,37 @@ const MINIMAL_HEADER_PATHS = [
   '/jointeam',
 ];
 
+interface Group {
+  id: number;
+  name: string;
+  image: string;
+  createdAt: string;
+  updatedAt: string;
+  teamId: string;
+}
+
+interface Membership {
+  userId: number;
+  groupId: number;
+  userName: string;
+  userEmail: string;
+  userImage: string | null;
+  role: string;
+  group: Group;
+}
+
+export interface UserData extends User {
+  createdAt: string;
+  updatedAt: string;
+  teamId: string;
+  email: string;
+  memberships: Membership[];
+}
+
 export default function Header() {
   const pathname = usePathname();
-  const [userData, setUserData] = useState(null);
-  const [teams, setTeams] = useState([]);
+  const [userData, setUserData] = useState<UserData | null>(null);
+  const [teams, setTeams] = useState<Group[]>([]);
 
   useEffect(() => {
     const fetchUserData = async () => {
