@@ -20,7 +20,7 @@ export interface Time {
 
 const FREQUENCY_LIST = ['한 번', '매일', '주 반복', '월 반복'];
 
-export default function ManageTaskModal() {
+export default function ManageTaskItem() {
   const { am, pm } = generateTime();
 
   const [date, setDate] = useState(new Date());

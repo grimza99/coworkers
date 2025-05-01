@@ -1,6 +1,6 @@
 import clsx from 'clsx';
 import generateTime from './time-table';
-import { Time } from './ManageTaskModal';
+import { Time } from './ManageTaskItem';
 
 interface TimePickerProps {
   selectedTime: Time;
