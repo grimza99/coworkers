@@ -67,7 +67,7 @@ export default function FormField({
         </label>
         {renderField()}
       </div>
-      {!isFocused && showError && errorMessage && (
+      {(field === 'file-input' ? errorMessage : !isFocused && showError && errorMessage) && (
         <span className="text-danger text-md-md">{errorMessage}</span>
       )}
     </div>
