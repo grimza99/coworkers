@@ -11,6 +11,8 @@ import DropDown from '@/components/common/dropdown/index';
 import { OptionSelector } from '@/components/common/dropdown/OptionSelector';
 import { useOutSideClickAutoClose } from '@/utils/use-outside-click-auto-close';
 import Button from '@/components/common/Button';
+import { useEffect, useState } from 'react';
+import axiosClient from '@/lib/axiosClient';
 
 const MINIMAL_HEADER_PATHS = [
   '/',
@@ -22,35 +24,30 @@ const MINIMAL_HEADER_PATHS = [
   '/jointeam',
 ];
 
-// @TODO: 데이터 연결
-// 목데이터
-const USER_DATA = {
-  name: '안혜나',
-  teams: [
-    {
-      id: 1,
-      name: '경영관리팀',
-      image: '/default-team-image.png',
-      teamId: 'team-1',
-      updatedAt: '',
-      createdAt: '',
-    },
-    {
-      id: 2,
-      name: '프로젝트팀',
-      image: '/default-team-image.png',
-      teamId: 'team-2',
-      updatedAt: '',
-      createdAt: '',
-    },
-  ],
-};
-
-const userName = USER_DATA.name;
-const selectedTeam = USER_DATA.teams[0]?.name || ''; // @TODO: default value 선택한 index value로 할 수 있도록
-
 export default function Header() {
   const pathname = usePathname();
+  const [userData, setUserData] = useState(null);
+  const [teams, setTeams] = useState([]);
+
+  useEffect(() => {
+    const fetchUserData = async () => {
+      try {
+        const { data } = await axiosClient.get('/user');
+        setUserData(data);
+
+        const extractedTeams = Array.isArray(data.memberships)
+          ? data.memberships.map((m) => m.group)
+          : [];
+
+        setTeams(extractedTeams);
+      } catch (error) {
+        console.error('유저 정보 가져오기 실패', error);
+      }
+    };
+
+    fetchUserData();
+  }, []);
+
   const {
     ref: sideMenuRef,
     isOpen: isSideMenuOpen,
@@ -69,7 +66,9 @@ export default function Header() {
     );
   }
 
-  const hasTeam = USER_DATA.teams.length > 0;
+  const userName = userData?.nickname ?? '';
+  const selectedTeam = teams[0]?.name ?? '';
+  const hasTeam = teams.length > 0;
 
   return (
     <header className="bg-bg200 border-border sticky top-0 z-200 flex h-15 w-full justify-center border-b-1 py-[14px]">
@@ -93,7 +92,7 @@ export default function Header() {
                 placement=""
                 size="xl"
                 defaultValue={selectedTeam}
-                options={USER_DATA.teams.map((group) => {
+                options={teams.map((group) => {
                   return <DropDownGroupsItem key={group.id} group={group} />;
                 })}
                 onSelect={() => {}}
@@ -129,7 +128,7 @@ export default function Header() {
 
       <SideMenu
         ref={sideMenuRef}
-        teams={USER_DATA.teams}
+        teams={teams}
         isOpen={isSideMenuOpen}
         onClose={() => setIsSideMenuOpen(false)}
       />

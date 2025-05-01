@@ -1,4 +1,3 @@
-// SideMenu.tsx
 'use client';
 
 import React, { forwardRef } from 'react';
@@ -21,10 +20,8 @@ interface SideMenuProps {
 const SideMenu = forwardRef<HTMLDivElement, SideMenuProps>(({ teams, isOpen, onClose }, ref) => {
   return (
     <>
-      {/* 배경 */}
       {isOpen && <div className="fixed inset-0 z-40 bg-black/40" onClick={onClose} />}
 
-      {/* 사이드 메뉴 */}
       <div
         ref={ref}
         className={clsx(
@@ -36,7 +33,6 @@ const SideMenu = forwardRef<HTMLDivElement, SideMenuProps>(({ teams, isOpen, onC
           <Image src={closeIcon} alt="닫기" width={24} height={24} />
         </button>
 
-        {/* 팀 목록 */}
         <div className="flex flex-col gap-6">
           {teams.map((team) => (
             <div
