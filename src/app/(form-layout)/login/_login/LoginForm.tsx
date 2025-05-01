@@ -3,6 +3,7 @@ import { useState } from 'react';
 import FormField from '@/components/common/formField';
 import axiosClient from '@/lib/axiosClient';
 import { setClientCookie } from '@/lib/cookie/client';
+import Button from '@/components/common/Button';
 
 export default function LoginForm() {
   // @TODO: 입력 변화에 따른 UI 변화, 입력값 검증
@@ -51,13 +52,9 @@ export default function LoginForm() {
         }}
         // disabled={isPending}
       />
-      <button
-        type="submit"
-        className="text-lg-semi bg-primary disabled:bg-gray400 flex h-12 justify-center rounded-xl px-4 py-3"
-        // disabled={isPending}
-      >
+      <Button type="submit" variant="solid" size="fullWidth" fontSize="16">
         로그인
-      </button>
+      </Button>
     </form>
   );
 }
