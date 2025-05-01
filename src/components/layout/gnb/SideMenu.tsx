@@ -5,6 +5,7 @@ import React, { forwardRef } from 'react';
 import Link from 'next/link';
 import Image from 'next/image';
 import closeIcon from '@/../public/icons/close.svg';
+import clsx from 'clsx';
 
 interface Team {
   id: number;
@@ -17,19 +18,19 @@ interface SideMenuProps {
   onClose: () => void;
 }
 
-// @TODO: 슬라이드 애니메이션효과 넣기
 const SideMenu = forwardRef<HTMLDivElement, SideMenuProps>(({ teams, isOpen, onClose }, ref) => {
-  if (!isOpen) return null;
-
   return (
     <>
       {/* 배경 */}
-      <div className="fixed inset-0 z-40 bg-black/40" onClick={onClose} />
+      {isOpen && <div className="fixed inset-0 z-40 bg-black/40" onClick={onClose} />}
 
       {/* 사이드 메뉴 */}
       <div
         ref={ref}
-        className="bg-bg200 fixed top-0 left-0 z-300 flex h-screen w-[204px] flex-col gap-6 overflow-scroll p-4 pb-10 shadow-lg"
+        className={clsx(
+          'bg-bg200 fixed top-0 left-0 z-300 flex h-screen w-[204px] transform flex-col gap-6 overflow-scroll p-4 pb-10 shadow-lg transition-transform duration-500',
+          isOpen ? 'translate-x-0' : '-translate-x-full'
+        )}
       >
         <button onClick={onClose} className="cursor-pointer self-end" title="닫기">
           <Image src={closeIcon} alt="닫기" width={24} height={24} />
