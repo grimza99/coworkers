@@ -3,6 +3,7 @@ import clsx from 'clsx';
 import Image from 'next/image';
 import DropDown from '../common/dropdown';
 import Repeat from '@/assets/Repeat';
+import RemoveTaskModal from '@/app/(content-layout)/[groupId]/tasklist/_tasklist/components/ModalContents/RemoveTaskModalPopUp';
 
 type ScheduleType = 'DAILY' | 'WEEKLY' | 'MONTHLY' | 'ONCE';
 
@@ -14,13 +15,12 @@ interface TaskListItemProps {
   onClick?: () => void;
   onClickToggleDailyMode?: () => void;
   isDone: boolean;
-  description: string;
+  name: string;
   commentCount?: number;
   date?: string;
   frequency?: ScheduleType;
+  id: number;
 }
-
-const DROPDOWN_OPTION_LIST = ['수정하기', '삭제하기'];
 
 export default function TaskListItem({
   type = 'taskList',
@@ -30,12 +30,14 @@ export default function TaskListItem({
   onDelete,
   onClick,
   isDone,
-  description,
+  name,
+  id,
   commentCount,
   date,
   frequency,
 }: TaskListItemProps) {
   const checkIcon = isDone ? '/icons/check-box.svg' : '/icons/none-check-box.svg';
+  const DROPDOWN_OPTION_LIST = [<RemoveTaskModal name={name} id={id} />, ,];
 
   const onDropdownListClick = (e: React.MouseEvent<HTMLDivElement>) => {
     const option = e.currentTarget.textContent;
@@ -59,7 +61,7 @@ export default function TaskListItem({
           className="cursor-pointer"
         />
         <span className={clsx('text-md-rg text-gray100 pt-0.5', isDone && 'line-through')}>
-          {description}
+          {name}
         </span>
       </div>
     );
@@ -84,7 +86,6 @@ export default function TaskListItem({
                 <Image src="/icons/comment.svg" width={16} height={16} alt="comment" />
                 <span className="text-xs-rg text-gray500 pt-0.5">{commentCount}</span>
               </div>
-
               <DropDown
                 onSelect={(e: React.MouseEvent<HTMLDivElement>) => {
                   e.stopPropagation();

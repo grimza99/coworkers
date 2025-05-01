@@ -39,10 +39,11 @@ export default function TaskListWiseTasks({ task }: Props) {
       onClick={handleClickPopUpDetail}
       onClickToggleDailyMode={handleClickToggleDailyMode}
       isDone={isDone}
-      description={task.description}
+      name={task.name}
       commentCount={task.commentCount}
       date={safeFormatDate(task.date)}
       frequency={task.frequency}
+      id={task.id}
     />
   );
 }

@@ -11,20 +11,23 @@ import useModalContext from '@/components/common/modal/core/useModalContext';
 import Image from 'next/image';
 
 interface Props {
-  taskName: string;
+  name: string;
+  id: number;
 }
 
-export function RemoveTaskModalContent({ taskName }: Props) {
+export function RemoveTaskModalContent({ name, id }: Props) {
   const { closeModal } = useModalContext();
-  const handleClickDeleteTask = () => {
-    //삭제 요청
-  };
+
+  console.log(id);
+  const handleClickDeleteTask = () => {};
+
+  // if (!task) return;
   return (
     <ModalOverlay>
       <ModalContainer>
         <Image src="/icons/danger.icon.svg" alt="!" width={20} height={20} />
         <ModalHeading className="mt-4 mb-2">
-          <p>{`'${taskName}'${(<br />)}할 일을 정말 삭제하시겠어요?`}</p>
+          <p>{`'${name}'${(<br />)}할 일을 정말 삭제하시겠어요?`}</p>
         </ModalHeading>
         <ModalDescription className="text-md-md text-gray500 mb-6 w-full">
           삭제 후에는 되돌릴 수 없습니다.

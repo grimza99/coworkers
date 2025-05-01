@@ -1,18 +1,21 @@
 'use client';
-import { ModalPortal, ModalProvider, ModalTrigger } from '@/components/common/modal';
+import { ModalPortal, ModalTrigger } from '@/components/common/modal';
 import { RemoveTaskModalContent } from './RemoveTaskModalContent';
 
 interface Props {
-  taskName: string;
+  name: string;
+  id: number;
 }
 
-export default function RemoveTaskModal({ taskName }: Props) {
+export default function RemoveTaskModal({ name, id }: Props) {
+  // console.log(task);
+  // if (!task) return;
   return (
-    <ModalProvider>
+    <>
       <ModalTrigger>삭제하기</ModalTrigger>
       <ModalPortal>
-        <RemoveTaskModalContent taskName={taskName} />
+        <RemoveTaskModalContent name={name} id={id} />
       </ModalPortal>
-    </ModalProvider>
+    </>
   );
 }
