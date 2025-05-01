@@ -9,7 +9,6 @@ import {
   ModalHeading,
   ModalOverlay,
   ModalPortal,
-  ModalProvider,
   ModalTrigger,
 } from '@/components/common/modal';
 import { useState } from 'react';
@@ -23,7 +22,7 @@ export default function CreateTaskListModal() {
   const handleSubmitCreateTaskList = () => {};
 
   return (
-    <ModalProvider>
+    <>
       <ModalTrigger className="text-primary size-20 w-fit">+ 새로운 목록 추가하기</ModalTrigger>
       <ModalPortal>
         <ModalOverlay>
@@ -55,6 +54,6 @@ export default function CreateTaskListModal() {
           </ModalContainer>
         </ModalOverlay>
       </ModalPortal>
-    </ModalProvider>
+    </>
   );
 }
