@@ -27,32 +27,37 @@ export default function LoginForm() {
   };
 
   return (
-    <form onSubmit={handleSubmit} className="flex w-full flex-col gap-4">
-      <FormField
-        name="email"
-        label="이메일"
-        type="email"
-        field="input"
-        placeholder="이메일을 입력해주세요."
-        value={email}
-        onChange={(e: React.ChangeEvent<HTMLInputElement>) => {
-          setEmail(e.target.value);
-        }}
-        // disabled={isPending}
-      />
-      <FormField
-        name="password"
-        label="비밀번호"
-        type="password"
-        field="input"
-        placeholder="비밀번호를 입력해주세요."
-        value={password}
-        onChange={(e: React.ChangeEvent<HTMLInputElement>) => {
-          setPassword(e.target.value);
-        }}
-        // disabled={isPending}
-      />
-      <Button type="submit" variant="solid" size="fullWidth" fontSize="16">
+    <form onSubmit={handleSubmit} className="flex w-full flex-col">
+      <div className="flex w-full flex-col gap-6">
+        <FormField
+          name="email"
+          label="이메일"
+          type="email"
+          field="input"
+          placeholder="이메일을 입력해주세요."
+          value={email}
+          onChange={(e: React.ChangeEvent<HTMLInputElement>) => {
+            setEmail(e.target.value);
+          }}
+          // disabled={isPending}
+        />
+        <FormField
+          name="password"
+          label="비밀번호"
+          type="password"
+          field="input"
+          placeholder="비밀번호를 입력해주세요."
+          value={password}
+          onChange={(e: React.ChangeEvent<HTMLInputElement>) => {
+            setPassword(e.target.value);
+          }}
+          // disabled={isPending}
+        />
+      </div>
+      <button type="button" className="text-md-md text-primary mt-3 w-fit self-end underline">
+        비밀번호를 잊으셨나요?
+      </button>
+      <Button type="submit" variant="solid" size="fullWidth" fontSize="16" className="mt-10">
         로그인
       </Button>
     </form>
