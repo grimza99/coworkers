@@ -3,6 +3,7 @@
 import Image from 'next/image';
 import Link from 'next/link';
 import { usePathname } from 'next/navigation';
+import { useEffect, useState } from 'react';
 import Logo from './Logo';
 import SideMenu from './SideMenu';
 import DropDownProfileItemList from '@/components/common/dropdown/ProfileItem';
@@ -11,7 +12,6 @@ import DropDown from '@/components/common/dropdown/index';
 import { OptionSelector } from '@/components/common/dropdown/OptionSelector';
 import { useOutSideClickAutoClose } from '@/utils/use-outside-click-auto-close';
 import Button from '@/components/common/Button';
-import { useEffect, useState } from 'react';
 import axiosClient from '@/lib/axiosClient';
 import { User } from '@/types/user';
 
@@ -104,6 +104,7 @@ export default function Header() {
         <div className="flex items-center gap-8 lg:gap-10">
           <div className="flex items-center gap-4">
             <button
+              type="button"
               onClick={() => setIsSideMenuOpen(true)}
               className="block md:hidden"
               title="메뉴 열기"
@@ -131,7 +132,7 @@ export default function Header() {
                 }
               />
             )}
-            <Link href={`/boards`} className="cursor:pointer mt-0">
+            <Link href={`/articles`} className="cursor:pointer mt-0">
               자유게시판
             </Link>
           </div>
@@ -140,10 +141,19 @@ export default function Header() {
         <div className="ml-auto">
           <DropDown
             size="lg"
-            placement="top-8 right-[-8px]"
+            placement="top-8 right--4"
             dropDownOpenBtn={
-              <button className="flex items-center gap-2">
-                <Image src="/icons/user.svg" alt="유저 아이콘" width={24} height={24} />
+              <button type="button" className="flex items-center gap-2">
+                {userData?.memberships[0]?.userImage ? (
+                  <Image
+                    src={userData.memberships[0].userImage}
+                    alt="유저 이미지"
+                    width={24}
+                    height={24}
+                  />
+                ) : (
+                  <Image src="/icons/user.svg" alt="유저 아이콘" width={24} height={24} />
+                )}
                 <span className="text-md-md hidden lg:inline">{userName}</span>
               </button>
             }
