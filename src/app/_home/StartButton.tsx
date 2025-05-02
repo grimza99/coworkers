@@ -5,6 +5,7 @@ import axiosClient from '@/lib/axiosClient';
 import PATHS from '@/constants/paths';
 import { getUserApiResponse } from '@/types/user';
 
+// @FIXME: 1. 유저 정보를 전역 상태로 관리해서, 요청 수 줄이기  2 href를 state로 관리 + Link 컴포넌트 사용
 export default function StartButton({ children }: { children: React.ReactNode }) {
   const router = useRouter();
   const handleClick = async () => {
