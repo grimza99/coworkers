@@ -6,8 +6,6 @@ import axiosClient from '@/lib/axiosClient';
 import { useEffect, useState } from 'react';
 import CommentField from './CommentField';
 
-//color 변경
-
 interface Props {
   taskId: number;
 }

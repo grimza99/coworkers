@@ -11,11 +11,6 @@ interface Props {
 }
 const DROPDOWN_OPTION_LIST = ['수정하기', '삭제하기'];
 
-/**
- * @todo repeat 색상 바꾸기
- * 드롭다운 수정
- */
-
 export default function Content({ task }: Props) {
   const { name, doneBy, updatedAt, date, doneAt, description } = task;
   const isDone = !Boolean(doneAt);
