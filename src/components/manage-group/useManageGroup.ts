@@ -3,6 +3,7 @@ import { Group } from './ManageGroup';
 import postImageUrl from '@/utils/postImageUrl';
 import axiosClient from '@/lib/axiosClient';
 import manageGroupValidate, { GROUP_MESSAGE, Validation } from './group-validate';
+import { useRouter } from 'next/navigation';
 
 const INITIAL_GROUP_VALUE: Group = {
   image: null,
@@ -12,6 +13,8 @@ const INITIAL_GROUP_VALUE: Group = {
 export default function useManageGroup({ groupData }: { groupData?: Group }) {
   const [group, setGroup] = useState<Group>(groupData ?? INITIAL_GROUP_VALUE);
   const [validationMessages, setValidationMessages] = useState<Validation[]>([]);
+
+  const router = useRouter();
 
   const getMessage = (field: string) => {
     return validationMessages.find((m) => m.field === field)?.message ?? '';
@@ -63,9 +66,10 @@ export default function useManageGroup({ groupData }: { groupData?: Group }) {
 
     axiosClient
       .post('/groups', group)
-      .then(() => {
+      .then((result) => {
         setGroup(INITIAL_GROUP_VALUE);
         setValidationMessages([]);
+        router.push(`/${result.data.id}`);
       })
       .catch((err) => {
         console.error(err);
