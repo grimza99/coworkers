@@ -2,19 +2,28 @@ import { useState } from 'react';
 import { Group } from './ManageGroup';
 import postImageUrl from '@/utils/postImageUrl';
 import axiosClient from '@/lib/axiosClient';
-import manageGroupValidate, { Validation } from './group-validate';
+import manageGroupValidate, { GROUP_MESSAGE, Validation } from './group-validate';
 
 const INITIAL_GROUP_VALUE: Group = {
   image: null,
   name: '',
 };
 
-export default function useManageGroup(groupData?: Group) {
+export default function useManageGroup({ groupData }: { groupData?: Group }) {
   const [group, setGroup] = useState<Group>(groupData ?? INITIAL_GROUP_VALUE);
-  const [validationMessage, setValidationMessage] = useState<Validation | null>();
+  const [validationMessages, setValidationMessages] = useState<Validation[]>([]);
 
   const getMessage = (field: string) => {
-    return validationMessage?.field === field ? validationMessage.message : '';
+    return validationMessages.find((m) => m.field === field)?.message ?? '';
+  };
+
+  const handleNameBlur = () => {
+    setValidationMessages((prev) => [
+      ...prev.filter((m) => m.field !== 'name'),
+      ...(!group.name.trim()
+        ? [{ field: 'name' as keyof Group, message: GROUP_MESSAGE.EMPTY_GROUP_NAME }]
+        : []),
+    ]);
   };
 
   const handleNameChange = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -35,9 +44,7 @@ export default function useManageGroup(groupData?: Group) {
           image: result.url,
         }));
 
-        if (validationMessage?.field === 'image') {
-          setValidationMessage(null);
-        }
+        setValidationMessages((prev) => prev.filter((m) => m.field !== 'image'));
       })
       .catch((err) => {
         console.error(err);
@@ -49,8 +56,8 @@ export default function useManageGroup(groupData?: Group) {
 
     const validation = manageGroupValidate(group);
 
-    if (validation) {
-      setValidationMessage(validation);
+    if (validation.length > 0) {
+      setValidationMessages(validation);
       return;
     }
 
@@ -58,12 +65,19 @@ export default function useManageGroup(groupData?: Group) {
       .post('/groups', group)
       .then(() => {
         setGroup(INITIAL_GROUP_VALUE);
-        setValidationMessage(null);
+        setValidationMessages([]);
       })
       .catch((err) => {
         console.error(err);
       });
   };
 
-  return { group, getMessage, handleNameChange, handleImageChange, handleAddGroupSubmit };
+  return {
+    group,
+    getMessage,
+    handleNameBlur,
+    handleNameChange,
+    handleImageChange,
+    handleAddGroupSubmit,
+  };
 }
