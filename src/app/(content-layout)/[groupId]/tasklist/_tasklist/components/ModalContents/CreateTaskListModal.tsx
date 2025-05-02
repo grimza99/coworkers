@@ -48,6 +48,7 @@ export default function CreateTaskListModal({ groupId }: Props) {
               <FormField
                 label="목록 이름"
                 field="input"
+                placeholder="목록 이름을 입력해주세요."
                 required
                 isSuccess={currentValue !== ''}
                 isFailure={currentValue === ''}

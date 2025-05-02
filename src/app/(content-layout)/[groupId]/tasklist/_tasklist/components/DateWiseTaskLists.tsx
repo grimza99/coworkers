@@ -14,6 +14,7 @@ export default function DateWiseTaskLists({ date, groupId }: Props) {
   const [taskLists, setTaskLists] = useState<TaskList[]>([]);
   const [currentTaskList, setCurrentTaskList] = useState<TaskList>();
   const [currentTasks, setCurrentTasks] = useState<Task[]>([]);
+
   const handleClickChangeCurrentTaskList = (taskList: TaskList) => {
     setCurrentTaskList(taskList);
     fetchTaskListWiseTasks(taskList);
@@ -32,6 +33,7 @@ export default function DateWiseTaskLists({ date, groupId }: Props) {
     },
     [groupId, date]
   );
+
   const fetchTaskLists = useCallback(async () => {
     const { data: taskListsData } = await axiosClient(`/groups/${groupId}`);
 
