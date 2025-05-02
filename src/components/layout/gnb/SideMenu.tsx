@@ -3,7 +3,6 @@
 import React, { forwardRef } from 'react';
 import Link from 'next/link';
 import Image from 'next/image';
-import closeIcon from '@/../public/icons/close.svg';
 import clsx from 'clsx';
 
 interface Team {
