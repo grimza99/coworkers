@@ -29,7 +29,7 @@ export default function DropDownGroupsItem({ group }: GroupOptionProps) {
           alt="이미지"
           className="rounded-md"
         />
-        <p className="w-[110px] truncate"> {name}</p>
+        <p className="w-[110px] truncate">{name}</p>
       </Link>
       <Link href={`/${id}/edit`}>
         <Image width={16} height={16} src={kebabIcon} alt=":" />
