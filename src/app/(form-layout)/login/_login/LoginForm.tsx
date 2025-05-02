@@ -7,7 +7,7 @@ import Button from '@/components/common/Button';
 import PasswordToggleButton from '@/app/(form-layout)/signup/_signup/PasswordToggleButton';
 import axiosClient from '@/lib/axiosClient';
 import { setClientCookie } from '@/lib/cookie/client';
-import { validateEmail, validatePassword } from '@/utils/validators';
+import { validateEmail } from '@/utils/validators';
 import { User } from '@/types/user';
 import PATHS from '@/constants/paths';
 
