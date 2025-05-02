@@ -16,9 +16,9 @@ export default function TaskListWiseTasks({ task, groupId, taskListId }: Props) 
 
   const {
     handleClickPopUpDetail,
-    handleClickItemEdit,
-    handleClickItemDelete,
-    handleClickItemStatusChange,
+    handleClickTaskEdit,
+    handleClickTaskDelete,
+    handleClickTaskStatusChange,
     handleClickToggleDailyMode,
   } = taskHandlers(task);
 
@@ -36,10 +36,10 @@ export default function TaskListWiseTasks({ task, groupId, taskListId }: Props) 
       key={task.id}
       type="taskList"
       onCheckStatusChange={() =>
-        handleClickItemStatusChange(groupId, taskListId, isDone, setIsDone)
+        handleClickTaskStatusChange(groupId, taskListId, isDone, setIsDone)
       }
-      onEdit={handleClickItemEdit}
-      onDelete={handleClickItemDelete}
+      onEdit={handleClickTaskEdit}
+      onDelete={handleClickTaskDelete}
       onClick={handleClickPopUpDetail}
       onClickToggleDailyMode={handleClickToggleDailyMode}
       isDone={isDone}

@@ -23,7 +23,7 @@ export function DetailTask({ task, groupId, taskListId }: Props) {
   if (!taskListId) return;
   const buttonText = isDone ? '완료 취소하기' : '완료 하기';
 
-  const { handleClickItemStatusChange } = taskHandlers(task);
+  const { handleClickTaskStatusChange } = taskHandlers(task);
   return (
     <>
       {isOpen && (
@@ -41,7 +41,7 @@ export function DetailTask({ task, groupId, taskListId }: Props) {
             </div>
           </div>
           <Button
-            onClick={() => handleClickItemStatusChange(groupId, taskListId, isDone, setIsDone)}
+            onClick={() => handleClickTaskStatusChange(groupId, taskListId, isDone, setIsDone)}
             className="absolute right-6 bottom-6 lg:right-10 lg:bottom-10"
             variant={isDone ? 'outline-primary' : 'solid'}
             size={isDone ? 'lg' : 'sm'}

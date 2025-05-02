@@ -7,15 +7,15 @@ export function taskHandlers(task: Task) {
     // 팝업 로직
   };
 
-  const handleClickItemEdit = () => {
+  const handleClickTaskEdit = () => {
     console.log('수정하기');
   };
 
-  const handleClickItemDelete = () => {
+  const handleClickTaskDelete = () => {
     console.log('삭제하기');
   };
 
-  const handleClickItemStatusChange = async (
+  const handleClickTaskStatusChange = async (
     groupId: string,
     taskListId: number,
     isDone: boolean,
@@ -39,9 +39,9 @@ export function taskHandlers(task: Task) {
 
   return {
     handleClickPopUpDetail,
-    handleClickItemEdit,
-    handleClickItemDelete,
-    handleClickItemStatusChange,
+    handleClickTaskEdit,
+    handleClickTaskDelete,
+    handleClickTaskStatusChange,
     handleClickToggleDailyMode,
   };
 }
