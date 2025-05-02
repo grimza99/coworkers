@@ -24,11 +24,13 @@ export default function CreateTaskListModal() {
 
   return (
     <ModalProvider>
-      <ModalTrigger className="text-primary size-20 w-fit">+ 새로운 목록 추가하기</ModalTrigger>
-      <ModalPortal>
-        <ModalOverlay>
+      <ModalTrigger className="text-primary size-20 w-fit" modalId="1">
+        + 새로운 목록 추가하기
+      </ModalTrigger>
+      <ModalPortal modalId="1">
+        <ModalOverlay modalId="1">
           <ModalContainer>
-            <ModalCloseButton />
+            <ModalCloseButton modalId="1" />
             <ModalHeading>새로운 목록 추가</ModalHeading>
             <ModalDescription className="text-md-md text-gray500 mb-6 w-full">
               할 일에 대한 목록을 추가하고

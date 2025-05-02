@@ -4,18 +4,23 @@ import clsx from 'clsx';
 import xIcon from '@/../public/icons/x-icon.svg';
 import useModalContext from '@/components/common/modal/core/useModalContext';
 
+interface ModalCloseButtonProps extends React.ComponentProps<'button'> {
+  modalId: string;
+}
+
 export default function ModalCloseButton({
+  modalId,
   className,
   onClick,
   ...props
-}: React.ComponentProps<'button'>) {
+}: ModalCloseButtonProps) {
   const { closeModal } = useModalContext();
 
   const handleClick = (e: React.MouseEvent<HTMLButtonElement>) => {
     if (onClick) {
       onClick(e);
     }
-    closeModal();
+    closeModal(modalId);
   };
 
   return (

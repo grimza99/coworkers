@@ -20,7 +20,7 @@ export function RemoveTaskModalContent({ taskName }: Props) {
     //삭제 요청
   };
   return (
-    <ModalOverlay>
+    <ModalOverlay modalId="1">
       <ModalContainer>
         <Image src="/icons/danger.icon.svg" alt="!" width={20} height={20} />
         <ModalHeading className="mt-4 mb-2">
@@ -31,7 +31,12 @@ export function RemoveTaskModalContent({ taskName }: Props) {
         </ModalDescription>
         <ModalFooter className="w-full">
           <div className="flex w-full gap-2">
-            <Button variant="outline-gray" onClick={closeModal} fontSize="16" size="fullWidth">
+            <Button
+              variant="outline-gray"
+              onClick={() => closeModal('1')}
+              fontSize="16"
+              size="fullWidth"
+            >
               닫기
             </Button>
             <Button variant="danger" onClick={handleClickDeleteTask} size="fullWidth">
