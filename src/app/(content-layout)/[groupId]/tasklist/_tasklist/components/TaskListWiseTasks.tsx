@@ -45,7 +45,7 @@ export default function TaskListWiseTasks({ task, groupId, taskListId }: Props) 
         onClick={() => PopUpDetailTask(setIsOpen)}
         onClickToggleDailyMode={toggleDailyMode}
         isDone={isDone}
-        description={task.description}
+        name={task.name}
         commentCount={task.commentCount}
         date={safeFormatDate(task.date)}
         frequency={task.frequency}
