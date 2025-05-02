@@ -5,6 +5,11 @@ import axiosClient from '@/lib/axiosClient';
 import { Task, TaskList } from '../types/task-list-page-type';
 import { DetailTask } from './DetailTask';
 import TaskListWiseTasks from './TaskListWiseTasks';
+import {
+  INITIAL_TASKLIST,
+  INITIAL_TASKLISTS,
+  INITIAL_TASKS,
+} from '../values/taskList-initial-value';
 
 interface Props {
   date: Date;
@@ -12,9 +17,9 @@ interface Props {
 }
 
 export default function DateWiseTaskLists({ date, groupId }: Props) {
-  const [taskLists, setTaskLists] = useState<TaskList[]>([]);
-  const [currentTaskList, setCurrentTaskList] = useState<TaskList>();
-  const [currentTasks, setCurrentTasks] = useState<Task[]>([]);
+  const [taskLists, setTaskLists] = useState<TaskList[]>(INITIAL_TASKLISTS);
+  const [currentTaskList, setCurrentTaskList] = useState<TaskList>(INITIAL_TASKLIST);
+  const [currentTasks, setCurrentTasks] = useState<Task[]>(INITIAL_TASKS);
 
   const handleClickChangeCurrentTaskList = (taskList: TaskList) => {
     setCurrentTaskList(taskList);
@@ -89,7 +94,7 @@ export default function DateWiseTaskLists({ date, groupId }: Props) {
             <br />할 일을 추가해보세요.
           </p>
         )}
-        <DetailTask task={currentTasks[0]} />
+        <DetailTask task={currentTasks[0]} groupId={groupId} taskListId={taskLists[0].id} />
       </div>
     </div>
   );

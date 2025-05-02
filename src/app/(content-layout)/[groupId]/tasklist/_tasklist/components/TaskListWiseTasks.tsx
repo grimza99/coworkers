@@ -3,7 +3,7 @@ import TaskListItem from '@/components/task-list-item/TaskListItem';
 import { format, isValid } from 'date-fns';
 import { useState } from 'react';
 import { Task } from '../types/task-list-page-type';
-import { TaskItemHandlers } from '../utils/todo-list-item-handlers';
+import { TaskItemHandlers } from '../utils/task-list-item-handlers';
 
 interface Props {
   task: Task;
