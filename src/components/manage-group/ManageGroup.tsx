@@ -53,7 +53,7 @@ export default function ManageGroup({ isEdit, groupData }: MangeGroupProps) {
           errorMessage={nameMessage}
           value={group.name}
           onChange={handleNameChange}
-          onFieldBulr={handleNameBlur}
+          onFieldBlur={handleNameBlur}
         />
       </div>
       <div className="flex flex-col gap-6">

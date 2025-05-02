@@ -20,14 +20,14 @@ export default function FormField({
   gapSize = '12',
   labelSize = '16/16',
   onFieldFocus,
-  onFieldBulr,
+  onFieldBlur,
   ...rest
 }: FieldComponentProps) {
   const { isFocused, showError, borderClassName, handleFocus, handleBlur } = useFieldStatus({
     isSuccess,
     isFailure,
     onFocus: onFieldFocus,
-    onBlur: onFieldBulr,
+    onBlur: onFieldBlur,
     forceShowError: !!errorMessage,
   });
 
