@@ -19,13 +19,16 @@ export default function FormField({
   errorMessage,
   gapSize = '12',
   labelSize = '16/16',
+  onFieldFocus,
+  onFieldBulr,
   ...rest
 }: FieldComponentProps) {
   const { isFocused, showError, borderClassName, handleFocus, handleBlur } = useFieldStatus({
     isSuccess,
     isFailure,
-    onFocus: (rest as InputProps).onFocus,
-    onBlur: (rest as InputProps).onBlur,
+    onFocus: onFieldFocus,
+    onBlur: onFieldBulr,
+    forceShowError: !!errorMessage,
   });
 
   const renderField = () => {

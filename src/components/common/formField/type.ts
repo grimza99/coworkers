@@ -33,6 +33,8 @@ export interface FormFieldProps {
   errorMessage?: string;
   gapSize?: '12' | '16' | '24' | '32';
   labelSize?: '16/16' | '14/16' | '16/20';
+  onFieldFocus?: () => void;
+  onFieldBulr?: () => void;
 }
 
 export type FieldComponentProps =
