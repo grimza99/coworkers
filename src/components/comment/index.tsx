@@ -9,6 +9,7 @@ interface CommentItemProps {
 }
 
 export default function CommentItem({ comment }: CommentItemProps) {
+  if (!comment) return;
   const { content, updatedAt } = comment;
 
   const userObject =

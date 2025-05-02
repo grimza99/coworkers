@@ -1,7 +1,7 @@
 'use client';
 import Image from 'next/image';
 import Content from './Content';
-import Comments from './Comments';
+import Comments from './DetailTaskCommentField';
 import { Task } from '../../types/task-list-page-type';
 import { useOutSideClickAutoClose } from '@/utils/use-outside-click-auto-close';
 import Button from '@/components/common/Button';
