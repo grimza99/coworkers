@@ -13,7 +13,7 @@ interface Props {
 const DROPDOWN_OPTION_LIST = ['수정하기', '삭제하기'];
 
 export default function Content({ task, isDone }: Props) {
-  const { name, doneBy, updatedAt, date, doneAt, description } = task;
+  const { name, doneBy, updatedAt, date, description } = task;
 
   const onDropdownListClick = (e: React.MouseEvent<HTMLDivElement>) => {
     const option = e.currentTarget.textContent;

@@ -1,5 +1,4 @@
 import StartButton from '@/app/_home/StartButton';
-import { DetailTask } from './(content-layout)/[groupId]/tasklist/_tasklist/components/DetailTask';
 
 export default function Home() {
   return (
