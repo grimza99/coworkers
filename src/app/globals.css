@@ -12,6 +12,11 @@
   button:disabled {
     cursor: not-allowed;
   }
+  input:-webkit-autofill {
+    box-shadow: 0 0 0px 1000px var(--color-bg200) inset !important;
+    -webkit-text-fill-color: var(--color-gray100) !important;
+    caret-color: var(--color-gray100) !important;
+  }
 }
 
 @theme {
