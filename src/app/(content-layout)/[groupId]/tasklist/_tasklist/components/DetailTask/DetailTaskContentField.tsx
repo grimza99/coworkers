@@ -5,6 +5,7 @@ import ProfileBadge from '@/components/profile-badge';
 import Repeat from '@/assets/Repeat';
 import { format } from 'date-fns';
 import clsx from 'clsx';
+import { taskHandlers } from '../../utils/task-handlers';
 
 interface Props {
   task: DetailTask;
@@ -14,12 +15,12 @@ const DROPDOWN_OPTION_LIST = ['수정하기', '삭제하기'];
 
 export default function Content({ task, isDone }: Props) {
   const { name, doneBy, updatedAt, date, description } = task;
-
+  const { handleClickTaskPopUpDeleteModal } = taskHandlers();
   const onDropdownListClick = (e: React.MouseEvent<HTMLDivElement>) => {
     const option = e.currentTarget.textContent;
 
     if (option === '수정하기') return;
-    if (option === '삭제하기') return;
+    if (option === '삭제하기') return handleClickTaskPopUpDeleteModal?.(`${task.id}`);
   };
 
   return (

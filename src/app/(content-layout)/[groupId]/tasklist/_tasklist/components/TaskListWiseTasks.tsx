@@ -61,7 +61,12 @@ export default function TaskListWiseTasks({ task, groupId, taskListId }: Props) 
         setIsOpen={setIsOpen}
         isOpen={isOpen}
       />
-      <RemoveTaskModal taskName={task.name} modalId={`${task.id}`} />
+      <RemoveTaskModal
+        taskName={task.name}
+        taskId={task.id}
+        groupId={groupId}
+        taskListId={taskListId}
+      />
     </>
   );
 }

@@ -2,7 +2,7 @@ import axiosClient from '@/lib/axiosClient';
 import { Task } from '../types/task-list-page-type';
 import useModalContext from '@/components/common/modal/core/useModalContext';
 
-export function taskHandlers(task: Task) {
+export function taskHandlers(task?: Task) {
   const { openModal } = useModalContext();
 
   const handleClickPopUpDetail = (setIsOpen: React.Dispatch<React.SetStateAction<boolean>>) => {
@@ -21,23 +21,23 @@ export function taskHandlers(task: Task) {
     //수정 리퀘스트
   };
 
-  const handleSubmitDeleteTask = async () => {};
+  const handleSubmitDeleteTask = async (groupId: string, taskListId: number, taskId: number) => {
+    await axiosClient.delete(`/groups/${groupId}/task-lists/${taskListId}/tasks/${taskId}`);
+  };
+
   const handleClickTaskStatusChange = async (
     groupId: string,
     taskListId: number,
     isDone: boolean,
     setIsDone: React.Dispatch<React.SetStateAction<boolean>>
   ) => {
-    try {
-      await axiosClient.patch(`/groups/${groupId}/task-lists/${taskListId}/tasks/${task.id}`, {
-        name: task.name,
-        description: task.description,
-        done: !isDone,
-      });
-      setIsDone((prev) => !prev);
-    } catch {
-      //에러 핸들링
-    }
+    if (!task) return;
+    await axiosClient.patch(`/groups/${groupId}/task-lists/${taskListId}/tasks/${task.id}`, {
+      name: task.name,
+      description: task.description,
+      done: !isDone,
+    });
+    setIsDone((prev) => !prev);
   };
 
   const handleClickToggleDailyMode = () => {

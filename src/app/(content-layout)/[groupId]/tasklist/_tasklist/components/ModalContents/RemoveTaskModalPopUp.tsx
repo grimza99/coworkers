@@ -10,27 +10,28 @@ import {
 import Image from 'next/image';
 import Button from '@/components/common/Button';
 import useModalContext from '@/components/common/modal/core/useModalContext';
+import { taskHandlers } from '../../utils/task-handlers';
 
 interface Props {
   taskName: string;
-  modalId: string;
+  groupId: string;
+  taskListId: number;
+  taskId: number;
 }
 
-export default function RemoveTaskModal({ taskName, modalId }: Props) {
+export default function RemoveTaskModal({ taskName, groupId, taskListId, taskId }: Props) {
   const { closeModal } = useModalContext();
-
-  const handleClickDeleteTask = () => {
-    //삭제 요청
-  };
+  const { handleSubmitDeleteTask } = taskHandlers();
 
   return (
     <>
-      <ModalPortal modalId={modalId}>
-        <ModalOverlay modalId={modalId} onClick={() => closeModal(`${modalId}`)}>
-          <ModalContainer>
+      <ModalPortal modalId={`${taskId}`}>
+        <ModalOverlay modalId={`${taskId}`} onClick={() => closeModal(`${`${taskId}`}`)}>
+          <ModalContainer className="md:max-w-96 lg:max-w-96">
             <Image src="/icons/danger.icon.svg" alt="!" width={20} height={20} />
             <ModalHeading className="mt-4 mb-2">
-              <p>{`'${taskName}'${(<br />)}할 일을 정말 삭제하시겠어요?`}</p>
+              {`'${taskName}'`}
+              <br /> 할 일을 정말 삭제하시겠어요?
             </ModalHeading>
             <ModalDescription className="text-md-md text-gray500 mb-6 w-full">
               삭제 후에는 되돌릴 수 없습니다.
@@ -39,14 +40,18 @@ export default function RemoveTaskModal({ taskName, modalId }: Props) {
               <div className="flex w-full gap-2">
                 <Button
                   variant="outline-gray"
-                  onClick={() => closeModal(`${modalId}`)}
+                  onClick={() => closeModal(`${`${taskId}`}`)}
                   fontSize="16"
                   size="fullWidth"
                 >
                   닫기
                 </Button>
-                <Button variant="danger" onClick={handleClickDeleteTask} size="fullWidth">
-                  만들기
+                <Button
+                  variant="danger"
+                  onClick={() => handleSubmitDeleteTask(groupId, taskListId, taskId)}
+                  size="fullWidth"
+                >
+                  삭제하기
                 </Button>
               </div>
             </ModalFooter>
