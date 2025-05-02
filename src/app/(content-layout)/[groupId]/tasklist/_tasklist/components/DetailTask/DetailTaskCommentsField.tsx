@@ -4,7 +4,6 @@ import { Comment } from '@/components/comment/types';
 import Textarea from '@/components/common/formField/compound/Textarea';
 import axiosClient from '@/lib/axiosClient';
 import { useEffect, useState } from 'react';
-import Comments from './CommentField';
 import CommentField from './CommentField';
 
 //color 변경
@@ -28,8 +27,11 @@ export default function DetailTaskCommentField({ taskId }: Props) {
     setCommentValue(e.currentTarget.value);
   };
 
-  const handleSubmitComment = () => {
-    //댓글 등록
+  const handleSubmitComment = async () => {
+    const { data } = await axiosClient.post(`/tasks/${taskId}/comments`, { content: commentValue });
+    setCurrentComments((prev) => [...prev, data]);
+    setCommentValue('');
+    //댓글 등록 실패시 에러 핸들링 필요
   };
 
   return (
@@ -47,6 +49,7 @@ export default function DetailTaskCommentField({ taskId }: Props) {
           isBorder={false}
           onChange={handleChangeComment}
           placeholder="댓글을 달아주세요"
+          value={commentValue}
         />
       </div>
       <div className="flex flex-col gap-4">
