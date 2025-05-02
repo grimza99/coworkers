@@ -1,10 +1,11 @@
 'use client';
 import CommentSlot from '@/assets/CommentSlot';
-import CommentItem from '@/components/comment';
 import { Comment } from '@/components/comment/types';
 import Textarea from '@/components/common/formField/compound/Textarea';
 import axiosClient from '@/lib/axiosClient';
 import { useEffect, useState } from 'react';
+import Comments from './CommentField';
+import CommentField from './CommentField';
 
 //color 변경
 
@@ -25,12 +26,12 @@ export default function DetailTaskCommentField({ taskId }: Props) {
 
   const handleChangeComment = (e: React.ChangeEvent<HTMLTextAreaElement>) => {
     setCommentValue(e.currentTarget.value);
-    console.log(e.currentTarget.value);
   };
 
   const handleSubmitComment = () => {
     //댓글 등록
   };
+
   return (
     <div className="flex flex-col gap-6">
       <div className="border-border border-t-1 border-b-1 py-3">
@@ -50,7 +51,7 @@ export default function DetailTaskCommentField({ taskId }: Props) {
       </div>
       <div className="flex flex-col gap-4">
         {currentComments.map((comment: Comment) => {
-          return <CommentItem key={comment.id} comment={comment} />;
+          return <CommentField key={comment.id} comment={comment} taskId={taskId} />;
         })}
       </div>
     </div>

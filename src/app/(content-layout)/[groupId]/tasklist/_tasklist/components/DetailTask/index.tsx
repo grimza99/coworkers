@@ -6,7 +6,7 @@ import { useOutSideClickAutoClose } from '@/utils/use-outside-click-auto-close';
 import Button from '@/components/common/Button';
 import Check from '@/assets/Check';
 import clsx from 'clsx';
-import DetailTaskCommentField from './DetailTaskCommentField';
+import DetailTaskCommentField from './DetailTaskCommentsField';
 
 interface Props {
   task: Task;
