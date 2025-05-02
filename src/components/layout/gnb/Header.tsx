@@ -153,7 +153,7 @@ export default function Header() {
         <div className="ml-auto">
           <DropDown
             size="lg"
-            placement="top-8 right--4"
+            placement="top-8 -right-2"
             dropDownOpenBtn={
               <button type="button" className="flex items-center gap-2">
                 {userData?.image ? (
