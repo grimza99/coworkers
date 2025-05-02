@@ -13,13 +13,14 @@ export default function DetailTaskCommentField({ taskId }: Props) {
   const [commentValue, setCommentValue] = useState('');
   const [currentComments, setCurrentComments] = useState<Comment[]>([]);
   const fetchComments = async () => {
+    if (!taskId) return;
     const { data } = await axiosClient(`/tasks/${taskId}/comments`);
     setCurrentComments(data);
   };
 
   useEffect(() => {
     fetchComments();
-  }, []);
+  }, [taskId]);
 
   const handleChangeComment = (e: React.ChangeEvent<HTMLTextAreaElement>) => {
     setCommentValue(e.currentTarget.value);

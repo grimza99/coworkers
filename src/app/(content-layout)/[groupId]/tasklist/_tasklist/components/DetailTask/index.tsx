@@ -7,18 +7,32 @@ import Button from '@/components/common/Button';
 import Check from '@/assets/Check';
 import clsx from 'clsx';
 import DetailTaskCommentField from './DetailTaskCommentsField';
+import axiosClient from '@/lib/axiosClient';
+import { useState } from 'react';
 
 interface Props {
   task: Task;
+  groupId: string;
+  taskListId: number;
 }
-export function DetailTask({ task }: Props) {
+export function DetailTask({ task, groupId, taskListId }: Props) {
+  const [isDone, setIsDone] = useState(Boolean(task.doneAt));
   const { isOpen, setIsOpen, ref } = useOutSideClickAutoClose(true);
   if (!task) return;
-  const isDone = Boolean(task.doneAt);
+  if (!taskListId) return;
   const buttonText = isDone ? '완료 취소하기' : '완료 하기';
 
-  const handleClickTaskStatusChange = () => {
-    //던 상태를 취소 or 던 상태로 바꾸는 리퀘스트
+  const handleClickTaskStatusChange = async () => {
+    try {
+      await axiosClient.patch(`/groups/${groupId}/task-lists/${taskListId}/tasks/${task.id}`, {
+        name: task.name,
+        description: task.description,
+        done: !isDone,
+      });
+      setIsDone((prev) => !prev);
+    } catch {
+      //에러 핸들링
+    }
   };
   return (
     <>
@@ -32,7 +46,7 @@ export function DetailTask({ task }: Props) {
               <Image src="/icons/close.svg" alt="x" width={24} height={24} />
             </button>
             <div className="flex h-full flex-col gap-25 overflow-scroll">
-              <Content task={task} />
+              <Content isDone={isDone} task={task} />
               <DetailTaskCommentField taskId={task.id} />
             </div>
           </div>

@@ -8,12 +8,12 @@ import clsx from 'clsx';
 
 interface Props {
   task: DetailTask;
+  isDone: boolean;
 }
 const DROPDOWN_OPTION_LIST = ['수정하기', '삭제하기'];
 
-export default function Content({ task }: Props) {
+export default function Content({ task, isDone }: Props) {
   const { name, doneBy, updatedAt, date, doneAt, description } = task;
-  const isDone = !Boolean(doneAt);
 
   const onDropdownListClick = (e: React.MouseEvent<HTMLDivElement>) => {
     const option = e.currentTarget.textContent;
