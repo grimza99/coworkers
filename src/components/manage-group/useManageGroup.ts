@@ -11,10 +11,10 @@ const INITIAL_GROUP_VALUE: Group = {
 
 export default function useManageGroup(groupData?: Group) {
   const [group, setGroup] = useState<Group>(groupData ?? INITIAL_GROUP_VALUE);
-  const [validationMessage, setValidationMessage] = useState<Validation[]>([]);
+  const [validationMessage, setValidationMessage] = useState<Validation | null>();
 
-  const getMessage = (field: keyof Group) => {
-    return validationMessage.find((state) => state.field === field)?.message || '';
+  const getMessage = (field: string) => {
+    return validationMessage?.field === field ? validationMessage.message : '';
   };
 
   const handleNameChange = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -35,7 +35,9 @@ export default function useManageGroup(groupData?: Group) {
           image: result.url,
         }));
 
-        setValidationMessage((prev) => prev.filter((item) => item.field !== 'image'));
+        if (validationMessage?.field === 'image') {
+          setValidationMessage(null);
+        }
       })
       .catch((err) => {
         console.error(err);
@@ -47,7 +49,7 @@ export default function useManageGroup(groupData?: Group) {
 
     const validation = manageGroupValidate(group);
 
-    if (validation.length > 0) {
+    if (validation) {
       setValidationMessage(validation);
       return;
     }
@@ -56,6 +58,7 @@ export default function useManageGroup(groupData?: Group) {
       .post('/groups', group)
       .then(() => {
         setGroup(INITIAL_GROUP_VALUE);
+        setValidationMessage(null);
       })
       .catch((err) => {
         console.error(err);

@@ -1,30 +1,28 @@
 import { Group, GROUP_MESSAGE } from './ManageGroup';
 
 export interface Validation {
-  field: keyof Group;
+  field: string;
   message: string;
 }
 
 const manageGroupValidate = (group: Group) => {
   const { image, name } = group;
 
-  const messageArray: Validation[] = [];
-
   if (image === null || image === '') {
-    messageArray.push({
+    return {
       field: 'image',
       message: GROUP_MESSAGE.EMPTY_GROUP_IMAGE,
-    });
+    };
   }
 
   if (!name.trim()) {
-    messageArray.push({
+    return {
       field: 'name',
       message: GROUP_MESSAGE.EMPTY_GROUP_NAME,
-    });
+    };
   }
 
-  return messageArray;
+  return null;
 };
 
 export default manageGroupValidate;

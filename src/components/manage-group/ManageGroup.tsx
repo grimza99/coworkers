@@ -55,12 +55,7 @@ export default function ManageGroup({ isEdit, groupData }: MangeGroupProps) {
         />
       </div>
       <div className="flex flex-col gap-6">
-        <Button
-          type="submit"
-          variant="solid"
-          size="fullWidth"
-          // disabled={group.image === null || group.name === ''}
-        >
+        <Button type="submit" variant="solid" size="fullWidth">
           {groupButtonText}
         </Button>
         <p className="text-lg-rg text-gray500 text-center">
