@@ -3,7 +3,7 @@ import CommentSlot from '@/assets/CommentSlot';
 import { Comment } from '@/components/comment/types';
 import Textarea from '@/components/common/formField/compound/Textarea';
 import axiosClient from '@/lib/axiosClient';
-import { useEffect, useState } from 'react';
+import { useCallback, useEffect, useState } from 'react';
 import CommentField from './CommentField';
 
 interface Props {
@@ -12,15 +12,16 @@ interface Props {
 export default function DetailTaskCommentField({ taskId }: Props) {
   const [commentValue, setCommentValue] = useState('');
   const [currentComments, setCurrentComments] = useState<Comment[]>([]);
-  const fetchComments = async () => {
+
+  const fetchComments = useCallback(async () => {
     if (!taskId) return;
     const { data } = await axiosClient(`/tasks/${taskId}/comments`);
     setCurrentComments(data);
-  };
+  }, [taskId]);
 
   useEffect(() => {
     fetchComments();
-  }, [taskId]);
+  }, [taskId, fetchComments]);
 
   const handleChangeComment = (e: React.ChangeEvent<HTMLTextAreaElement>) => {
     setCommentValue(e.currentTarget.value);

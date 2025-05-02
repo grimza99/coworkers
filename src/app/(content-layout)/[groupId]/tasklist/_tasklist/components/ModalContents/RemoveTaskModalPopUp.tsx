@@ -10,7 +10,7 @@ import {
 import Image from 'next/image';
 import Button from '@/components/common/Button';
 import useModalContext from '@/components/common/modal/core/useModalContext';
-import { taskHandlers } from '../../utils/task-handlers';
+import { useTaskHandlers } from '../../utils/task-handlers';
 
 interface Props {
   taskName: string;
@@ -21,7 +21,7 @@ interface Props {
 
 export default function RemoveTaskModal({ taskName, groupId, taskListId, taskId }: Props) {
   const { closeModal } = useModalContext();
-  const { handleSubmitDeleteTask } = taskHandlers();
+  const { handleSubmitDeleteTask } = useTaskHandlers();
 
   return (
     <>

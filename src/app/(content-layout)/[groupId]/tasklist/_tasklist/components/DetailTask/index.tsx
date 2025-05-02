@@ -8,7 +8,7 @@ import clsx from 'clsx';
 import DetailTaskCommentField from './DetailTaskCommentsField';
 import axiosClient from '@/lib/axiosClient';
 import { useCallback, useEffect, useState } from 'react';
-import { taskHandlers } from '../../utils/task-handlers';
+import { useTaskHandlers } from '../../utils/task-handlers';
 
 interface Props {
   groupId: string;
@@ -29,6 +29,7 @@ export function DetailTask({
   setIsDone,
 }: Props) {
   const [currentTask, setCurrentTask] = useState<Task>();
+  const { handleClickTaskStatusChange } = useTaskHandlers(currentTask);
 
   const fetchTask = useCallback(async () => {
     if (!isOpen && !taskId) return;
@@ -37,16 +38,15 @@ export function DetailTask({
       `/groups/${groupId}/task-lists/${taskListId}/tasks/${taskId}`
     );
     setCurrentTask(data);
-  }, [groupId, taskListId, taskId]);
+  }, [groupId, taskListId, taskId, isOpen]);
 
   useEffect(() => {
     fetchTask();
-  }, [isOpen]);
+  }, [isOpen, fetchTask]);
 
   const buttonText = isDone ? '완료 취소하기' : '완료 하기';
 
   if (!currentTask) return;
-  const { handleClickTaskStatusChange } = taskHandlers(currentTask);
   return (
     <>
       {isOpen && (

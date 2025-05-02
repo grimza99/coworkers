@@ -3,7 +3,7 @@ import TaskListItem from '@/components/task-list-item/TaskListItem';
 import { format, isValid } from 'date-fns';
 import { useState } from 'react';
 import { Task } from '../types/task-list-page-type';
-import { taskHandlers } from '../utils/task-handlers';
+import { useTaskHandlers } from '../utils/task-handlers';
 import { DetailTask } from './DetailTask';
 import RemoveTaskModal from './ModalContents/RemoveTaskModalPopUp';
 
@@ -23,7 +23,7 @@ export default function TaskListWiseTasks({ task, groupId, taskListId }: Props) 
     handleClickTaskPopUpDeleteModal,
     handleClickTaskStatusChange,
     handleClickToggleDailyMode,
-  } = taskHandlers(task);
+  } = useTaskHandlers(task);
 
   const safeFormatDate = (dateString: string | undefined | null) => {
     if (!dateString) return '';

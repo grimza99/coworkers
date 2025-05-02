@@ -2,7 +2,7 @@ import axiosClient from '@/lib/axiosClient';
 import { Task } from '../types/task-list-page-type';
 import useModalContext from '@/components/common/modal/core/useModalContext';
 
-export function taskHandlers(task?: Task) {
+export function useTaskHandlers(task?: Task) {
   const { openModal } = useModalContext();
 
   const handleClickPopUpDetail = (setIsOpen: React.Dispatch<React.SetStateAction<boolean>>) => {

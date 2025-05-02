@@ -19,6 +19,19 @@ export default function DateWiseTaskLists({ date, groupId }: Props) {
     fetchTaskListWiseTasks(taskList);
   };
 
+  const fetchTaskListWiseTasks = useCallback(
+    async (currentTaskList: TaskList) => {
+      if (!currentTaskList) return;
+      const { data: tasksData } = await axiosClient(
+        `groups/${groupId}/task-lists/${currentTaskList.id}/tasks`,
+        {
+          params: { date },
+        }
+      );
+      setCurrentTasks(tasksData);
+    },
+    [groupId, date]
+  );
   const fetchTaskLists = useCallback(async () => {
     const { data: taskListsData } = await axiosClient(`/groups/${groupId}`);
 
@@ -37,21 +50,7 @@ export default function DateWiseTaskLists({ date, groupId }: Props) {
     setTaskLists(taskListsData.taskLists);
     setCurrentTaskList(taskListsData.taskLists[0]);
     fetchTaskListWiseTasks(taskListsData.taskLists[0]);
-  }, [groupId]);
-
-  const fetchTaskListWiseTasks = useCallback(
-    async (currentTaskList: TaskList) => {
-      if (!currentTaskList) return;
-      const { data: tasksData } = await axiosClient(
-        `groups/${groupId}/task-lists/${currentTaskList.id}/tasks`,
-        {
-          params: { date },
-        }
-      );
-      setCurrentTasks(tasksData);
-    },
-    [groupId, date]
-  );
+  }, [groupId, fetchTaskListWiseTasks]);
 
   useEffect(() => {
     fetchTaskLists();
