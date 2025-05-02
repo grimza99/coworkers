@@ -3,16 +3,21 @@ import { useEffect } from 'react';
 import clsx from 'clsx';
 import useModalContext from '@/components/common/modal/core/useModalContext';
 
+interface ModalOverlayProps extends React.ComponentProps<'div'> {
+  modalId: string;
+}
+
 export default function ModalOverlay({
+  modalId,
   className,
   children,
   ...props
-}: React.ComponentProps<'div'>) {
+}: ModalOverlayProps) {
   const { closeModal } = useModalContext();
 
   const handleClick = (e: React.MouseEvent<HTMLDivElement>) => {
     if (e.target === e.currentTarget) {
-      closeModal();
+      closeModal(modalId);
     }
   };
 
