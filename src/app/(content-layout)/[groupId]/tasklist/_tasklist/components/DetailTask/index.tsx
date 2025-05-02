@@ -17,6 +17,9 @@ export function DetailTask({ task }: Props) {
   const isDone = Boolean(task.doneAt);
   const buttonText = isDone ? '완료 취소하기' : '완료 하기';
 
+  const handleClickTaskStatusChange = () => {
+    //던 상태를 취소 or 던 상태로 바꾸는 리퀘스트
+  };
   return (
     <>
       {isOpen && (
@@ -28,13 +31,20 @@ export function DetailTask({ task }: Props) {
             <button onClick={() => setIsOpen(false)}>
               <Image src="/icons/close.svg" alt="x" width={24} height={24} />
             </button>
-            <Content task={task} />
-            <Comments />
-            <Button className="absolute -bottom-6" variant={isDone ? 'outline-primary' : 'solid'}>
-              <Check className={clsx(isDone ? 'text-primary' : 'text-gray-100')} />
-              {buttonText}
-            </Button>
+            <div className="flex h-full flex-col gap-25 overflow-scroll">
+              <Content task={task} />
+              <Comments />
+            </div>
           </div>
+          <Button
+            onClick={handleClickTaskStatusChange}
+            className="absolute right-6 bottom-6 lg:right-10 lg:bottom-10"
+            variant={isDone ? 'outline-primary' : 'solid'}
+            size={isDone ? 'lg' : 'sm'}
+          >
+            <Check className={clsx(isDone ? 'text-primary' : 'text-gray100')} />
+            {buttonText}
+          </Button>
         </div>
       )}
     </>
