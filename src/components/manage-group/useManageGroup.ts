@@ -1,6 +1,6 @@
 import { useState } from 'react';
 import { Group } from './ManageGroup';
-import postImageUrl from '@/utils/postImageUrl';
+import postImageUrl from '@/lib/api/image/postImageUrl';
 import axiosClient from '@/lib/axiosClient';
 import manageGroupValidate, { GROUP_MESSAGE, Validation } from './group-validate';
 import { useRouter } from 'next/navigation';
