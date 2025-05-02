@@ -88,7 +88,14 @@ export default function DateWiseTaskLists({ date, groupId }: Props) {
         {currentTasks.length > 0 || !currentTasks ? (
           <div className="flex w-full flex-col gap-4">
             {currentTasks.map((task) => {
-              return <TaskListWiseTasks task={task} key={task.id} />;
+              return (
+                <TaskListWiseTasks
+                  taskListId={taskLists[0].id}
+                  task={task}
+                  key={task.id}
+                  groupId={groupId}
+                />
+              );
             })}
           </div>
         ) : (

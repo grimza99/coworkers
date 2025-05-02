@@ -3,13 +3,15 @@ import TaskListItem from '@/components/task-list-item/TaskListItem';
 import { format, isValid } from 'date-fns';
 import { useState } from 'react';
 import { Task } from '../types/task-list-page-type';
-import { TaskItemHandlers } from '../utils/task-list-item-handlers';
+import { taskHandlers } from '../utils/task-handlers';
 
 interface Props {
   task: Task;
+  groupId: string;
+  taskListId: number;
 }
 
-export default function TaskListWiseTasks({ task }: Props) {
+export default function TaskListWiseTasks({ task, groupId, taskListId }: Props) {
   const [isDone, setIsDone] = useState(Boolean(task.doneAt));
 
   const {
@@ -18,8 +20,8 @@ export default function TaskListWiseTasks({ task }: Props) {
     handleClickItemDelete,
     handleClickItemStatusChange,
     handleClickToggleDailyMode,
-  } = TaskItemHandlers(task.id, setIsDone);
-  //추후 필요한 인자는 데이터 작업중 파악하여 추가 예정
+  } = taskHandlers(task);
+
   const safeFormatDate = (dateString: string | undefined | null) => {
     if (!dateString) return '';
 
@@ -33,7 +35,9 @@ export default function TaskListWiseTasks({ task }: Props) {
     <TaskListItem
       key={task.id}
       type="taskList"
-      onCheckStatusChange={handleClickItemStatusChange}
+      onCheckStatusChange={() =>
+        handleClickItemStatusChange(groupId, taskListId, isDone, setIsDone)
+      }
       onEdit={handleClickItemEdit}
       onDelete={handleClickItemDelete}
       onClick={handleClickPopUpDetail}

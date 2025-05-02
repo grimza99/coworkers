@@ -9,6 +9,7 @@ import clsx from 'clsx';
 import DetailTaskCommentField from './DetailTaskCommentsField';
 import axiosClient from '@/lib/axiosClient';
 import { useState } from 'react';
+import { taskHandlers } from '../../utils/task-handlers';
 
 interface Props {
   task: Task;
@@ -22,18 +23,7 @@ export function DetailTask({ task, groupId, taskListId }: Props) {
   if (!taskListId) return;
   const buttonText = isDone ? '완료 취소하기' : '완료 하기';
 
-  const handleClickTaskStatusChange = async () => {
-    try {
-      await axiosClient.patch(`/groups/${groupId}/task-lists/${taskListId}/tasks/${task.id}`, {
-        name: task.name,
-        description: task.description,
-        done: !isDone,
-      });
-      setIsDone((prev) => !prev);
-    } catch {
-      //에러 핸들링
-    }
-  };
+  const { handleClickItemStatusChange } = taskHandlers(task);
   return (
     <>
       {isOpen && (
@@ -51,7 +41,7 @@ export function DetailTask({ task, groupId, taskListId }: Props) {
             </div>
           </div>
           <Button
-            onClick={handleClickTaskStatusChange}
+            onClick={() => handleClickItemStatusChange(groupId, taskListId, isDone, setIsDone)}
             className="absolute right-6 bottom-6 lg:right-10 lg:bottom-10"
             variant={isDone ? 'outline-primary' : 'solid'}
             size={isDone ? 'lg' : 'sm'}
