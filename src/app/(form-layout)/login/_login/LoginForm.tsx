@@ -29,7 +29,7 @@ export default function LoginForm() {
   const [isLoginFailed, setIsLoginFailed] = useState(false);
 
   const isEmailValid = validateEmail(email);
-  const isPasswordValid = validatePassword(password);
+  const isPasswordValid = password.length > 0;
   const isFormValid = isEmailValid && isPasswordValid;
 
   const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
