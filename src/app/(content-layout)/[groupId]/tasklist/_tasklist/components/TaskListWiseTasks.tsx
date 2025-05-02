@@ -5,6 +5,7 @@ import { useState } from 'react';
 import { Task } from '../types/task-list-page-type';
 import { taskHandlers } from '../utils/task-handlers';
 import { DetailTask } from './DetailTask';
+import RemoveTaskModal from './ModalContents/RemoveTaskModalPopUp';
 
 interface Props {
   task: Task;
@@ -18,8 +19,8 @@ export default function TaskListWiseTasks({ task, groupId, taskListId }: Props) 
 
   const {
     handleClickPopUpDetail,
-    handleClickTaskEdit,
-    handleClickTaskDelete,
+    popUpEditTaskModal,
+    handleClickTaskPopUpDeleteModal,
     handleClickTaskStatusChange,
     handleClickToggleDailyMode,
   } = taskHandlers(task);
@@ -41,8 +42,8 @@ export default function TaskListWiseTasks({ task, groupId, taskListId }: Props) 
         onCheckStatusChange={() =>
           handleClickTaskStatusChange(groupId, taskListId, isDone, setIsDone)
         }
-        onEdit={handleClickTaskEdit}
-        onDelete={handleClickTaskDelete}
+        onEdit={popUpEditTaskModal}
+        onDelete={() => handleClickTaskPopUpDeleteModal(`${task.id}`)}
         onClick={() => handleClickPopUpDetail(setIsOpen)}
         onClickToggleDailyMode={handleClickToggleDailyMode}
         isDone={isDone}
@@ -60,6 +61,7 @@ export default function TaskListWiseTasks({ task, groupId, taskListId }: Props) 
         setIsOpen={setIsOpen}
         isOpen={isOpen}
       />
+      <RemoveTaskModal taskName={task.name} modalId={`${task.id}`} />
     </>
   );
 }

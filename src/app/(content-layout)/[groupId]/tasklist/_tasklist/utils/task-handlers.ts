@@ -1,19 +1,27 @@
 import axiosClient from '@/lib/axiosClient';
 import { Task } from '../types/task-list-page-type';
+import useModalContext from '@/components/common/modal/core/useModalContext';
 
 export function taskHandlers(task: Task) {
+  const { openModal } = useModalContext();
+
   const handleClickPopUpDetail = (setIsOpen: React.Dispatch<React.SetStateAction<boolean>>) => {
     setIsOpen((prev) => !prev);
   };
 
-  const handleClickTaskEdit = () => {
-    console.log('수정하기');
+  const popUpEditTaskModal = () => {
+    console.log('수정하기 팝업 모달');
   };
 
-  const handleClickTaskDelete = () => {
-    console.log('삭제하기');
+  const handleClickTaskPopUpDeleteModal = (modalId: string) => {
+    openModal(modalId);
   };
 
+  const handleSubmitEditTask = () => {
+    //수정 리퀘스트
+  };
+
+  const handleSubmitDeleteTask = async () => {};
   const handleClickTaskStatusChange = async (
     groupId: string,
     taskListId: number,
@@ -36,11 +44,15 @@ export function taskHandlers(task: Task) {
     console.log('데일리모드로 전환');
   };
 
-  return {
+  const handlers = {
     handleClickPopUpDetail,
-    handleClickTaskEdit,
-    handleClickTaskDelete,
+    handleSubmitDeleteTask,
+    popUpEditTaskModal,
+    handleSubmitEditTask,
+    handleClickTaskPopUpDeleteModal,
     handleClickTaskStatusChange,
     handleClickToggleDailyMode,
   };
+
+  return handlers;
 }
