@@ -29,8 +29,8 @@ const SideMenu = forwardRef<HTMLDivElement, SideMenuProps>(({ teams, isOpen, onC
           isOpen ? 'translate-x-0' : '-translate-x-full'
         )}
       >
-        <button onClick={onClose} className="cursor-pointer self-end" title="닫기">
-          <Image src={closeIcon} alt="닫기" width={24} height={24} />
+        <button type="button" onClick={onClose} className="cursor-pointer self-end" title="닫기">
+          <Image src="/icons/close.svg" alt="닫기" width={24} height={24} />
         </button>
 
         <div className="flex flex-col gap-6">
