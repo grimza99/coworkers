@@ -4,11 +4,6 @@ import clsx from 'clsx';
 import axiosClient from '@/lib/axiosClient';
 import { Task, TaskList } from '../types/task-list-page-type';
 import TaskListWiseTasks from './TaskListWiseTasks';
-import {
-  INITIAL_TASKLIST,
-  INITIAL_TASKLISTS,
-  INITIAL_TASKS,
-} from '../values/taskList-initial-value';
 
 interface Props {
   date: Date;
@@ -16,9 +11,9 @@ interface Props {
 }
 
 export default function DateWiseTaskLists({ date, groupId }: Props) {
-  const [taskLists, setTaskLists] = useState<TaskList[]>(INITIAL_TASKLISTS);
-  const [currentTaskList, setCurrentTaskList] = useState<TaskList>(INITIAL_TASKLIST);
-  const [currentTasks, setCurrentTasks] = useState<Task[]>(INITIAL_TASKS);
+  const [taskLists, setTaskLists] = useState<TaskList[]>([]);
+  const [currentTaskList, setCurrentTaskList] = useState<TaskList>();
+  const [currentTasks, setCurrentTasks] = useState<Task[]>([]);
   const handleClickChangeCurrentTaskList = (taskList: TaskList) => {
     setCurrentTaskList(taskList);
     fetchTaskListWiseTasks(taskList);
