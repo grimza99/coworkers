@@ -17,7 +17,7 @@ export default function CommentItemDropdown() {
       }
       options={ITEM_DROPDOWN_VALUE}
       onSelect={() => {}}
-      placement=""
+      placement="top-4 right-3"
     />
   );
 }

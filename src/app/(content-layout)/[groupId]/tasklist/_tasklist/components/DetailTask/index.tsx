@@ -1,12 +1,12 @@
 'use client';
 import Image from 'next/image';
 import Content from './Content';
-import Comments from './DetailTaskCommentField';
 import { Task } from '../../types/task-list-page-type';
 import { useOutSideClickAutoClose } from '@/utils/use-outside-click-auto-close';
 import Button from '@/components/common/Button';
 import Check from '@/assets/Check';
 import clsx from 'clsx';
+import DetailTaskCommentField from './DetailTaskCommentField';
 
 interface Props {
   task: Task;
@@ -33,7 +33,7 @@ export function DetailTask({ task }: Props) {
             </button>
             <div className="flex h-full flex-col gap-25 overflow-scroll">
               <Content task={task} />
-              <Comments />
+              <DetailTaskCommentField taskId={task.id} />
             </div>
           </div>
           <Button
