@@ -15,12 +15,12 @@ const DROPDOWN_OPTION_LIST = ['수정하기', '삭제하기'];
 
 export default function Content({ task, isDone }: Props) {
   const { name, doneBy, updatedAt, date, description } = task;
-  const { handleClickTaskPopUpDeleteModal } = useTaskHandlers();
+  const { popUpDeleteTaskModal } = useTaskHandlers();
   const onDropdownListClick = (e: React.MouseEvent<HTMLDivElement>) => {
     const option = e.currentTarget.textContent;
 
     if (option === '수정하기') return;
-    if (option === '삭제하기') return handleClickTaskPopUpDeleteModal?.(`${task.id}`);
+    if (option === '삭제하기') return popUpDeleteTaskModal?.(`${task.id}`);
   };
 
   return (

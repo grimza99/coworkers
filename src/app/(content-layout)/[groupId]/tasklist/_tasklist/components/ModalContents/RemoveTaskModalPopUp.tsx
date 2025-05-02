@@ -21,7 +21,7 @@ interface Props {
 
 export default function RemoveTaskModal({ taskName, groupId, taskListId, taskId }: Props) {
   const { closeModal } = useModalContext();
-  const { handleSubmitDeleteTask } = useTaskHandlers();
+  const { deleteTask } = useTaskHandlers();
 
   return (
     <>
@@ -48,7 +48,7 @@ export default function RemoveTaskModal({ taskName, groupId, taskListId, taskId 
                 </Button>
                 <Button
                   variant="danger"
-                  onClick={() => handleSubmitDeleteTask(groupId, taskListId, taskId)}
+                  onClick={() => deleteTask(groupId, taskListId, taskId)}
                   size="fullWidth"
                 >
                   삭제하기

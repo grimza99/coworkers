@@ -29,7 +29,7 @@ export function DetailTask({
   setIsDone,
 }: Props) {
   const [currentTask, setCurrentTask] = useState<Task>();
-  const { handleClickTaskStatusChange } = useTaskHandlers(currentTask);
+  const { taskStatusChange } = useTaskHandlers(currentTask);
 
   const fetchTask = useCallback(async () => {
     if (!isOpen && !taskId) return;
@@ -61,7 +61,7 @@ export function DetailTask({
             </div>
           </div>
           <Button
-            onClick={() => handleClickTaskStatusChange(groupId, taskListId, isDone, setIsDone)}
+            onClick={() => taskStatusChange(groupId, taskListId, isDone, setIsDone)}
             className="absolute right-6 bottom-6 lg:right-10 lg:bottom-10"
             variant={isDone ? 'outline-primary' : 'solid'}
             size={isDone ? 'lg' : 'sm'}

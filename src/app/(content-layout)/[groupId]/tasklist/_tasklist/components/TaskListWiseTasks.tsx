@@ -18,11 +18,11 @@ export default function TaskListWiseTasks({ task, groupId, taskListId }: Props) 
   const [isOpen, setIsOpen] = useState(false);
 
   const {
-    handleClickPopUpDetail,
+    popUpDeleteTaskModal,
     popUpEditTaskModal,
-    handleClickTaskPopUpDeleteModal,
-    handleClickTaskStatusChange,
-    handleClickToggleDailyMode,
+    PopUpDetailTask,
+    taskStatusChange,
+    toggleDailyMode,
   } = useTaskHandlers(task);
 
   const safeFormatDate = (dateString: string | undefined | null) => {
@@ -39,13 +39,11 @@ export default function TaskListWiseTasks({ task, groupId, taskListId }: Props) 
       <TaskListItem
         key={task.id}
         type="taskList"
-        onCheckStatusChange={() =>
-          handleClickTaskStatusChange(groupId, taskListId, isDone, setIsDone)
-        }
+        onCheckStatusChange={() => taskStatusChange(groupId, taskListId, isDone, setIsDone)}
         onEdit={popUpEditTaskModal}
-        onDelete={() => handleClickTaskPopUpDeleteModal(`${task.id}`)}
-        onClick={() => handleClickPopUpDetail(setIsOpen)}
-        onClickToggleDailyMode={handleClickToggleDailyMode}
+        onDelete={() => popUpDeleteTaskModal(`${task.id}`)}
+        onClick={() => PopUpDetailTask(setIsOpen)}
+        onClickToggleDailyMode={toggleDailyMode}
         isDone={isDone}
         description={task.description}
         commentCount={task.commentCount}

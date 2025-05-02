@@ -5,7 +5,7 @@ import useModalContext from '@/components/common/modal/core/useModalContext';
 export function useTaskHandlers(task?: Task) {
   const { openModal } = useModalContext();
 
-  const handleClickPopUpDetail = (setIsOpen: React.Dispatch<React.SetStateAction<boolean>>) => {
+  const PopUpDetailTask = (setIsOpen: React.Dispatch<React.SetStateAction<boolean>>) => {
     setIsOpen((prev) => !prev);
   };
 
@@ -13,19 +13,19 @@ export function useTaskHandlers(task?: Task) {
     console.log('수정하기 팝업 모달');
   };
 
-  const handleClickTaskPopUpDeleteModal = (modalId: string) => {
+  const popUpDeleteTaskModal = (modalId: string) => {
     openModal(modalId);
   };
 
-  const handleSubmitEditTask = () => {
+  const editTask = () => {
     //수정 리퀘스트
   };
 
-  const handleSubmitDeleteTask = async (groupId: string, taskListId: number, taskId: number) => {
+  const deleteTask = async (groupId: string, taskListId: number, taskId: number) => {
     await axiosClient.delete(`/groups/${groupId}/task-lists/${taskListId}/tasks/${taskId}`);
   };
 
-  const handleClickTaskStatusChange = async (
+  const taskStatusChange = async (
     groupId: string,
     taskListId: number,
     isDone: boolean,
@@ -40,18 +40,18 @@ export function useTaskHandlers(task?: Task) {
     setIsDone((prev) => !prev);
   };
 
-  const handleClickToggleDailyMode = () => {
+  const toggleDailyMode = () => {
     console.log('데일리모드로 전환');
   };
 
   const handlers = {
-    handleClickPopUpDetail,
-    handleSubmitDeleteTask,
+    PopUpDetailTask,
+    deleteTask,
     popUpEditTaskModal,
-    handleSubmitEditTask,
-    handleClickTaskPopUpDeleteModal,
-    handleClickTaskStatusChange,
-    handleClickToggleDailyMode,
+    editTask,
+    popUpDeleteTaskModal,
+    taskStatusChange,
+    toggleDailyMode,
   };
 
   return handlers;
