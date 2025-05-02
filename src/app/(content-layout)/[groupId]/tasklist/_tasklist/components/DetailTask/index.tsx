@@ -2,30 +2,51 @@
 import Image from 'next/image';
 import Content from './DetailTaskContentField';
 import { Task } from '../../types/task-list-page-type';
-import { useOutSideClickAutoClose } from '@/utils/use-outside-click-auto-close';
 import Button from '@/components/common/Button';
 import Check from '@/assets/Check';
 import clsx from 'clsx';
 import DetailTaskCommentField from './DetailTaskCommentsField';
 import axiosClient from '@/lib/axiosClient';
-import { Dispatch, useState } from 'react';
+import { useCallback, useEffect, useState } from 'react';
 import { taskHandlers } from '../../utils/task-handlers';
-import useModalContext from '@/components/common/modal/core/useModalContext';
 
 interface Props {
-  task: Task;
   groupId: string;
   taskListId: number;
   isOpen: boolean;
+  isDone: boolean;
+  setIsDone: React.Dispatch<React.SetStateAction<boolean>>;
+  taskId: number;
   setIsOpen: React.Dispatch<React.SetStateAction<boolean>>;
 }
-export function DetailTask({ task, groupId, taskListId, isOpen, setIsOpen }: Props) {
-  const [isDone, setIsDone] = useState(Boolean(task.doneAt));
-  if (!task) return;
-  if (!taskListId) return;
+export function DetailTask({
+  groupId,
+  taskId,
+  taskListId,
+  isOpen,
+  setIsOpen,
+  isDone,
+  setIsDone,
+}: Props) {
+  const [currentTask, setCurrentTask] = useState<Task>();
+
+  const fetchTask = useCallback(async () => {
+    if (!isOpen && !taskId) return;
+
+    const { data } = await axiosClient(
+      `/groups/${groupId}/task-lists/${taskListId}/tasks/${taskId}`
+    );
+    setCurrentTask(data);
+  }, [groupId, taskListId, taskId]);
+
+  useEffect(() => {
+    fetchTask();
+  }, [isOpen]);
+
   const buttonText = isDone ? '완료 취소하기' : '완료 하기';
 
-  const { handleClickTaskStatusChange } = taskHandlers(task);
+  if (!currentTask) return;
+  const { handleClickTaskStatusChange } = taskHandlers(currentTask);
   return (
     <>
       {isOpen && (
@@ -35,8 +56,8 @@ export function DetailTask({ task, groupId, taskListId, isOpen, setIsOpen }: Pro
               <Image src="/icons/close.svg" alt="x" width={24} height={24} />
             </button>
             <div className="flex h-full flex-col gap-25 overflow-scroll">
-              <Content isDone={isDone} task={task} />
-              <DetailTaskCommentField taskId={task.id} />
+              <Content isDone={isDone} task={currentTask} />
+              <DetailTaskCommentField taskId={currentTask.id} />
             </div>
           </div>
           <Button
