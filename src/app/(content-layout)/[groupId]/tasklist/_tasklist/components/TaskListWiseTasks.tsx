@@ -4,6 +4,8 @@ import { format, isValid } from 'date-fns';
 import { useState } from 'react';
 import { Task } from '../types/task-list-page-type';
 import { taskHandlers } from '../utils/task-handlers';
+import { DetailTask } from './DetailTask';
+import { ModalPortal } from '@/components/common/modal';
 
 interface Props {
   task: Task;
@@ -13,7 +15,7 @@ interface Props {
 
 export default function TaskListWiseTasks({ task, groupId, taskListId }: Props) {
   const [isDone, setIsDone] = useState(Boolean(task.doneAt));
-
+  const [isOpen, setIsOpen] = useState(false);
   const {
     handleClickPopUpDetail,
     handleClickTaskEdit,
@@ -32,21 +34,30 @@ export default function TaskListWiseTasks({ task, groupId, taskListId }: Props) 
   };
 
   return (
-    <TaskListItem
-      key={task.id}
-      type="taskList"
-      onCheckStatusChange={() =>
-        handleClickTaskStatusChange(groupId, taskListId, isDone, setIsDone)
-      }
-      onEdit={handleClickTaskEdit}
-      onDelete={handleClickTaskDelete}
-      onClick={handleClickPopUpDetail}
-      onClickToggleDailyMode={handleClickToggleDailyMode}
-      isDone={isDone}
-      description={task.description}
-      commentCount={task.commentCount}
-      date={safeFormatDate(task.date)}
-      frequency={task.frequency}
-    />
+    <>
+      <TaskListItem
+        key={task.id}
+        type="taskList"
+        onCheckStatusChange={() =>
+          handleClickTaskStatusChange(groupId, taskListId, isDone, setIsDone)
+        }
+        onEdit={handleClickTaskEdit}
+        onDelete={handleClickTaskDelete}
+        onClick={() => handleClickPopUpDetail(setIsOpen)}
+        onClickToggleDailyMode={handleClickToggleDailyMode}
+        isDone={isDone}
+        description={task.description}
+        commentCount={task.commentCount}
+        date={safeFormatDate(task.date)}
+        frequency={task.frequency}
+      />
+      <DetailTask
+        task={task}
+        groupId={groupId}
+        taskListId={taskListId}
+        setIsOpen={setIsOpen}
+        isOpen={isOpen}
+      />
+    </>
   );
 }

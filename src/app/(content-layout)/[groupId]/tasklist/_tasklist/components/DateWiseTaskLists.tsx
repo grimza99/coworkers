@@ -3,7 +3,6 @@ import { useCallback, useEffect, useState } from 'react';
 import clsx from 'clsx';
 import axiosClient from '@/lib/axiosClient';
 import { Task, TaskList } from '../types/task-list-page-type';
-import { DetailTask } from './DetailTask';
 import TaskListWiseTasks from './TaskListWiseTasks';
 import {
   INITIAL_TASKLIST,
@@ -20,7 +19,6 @@ export default function DateWiseTaskLists({ date, groupId }: Props) {
   const [taskLists, setTaskLists] = useState<TaskList[]>(INITIAL_TASKLISTS);
   const [currentTaskList, setCurrentTaskList] = useState<TaskList>(INITIAL_TASKLIST);
   const [currentTasks, setCurrentTasks] = useState<Task[]>(INITIAL_TASKS);
-
   const handleClickChangeCurrentTaskList = (taskList: TaskList) => {
     setCurrentTaskList(taskList);
     fetchTaskListWiseTasks(taskList);
@@ -104,7 +102,6 @@ export default function DateWiseTaskLists({ date, groupId }: Props) {
             <br />할 일을 추가해보세요.
           </p>
         )}
-        <DetailTask task={currentTasks[0]} groupId={groupId} taskListId={taskLists[0].id} />
       </div>
     </div>
   );

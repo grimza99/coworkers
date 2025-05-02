@@ -2,9 +2,8 @@ import axiosClient from '@/lib/axiosClient';
 import { Task } from '../types/task-list-page-type';
 
 export function taskHandlers(task: Task) {
-  const handleClickPopUpDetail = () => {
-    console.log('디테일');
-    // 팝업 로직
+  const handleClickPopUpDetail = (setIsOpen: React.Dispatch<React.SetStateAction<boolean>>) => {
+    setIsOpen((prev) => !prev);
   };
 
   const handleClickTaskEdit = () => {
