@@ -54,7 +54,7 @@ export default function Page({ params }: Props) {
             <Image src={calendar} width={24} height={24} alt=">" />
           </button>
         </div>
-        <CreateTaskListModal />
+        <CreateTaskListModal groupId={groupId} />
       </div>
       <DateWiseTaskList groupId={groupId} date={currentDate} />
       <Button

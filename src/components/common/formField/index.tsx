@@ -58,7 +58,7 @@ export default function FormField({
   };
 
   return (
-    <div className="flex flex-col gap-2">
+    <div className="flex w-full flex-col gap-2">
       <div className={clsx('flex flex-col', GAP_SIZE[gapSize])}>
         <label className={clsx('flex gap-1.5', LABEL_SIZE[labelSize])}>
           {required && <span className="text-tertiary text-2lg-bold sm:text-xl-bold">*</span>}
