@@ -1,7 +1,7 @@
 import clsx from 'clsx';
 
 interface WeeklySelectProps {
-  selectedDays: number[];
+  selectedDays?: number[];
   toggleDay: (idx: number) => void;
 }
 
@@ -18,7 +18,7 @@ export default function WeeklySelect({ selectedDays, toggleDay }: WeeklySelectPr
             onClick={() => toggleDay(idx + 1)}
             className={clsx(
               'text-md-md flex h-12 w-11 cursor-pointer items-center justify-center rounded-xl',
-              selectedDays.includes(idx + 1) ? 'bg-primary text-gray100' : 'bg-bg400 text-gray500'
+              selectedDays?.includes(idx + 1) ? 'bg-primary text-gray100' : 'bg-bg400 text-gray500'
             )}
           >
             {w}

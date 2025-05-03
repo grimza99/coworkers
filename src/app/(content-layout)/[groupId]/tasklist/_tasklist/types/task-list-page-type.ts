@@ -45,7 +45,7 @@ export interface Task {
   displayIndex: number;
   commentCount: number;
   frequency: Frequency;
-  weekDays: number[];
+  weekDays?: number[];
   doneAt: string;
   date: string;
   description: string;

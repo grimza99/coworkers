@@ -8,10 +8,10 @@ import {
 } from '@/components/common/modal';
 import ManageTaskItem from '@/components/manage-task-item/components/ManageTaskItem';
 import useModalContext from '@/components/common/modal/core/useModalContext';
-import { Task } from '../../types/task-list-page-type';
 import Plus from '@/assets/Plus';
+import { TaskItem } from '@/components/manage-task-item/type';
 
-export default function ManageTaskItemModal({ task }: { task?: Task }) {
+export default function ManageTaskItemModal({ task }: { task?: TaskItem }) {
   const { closeModal } = useModalContext();
 
   const buttonText = task ? '수정하기' : '만들기';
