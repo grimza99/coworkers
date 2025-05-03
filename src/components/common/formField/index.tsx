@@ -11,6 +11,7 @@ import ImageUploader from './compound/ImageUploader';
 
 export default function FormField({
   field = 'input',
+  imageUploaderType,
   label,
   required,
   isSuccess,
@@ -18,13 +19,16 @@ export default function FormField({
   errorMessage,
   gapSize = '12',
   labelSize = '16/16',
+  onFieldFocus,
+  onFieldBlur,
   ...rest
 }: FieldComponentProps) {
   const { isFocused, showError, borderClassName, handleFocus, handleBlur } = useFieldStatus({
     isSuccess,
     isFailure,
-    onFocus: (rest as InputProps).onFocus,
-    onBlur: (rest as InputProps).onBlur,
+    onFocus: onFieldFocus,
+    onBlur: onFieldBlur,
+    forceShowError: !!errorMessage,
   });
 
   const renderField = () => {
@@ -42,9 +46,9 @@ export default function FormField({
       );
     }
     if (field === 'file-input') {
-      const { imageUploaderType, image, onImageChange } = rest as FileInputProps;
+      const { image } = rest as FileInputProps;
       return (
-        <FileInput onImageChange={onImageChange}>
+        <FileInput {...(rest as FileInputProps)}>
           {({ inputRef }) => (
             <ImageUploader
               imageUploaderType={imageUploaderType}
@@ -66,8 +70,8 @@ export default function FormField({
         </label>
         {renderField()}
       </div>
-      {!isFocused && showError && errorMessage && (
-        <span className="text-danger text-md-md">{errorMessage}</span>
+      {(field === 'file-input' ? errorMessage : !isFocused && showError && errorMessage) && (
+        <span className="text-danger text-md-md text-left">{errorMessage}</span>
       )}
     </div>
   );

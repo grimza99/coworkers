@@ -5,6 +5,7 @@ export const GAP_SIZE = {
   '12': 'gap-3',
   '16': 'gap-4',
   '24': 'gap-6',
+  '32': 'gap-8',
 } as const;
 
 export const LABEL_SIZE = {
