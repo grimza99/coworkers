@@ -9,7 +9,7 @@ interface Props {
   onEdit: () => void;
   onDelete: () => void;
 }
-// @TODO: 메뉴 선택 시 동작 추가
+
 export default function CommentItemDropdown({ onEdit, onDelete }: Props) {
   const handleClickDropdownOption = (e: React.MouseEvent) => {
     const option = e.currentTarget.textContent;

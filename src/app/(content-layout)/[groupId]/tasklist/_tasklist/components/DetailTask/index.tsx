@@ -19,6 +19,11 @@ interface Props {
   taskId: number;
   setIsOpen: React.Dispatch<React.SetStateAction<boolean>>;
 }
+
+/**@todo
+ * 1. fetchTask 에러 핸들링
+ */
+
 export function DetailTask({
   groupId,
   taskId,
@@ -30,13 +35,15 @@ export function DetailTask({
 }: Props) {
   const [currentTask, setCurrentTask] = useState<Task>();
   const { taskStatusChange } = useTaskHandlers(currentTask);
+  const buttonText = isDone ? '완료 취소하기' : '완료 하기';
 
   const fetchTask = useCallback(async () => {
-    if (!isOpen && !taskId) return;
+    if (!isOpen || !taskId) return;
 
     const { data } = await axiosClient(
       `/groups/${groupId}/task-lists/${taskListId}/tasks/${taskId}`
     );
+
     setCurrentTask(data);
   }, [groupId, taskListId, taskId, isOpen]);
 
@@ -44,9 +51,8 @@ export function DetailTask({
     fetchTask();
   }, [isOpen, fetchTask]);
 
-  const buttonText = isDone ? '완료 취소하기' : '완료 하기';
-
   if (!currentTask) return;
+
   return (
     <>
       {isOpen && (

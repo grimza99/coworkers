@@ -5,7 +5,7 @@ import { useState } from 'react';
 import { Task } from '../types/task-list-page-type';
 import { useTaskHandlers } from '../utils/task-handlers';
 import { DetailTask } from './DetailTask';
-import RemoveTaskModal from './ModalContents/RemoveTaskModalPopUp';
+import RemoveTaskModal from './ModalContents/RemoveTaskModal';
 
 interface Props {
   task: Task;
@@ -16,6 +16,7 @@ interface Props {
 export default function TasksWiseTask({ task, groupId, taskListId }: Props) {
   const [isDone, setIsDone] = useState(!!task.doneAt);
   const [isDetailTaskOpen, setIsDetailTaskOpen] = useState(false);
+
   const taskDeleteModalId = `${task.id}-delete`;
   const taskEditModalId = `${task.id}-edit`;
 
@@ -42,7 +43,7 @@ export default function TasksWiseTask({ task, groupId, taskListId }: Props) {
         key={task.id}
         type="taskList"
         onCheckStatusChange={() => taskStatusChange(groupId, taskListId, isDone, setIsDone)}
-        onEdit={popUpEditTaskModal}
+        onEdit={() => popUpEditTaskModal(taskEditModalId)}
         onDelete={() => popUpDeleteTaskModal(taskDeleteModalId)}
         onClick={() => PopUpDetailTask(setIsDetailTaskOpen)}
         onClickToggleDailyMode={toggleDailyMode}

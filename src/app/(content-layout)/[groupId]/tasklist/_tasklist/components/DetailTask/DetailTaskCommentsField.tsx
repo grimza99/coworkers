@@ -9,6 +9,13 @@ import CommentField from './CommentField';
 interface Props {
   taskId: number;
 }
+
+/**
+ * 1. fetchComments 에러 핸들링
+ * 2. handleChangeComment 에러 핸들링
+ * 3. handleSubmitComment 에러 핸들링
+ */
+
 export default function DetailTaskCommentField({ taskId }: Props) {
   const [commentValue, setCommentValue] = useState('');
   const [currentComments, setCurrentComments] = useState<Comment[]>([]);
@@ -31,7 +38,6 @@ export default function DetailTaskCommentField({ taskId }: Props) {
     const { data } = await axiosClient.post(`/tasks/${taskId}/comments`, { content: commentValue });
     setCurrentComments((prev) => [...prev, data]);
     setCommentValue('');
-    //댓글 등록 실패시 에러 핸들링 필요
   };
 
   return (

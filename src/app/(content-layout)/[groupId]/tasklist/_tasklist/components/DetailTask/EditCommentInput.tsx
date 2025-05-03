@@ -9,20 +9,24 @@ import { useState } from 'react';
 interface Props {
   taskId: number;
   comment: Comment;
-  onEditFalse: () => void;
+  onEditCancel: () => void;
 }
-export default function EditCommentInput({ taskId, comment, onEditFalse }: Props) {
+
+/**
+ * @todo
+ * 1. editComment 에러 핸들링
+ * 2. 수정후 화면 바로 반영
+ */
+export default function EditCommentInput({ taskId, comment, onEditCancel }: Props) {
   const [currentValue, setCurrentValue] = useState(comment.content);
 
   const handleChangeComment = (e: React.ChangeEvent<HTMLTextAreaElement>) => {
     setCurrentValue(e.currentTarget.value);
   };
 
-  const handleSubmit = async () => {
+  const editComment = async () => {
     await axiosClient.patch(`/tasks/${taskId}/comments/${comment.id}`, { content: currentValue });
-    onEditFalse();
-    //수정후 바로 반영 해야함
-    //수정 실패 했을때, 에러 핸들링
+    onEditCancel();
   };
 
   return (
@@ -34,10 +38,10 @@ export default function EditCommentInput({ taskId, comment, onEditFalse }: Props
         name="content"
       />
       <div className="absolute right-0 bottom-0 flex gap-2">
-        <button className="text-gray500 text-sm-semi" onClick={onEditFalse}>
+        <button className="text-gray500 text-sm-semi" onClick={onEditCancel}>
           취소
         </button>
-        <Button onClick={handleSubmit} variant="ghost-primary" size="xs" fontSize="14">
+        <Button onClick={editComment} variant="ghost-primary" size="xs" fontSize="14">
           수정하기
         </Button>
       </div>

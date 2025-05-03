@@ -9,8 +9,8 @@ export function useTaskHandlers(task?: Task) {
     setIsOpen((prev) => !prev);
   };
 
-  const popUpEditTaskModal = () => {
-    console.log('수정하기 팝업 모달');
+  const popUpEditTaskModal = (modalId: string) => {
+    openModal(modalId);
   };
 
   const popUpDeleteTaskModal = (modalId: string) => {
