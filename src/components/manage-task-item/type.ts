@@ -1,4 +1,4 @@
-import { Task } from "@/app/(content-layout)/[groupId]/tasklist/_tasklist/types/task-list-page-type";
+import { Task } from '@/app/(content-layout)/[groupId]/tasklist/_tasklist/types/task-list-page-type';
 
 export interface TaskItem
   extends Pick<Task, 'id' | 'name' | 'frequency' | 'weekDays' | 'description'> {
