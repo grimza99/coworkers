@@ -15,20 +15,24 @@ const DROPDOWN_OPTION_LIST = ['수정하기', '삭제하기'];
 
 export default function Content({ task, isDone }: Props) {
   const { name, doneBy, updatedAt, date, description } = task;
-  const { popUpDeleteTaskModal } = useTaskHandlers();
+  const { popUpDeleteTaskModal, popUpEditTaskModal } = useTaskHandlers();
+
+  const taskDeleteModalId = `${task.id}-delete`;
+  const taskEditModalId = `${task.id}-edit`;
+
   const onDropdownListClick = (e: React.MouseEvent<HTMLDivElement>) => {
     const option = e.currentTarget.textContent;
 
-    if (option === '수정하기') return;
-    if (option === '삭제하기') return popUpDeleteTaskModal?.(`${task.id}`);
+    if (option === '수정하기') return popUpEditTaskModal?.(taskEditModalId);
+    if (option === '삭제하기') return popUpDeleteTaskModal?.(taskDeleteModalId);
   };
 
   return (
     <section className="flex flex-col gap-3">
       {isDone && (
-        <div className="flex items-center gap-1.5">
+        <div className="text-tertiary text-xs-md flex items-center gap-1.5">
           <Image src="/icons/doneCheck.icon.svg" alt="체크" width={16} height={16} />
-          <p className="text-tertiary text-xs-md">완료</p>
+          완료
         </div>
       )}
       <div className="flex flex-col gap-4">
@@ -66,8 +70,7 @@ export default function Content({ task, isDone }: Props) {
             </div>
           </div>
         )}
-
-        <div>{description}</div>
+        <div className="text-md-rg">{description}</div>
       </div>
     </section>
   );
