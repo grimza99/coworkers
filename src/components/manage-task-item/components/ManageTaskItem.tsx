@@ -1,13 +1,13 @@
 'use client';
 
 import clsx from 'clsx';
-import FormField from '../common/formField';
-import { OptionSelector } from '../common/dropdown/OptionSelector';
-import CalendarSelect from '../calendar/CalendarSelect';
+import FormField from '../../common/formField';
+import { OptionSelector } from '../../common/dropdown/OptionSelector';
+import CalendarSelect from '../../calendar/CalendarSelect';
 import WeeklySelect from './WeeklySelect';
 import TimePicker from './TimePicker';
-import { TaskItem } from './type';
-import useManageTaskItem from './useManageTaskItem';
+import useManageTaskItem from '../useManageTaskItem';
+import { TaskItem } from '../type';
 
 const FREQUENCY_LIST = ['한 번', '매일', '주 반복', '월 반복'];
 
