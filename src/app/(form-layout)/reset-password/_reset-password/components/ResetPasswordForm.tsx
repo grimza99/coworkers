@@ -3,7 +3,7 @@ import PasswordToggleButton from '@/app/(form-layout)/signup/_signup/PasswordTog
 import Button from '@/components/common/Button';
 import FormField from '@/components/common/formField';
 import axiosClient from '@/lib/axiosClient';
-import togglePasswordVisibilityLogic from '@/utils/toggle-password-visibility';
+import togglePasswordVisibilityLogic from '@/utils/use-password-visibility';
 import { validateConfirmPassword, validatePassword } from '@/utils/validators';
 import { useState } from 'react';
 

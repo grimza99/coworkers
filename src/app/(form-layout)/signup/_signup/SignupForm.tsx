@@ -10,7 +10,7 @@ import {
   validateLengthLimit,
 } from '@/utils/validators';
 import PasswordToggleButton from './PasswordToggleButton';
-import togglePasswordVisibilityLogic from '@/utils/toggle-password-visibility';
+import togglePasswordVisibilityLogic from '@/utils/use-password-visibility';
 
 export default function SignupForm() {
   const { isPasswordVisible, togglePasswordVisibility } = togglePasswordVisibilityLogic();
