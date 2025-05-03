@@ -33,7 +33,7 @@ export interface TaskList {
   createdAt: string;
   name: string;
   id: number;
-  tasks: Task[];
+  tasks: string[];
 }
 
 //teamId/groups/[groupId]/task-lists/{taskListId}/tasks

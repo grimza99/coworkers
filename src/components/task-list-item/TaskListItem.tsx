@@ -14,7 +14,7 @@ interface TaskListItemProps {
   onClick?: () => void;
   onClickToggleDailyMode?: () => void;
   isDone: boolean;
-  description: string;
+  name: string;
   commentCount?: number;
   date?: string;
   frequency?: ScheduleType;
@@ -30,7 +30,7 @@ export default function TaskListItem({
   onDelete,
   onClick,
   isDone,
-  description,
+  name,
   commentCount,
   date,
   frequency,
@@ -59,7 +59,7 @@ export default function TaskListItem({
           className="cursor-pointer"
         />
         <span className={clsx('text-md-rg text-gray100 pt-0.5', isDone && 'line-through')}>
-          {description}
+          {name}
         </span>
       </div>
     );
