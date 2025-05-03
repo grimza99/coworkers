@@ -1,3 +1,5 @@
+import { Group } from '@/types/group';
+
 export interface User {
   id: number;
   nickname: string;
@@ -16,7 +18,7 @@ export interface Membership {
 
 export type Role = 'ADMIN' | 'MEMBER';
 
-interface getUserApiResponse extends User {
+export interface getUserApiResponse extends User {
   createdAt: string;
   updatedAt: string;
   teamId: string;
