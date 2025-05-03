@@ -11,6 +11,7 @@ export const buttonSize = {
   md: 'w-[125px] h-12 rounded-[40px]',
   lg: 'w-[138px] h-10 rounded-[40px]',
   xl: 'w-[373px] h-12 rounded-[40px]',
+  custom: '',
 } as const;
 
 export const buttonVariant = {
