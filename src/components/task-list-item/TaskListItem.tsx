@@ -31,7 +31,10 @@ export default function TaskListItem({
   onClick,
   isDone,
   name,
+<<<<<<< HEAD
   id,
+=======
+>>>>>>> b02c95cc5f85388cd03665704a5c0b957f4378ca
   commentCount,
   date,
   frequency,
