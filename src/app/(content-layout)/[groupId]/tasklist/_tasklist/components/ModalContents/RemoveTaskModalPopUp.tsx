@@ -17,16 +17,17 @@ interface Props {
   groupId: string;
   taskListId: number;
   taskId: number;
+  modalId: string;
 }
 
-export default function RemoveTaskModal({ taskName, groupId, taskListId, taskId }: Props) {
+export default function RemoveTaskModal({ taskName, groupId, modalId, taskListId, taskId }: Props) {
   const { closeModal } = useModalContext();
   const { deleteTask } = useTaskHandlers();
 
   return (
     <>
-      <ModalPortal modalId={`${taskId}`}>
-        <ModalOverlay modalId={`${taskId}`} onClick={() => closeModal(`${`${taskId}`}`)}>
+      <ModalPortal modalId={modalId}>
+        <ModalOverlay modalId={modalId} onClick={() => closeModal(modalId)}>
           <ModalContainer className="md:max-w-96 lg:max-w-96">
             <Image src="/icons/danger.icon.svg" alt="!" width={20} height={20} />
             <ModalHeading className="mt-4 mb-2">
@@ -40,7 +41,7 @@ export default function RemoveTaskModal({ taskName, groupId, taskListId, taskId 
               <div className="flex w-full gap-2">
                 <Button
                   variant="outline-gray"
-                  onClick={() => closeModal(`${`${taskId}`}`)}
+                  onClick={() => closeModal(modalId)}
                   fontSize="16"
                   size="fullWidth"
                 >

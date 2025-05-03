@@ -13,9 +13,11 @@ interface Props {
   taskListId: number;
 }
 
-export default function TaskListWiseTasks({ task, groupId, taskListId }: Props) {
-  const [isDone, setIsDone] = useState(Boolean(task.doneAt));
-  const [isOpen, setIsOpen] = useState(false);
+export default function TasksWiseTask({ task, groupId, taskListId }: Props) {
+  const [isDone, setIsDone] = useState(!!task.doneAt);
+  const [isDetailTaskOpen, setIsDetailTaskOpen] = useState(false);
+  const taskDeleteModalId = `${task.id}-delete`;
+  const taskEditModalId = `${task.id}-edit`;
 
   const {
     popUpDeleteTaskModal,
@@ -41,8 +43,8 @@ export default function TaskListWiseTasks({ task, groupId, taskListId }: Props) 
         type="taskList"
         onCheckStatusChange={() => taskStatusChange(groupId, taskListId, isDone, setIsDone)}
         onEdit={popUpEditTaskModal}
-        onDelete={() => popUpDeleteTaskModal(`${task.id}`)}
-        onClick={() => PopUpDetailTask(setIsOpen)}
+        onDelete={() => popUpDeleteTaskModal(taskDeleteModalId)}
+        onClick={() => PopUpDetailTask(setIsDetailTaskOpen)}
         onClickToggleDailyMode={toggleDailyMode}
         isDone={isDone}
         name={task.name}
@@ -56,11 +58,12 @@ export default function TaskListWiseTasks({ task, groupId, taskListId }: Props) 
         taskId={task.id}
         groupId={groupId}
         taskListId={taskListId}
-        setIsOpen={setIsOpen}
-        isOpen={isOpen}
+        setIsOpen={setIsDetailTaskOpen}
+        isOpen={isDetailTaskOpen}
       />
       <RemoveTaskModal
         taskName={task.name}
+        modalId={taskDeleteModalId}
         taskId={task.id}
         groupId={groupId}
         taskListId={taskListId}

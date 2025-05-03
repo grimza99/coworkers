@@ -21,9 +21,11 @@ interface Props {
 export default function CreateTaskListModal({ groupId }: Props) {
   const [currentValue, setCurrentValue] = useState('');
   const { closeModal } = useModalContext();
+
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     setCurrentValue(e.target.value.trim());
   };
+
   const handleSubmitCreateTaskList = async () => {
     await axiosClient.post(`/groups/${groupId}/task-lists`, { name: currentValue });
     closeModal('createTaskList');
