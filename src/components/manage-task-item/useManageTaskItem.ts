@@ -48,20 +48,24 @@ export default function useManageTaskItem({ task }: { task?: TaskItem }) {
     {
       id: 'date',
       value: format(taskItem.date, 'yyyy년 MM월 dd일'),
-      onClick: () => {
-        setIsCalendarOpen((prev) => !prev);
-        setIsTimeOpen(false);
-      },
+      onClick: task
+        ? undefined
+        : () => {
+            setIsCalendarOpen((prev) => !prev);
+            setIsTimeOpen(false);
+          },
       isOpen: isCalendarOpen,
       flex: 'flex-[1.65]',
     },
     {
       id: 'time',
       value: `${selectedTime.period} ${selectedTime.time}`,
-      onClick: () => {
-        setIsTimeOpen((prev) => !prev);
-        setIsCalendarOpen(false);
-      },
+      onClick: task
+        ? undefined
+        : () => {
+            setIsTimeOpen((prev) => !prev);
+            setIsCalendarOpen(false);
+          },
       isOpen: isTimeOpen,
       flex: 'flex-[1]',
     },
