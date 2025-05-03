@@ -6,13 +6,12 @@ import calendar from '@/../public/icons/calendar.svg';
 import Image from 'next/image';
 import { addDays, format, subDays } from 'date-fns';
 import { use, useState } from 'react';
-import Button from '@/components/common/Button';
 import DateWiseTaskList from './_tasklist/components/DateWiseTaskLists';
-import Plus from '@/assets/Plus';
 import CreateTaskListModal from './_tasklist/components/ModalContents/CreateTaskListModal';
 import { ko } from 'date-fns/locale';
 import CalendarSelect from '@/components/calendar/CalendarSelect';
 import { useOutSideClickAutoClose } from '@/utils/use-outside-click-auto-close';
+import ManageTaskItemModal from './_tasklist/components/manage-task-item-modal/MangeTaskItemModal';
 
 interface Props {
   params: Promise<{ groupId: string }>;
@@ -72,9 +71,7 @@ export default function Page({ params }: Props) {
         <CreateTaskListModal groupId={groupId} />
       </div>
       <DateWiseTaskList groupId={groupId} date={currentDate} />
-      <Button className="absolute right-6 bottom-40" onClick={() => {}} size="md" fontSize="16">
-        <Plus width="16" height="16" />할 일 추가
-      </Button>
+      <ManageTaskItemModal />
     </div>
   );
 }
