@@ -9,8 +9,7 @@ interface Props {
 export default function CircularProgress({ percent, size, className }: Props) {
   const stroke = size === 'lg' ? 29.5793 : 24;
   const normalizedRadius = size === 'lg' ? 70 : 56.3107;
-  const cx = size === 'lg' ? 85 : 68;
-  const cy = size === 'lg' ? 85 : 68;
+  const center = size === 'lg' ? 85 : 68;
   const circumference = normalizedRadius * 2 * Math.PI;
   const strokeDashoffset = circumference - (percent / 100) * circumference;
   const gradientId = size === 'lg' ? 'gradient-lg' : 'gradient-md';
@@ -32,7 +31,13 @@ export default function CircularProgress({ percent, size, className }: Props) {
             <stop offset="100%" stopColor="#a3e635" />
           </linearGradient>
         </defs>
-        <circle stroke="#334155" strokeWidth={stroke} r={normalizedRadius} cx={cx} cy={cy} />
+        <circle
+          stroke="#334155"
+          strokeWidth={stroke}
+          r={normalizedRadius}
+          cx={center}
+          cy={center}
+        />
         <circle
           stroke={`url(#${gradientId})`}
           fill="transparent"
@@ -41,8 +46,8 @@ export default function CircularProgress({ percent, size, className }: Props) {
           strokeDasharray={circumference + ' ' + circumference}
           strokeDashoffset={strokeDashoffset}
           r={normalizedRadius}
-          cx={cx}
-          cy={cy}
+          cx={center}
+          cy={center}
           style={{ transition: 'stroke-dashoffset 0.5s ease' }}
         />
       </svg>
