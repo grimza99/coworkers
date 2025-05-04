@@ -10,10 +10,10 @@ export default function Report({ tasks }: Props) {
   const taskCount = tasks.length;
 
   return (
-    <div className="flex w-full flex-col px-6 py-6">
+    <div className="flex w-full flex-col gap-4">
       <p className="text-lg-md">리포트</p>
-      <div className="bg-bg200 h-56 rounded-xl lg:h-[217px]">
-        <div>
+      <div className="bg-bg200 h-56 rounded-xl px-6 py-6 lg:h-[217px]">
+        <div className="flex justify-between">
           <div>프로그레스</div>
           <div className="flex h-full w-full max-w-100 flex-col gap-4">
             <TaskCount variant="total" count={20} />
