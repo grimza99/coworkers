@@ -6,9 +6,12 @@ import { User } from '@/types/user';
 
 interface CommentItemProps {
   comment: Comment | ArticleComment;
+  onEdit: () => void;
+  onDelete: () => void;
 }
 
-export default function CommentItem({ comment }: CommentItemProps) {
+export default function CommentItem({ comment, onEdit, onDelete }: CommentItemProps) {
+  if (!comment) return;
   const { content, updatedAt } = comment;
 
   const userObject =
@@ -20,7 +23,7 @@ export default function CommentItem({ comment }: CommentItemProps) {
       <div className="flex items-start justify-between">
         <div className="text-md-rg break-keep whitespace-pre-wrap">{content}</div>
         <div className="shrink-0">
-          <CommentItemDropdown />
+          <CommentItemDropdown onDelete={onDelete} onEdit={onEdit} />
         </div>
       </div>
       <div className={COMMENT_STYLES.metaContainer[variant]}>
