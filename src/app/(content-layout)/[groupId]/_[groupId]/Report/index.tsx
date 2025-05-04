@@ -1,4 +1,5 @@
 import { Task } from '../../tasklist/_tasklist/types/task-list-page-type';
+import ReportProgress from './ReportProgress';
 import TaskCount from './TaskCount';
 
 interface Props {
@@ -14,7 +15,7 @@ export default function Report({ tasks }: Props) {
       <p className="text-lg-md">리포트</p>
       <div className="bg-bg200 h-56 rounded-xl px-6 py-6 lg:h-[217px]">
         <div className="flex justify-between">
-          <div>프로그레스</div>
+          <ReportProgress />
           <div className="flex h-full w-full max-w-100 flex-col gap-4">
             <TaskCount variant="total" count={20} />
             <TaskCount variant="done" count={5} />

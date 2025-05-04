@@ -237,3 +237,10 @@
   font-style: normal;
   font-display: swap;
 }
+@layer utilities {
+  .text-gradient {
+    background: var(--color-gradient);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+  }
+}
