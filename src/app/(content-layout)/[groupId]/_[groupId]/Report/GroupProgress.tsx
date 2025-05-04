@@ -1,7 +1,9 @@
 import CircularProgress from '@/assets/CircularProgress';
 
-export default function ReportProgress() {
-  const percent = 25;
+interface Props {
+  percent: number;
+}
+export default function GroupProgress({ percent }: Props) {
   return (
     <div className="flex w-full items-center gap-10 lg:gap-15">
       <div>
