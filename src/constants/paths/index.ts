@@ -1,5 +1,5 @@
 type NumericString = `${number}`;
-type teamId = number | NumericString;
+type groupId = number | NumericString;
 type taskId = number | NumericString;
 
 const PATHS = {
@@ -10,11 +10,12 @@ const PATHS = {
   MYPAGE: '/mypage',
   ADDGROUP: '/addgroup',
   MYHISTORY: '/myhistory',
-  BOARDS: '/boards',
+  BOARDS: '/articles',
+  NO_GROUP: '/nogroup',
 
-  getTeamPath: (teamId: teamId) => `${teamId}`,
-  getTeamTaskListPath: (teamId: teamId) => `${teamId}/tasklist`,
-  getTeamTaskDetailPath: (teamId: teamId, taskId: taskId) => `${teamId}/${taskId}`,
+  getGroupPath: (groupId: groupId) => `${groupId}`,
+  getGroupTaskListPath: (groupId: groupId) => `${groupId}/tasklist`,
+  getGroupTaskDetailPath: (groupId: groupId, taskId: taskId) => `${groupId}/${taskId}`,
 };
 
 export default PATHS;
