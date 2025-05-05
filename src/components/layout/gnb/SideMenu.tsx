@@ -1,53 +1,57 @@
-// SideMenu.tsx
 'use client';
 
 import React, { forwardRef } from 'react';
 import Link from 'next/link';
 import Image from 'next/image';
+import clsx from 'clsx';
+import { usePathname } from 'next/navigation';
 
-interface Team {
+interface Group {
   id: number;
   name: string;
 }
 
 interface SideMenuProps {
-  teams: Team[];
+  groups: Group[];
   isOpen: boolean;
   onClose: () => void;
 }
 
-// @TODO: 슬라이드 애니메이션효과 넣기
-const SideMenu = forwardRef<HTMLDivElement, SideMenuProps>(({ teams, isOpen, onClose }, ref) => {
-  if (!isOpen) return null;
-
+const SideMenu = forwardRef<HTMLDivElement, SideMenuProps>(({ groups, isOpen, onClose }, ref) => {
+  const pathname = usePathname();
+  const selectedGroupId = pathname.split('/')[1];
   return (
     <>
-      {/* 배경 */}
-      <div className="fixed inset-0 z-40 bg-black/40" onClick={onClose} />
+      {isOpen && <div className="fixed inset-0 z-40 bg-black/40" onClick={onClose} />}
 
-      {/* 사이드 메뉴 */}
       <div
         ref={ref}
-        className="bg-bg200 fixed top-0 left-0 z-300 flex h-screen w-51 flex-col gap-6 overflow-scroll p-4 pb-10 shadow-lg"
+        className={clsx(
+          'bg-bg200 fixed top-0 left-0 z-300 flex h-screen w-51 transform flex-col gap-6 overflow-scroll p-4 pb-10 shadow-lg transition-transform duration-500',
+          isOpen ? 'translate-x-0' : '-translate-x-full'
+        )}
       >
         <button type="button" onClick={onClose} className="cursor-pointer self-end" title="닫기">
           <Image src="/icons/close.svg" alt="닫기" width={24} height={24} />
         </button>
 
-        {/* 팀 목록 */}
-        <div className="flex flex-col gap-6">
-          {teams.map((team) => (
-            <div
-              key={team.id}
-              className="text-md-md hover:bg-bg300 cursor-pointer rounded px-2 py-1"
+        <div className="border-border flex flex-col gap-6 border-b pb-6">
+          {groups.map((group) => (
+            <Link
+              key={group.id}
+              href={`/${group.id}`}
+              className={clsx(
+                'text-md-md hover:text-primary px-2 py-1',
+                String(group.id) === selectedGroupId && 'text-lg-bold text-primary'
+              )}
             >
-              {team.name}
-            </div>
+              {group.name}
+            </Link>
           ))}
-          <Link href="/articles" className="text-primary text-md-md cursor-pointer px-2 py-1">
-            자유게시판
-          </Link>
         </div>
+        <Link href="/articles" className="hover:text-primary text-md-md cursor-pointer px-2 py-1">
+          자유게시판
+        </Link>
       </div>
     </>
   );

@@ -10,7 +10,7 @@ const PATHS = {
   MYPAGE: '/mypage',
   ADDGROUP: '/addgroup',
   MYHISTORY: '/myhistory',
-  BOARDS: '/boards',
+  BOARDS: '/articles',
   NO_GROUP: '/nogroup',
 
   getGroupPath: (groupId: groupId) => `${groupId}`,
