@@ -52,7 +52,35 @@ export default function MyTeam() {
               label=""
               imageUploaderType="user"
               image={image}
-              onImageChange={() => {}}
+              onImageChange={async (e) => {
+                const file = e.target.files?.[0];
+                if (!file) return;
+
+                const formData = new FormData();
+                formData.append('image', file);
+
+                try {
+                  const uploadRes = await axiosClient.post<{ url: string }>(
+                    '/images/upload',
+                    formData,
+                    {
+                      headers: {
+                        'Content-Type': 'multipart/form-data',
+                      },
+                    }
+                  );
+
+                  const uploadedUrl = uploadRes.data.url;
+
+                  await axiosClient.patch('/user', {
+                    image: uploadedUrl,
+                  });
+
+                  setImage(uploadedUrl);
+                } catch (error) {
+                  console.error('프로필 이미지 저장 실패:', error);
+                }
+              }}
             />
             <FormField
               field="input"
