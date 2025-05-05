@@ -1,12 +1,17 @@
 'use client';
+import { loginApiResponse } from '@/app/(form-layout)/login/_login/LoginForm';
 import ErrorModal from '@/components/common/ErrorModal';
 import useModalContext from '@/components/common/modal/core/useModalContext';
-import PATHS from '@/constants/paths';
 import axiosClient from '@/lib/axiosClient';
 import { setClientCookie } from '@/lib/cookie/client';
 import { useRouter, useSearchParams } from 'next/navigation';
 import { useEffect } from 'react';
 
+/**
+ * 
+ *@todo
+ 1. get user 리스폰스 타입 지정
+ */
 export default function OAuthPage() {
   const { openModal } = useModalContext();
   const searchParams = useSearchParams();
@@ -18,7 +23,7 @@ export default function OAuthPage() {
 
   const oauthRequest = async () => {
     try {
-      const res = await axiosClient.post(`/auth/signIn/KAKAO`, {
+      const res = await axiosClient.post<loginApiResponse>(`/auth/signIn/KAKAO`, {
         state: state,
         redirectUri: redirectUri,
         token: code,
@@ -27,7 +32,13 @@ export default function OAuthPage() {
       if (res.status && res.status === 200) {
         setClientCookie('accessToken', res.data.accessToken);
         setClientCookie('refreshToken', res.data.refreshToken);
-        router.push(PATHS.HOME);
+      }
+
+      const { data } = await axiosClient.get(`/user`);
+      if (data.memberships.length < 1) {
+        router.push('/nogroup');
+      } else {
+        router.push(`${data.memberships[0].group.id}`);
       }
     } catch {
       openModal(modalId);
