@@ -139,7 +139,7 @@ export default function Header() {
                   return <DropDownGroupsItem key={group.id} group={group} />;
                 })}
                 onSelect={(e) => {
-                  const clickedGroupName = (e.target as HTMLElement).innerText;
+                  const clickedGroupName = (e.currentTarget as HTMLElement).innerText;
                   const selectedGroup = groups.find((group) => group.name === clickedGroupName);
                   if (selectedGroup) {
                     setSelectedGroupName(selectedGroup.name);
