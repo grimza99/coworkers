@@ -34,7 +34,6 @@ export default function ErrorModal({ description, onClick, modalId, ButtonText }
                 <Button
                   variant="outline-gray"
                   onClick={() => {
-                    closeModal(modalId);
                     onClick?.();
                     closeModal(modalId);
                   }}
