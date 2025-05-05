@@ -3,8 +3,44 @@
 import Image from 'next/image';
 import Button from '@/components/common/Button';
 import FormField from '@/components/common/formField';
+import axiosClient from '@/lib/axiosClient';
+import { getClientCookie, deleteClientCookie } from '@/lib/cookie/client';
+import { getUserApiResponse } from '@/types/user';
+import { useEffect, useState } from 'react';
+
+async function fetchUserInfo(): Promise<getUserApiResponse | null> {
+  try {
+    const token = getClientCookie('accessToken');
+    if (!token) {
+      deleteClientCookie('accessToken');
+      deleteClientCookie('refreshToken');
+      return null;
+    }
+
+    const response = await axiosClient.get<getUserApiResponse>('/user');
+    return response.data;
+  } catch (error) {
+    console.error('계정 정보 가져오기 실패', error);
+    return null;
+  }
+}
 
 export default function MyTeam() {
+  const [userData, setUserData] = useState<getUserApiResponse | null>(null);
+  const [nickname, setNickname] = useState('');
+  const [password, setPassword] = useState('');
+  const [image, setImage] = useState('');
+
+  useEffect(() => {
+    fetchUserInfo().then((data) => {
+      if (data) {
+        setUserData(data);
+        setNickname(data.nickname || '');
+        setImage(data.image || '');
+      }
+    });
+  }, []);
+
   return (
     <div className="flex justify-center">
       <div className="mx-4 mt-6 w-full max-w-198 min-w-[343px] md:mx-6 lg:mt-7">
@@ -15,12 +51,14 @@ export default function MyTeam() {
               field="file-input"
               label=""
               imageUploaderType="user"
-              image=""
+              image={image}
               onImageChange={() => {}}
             />
             <FormField
               field="input"
               label="이름"
+              value={nickname}
+              onChange={(e) => setNickname(e.target.value)}
               rightSlot={
                 <div className="flex items-center">
                   <Button size="xs" fontSize="14" className="shrink-0">
@@ -29,11 +67,13 @@ export default function MyTeam() {
                 </div>
               }
             />
-            <FormField field="input" label="이메일" />
+            <FormField field="input" label="이메일" value={userData?.email || ''} readOnly />
             <FormField
               field="input"
               type="password"
               label="비밀번호"
+              value={password}
+              onChange={(e) => setPassword(e.target.value)}
               rightSlot={
                 <div className="flex items-center">
                   <Button size="xs" fontSize="14" className="shrink-0">
