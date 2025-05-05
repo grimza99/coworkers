@@ -4,7 +4,7 @@ import Link from 'next/link';
 const PROFILE_DROPDOWN_LIST = [
   { text: '마이 히스토리', src: '/myhistory' },
   { text: '계정 설정', src: '/mypage' },
-  { text: '그룹 참여', src: '/joingroup' },
+  { text: '팀 참여', src: '/joingroup' },
   { text: '로그아웃', src: '' },
 ];
 

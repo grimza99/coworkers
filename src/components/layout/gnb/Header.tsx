@@ -2,7 +2,7 @@
 
 import Image from 'next/image';
 import Link from 'next/link';
-import { usePathname, useRouter } from 'next/navigation';
+import { usePathname } from 'next/navigation';
 import { useEffect, useState } from 'react';
 import Logo from './Logo';
 import SideMenu from './SideMenu';
@@ -56,7 +56,6 @@ export interface UserData extends User {
 
 export default function Header() {
   const pathname = usePathname();
-  const router = useRouter();
   const [userData, setUserData] = useState<UserData | null>(null);
   const [groups, setGroups] = useState<Group[]>([]);
   const [selectedGroupName, setSelectedGroupName] = useState<string>('');
@@ -144,12 +143,11 @@ export default function Header() {
                   const selectedGroup = groups.find((group) => String(group.id) === clickedGroupId);
                   if (selectedGroup) {
                     setSelectedGroupName(selectedGroup.name);
-                    router.push(`/${selectedGroup.id}`);
                   }
                 }}
                 footerBtn={
                   <Button variant="ghost-white" size="fullWidth" fontSize="16">
-                    <Link href="/addgroup">+ 팀 추가하기</Link>
+                    <Link href={PATHS.ADDGROUP}>+ 팀 추가하기</Link>
                   </Button>
                 }
               />
