@@ -22,8 +22,8 @@ const MINIMAL_HEADER_PATHS = [
   '/signup',
   '/oauth/signup/kakao',
   '/reset-password',
-  '/addteam',
-  '/jointeam',
+  '/addgroup',
+  '/joingroup',
 ];
 
 interface Group {
@@ -58,7 +58,7 @@ export default function Header() {
   const router = useRouter();
   const [userData, setUserData] = useState<UserData | null>(null);
   const [groups, setGroups] = useState<Group[]>([]);
-  const [selectedTeamName, setSelectedTeamName] = useState<string>('');
+  const [selectedGroupName, setSelectedGroupName] = useState<string>('');
 
   useEffect(() => {
     const fetchUserData = async () => {
@@ -74,17 +74,15 @@ export default function Header() {
         const { data } = await axiosClient.get('/user');
         setUserData(data);
 
-        const extractedGroups = Array.isArray(data.memberships)
+        const userGroups = Array.isArray(data.memberships)
           ? data.memberships.map((m: { group: Group }) => m.group)
           : [];
 
-        setGroups(extractedGroups);
+        setGroups(userGroups);
 
         const currentPathId = pathname.split('/')[1];
-        const currentTeam = extractedGroups.find(
-          (group: Group) => String(group.id) === currentPathId
-        );
-        setSelectedTeamName(currentTeam?.name || extractedGroups[0]?.name || '');
+        const currentGroup = userGroups.find((group: Group) => String(group.id) === currentPathId);
+        setSelectedGroupName(currentGroup?.name || userGroups[0]?.name || '');
       } catch (error) {
         console.error('유저 정보 가져오기 실패', error);
       }
@@ -112,7 +110,7 @@ export default function Header() {
   }
 
   const userName = userData?.nickname ?? '';
-  const hasTeam = groups.length > 0;
+  const hasGroup = groups.length > 0;
 
   return (
     <header className="bg-bg200 border-border sticky top-0 z-200 flex h-15 w-full justify-center border-b-1 py-[14px]">
@@ -132,25 +130,25 @@ export default function Header() {
           </div>
 
           <div className="text-lg-md relative hidden items-center gap-8 md:flex lg:gap-y-10">
-            {hasTeam && (
+            {hasGroup && (
               <OptionSelector
                 placement=""
                 size="xl"
-                defaultValue={selectedTeamName}
+                defaultValue={selectedGroupName}
                 options={groups.map((group) => {
                   return <DropDownGroupsItem key={group.id} group={group} />;
                 })}
                 onSelect={(e) => {
-                  const clickedTeamName = (e.target as HTMLElement).innerText;
-                  const selectedTeam = groups.find((group) => group.name === clickedTeamName);
-                  if (selectedTeam) {
-                    setSelectedTeamName(selectedTeam.name);
-                    router.push(`/${selectedTeam.id}`);
+                  const clickedGroupName = (e.target as HTMLElement).innerText;
+                  const selectedGroup = groups.find((group) => group.name === clickedGroupName);
+                  if (selectedGroup) {
+                    setSelectedGroupName(selectedGroup.name);
+                    router.push(`/${selectedGroup.id}`);
                   }
                 }}
                 footerBtn={
                   <Button variant="ghost-white" size="fullWidth" fontSize="16">
-                    <Link href="/addteam">+ 팀 추가하기</Link>
+                    <Link href="/addgroup">+ 팀 추가하기</Link>
                   </Button>
                 }
               />
