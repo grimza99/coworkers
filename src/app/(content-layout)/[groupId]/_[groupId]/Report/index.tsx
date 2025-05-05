@@ -7,7 +7,7 @@ interface Props {
 }
 
 export default function Report({ taskCount, done }: Props) {
-  const percent = (done / taskCount) * 100;
+  const percent = Math.ceil((done / taskCount) * 100);
 
   return (
     <div className="flex w-full flex-col gap-4">
