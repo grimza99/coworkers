@@ -166,7 +166,13 @@ export default function Header() {
             dropDownOpenBtn={
               <button type="button" className="flex items-center gap-2">
                 {userData?.image ? (
-                  <Image src={userData.image} alt="유저 이미지" width={24} height={24} />
+                  <Image
+                    src={userData.image}
+                    alt="유저 이미지"
+                    width={24}
+                    height={24}
+                    className="rounded-full"
+                  />
                 ) : (
                   <Image src="/icons/user.svg" alt="유저 아이콘" width={24} height={24} />
                 )}
