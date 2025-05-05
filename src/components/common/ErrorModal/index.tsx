@@ -35,6 +35,7 @@ export default function ErrorModal({ description, onClick, modalId, ButtonText }
                   variant="outline-gray"
                   onClick={() => {
                     onClick?.();
+                    closeModal(modalId);
                   }}
                   fontSize="16"
                   size="fullWidth"
