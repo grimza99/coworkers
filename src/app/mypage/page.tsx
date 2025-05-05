@@ -30,6 +30,8 @@ export default function MyTeam() {
   const [nickname, setNickname] = useState('');
   const [password, setPassword] = useState('');
   const [image, setImage] = useState('');
+  const [nicknameError, setNicknameError] = useState('');
+  const [nicknameSuccess, setNicknameSuccess] = useState(false);
 
   useEffect(() => {
     fetchUserInfo().then((data) => {
@@ -86,10 +88,31 @@ export default function MyTeam() {
               field="input"
               label="이름"
               value={nickname}
-              onChange={(e) => setNickname(e.target.value)}
+              isFailure={!!nicknameError}
+              errorMessage={nicknameError}
+              onChange={(e) => {
+                setNickname(e.target.value);
+                setNicknameError('');
+                setNicknameSuccess(false);
+              }}
               rightSlot={
                 <div className="flex items-center">
-                  <Button size="xs" fontSize="14" className="shrink-0">
+                  <Button
+                    size="xs"
+                    fontSize="14"
+                    className="shrink-0"
+                    onClick={async () => {
+                      try {
+                        await axiosClient.patch('/user', { nickname });
+                        setNicknameError('');
+                        setNicknameSuccess(true);
+                      } catch (error: any) {
+                        const message = error?.response?.data?.message || '닉네임 변경 실패';
+                        setNicknameError(message);
+                        setNicknameSuccess(false);
+                      }
+                    }}
+                  >
                     변경하기
                   </Button>
                 </div>
