@@ -3,11 +3,11 @@ import TaskCount from './TaskCount';
 
 interface Props {
   taskCount: number;
-  done: number;
+  doneCount: number;
 }
 
-export default function Report({ taskCount, done }: Props) {
-  const percent = Math.ceil((done / taskCount) * 100);
+export default function Report({ taskCount, doneCount }: Props) {
+  const percent = Math.ceil((doneCount / taskCount) * 100);
 
   return (
     <div className="flex w-full flex-col gap-4">
@@ -17,7 +17,7 @@ export default function Report({ taskCount, done }: Props) {
           <ReportProgress percent={percent} />
           <div className="flex h-full w-full max-w-100 flex-col gap-4">
             <TaskCount variant="total" count={taskCount} />
-            <TaskCount variant="done" count={done} />
+            <TaskCount variant="done" count={doneCount} />
           </div>
         </div>
       </div>
