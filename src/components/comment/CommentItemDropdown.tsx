@@ -5,8 +5,19 @@ import kebabIcon from '@/../public/icons/kebab-icon.svg';
 
 const ITEM_DROPDOWN_VALUE = ['수정하기', '삭제하기'];
 
-// @TODO: 메뉴 선택 시 동작 추가
-export default function CommentItemDropdown() {
+interface Props {
+  onEdit: () => void;
+  onDelete: () => void;
+}
+
+export default function CommentItemDropdown({ onEdit, onDelete }: Props) {
+  const handleClickDropdownOption = (e: React.MouseEvent) => {
+    const option = e.currentTarget.textContent;
+
+    if (option === '수정하기') return onEdit?.();
+    if (option === '삭제하기') return onDelete?.();
+  };
+
   return (
     <DropDown
       size="md"
@@ -16,8 +27,8 @@ export default function CommentItemDropdown() {
         </button>
       }
       options={ITEM_DROPDOWN_VALUE}
-      onSelect={() => {}}
-      placement=""
+      onSelect={handleClickDropdownOption}
+      placement="top-4 right-3"
     />
   );
 }
