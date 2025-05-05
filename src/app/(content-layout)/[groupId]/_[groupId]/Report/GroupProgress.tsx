@@ -13,7 +13,8 @@ export default function GroupProgress({ percent }: Props) {
       <div className="hidden md:block">
         <p className="text-md-md">
           오늘의
-          <br /> 진행 상황
+          <br />
+          진행 상황
         </p>
         <span className="text-gradient text-4xl-bold">{percent}%</span>
       </div>
