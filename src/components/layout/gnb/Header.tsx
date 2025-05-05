@@ -15,14 +15,15 @@ import Button from '@/components/common/Button';
 import axiosClient from '@/lib/axiosClient';
 import { User } from '@/types/user';
 import { getClientCookie, deleteClientCookie } from '@/lib/cookie/client';
+import PATHS from '@/constants/paths';
 
 const MINIMAL_HEADER_PATHS = [
-  '/',
-  '/login',
-  '/signup',
-  '/oauth/signup/kakao',
+  PATHS.HOME,
+  PATHS.LOGIN,
+  PATHS.SIGNUP,
+  PATHS.SIGNUP_KAKAO,
   '/reset-password',
-  '/addgroup',
+  PATHS.ADDGROUP,
   '/joingroup',
 ];
 
