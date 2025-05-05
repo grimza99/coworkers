@@ -7,7 +7,11 @@ import axiosClient from '@/lib/axiosClient';
 import { setClientCookie } from '@/lib/cookie/client';
 import { useRouter, useSearchParams } from 'next/navigation';
 import { useCallback, useEffect } from 'react';
-
+/**
+ *
+ * @todo
+ * get user response type지정
+ */
 export default function OAuthClient() {
   const { openModal } = useModalContext();
   const searchParams = useSearchParams();
