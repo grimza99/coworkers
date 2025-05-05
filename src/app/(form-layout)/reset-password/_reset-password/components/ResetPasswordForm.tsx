@@ -3,7 +3,7 @@ import PasswordToggleButton from '@/app/(form-layout)/signup/_signup/PasswordTog
 import Button from '@/components/common/Button';
 import FormField from '@/components/common/formField';
 import axiosClient from '@/lib/axiosClient';
-import togglePasswordVisibilityLogic from '@/utils/use-password-visibility';
+import usePasswordVisibility from '@/utils/use-password-visibility';
 import { validateConfirmPassword, validatePassword } from '@/utils/validators';
 import { useState } from 'react';
 
@@ -12,14 +12,14 @@ import { useState } from 'react';
  * 처음 렌더링 되었을때 인풋이 에러 표시 되어있는 오류 해결
  */
 export default function ResetPasswordForm() {
-  const { isPasswordVisible, togglePasswordVisibility } = togglePasswordVisibilityLogic();
+  const { isPasswordVisible, togglePasswordVisibility } = usePasswordVisibility();
 
   const [formData, setFormData] = useState({
     password: '',
     passwordConfirmation: '',
   });
 
-  const FormFieldArray = [
+  const formFieldArray = [
     {
       field: 'input',
       label: '비밀번호',
@@ -71,7 +71,7 @@ export default function ResetPasswordForm() {
   return (
     <div className="flex flex-col gap-10">
       <div className="flex flex-col gap-6">
-        {FormFieldArray.map((field) => {
+        {formFieldArray.map((field) => {
           return (
             <FormField
               key={field.name}
