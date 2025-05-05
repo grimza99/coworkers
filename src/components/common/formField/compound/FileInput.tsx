@@ -2,12 +2,12 @@
 
 import { useRef } from 'react';
 
-interface FileInputProps {
+interface FileInputProps extends Omit<React.InputHTMLAttributes<HTMLInputElement>, 'children'> {
   onImageChange: (e: React.ChangeEvent<HTMLInputElement>) => void;
   children: (props: { inputRef: React.RefObject<HTMLInputElement | null> }) => React.ReactNode;
 }
 
-export default function FileInput({ onImageChange, children }: FileInputProps) {
+export default function FileInput({ onImageChange, children, ...rest }: FileInputProps) {
   const inputRef = useRef<HTMLInputElement>(null);
 
   return (
@@ -18,6 +18,7 @@ export default function FileInput({ onImageChange, children }: FileInputProps) {
         ref={inputRef}
         className="hidden"
         onChange={onImageChange}
+        {...rest}
       />
       {children({ inputRef })}
     </div>
