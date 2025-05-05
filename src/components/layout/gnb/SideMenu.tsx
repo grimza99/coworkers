@@ -5,18 +5,18 @@ import Link from 'next/link';
 import Image from 'next/image';
 import clsx from 'clsx';
 
-interface Team {
+interface Group {
   id: number;
   name: string;
 }
 
 interface SideMenuProps {
-  teams: Team[];
+  groups: Group[];
   isOpen: boolean;
   onClose: () => void;
 }
 
-const SideMenu = forwardRef<HTMLDivElement, SideMenuProps>(({ teams, isOpen, onClose }, ref) => {
+const SideMenu = forwardRef<HTMLDivElement, SideMenuProps>(({ groups, isOpen, onClose }, ref) => {
   return (
     <>
       {isOpen && <div className="fixed inset-0 z-40 bg-black/40" onClick={onClose} />}
@@ -24,7 +24,7 @@ const SideMenu = forwardRef<HTMLDivElement, SideMenuProps>(({ teams, isOpen, onC
       <div
         ref={ref}
         className={clsx(
-          'bg-bg200 fixed top-0 left-0 z-300 flex h-screen w-[204px] transform flex-col gap-6 overflow-scroll p-4 pb-10 shadow-lg transition-transform duration-500',
+          'bg-bg200 fixed top-0 left-0 z-300 flex h-screen w-51 transform flex-col gap-6 overflow-scroll p-4 pb-10 shadow-lg transition-transform duration-500',
           isOpen ? 'translate-x-0' : '-translate-x-full'
         )}
       >
@@ -32,20 +32,20 @@ const SideMenu = forwardRef<HTMLDivElement, SideMenuProps>(({ teams, isOpen, onC
           <Image src="/icons/close.svg" alt="닫기" width={24} height={24} />
         </button>
 
-        <div className="flex flex-col gap-6">
-          {teams.map((team) => (
+        <div className="border-border flex flex-col gap-6 border-b pb-6">
+          {groups.map((group) => (
             <Link
-              key={team.id}
-              href={`/${team.id}`}
-              className="text-md-md hover:bg-bg300 block cursor-pointer rounded px-2 py-1"
+              key={group.id}
+              href={`/${group.id}`}
+              className="text-md-md hover:text-primary px-2 py-1"
             >
-              {team.name}
+              {group.name}
             </Link>
           ))}
-          <Link href="/articles" className="text-primary text-md-md cursor-pointer px-2 py-1">
-            자유게시판
-          </Link>
         </div>
+        <Link href="/articles" className="hover:text-primary text-md-md cursor-pointer px-2 py-1">
+          자유게시판
+        </Link>
       </div>
     </>
   );

@@ -57,7 +57,7 @@ export default function Header() {
   const pathname = usePathname();
   const router = useRouter();
   const [userData, setUserData] = useState<UserData | null>(null);
-  const [teams, setTeams] = useState<Group[]>([]);
+  const [groups, setGroups] = useState<Group[]>([]);
   const [selectedTeamName, setSelectedTeamName] = useState<string>('');
 
   useEffect(() => {
@@ -74,15 +74,17 @@ export default function Header() {
         const { data } = await axiosClient.get('/user');
         setUserData(data);
 
-        const extractedTeams = Array.isArray(data.memberships)
+        const extractedGroups = Array.isArray(data.memberships)
           ? data.memberships.map((m: { group: Group }) => m.group)
           : [];
 
-        setTeams(extractedTeams);
+        setGroups(extractedGroups);
 
         const currentPathId = pathname.split('/')[1];
-        const currentTeam = extractedTeams.find((team: Group) => String(team.id) === currentPathId);
-        setSelectedTeamName(currentTeam?.name || extractedTeams[0]?.name || '');
+        const currentTeam = extractedGroups.find(
+          (group: Group) => String(group.id) === currentPathId
+        );
+        setSelectedTeamName(currentTeam?.name || extractedGroups[0]?.name || '');
       } catch (error) {
         console.error('유저 정보 가져오기 실패', error);
       }
@@ -110,7 +112,7 @@ export default function Header() {
   }
 
   const userName = userData?.nickname ?? '';
-  const hasTeam = teams.length > 0;
+  const hasTeam = groups.length > 0;
 
   return (
     <header className="bg-bg200 border-border sticky top-0 z-200 flex h-15 w-full justify-center border-b-1 py-[14px]">
@@ -135,12 +137,12 @@ export default function Header() {
                 placement=""
                 size="xl"
                 defaultValue={selectedTeamName}
-                options={teams.map((group) => {
+                options={groups.map((group) => {
                   return <DropDownGroupsItem key={group.id} group={group} />;
                 })}
                 onSelect={(e) => {
                   const clickedTeamName = (e.target as HTMLElement).innerText;
-                  const selectedTeam = teams.find((team) => team.name === clickedTeamName);
+                  const selectedTeam = groups.find((group) => group.name === clickedTeamName);
                   if (selectedTeam) {
                     setSelectedTeamName(selectedTeam.name);
                     router.push(`/${selectedTeam.id}`);
@@ -181,7 +183,7 @@ export default function Header() {
 
       <SideMenu
         ref={sideMenuRef}
-        teams={teams}
+        groups={groups}
         isOpen={isSideMenuOpen}
         onClose={() => setIsSideMenuOpen(false)}
       />
