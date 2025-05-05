@@ -31,13 +31,13 @@ axiosClient.interceptors.response.use(
 
     const refreshToken = getClientCookie('refreshToken');
     if (!refreshToken) {
-      window.location.href = `${PATHS.LOGIN}`;
+      // window.location.href = `${PATHS.LOGIN}`;
       return Promise.reject(error);
     }
 
     const newAccessToken = await refreshAccessToken(refreshToken);
     if (!newAccessToken) {
-      window.location.href = `${PATHS.LOGIN}`;
+      // window.location.href = `${PATHS.LOGIN}`;
       return Promise.reject(error);
     }
 
