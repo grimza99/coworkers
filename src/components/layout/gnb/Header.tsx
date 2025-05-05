@@ -82,9 +82,7 @@ export default function Header() {
 
         const currentPathId = pathname.split('/')[1];
         const currentGroup = userGroups.find((group: Group) => String(group.id) === currentPathId);
-        if (currentGroup) {
-          setSelectedGroupName(currentGroup.name);
-        }
+        setSelectedGroupName(currentGroup?.name || userGroups[0]?.name || '');
       } catch (error) {
         console.error('유저 정보 가져오기 실패', error);
       }
