@@ -4,6 +4,7 @@ import React, { forwardRef } from 'react';
 import Link from 'next/link';
 import Image from 'next/image';
 import clsx from 'clsx';
+import { usePathname } from 'next/navigation';
 
 interface Group {
   id: number;
@@ -17,6 +18,8 @@ interface SideMenuProps {
 }
 
 const SideMenu = forwardRef<HTMLDivElement, SideMenuProps>(({ groups, isOpen, onClose }, ref) => {
+  const pathname = usePathname();
+  const selectedGroupId = pathname.split('/')[1];
   return (
     <>
       {isOpen && <div className="fixed inset-0 z-40 bg-black/40" onClick={onClose} />}
@@ -37,7 +40,10 @@ const SideMenu = forwardRef<HTMLDivElement, SideMenuProps>(({ groups, isOpen, on
             <Link
               key={group.id}
               href={`/${group.id}`}
-              className="text-md-md hover:text-primary px-2 py-1"
+              className={clsx(
+                'text-md-md hover:text-primary px-2 py-1',
+                String(group.id) === selectedGroupId && 'text-lg-bold text-primary'
+              )}
             >
               {group.name}
             </Link>
