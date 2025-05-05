@@ -139,8 +139,8 @@ export default function Header() {
                   return <DropDownGroupsItem key={group.id} group={group} />;
                 })}
                 onSelect={(e) => {
-                  const clickedGroupName = (e.currentTarget as HTMLElement).innerText;
-                  const selectedGroup = groups.find((group) => group.name === clickedGroupName);
+                  const clickedGroupId = (e.currentTarget as HTMLElement).dataset.groupId;
+                  const selectedGroup = groups.find((group) => String(group.id) === clickedGroupId);
                   if (selectedGroup) {
                     setSelectedGroupName(selectedGroup.name);
                     router.push(`/${selectedGroup.id}`);
