@@ -14,6 +14,7 @@ import { useOutSideClickAutoClose } from '@/utils/use-outside-click-auto-close';
 import Button from '@/components/common/Button';
 import axiosClient from '@/lib/axiosClient';
 import { User } from '@/types/user';
+import { getClientCookie, deleteClientCookie } from '@/lib/cookie/client';
 
 const MINIMAL_HEADER_PATHS = [
   '/',
@@ -62,6 +63,14 @@ export default function Header() {
   useEffect(() => {
     const fetchUserData = async () => {
       try {
+        const accessToken = getClientCookie('accessToken');
+        if (!accessToken) {
+          deleteClientCookie('accessToken');
+          deleteClientCookie('refreshToken');
+          console.log('No access token found');
+          console.log(document.cookie);
+          return;
+        }
         const { data } = await axiosClient.get('/user');
         setUserData(data);
 

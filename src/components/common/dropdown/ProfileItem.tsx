@@ -1,4 +1,4 @@
-import { setClientCookie } from '@/lib/cookie/client';
+import { deleteClientCookie } from '@/lib/cookie/client';
 import Link from 'next/link';
 
 const PROFILE_DROPDOWN_LIST = [
@@ -12,7 +12,9 @@ const DropDownProfileItemList = PROFILE_DROPDOWN_LIST.map((list, index) => {
   const isLast = index === PROFILE_DROPDOWN_LIST.length - 1;
 
   const handleClickLogOut = () => {
-    setClientCookie('accessToken', '');
+    deleteClientCookie('accessToken');
+    deleteClientCookie('refreshToken');
+    location.reload();
     window.location.href = '/login';
   };
 
