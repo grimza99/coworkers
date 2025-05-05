@@ -12,6 +12,11 @@
   button:disabled {
     cursor: not-allowed;
   }
+  input:-webkit-autofill {
+    box-shadow: 0 0 0px 1000px var(--color-bg200) inset !important;
+    -webkit-text-fill-color: var(--color-gray100) !important;
+    caret-color: var(--color-gray100) !important;
+  }
 }
 
 @theme {
@@ -52,6 +57,10 @@
   --text-4xl: 2.5rem;
   --text-4xl--line-height: 3rem;
   --text-4xl--font-weight: 500;
+
+  --text-4xl-md: 2.5rem;
+  --text-4xl-md--line-height: 3rem;
+  --text-4xl-md--font-weight: 600;
 
   --text-3xl-bold: 2rem;
   --text-3xl-bold--line-height: 2.375rem;

@@ -1,15 +1,19 @@
 'use client';
-import { useEffect, useState } from 'react';
+import { useCallback, useEffect, useState } from 'react';
 import clsx from 'clsx';
 import axiosClient from '@/lib/axiosClient';
 import { Task, TaskList } from '../types/task-list-page-type';
-import TaskListWiseTasks from './TaskListWiseTasks';
+import TasksWiseTask from './TasksWiseTask';
 
 interface Props {
   date: Date;
   groupId: string;
 }
-
+/*
+ * @Todo
+ * 1. fetchTaskLists 에러핸들링
+ * 2. fetchTaskListWiseTasks 에러 핸들링
+ */
 export default function DateWiseTaskLists({ date, groupId }: Props) {
   const [taskLists, setTaskLists] = useState<TaskList[]>([]);
   const [currentTaskList, setCurrentTaskList] = useState<TaskList>();
@@ -20,12 +24,32 @@ export default function DateWiseTaskLists({ date, groupId }: Props) {
     fetchTaskListWiseTasks(taskList);
   };
 
-  const fetchTaskLists = async () => {
-    const { data: taskListsData } = await axiosClient(`/groups/${groupId}`);
+  const fetchTaskListWiseTasks = useCallback(
+    async (currentTaskList: TaskList) => {
+      if (!currentTaskList) return;
 
-    if (taskListsData.length < 1) {
+      const { data: tasksData } = await axiosClient(
+        `groups/${groupId}/task-lists/${currentTaskList.id}/tasks`,
+        {
+          params: { date },
+        }
+      );
+
+      setCurrentTasks(tasksData);
+    },
+
+    [groupId, date]
+  );
+
+  const fetchTaskLists = useCallback(async () => {
+    if (!date || !groupId) return;
+
+    const { data: taskListsData } = await axiosClient(`/groups/${groupId}`);
+    const fetchedTaskLists: TaskList[] = taskListsData.taskLists;
+
+    if (fetchedTaskLists.length < 1) {
       return (
-        <div className="flex items-center justify-center">
+        <div className="flex h-200 items-center justify-center">
           <p className="text-md-md text-gray500">
             아직 할 일 목록이 없습니다.
             <br />
@@ -35,25 +59,14 @@ export default function DateWiseTaskLists({ date, groupId }: Props) {
       );
     }
 
-    setTaskLists(taskListsData.taskLists);
-    setCurrentTaskList(taskListsData.taskLists[0]);
-    fetchTaskListWiseTasks(taskListsData.taskLists[0]);
-  };
-
-  const fetchTaskListWiseTasks = async (currentTaskList: TaskList) => {
-    if (!currentTaskList) return;
-    const { data: tasksData } = await axiosClient(
-      `groups/${groupId}/task-lists/${currentTaskList.id}/tasks`,
-      {
-        params: { date },
-      }
-    );
-    setCurrentTasks(tasksData);
-  };
+    setTaskLists(fetchedTaskLists);
+    setCurrentTaskList(fetchedTaskLists[0]);
+    fetchTaskListWiseTasks(fetchedTaskLists[0]);
+  }, [groupId, fetchTaskListWiseTasks]);
 
   useEffect(() => {
     fetchTaskLists();
-  }, [date]);
+  }, [date, groupId, fetchTaskLists]);
 
   return (
     <div className="flex flex-col gap-4">
@@ -76,10 +89,17 @@ export default function DateWiseTaskLists({ date, groupId }: Props) {
         })}
       </div>
       <div className="flex w-full items-center justify-center">
-        {currentTasks.length > 0 || !currentTasks ? (
+        {currentTasks.length > 0 && currentTaskList ? (
           <div className="flex w-full flex-col gap-4">
             {currentTasks.map((task) => {
-              return <TaskListWiseTasks task={task} key={task.id} />;
+              return (
+                <TasksWiseTask
+                  taskListId={currentTaskList.id}
+                  task={task}
+                  key={task.id}
+                  groupId={groupId}
+                />
+              );
             })}
           </div>
         ) : (

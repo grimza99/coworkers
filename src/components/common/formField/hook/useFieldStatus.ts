@@ -8,9 +8,16 @@ interface UseFieldStatusProps {
   isFailure?: boolean;
   onFocus?: React.FocusEventHandler<HTMLInputElement>;
   onBlur?: React.FocusEventHandler<HTMLInputElement>;
+  forceShowError?: boolean;
 }
 
-export function useFieldStatus({ isSuccess, isFailure, onFocus, onBlur }: UseFieldStatusProps) {
+export function useFieldStatus({
+  isSuccess,
+  isFailure,
+  onFocus,
+  onBlur,
+  forceShowError = false,
+}: UseFieldStatusProps) {
   const [isFocused, setIsFocused] = useState(false);
   const [isTouched, setIsTouched] = useState(false);
 
@@ -33,8 +40,8 @@ export function useFieldStatus({ isSuccess, isFailure, onFocus, onBlur }: UseFie
     [onBlur]
   );
 
-  const showSuccess = isTouched && isSuccess === true;
-  const showError = isTouched && isFailure === true;
+  const showSuccess = (isTouched || forceShowError) && isSuccess === true;
+  const showError = (isTouched || forceShowError) && isFailure === true;
 
   const borderClassName = getBorderClassName({ isFocused, showSuccess, showError });
 
