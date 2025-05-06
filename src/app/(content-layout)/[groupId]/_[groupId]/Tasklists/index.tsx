@@ -1,6 +1,6 @@
 import { Tasklist } from '@/types/tasklist';
-import CreateTaskListModal from '../../tasklist/_tasklist/components/ModalContents/CreateTaskListModal';
-import TasklistItem from './TasklistItem';
+import CreateTaskListModal from '@/app/(content-layout)/[groupId]/tasklist/_tasklist/components/ModalContents/CreateTaskListModal';
+import TasklistItem from '@/app/(content-layout)/[groupId]/_[groupId]/Tasklists/TasklistItem';
 
 type TasklistsProps = {
   groupId: number | `${number}`;
@@ -8,11 +8,12 @@ type TasklistsProps = {
 };
 
 export default function Tasklists({ groupId, tasklists }: TasklistsProps) {
+  const totalTasklistCount = tasklists.length;
   return (
     <section>
-      <div className="flex items-center justify-between">
+      <div className="mb-4 flex items-center justify-between">
         <h2 className="text-lg-md">
-          할 일 목록 <span className="text-lg-rg text-gray500">({1}개)</span>
+          할 일 목록 <span className="text-lg-rg text-gray500">({totalTasklistCount}개)</span>
         </h2>
         <CreateTaskListModal groupId={`${groupId}`} />
       </div>
