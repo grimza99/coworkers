@@ -1,7 +1,7 @@
-import TaskListItemDropdown from './TaskListItemDropdown';
-import TaskListProgressBadge from './TaskListProgressBadge';
+import TasklistProgressBadge from './TasklistProgressBadge';
+import TasklistItemDropdown from './TasklistItemDropdown';
 
-export default function TaskListItem() {
+export default function TasklistItem() {
   const { name, totalTasks, doneTasks } = { name: '법인 설립', totalTasks: 5, doneTasks: 3 };
   return (
     <div className="bg-bg200 flex h-10 items-center justify-between rounded-xl">
@@ -10,8 +10,8 @@ export default function TaskListItem() {
         <div className="text-md-md">{name}</div>
       </div>
       <div className="mr-2 flex items-center gap-1">
-        <TaskListProgressBadge total={totalTasks} done={doneTasks} />
-        <TaskListItemDropdown />
+        <TasklistProgressBadge total={totalTasks} done={doneTasks} />
+        <TasklistItemDropdown />
       </div>
     </div>
   );

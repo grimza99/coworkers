@@ -6,7 +6,7 @@ import kebabIcon from '@/../public/icons/kebab-icon.svg';
 const ITEM_DROPDOWN_VALUE = ['수정하기', '삭제하기'];
 
 // @TODO: 메뉴 선택 시 동작 추가
-export default function TaskListItemDropdown() {
+export default function TasklistItemDropdown() {
   return (
     <DropDown
       size="md"
