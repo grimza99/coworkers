@@ -26,5 +26,5 @@ export interface GroupedByDateTask {
   doneAt: HistoryTask['doneAt'];
   id: HistoryTask['id'];
   date: HistoryTask['date'];
-  description: HistoryTask['description'];
+  name: HistoryTask['name'];
 }

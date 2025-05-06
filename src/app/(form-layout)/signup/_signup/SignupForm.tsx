@@ -12,17 +12,17 @@ import {
   validateLengthLimit,
 } from '@/utils/validators';
 import PasswordToggleButton from './PasswordToggleButton';
-import { ModalProvider } from '@/components/common/modal';
+import togglePasswordVisibilityLogic from '@/utils/use-password-visibility';
 
 export default function SignupForm() {
+  const { isPasswordVisible, togglePasswordVisibility } = togglePasswordVisibilityLogic();
+
   const [formData, setFormData] = useState({
     nickname: '',
     email: '',
     password: '',
     passwordConfirmation: '',
   });
-
-  const [duplicateError, setDuplicateError] = useState({ email: false, nickname: false });
 
   const [isPasswordVisible, setIsPasswordVisible] = useState({
     password: false,
@@ -33,13 +33,6 @@ export default function SignupForm() {
     setFormData((prev) => ({
       ...prev,
       [key]: value.trim(),
-    }));
-  };
-
-  const togglePasswordVisibility = (key: 'password' | 'confirmPassword') => {
-    setIsPasswordVisible((prev) => ({
-      ...prev,
-      [key]: !prev[key],
     }));
   };
 

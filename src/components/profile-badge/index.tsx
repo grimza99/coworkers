@@ -16,6 +16,7 @@ export default function ProfileBadge({
   height = 32,
   className = '',
 }: ProfileBadgeProps) {
+  if (!user) return;
   return (
     <div className={clsx(`flex shrink-0 items-center gap-3`, className)}>
       {/* @TODO: user.image값에 따라 기본 프로필 이미지 렌더링 결정 */}
