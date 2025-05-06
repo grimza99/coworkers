@@ -7,7 +7,7 @@ import Check from '@/assets/Check';
 import clsx from 'clsx';
 import DetailTaskCommentField from './DetailTaskCommentsField';
 import axiosClient from '@/lib/axiosClient';
-import { useCallback, useEffect, useState } from 'react';
+import { useCallback, useEffect, useRef, useState } from 'react';
 import { useTaskActions } from '../../hooks/use-task-actions';
 
 interface Props {
@@ -36,6 +36,7 @@ export function DetailTask({
   const [currentTask, setCurrentTask] = useState<Task>();
   const { toggleTaskDone } = useTaskActions(currentTask);
   const buttonText = isDone ? '완료 취소하기' : '완료 하기';
+  const detailTaskRef = useRef<HTMLDivElement>(null);
 
   const fetchTask = useCallback(async () => {
     if (!isOpen || !taskId) return;
@@ -47,8 +48,18 @@ export function DetailTask({
     setCurrentTask(data);
   }, [groupId, taskListId, taskId, isOpen]);
 
+  const closingDetailTaskOutsideClick = (e: MouseEvent) => {
+    if (detailTaskRef.current && !detailTaskRef.current.contains(e.target as Node)) {
+      setIsOpen(false);
+    }
+  };
+
   useEffect(() => {
     fetchTask();
+    document.addEventListener('mousedown', closingDetailTaskOutsideClick);
+    return () => {
+      document.removeEventListener('mousedown', closingDetailTaskOutsideClick);
+    };
   }, [isOpen, fetchTask]);
 
   if (!currentTask) return;
@@ -56,7 +67,10 @@ export function DetailTask({
   return (
     <>
       {isOpen && (
-        <div className="bg-bg200 fixed top-15 right-0 z-500 flex h-[calc(100%-60px)] w-full flex-col gap-25 px-4 py-4 md:max-w-[700px] md:gap-45.5 md:px-6 md:py-6 lg:max-w-[779px] lg:px-10 lg:py-10">
+        <div
+          ref={detailTaskRef}
+          className="bg-bg200 fixed top-15 right-0 z-500 flex h-[calc(100%-60px)] w-full flex-col gap-25 px-4 py-4 md:max-w-[700px] md:gap-45.5 md:px-6 md:py-6 lg:max-w-[779px] lg:px-10 lg:py-10"
+        >
           <div className="relative flex h-full flex-col gap-4">
             <button onClick={() => setIsOpen(false)}>
               <Image src="/icons/close.svg" alt="x" width={24} height={24} />
