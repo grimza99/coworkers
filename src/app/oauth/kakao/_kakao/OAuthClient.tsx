@@ -42,7 +42,7 @@ export default function OAuthClient() {
     } catch {
       openModal(modalId);
     }
-  }, []);
+  }, [code, openModal, redirectUri, router, state]);
 
   useEffect(() => {
     oauthRequest();
