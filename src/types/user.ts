@@ -6,13 +6,16 @@ export interface User {
   image: string;
 }
 
-export interface Membership {
+export interface Member {
   userId: User['id'];
   userName: User['nickname'];
   userImage: User['image'];
   userEmail: string;
   role: Role;
   groupId: Group['id'];
+}
+
+export interface Membership extends Member {
   group: Group;
 }
 
