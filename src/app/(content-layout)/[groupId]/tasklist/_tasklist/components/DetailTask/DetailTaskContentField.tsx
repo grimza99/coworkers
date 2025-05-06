@@ -1,5 +1,5 @@
 import DropDown from '@/components/common/dropdown';
-import { DetailTask } from '../../types/task-list-page-type';
+import { DetailTask } from '../../types/task-type';
 import Image from 'next/image';
 import ProfileBadge from '@/components/profile-badge';
 import Repeat from '@/assets/Repeat';

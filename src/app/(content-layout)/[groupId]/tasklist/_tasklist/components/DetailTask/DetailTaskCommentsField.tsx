@@ -1,5 +1,5 @@
 'use client';
-import CommentSlot from '@/assets/CommentSlot';
+import CommentSlot from '@/assets/CommentSubmit';
 import { Comment } from '@/components/comment/types';
 import Textarea from '@/components/common/formField/compound/Textarea';
 import axiosClient from '@/lib/axiosClient';

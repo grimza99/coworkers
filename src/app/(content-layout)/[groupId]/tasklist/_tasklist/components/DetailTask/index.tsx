@@ -1,7 +1,7 @@
 'use client';
 import Image from 'next/image';
 import Content from './DetailTaskContentField';
-import { Task } from '../../types/task-list-page-type';
+import { Task } from '../../types/task-type';
 import Button from '@/components/common/Button';
 import Check from '@/assets/Check';
 import clsx from 'clsx';

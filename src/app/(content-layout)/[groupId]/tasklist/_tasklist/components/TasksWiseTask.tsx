@@ -2,7 +2,7 @@
 import TaskListItem from '@/components/task-list-item/TaskListItem';
 import { format, isValid } from 'date-fns';
 import { useState } from 'react';
-import { Task } from '../types/task-list-page-type';
+import { Task } from '../types/task-type';
 import { useTaskHandlers } from '../utils/task-handlers';
 import { DetailTask } from './DetailTask';
 import RemoveTaskModal from './ModalContents/RemoveTaskModal';

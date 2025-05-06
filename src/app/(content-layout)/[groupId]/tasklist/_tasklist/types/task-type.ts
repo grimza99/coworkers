@@ -1,18 +1,9 @@
 import { User } from '@/types/user';
+import { Member } from './member-type';
 
 type Frequency = 'DAILY' | 'WEEKLY' | 'ONCE' | 'MONTHLY';
-type Role = 'ADMIN' | 'MEMBER';
 
 // taskLists[] -> taskList{}-> tasks[]-> task(기준){} -> detailTask
-
-type Member = {
-  role: Role;
-  userImage: string;
-  userEmail: string;
-  userName: string;
-  groupId: number;
-  userId: number;
-};
 
 //teamId/groups/[groupId]:get
 export interface TaskListsApiResponse {
