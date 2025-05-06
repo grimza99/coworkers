@@ -1,8 +1,9 @@
 import { Member } from '@/types/user';
 import MemberItem from './MemberItem';
+import { Group } from '@/types/group';
 
 type MembersProps = {
-  groupId: number | `${number}`;
+  groupId: Group['id'];
   members: Member[];
 };
 
