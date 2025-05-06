@@ -29,7 +29,7 @@ function TasklistProgressIcon({ total, done }: TasklistProgressIconProps) {
   const RADIUS = 5; // 원의 반지름
   const CIRCUMFERENCE = 2 * Math.PI * RADIUS; // 원의 둘레
 
-  const percent = total > 0 ? Math.round(done / total) : 0;
+  const percent = total > 0 ? done / total : 0;
   const offset = CIRCUMFERENCE * (1 - percent);
 
   return (

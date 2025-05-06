@@ -1,10 +1,18 @@
 import TasklistProgressBadge from './TasklistProgressBadge';
 import TasklistItemDropdown from './TasklistItemDropdown';
+import { Tasklist } from '@/types/tasklist';
 
-export default function TasklistItem() {
-  const { name, totalTasks, doneTasks } = { name: '법인 설립', totalTasks: 5, doneTasks: 3 };
+type TasklistItemProps = {
+  tasklist: Tasklist;
+};
+
+export default function TasklistItem({ tasklist }: TasklistItemProps) {
+  const { name } = tasklist;
+  const totalTasks = 3;
+  const doneTasks = 1;
+
   return (
-    <div className="bg-bg200 flex h-10 items-center justify-between rounded-xl">
+    <li className="bg-bg200 flex h-10 items-center justify-between rounded-xl">
       <div className="flex h-full items-center gap-3">
         <div className="bg-purple h-full w-3 rounded-l-xl"></div>
         <div className="text-md-md">{name}</div>
@@ -13,6 +21,6 @@ export default function TasklistItem() {
         <TasklistProgressBadge total={totalTasks} done={doneTasks} />
         <TasklistItemDropdown />
       </div>
-    </div>
+    </li>
   );
 }
