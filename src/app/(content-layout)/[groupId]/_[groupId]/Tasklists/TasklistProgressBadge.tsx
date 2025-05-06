@@ -8,7 +8,7 @@ type TasklistProgressBadgeProps = {
 
 export default function TasklistProgressBadge({ total, done }: TasklistProgressBadgeProps) {
   return (
-    <div className="text-primary text-md-rg bg-bg300 flex items-center gap-1 rounded-xl px-2 py-1">
+    <div className="text-primary text-md-rg bg-bg300 flex items-center gap-1 rounded-xl px-2 py-1 select-none">
       <TasklistProgressIcon total={total} done={done} />
       {`${done}/${total}`}
     </div>
