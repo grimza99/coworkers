@@ -32,10 +32,10 @@ export default function SignupSuccessModal({ nickname }: Props) {
       <ModalPortal modalId="signup-success">
         <ModalOverlay modalId="signup-success">
           <ModalContainer>
-            <p className="text-lg-md">🎉</p>
-            <ModalHeading className="text-md-bold mb-2 text-white">회원가입 성공</ModalHeading>
-            <ModalDescription className="text-lg-md mb-6 w-full">
-              {nickname}님 회원가입에 성공하셨습니다. <br />
+            <img src="/icons/user.svg" alt="user-icon" width={24} height={24} className="pb-3" />
+            <ModalHeading className="text-md-md mb-2 text-white">회원가입 성공</ModalHeading>
+            <ModalDescription className="text-lg-rg mb-6 w-full">
+              <span className="text-primary">{nickname}</span>님 회원가입에 성공하셨습니다. <br />
               5초 뒤 자동으로 로그인됩니다.
             </ModalDescription>
             <ModalFooter className="w-full">
