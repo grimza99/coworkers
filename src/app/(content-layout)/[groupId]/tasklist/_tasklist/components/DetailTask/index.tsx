@@ -15,9 +15,9 @@ interface Props {
   taskListId: number;
   isOpen: boolean;
   isDone: boolean;
-  setIsDone: React.Dispatch<React.SetStateAction<boolean>>;
+  setIsDone: () => void;
   taskId: number;
-  setIsOpen: React.Dispatch<React.SetStateAction<boolean>>;
+  setIsOpen: () => void;
 }
 
 /**@todo
@@ -50,7 +50,7 @@ export function DetailTask({
 
   const closingDetailTaskOutsideClick = (e: MouseEvent) => {
     if (detailTaskRef.current && !detailTaskRef.current.contains(e.target as Node)) {
-      setIsOpen(false);
+      setIsOpen();
     }
   };
 
@@ -72,7 +72,7 @@ export function DetailTask({
           className="bg-bg200 fixed top-15 right-0 z-500 flex h-[calc(100%-60px)] w-full flex-col gap-25 px-4 py-4 md:max-w-[700px] md:gap-45.5 md:px-6 md:py-6 lg:max-w-[779px] lg:px-10 lg:py-10"
         >
           <div className="relative flex h-full flex-col gap-4">
-            <button onClick={() => setIsOpen(false)}>
+            <button onClick={() => setIsOpen()}>
               <Image src="/icons/close.svg" alt="x" width={24} height={24} />
             </button>
             <div className="flex h-full flex-col gap-25 overflow-scroll">

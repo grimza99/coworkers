@@ -14,7 +14,7 @@ export function useTaskActions(task?: Task) {
     groupId: string,
     taskListId: number,
     isDone: boolean,
-    setIsDone: React.Dispatch<React.SetStateAction<boolean>>
+    setIsDone: () => void
   ) => {
     if (!task) return;
     await axiosClient.patch(`/groups/${groupId}/task-lists/${taskListId}/tasks/${task.id}`, {
@@ -22,7 +22,7 @@ export function useTaskActions(task?: Task) {
       description: task.description,
       done: !isDone,
     });
-    setIsDone((prev) => !prev);
+    setIsDone();
   };
 
   return {

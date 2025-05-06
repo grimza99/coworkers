@@ -3,8 +3,8 @@ import useModalContext from '@/components/common/modal/core/useModalContext';
 export function useTaskModals() {
   const { openModal } = useModalContext();
 
-  const popUpDetailTask = (setIsOpen: React.Dispatch<React.SetStateAction<boolean>>) => {
-    setIsOpen((prev) => !prev);
+  const popUpDetailTask = (setIsOpen: () => void) => {
+    setIsOpen();
   };
 
   const popUpEditTaskModal = (modalId: string) => {

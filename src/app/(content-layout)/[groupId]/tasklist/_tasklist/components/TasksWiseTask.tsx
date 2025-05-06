@@ -32,15 +32,22 @@ export default function TasksWiseTask({ task, groupId, taskListId }: Props) {
     return format(date, 'yyyy년 MM월 dd일');
   };
 
+  const toggleTaskStatus = () => {
+    setIsDone((prev) => !prev);
+  };
+
+  const detailTaskOpen = () => {
+    setIsDetailTaskOpen((prev) => !prev);
+  };
   return (
     <>
       <TaskListItem
         key={task.id}
         type="taskList"
-        onCheckStatusChange={() => toggleTaskDone(groupId, taskListId, isDone, setIsDone)}
+        onCheckStatusChange={() => toggleTaskDone(groupId, taskListId, isDone, toggleTaskStatus)}
         onEdit={() => popUpEditTaskModal(taskEditModalId)}
         onDelete={() => popUpDeleteTaskModal(taskDeleteModalId)}
-        onClick={() => popUpDetailTask(setIsDetailTaskOpen)}
+        onClick={() => popUpDetailTask(detailTaskOpen)}
         isDone={isDone}
         name={task.name}
         commentCount={task.commentCount}
@@ -49,11 +56,11 @@ export default function TasksWiseTask({ task, groupId, taskListId }: Props) {
       />
       <DetailTask
         isDone={isDone}
-        setIsDone={setIsDone}
+        setIsDone={toggleTaskStatus}
         taskId={task.id}
         groupId={groupId}
         taskListId={taskListId}
-        setIsOpen={setIsDetailTaskOpen}
+        setIsOpen={detailTaskOpen}
         isOpen={isDetailTaskOpen}
       />
       <RemoveTaskModal
