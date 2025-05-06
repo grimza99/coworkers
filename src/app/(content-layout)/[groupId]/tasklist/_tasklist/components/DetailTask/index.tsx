@@ -1,7 +1,6 @@
 'use client';
 import Image from 'next/image';
 import Content from './DetailTaskContentField';
-import { Task } from '../../types/task-type';
 import Button from '@/components/common/Button';
 import Check from '@/assets/Check';
 import clsx from 'clsx';
@@ -9,6 +8,7 @@ import DetailTaskCommentField from './DetailTaskCommentsField';
 import axiosClient from '@/lib/axiosClient';
 import { useCallback, useEffect, useRef, useState } from 'react';
 import { useTaskActions } from '../../hooks/use-task-actions';
+import { DetailTaskType } from '../../types/task-type';
 
 interface Props {
   groupId: string;
@@ -33,7 +33,7 @@ export function DetailTask({
   isDone,
   setIsDone,
 }: Props) {
-  const [currentTask, setCurrentTask] = useState<Task>();
+  const [currentTask, setCurrentTask] = useState<DetailTaskType>();
   const { toggleTaskDone } = useTaskActions(currentTask);
   const buttonText = isDone ? '완료 취소하기' : '완료 하기';
   const detailTaskRef = useRef<HTMLDivElement>(null);
