@@ -3,7 +3,6 @@ import clsx from 'clsx';
 import Image from 'next/image';
 import DropDown from '../common/dropdown';
 import Repeat from '@/assets/Repeat';
-import RemoveTaskModal from '@/app/(content-layout)/[groupId]/tasklist/_tasklist/components/ModalContents/RemoveTaskModalPopUp';
 
 type ScheduleType = 'DAILY' | 'WEEKLY' | 'MONTHLY' | 'ONCE';
 
@@ -19,7 +18,6 @@ interface TaskListItemProps {
   commentCount?: number;
   date?: string;
   frequency?: ScheduleType;
-  id: number;
 }
 
 export default function TaskListItem({
@@ -31,16 +29,12 @@ export default function TaskListItem({
   onClick,
   isDone,
   name,
-<<<<<<< HEAD
-  id,
-=======
->>>>>>> b02c95cc5f85388cd03665704a5c0b957f4378ca
   commentCount,
   date,
   frequency,
 }: TaskListItemProps) {
   const checkIcon = isDone ? '/icons/check-box.svg' : '/icons/none-check-box.svg';
-  const DROPDOWN_OPTION_LIST = [<RemoveTaskModal name={name} id={id} />, ,];
+  const DROPDOWN_OPTION_LIST = ['수정하기', '삭제하기'];
 
   const onDropdownListClick = (e: React.MouseEvent<HTMLDivElement>) => {
     const option = e.currentTarget.textContent;
