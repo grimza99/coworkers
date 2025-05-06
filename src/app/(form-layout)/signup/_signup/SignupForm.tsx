@@ -12,10 +12,14 @@ import {
   validateLengthLimit,
 } from '@/utils/validators';
 import PasswordToggleButton from './PasswordToggleButton';
-import togglePasswordVisibilityLogic from '@/utils/use-password-visibility';
+import usePasswordVisibility from '@/utils/use-password-visibility';
+import SignupFailModal from '@/components/signup-alert-modal/SignupFailModal';
+import useModalContext from '@/components/common/modal/core/useModalContext';
+import { AxiosError } from 'axios';
 
 export default function SignupForm() {
-  const { isPasswordVisible, togglePasswordVisibility } = togglePasswordVisibilityLogic();
+  const { isPasswordVisible, togglePasswordVisibility } = usePasswordVisibility();
+  const { openModal } = useModalContext();
 
   const [formData, setFormData] = useState({
     nickname: '',
@@ -24,9 +28,9 @@ export default function SignupForm() {
     passwordConfirmation: '',
   });
 
-  const [isPasswordVisible, setIsPasswordVisible] = useState({
-    password: false,
-    confirmPassword: false,
+  const [duplicateError, setDuplicateError] = useState({
+    nickname: false,
+    email: false,
   });
 
   const setFieldValue = (key: keyof typeof formData, value: string) => {
@@ -114,18 +118,19 @@ export default function SignupForm() {
       const { accessToken, refreshToken } = response.data;
       setClientCookie('accessToken', accessToken);
       setClientCookie('refreshToken', refreshToken);
-    } catch (error: any) {
-      console.error('❌ 회원가입 실패:', error);
+    } catch (error) {
+      const axiosError = error as AxiosError<{ message: string }>;
+      const message = axiosError.response?.data?.message;
 
-      if (error.response?.data?.message) {
-        const message = error.response.data.message;
+      if (message) {
         setDuplicateError({
           email: message.includes('이메일'),
           nickname: message.includes('닉네임'),
         });
-      } else {
-        alert('회원가입에 실패했습니다.'); // 모달을 띄워서 다시 회원가입페이지로 돌아가서 시도할 수 있도록
       }
+
+      // 어쨌든 실패했으니 모달은 항상 띄움
+      openModal('signup-fail');
     }
   };
 
@@ -155,17 +160,10 @@ export default function SignupForm() {
           />
         ))}
       </div>
-      <ModalProvider>
-        <Button
-          type="submit"
-          variant="solid"
-          size="fullWidth"
-          fontSize="16"
-          disabled={isFormInvalid}
-        >
-          회원가입
-        </Button>
-      </ModalProvider>
+      <Button type="submit" variant="solid" size="fullWidth" fontSize="16" disabled={isFormInvalid}>
+        회원가입
+      </Button>
+      <SignupFailModal />
     </form>
   );
 }

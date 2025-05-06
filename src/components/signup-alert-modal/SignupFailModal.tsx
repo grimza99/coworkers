@@ -1,7 +1,6 @@
 'use client';
 
 import {
-  ModalCloseButton,
   ModalContainer,
   ModalDescription,
   ModalFooter,
@@ -13,29 +12,30 @@ import Button from '../common/Button';
 
 export default function SignupFailModal() {
   return (
-    <div>
-      <ModalPortal>
-        <ModalOverlay>
-          <ModalContainer className="h-[211px] w-[384px] px-6 py-5">
-            <ModalCloseButton />
+    <>
+      <ModalPortal modalId="signup-fail">
+        <ModalOverlay modalId="signup-fail">
+          <ModalContainer>
+            <img src="/icons/danger.icon.svg" alt="!" width={20} height={20} className="pb-3" />
             <ModalHeading className="text-md-bold mb-2 text-white">회원가입 실패</ModalHeading>
-            <ModalDescription className="text-gray300 text-sm">
+            <ModalDescription className="text-gray500 text-md-md mb-6 w-full">
               회원가입 도중 문제가 발생했습니다. <br />
               다시 시도해주세요.
             </ModalDescription>
-            <ModalFooter className="mt-6">
-              <Button
-                size="md"
-                variant="outline-gray"
-                className="w-full"
-                onClick={() => window.location.reload()}
-              >
-                다시 시도하기
-              </Button>
+            <ModalFooter className="w-full">
+              <div className="flex w-full gap-2">
+                <Button
+                  variant="outline-gray"
+                  className="w-full"
+                  onClick={() => window.location.reload()}
+                >
+                  다시 시도하기
+                </Button>
+              </div>
             </ModalFooter>
           </ModalContainer>
         </ModalOverlay>
       </ModalPortal>
-    </div>
+    </>
   );
 }
