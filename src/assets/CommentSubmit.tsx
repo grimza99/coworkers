@@ -1,4 +1,4 @@
-export default function CommentSlot({
+export default function CommentSubmit({
   width = '24',
   height = '24',
   color,
