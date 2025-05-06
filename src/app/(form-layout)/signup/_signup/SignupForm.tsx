@@ -14,6 +14,7 @@ import {
 import PasswordToggleButton from './PasswordToggleButton';
 import usePasswordVisibility from '@/utils/use-password-visibility';
 import SignupFailModal from '@/components/signup-alert-modal/SignupFailModal';
+import SignupSuccessModal from '@/components/signup-alert-modal/SignupSuccessModal';
 import useModalContext from '@/components/common/modal/core/useModalContext';
 import { AxiosError } from 'axios';
 
@@ -32,6 +33,8 @@ export default function SignupForm() {
     nickname: false,
     email: false,
   });
+
+  const [isSuccess, setIsSuccess] = useState(false);
 
   const setFieldValue = (key: keyof typeof formData, value: string) => {
     setFormData((prev) => ({
@@ -118,6 +121,8 @@ export default function SignupForm() {
       const { accessToken, refreshToken } = response.data;
       setClientCookie('accessToken', accessToken);
       setClientCookie('refreshToken', refreshToken);
+      openModal('signup-success');
+      setIsSuccess(true);
     } catch (error) {
       const axiosError = error as AxiosError<{ message: string }>;
       const message = axiosError.response?.data?.message;
@@ -164,6 +169,7 @@ export default function SignupForm() {
         회원가입
       </Button>
       <SignupFailModal />
+      {isSuccess && <SignupSuccessModal nickname={formData.nickname} />}
     </form>
   );
 }

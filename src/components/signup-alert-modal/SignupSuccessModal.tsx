@@ -32,15 +32,20 @@ export default function SignupSuccessModal({ nickname }: Props) {
       <ModalPortal modalId="signup-success">
         <ModalOverlay modalId="signup-success">
           <ModalContainer>
-            <p className="text-lg-md">Welcome 🎉</p>
+            <p className="text-lg-md">🎉</p>
             <ModalHeading className="text-md-bold mb-2 text-white">회원가입 성공</ModalHeading>
-            <ModalDescription className="text-gray500 text-md-md mb-6 w-full">
+            <ModalDescription className="text-lg-md mb-6 w-full">
               {nickname}님 회원가입에 성공하셨습니다. <br />
-              5초 뒤 로그인됩니다.
+              5초 뒤 자동으로 로그인됩니다.
             </ModalDescription>
             <ModalFooter className="w-full">
               <div className="flex w-full gap-2">
-                <Button variant="solid" className="w-full" onClick={() => router.push('/login')}>
+                <Button
+                  variant="solid"
+                  size="fullWidth"
+                  className="w-full"
+                  onClick={() => router.push('/login')}
+                >
                   로그인 페이지로 이동
                 </Button>
               </div>

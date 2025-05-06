@@ -27,6 +27,7 @@ export default function SignupFailModal() {
                 <Button
                   variant="outline-gray"
                   className="w-full"
+                  size="fullWidth"
                   onClick={() => window.location.reload()}
                 >
                   다시 시도하기
