@@ -3,7 +3,7 @@ import { Group } from '@/types/group';
 export interface User {
   id: number;
   nickname: string;
-  image: string;
+  image: string | null;
 }
 
 export interface Membership {
