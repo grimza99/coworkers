@@ -1,6 +1,5 @@
 import ManageGroup from '@/components/manage-group/ManageGroup';
-import DEFAULT_IMAGE from '@/constants/default-image';
-
+const DEFAULT_IMAGE = process.env.NEXT_PUBLIC_DEFAULT_IMAGE;
 export default function EditGroup() {
   return (
     <div className="flex w-full flex-col items-center gap-20">
@@ -8,7 +7,7 @@ export default function EditGroup() {
       <ManageGroup
         isEdit
         groupData={{
-          image: DEFAULT_IMAGE,
+          image: DEFAULT_IMAGE!,
           name: 'hee',
         }}
       />
