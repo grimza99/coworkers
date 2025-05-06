@@ -1,6 +1,7 @@
 'use client';
 
 import { useState, ChangeEvent } from 'react';
+import { AxiosError } from 'axios';
 import axiosClient from '@/lib/axiosClient';
 import { setClientCookie } from '@/lib/cookie/client';
 import FormField from '@/components/common/formField';
@@ -16,7 +17,6 @@ import usePasswordVisibility from '@/utils/use-password-visibility';
 import SignupFailModal from '@/components/signup-alert-modal/SignupFailModal';
 import SignupSuccessModal from '@/components/signup-alert-modal/SignupSuccessModal';
 import useModalContext from '@/components/common/modal/core/useModalContext';
-import { AxiosError } from 'axios';
 
 export default function SignupForm() {
   const { isPasswordVisible, togglePasswordVisibility } = usePasswordVisibility();
@@ -30,6 +30,7 @@ export default function SignupForm() {
   });
 
   const [duplicateError, setDuplicateError] = useState({
+    //중복 에러 네이밍 고민
     nickname: false,
     email: false,
   });
