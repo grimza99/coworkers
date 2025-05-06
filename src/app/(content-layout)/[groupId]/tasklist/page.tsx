@@ -31,6 +31,12 @@ export default function Page({ params }: Props) {
     ref,
   } = useOutSideClickAutoClose(false);
 
+  const [taskListId, setTaskListId] = useState(0);
+
+  const updateTaskListId = (id: number) => {
+    setTaskListId(id);
+  };
+
   const handleClickChangeDayIcon = (value: string) => {
     if (value === 'prev') {
       setCurrentDate((prev) => subDays(prev, 1));
@@ -70,8 +76,8 @@ export default function Page({ params }: Props) {
         </div>
         <CreateTaskListModal groupId={groupId} />
       </div>
-      <DateWiseTaskList groupId={groupId} date={currentDate} />
-      <ManageTaskItemModal groupId={Number(groupId)} taskListId={3696} />
+      <DateWiseTaskList groupId={groupId} date={currentDate} updateTaskListId={updateTaskListId} />
+      <ManageTaskItemModal groupId={Number(groupId)} taskListId={taskListId} />
     </div>
   );
 }

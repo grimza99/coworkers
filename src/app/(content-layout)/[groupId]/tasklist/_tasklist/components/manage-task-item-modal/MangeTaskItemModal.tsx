@@ -11,7 +11,7 @@ import useModalContext from '@/components/common/modal/core/useModalContext';
 import Plus from '@/assets/Plus';
 import { TaskItemProps } from '@/components/manage-task-item/type';
 
-export default function ManageTaskItemModal({ task, groupId, taskListId = 3696 }: TaskItemProps) {
+export default function ManageTaskItemModal({ task, groupId, taskListId }: TaskItemProps) {
   const { closeModal } = useModalContext();
 
   const buttonText = task ? '수정하기' : '만들기';

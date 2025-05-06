@@ -8,18 +8,20 @@ import TasksWiseTask from './TasksWiseTask';
 interface Props {
   date: Date;
   groupId: string;
+  updateTaskListId: (id: number) => void;
 }
 /*
  * @Todo
  * 1. fetchTaskLists 에러핸들링
  * 2. fetchTaskListWiseTasks 에러 핸들링
  */
-export default function DateWiseTaskLists({ date, groupId }: Props) {
+export default function DateWiseTaskLists({ date, groupId, updateTaskListId }: Props) {
   const [taskLists, setTaskLists] = useState<TaskList[]>([]);
   const [currentTaskList, setCurrentTaskList] = useState<TaskList>();
   const [currentTasks, setCurrentTasks] = useState<Task[]>([]);
 
   const handleClickChangeCurrentTaskList = (taskList: TaskList) => {
+    updateTaskListId(taskList.id);
     setCurrentTaskList(taskList);
     fetchTaskListWiseTasks(taskList);
   };

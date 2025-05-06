@@ -12,7 +12,7 @@ import Button from '@/components/common/Button';
 
 const FREQUENCY_LIST = ['한 번', '매일', '주 반복', '월 반복'];
 
-export default function ManageTaskItem({ task, groupId, taskListId = 3696 }: TaskItemProps) {
+export default function ManageTaskItem({ task, groupId, taskListId }: TaskItemProps) {
   const {
     taskItem,
     selectedTime,
