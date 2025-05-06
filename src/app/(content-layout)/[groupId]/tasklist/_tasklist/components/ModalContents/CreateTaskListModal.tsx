@@ -1,6 +1,5 @@
 'use client';
 import { useState } from 'react';
-import clsx from 'clsx';
 import Button from '@/components/common/Button';
 import FormField from '@/components/common/formField';
 import {
@@ -34,7 +33,7 @@ export default function CreateTaskListModal({ groupId }: Props) {
 
   return (
     <>
-      <ModalTrigger className={clsx('text-primary w-fit')} modalId="createTaskList">
+      <ModalTrigger className="text-primary w-fit" modalId="createTaskList">
         + 새로운 목록 추가하기
       </ModalTrigger>
       <ModalPortal modalId="createTaskList">
