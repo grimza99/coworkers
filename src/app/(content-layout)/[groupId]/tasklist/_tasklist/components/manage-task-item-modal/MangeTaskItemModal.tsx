@@ -9,20 +9,20 @@ import {
 import ManageTaskItem from '@/components/manage-task-item/components/ManageTaskItem';
 import useModalContext from '@/components/common/modal/core/useModalContext';
 import Plus from '@/assets/Plus';
-import { TaskItem, TaskItemProps } from '@/components/manage-task-item/type';
-import { useState } from 'react';
+import { InterceptedTaskItem, TaskItem, TaskItemProps } from '@/components/manage-task-item/type';
+import { useCallback, useState } from 'react';
 import axiosClient from '@/lib/axiosClient';
 
 export default function ManageTaskItemModal({ task, groupId, taskListId }: TaskItemProps) {
   const [taskItem, setTaskItem] = useState<TaskItem>();
   const { closeModal } = useModalContext();
 
-  const interceptTaskItem = (item: TaskItem) => {
-    setTaskItem(item);
-  };
+  const interceptTaskItem = useCallback(({ taskItem, monthDay, weekDays }: InterceptedTaskItem) => {
+    setTaskItem({ ...taskItem, monthDay, weekDays });
+  }, []);
 
   const handleTaskItemSubmit = async () => {
-    await axiosClient.post(`/groups/${groupId}/task-lists/${taskListId}/tasks`, taskItem);
+    await axiosClient.post(`/groups/${groupId}/task-lists/${taskListId}/tasks`, { ...taskItem });
   };
 
   const buttonText = task ? '수정하기' : '만들기';

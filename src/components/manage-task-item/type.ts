@@ -1,8 +1,13 @@
-import { Task } from '@/app/(content-layout)/[groupId]/tasklist/_tasklist/types/task-list-page-type';
+import {
+  Frequency,
+  Task,
+} from '@/app/(content-layout)/[groupId]/tasklist/_tasklist/types/task-list-page-type';
 
-export interface TaskItem
-  extends Pick<Task, 'id' | 'name' | 'frequency' | 'weekDays' | 'description'> {
-  date: Date | string;
+export interface TaskItem extends Pick<Task, 'name' | 'description'> {
+  weekDays?: number[];
+  monthDay?: number;
+  startDate: Date | string;
+  frequencyType: Frequency;
 }
 
 export interface Time {
@@ -17,5 +22,11 @@ export interface TaskItemProps {
 }
 
 export interface CreateTaskItemProps extends Pick<TaskItemProps, 'task'> {
-  interceptTaskItem: (item: TaskItem) => void;
+  interceptTaskItem: ({ taskItem, monthDay, weekDays }: InterceptedTaskItem) => void;
+}
+
+export interface InterceptedTaskItem {
+  taskItem: TaskItem;
+  monthDay?: number;
+  weekDays?: number[];
 }

@@ -1,16 +1,14 @@
 import { useEffect, useState } from 'react';
-import { format } from 'date-fns';
+import { format, getDate } from 'date-fns';
 import { Frequency } from '@/app/(content-layout)/[groupId]/tasklist/_tasklist/types/task-list-page-type';
 import generateTime from './time-table';
 import { CreateTaskItemProps, TaskItem, Time } from './type';
 
 const INITIAL_TASK_ITEM: TaskItem = {
-  id: 0,
   name: '',
   description: '',
-  date: new Date(),
-  frequency: 'ONCE',
-  weekDays: [],
+  startDate: new Date(),
+  frequencyType: 'ONCE',
 };
 
 const FREQUENCY_MAP: Record<Frequency, string> = {
@@ -36,22 +34,32 @@ export default function useManageTaskItem({ task, interceptTaskItem }: CreateTas
     ...task,
   }));
   const [isTimeOpen, setIsTimeOpen] = useState(false);
-  const [selectedFrequency, setSelectedFrequency] = useState(() => {
-    return task?.frequency ? FREQUENCY_MAP[task.frequency] : '';
-  });
+  const [selectedFrequency, setSelectedFrequency] = useState('');
+  const [weekDays, setWeekDays] = useState<number[]>([]);
+  const [monthDay, setMonthDay] = useState(0);
   const [selectedTime, setSelectedTime] = useState<Time>({
     period: '오전',
     time: am[0],
   });
 
   useEffect(() => {
-    interceptTaskItem(taskItem);
-  }, [taskItem, interceptTaskItem]);
+    if (taskItem.frequencyType === 'WEEKLY') {
+      interceptTaskItem({ taskItem, weekDays });
+    }
+
+    if (taskItem.frequencyType === 'MONTHLY') {
+      const day = getDate(taskItem.startDate);
+      setMonthDay(day);
+      interceptTaskItem({ taskItem, monthDay: day });
+    }
+
+    interceptTaskItem({ taskItem });
+  }, [taskItem, weekDays, monthDay, interceptTaskItem]);
 
   const select = [
     {
       id: 'date',
-      value: format(taskItem.date, 'yyyy년 MM월 dd일'),
+      value: format(taskItem.startDate, 'yyyy년 MM월 dd일'),
       onClick: task
         ? undefined
         : () => {
@@ -86,7 +94,7 @@ export default function useManageTaskItem({ task, interceptTaskItem }: CreateTas
   const handleCalendarDateChange = (selectedDate: Date) => {
     setTaskItem((prev) => ({
       ...prev,
-      date: selectedDate,
+      startDate: selectedDate,
     }));
     setIsCalendarOpen(false);
   };
@@ -101,14 +109,7 @@ export default function useManageTaskItem({ task, interceptTaskItem }: CreateTas
   };
 
   const toggleDay = (idx: number) => {
-    setTaskItem((prev) => {
-      const weekDays = prev.weekDays ?? [];
-
-      return {
-        ...prev,
-        weekly: weekDays.includes(idx) ? weekDays.filter((i) => i !== idx) : [...weekDays, idx],
-      };
-    });
+    setWeekDays((prev) => (prev.includes(idx) ? prev.filter((i) => i !== idx) : [...prev, idx]));
   };
 
   const updateTime = (key: 'period' | 'time', value: string) => {

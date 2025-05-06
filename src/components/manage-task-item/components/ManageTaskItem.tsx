@@ -73,7 +73,7 @@ export default function ManageTaskItem({ task, interceptTaskItem }: CreateTaskIt
             {isCalendarOpen && (
               <CalendarSelect
                 onDateChange={handleCalendarDateChange}
-                date={taskItem.date as Date}
+                date={taskItem.startDate as Date}
               />
             )}
             {isTimeOpen && <TimePicker selectedTime={selectedTime} onTimeChange={updateTime} />}
@@ -88,7 +88,7 @@ export default function ManageTaskItem({ task, interceptTaskItem }: CreateTaskIt
             ) : (
               <OptionSelector
                 options={FREQUENCY_LIST}
-                defaultValue={FREQUENCY_MAP[taskItem.frequency]}
+                defaultValue={FREQUENCY_MAP[taskItem.frequencyType]}
                 size="sm"
                 placement="top-12"
                 onSelect={handleFrequencyChange}
