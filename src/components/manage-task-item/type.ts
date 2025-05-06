@@ -9,3 +9,9 @@ export interface Time {
   period: '오전' | '오후';
   time: string;
 }
+
+export interface TaskItemProps {
+  task?: TaskItem;
+  groupId: number;
+  taskListId: number;
+}

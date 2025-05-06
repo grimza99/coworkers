@@ -2,7 +2,7 @@ import { useState } from 'react';
 import { format } from 'date-fns';
 import { Frequency } from '@/app/(content-layout)/[groupId]/tasklist/_tasklist/types/task-list-page-type';
 import generateTime from './time-table';
-import { TaskItem, Time } from './type';
+import { TaskItem, TaskItemProps, Time } from './type';
 
 const INITIAL_TASK_ITEM: TaskItem = {
   id: 0,
@@ -27,7 +27,7 @@ const REVERSE_FREQUENCY_MAP: Record<string, Frequency> = {
   '월 반복': 'MONTHLY',
 };
 
-export default function useManageTaskItem({ task }: { task?: TaskItem }) {
+export default function useManageTaskItem({ task, groupId, taskListId }: TaskItemProps) {
   const { am, pm } = generateTime();
 
   const [isCalendarOpen, setIsCalendarOpen] = useState(false);
@@ -97,12 +97,14 @@ export default function useManageTaskItem({ task }: { task?: TaskItem }) {
   };
 
   const toggleDay = (idx: number) => {
-    setTaskItem((prev) => ({
-      ...prev,
-      weekly: prev.weekDays.includes(idx)
-        ? prev.weekDays.filter((i) => i !== idx)
-        : [...prev.weekDays, idx],
-    }));
+    setTaskItem((prev) => {
+      const weekDays = prev.weekDays ?? [];
+
+      return {
+        ...prev,
+        weekly: weekDays.includes(idx) ? weekDays.filter((i) => i !== idx) : [...weekDays, idx],
+      };
+    });
   };
 
   const updateTime = (key: 'period' | 'time', value: string) => {

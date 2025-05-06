@@ -9,9 +9,9 @@ import {
 import ManageTaskItem from '@/components/manage-task-item/components/ManageTaskItem';
 import useModalContext from '@/components/common/modal/core/useModalContext';
 import Plus from '@/assets/Plus';
-import { TaskItem } from '@/components/manage-task-item/type';
+import { TaskItemProps } from '@/components/manage-task-item/type';
 
-export default function ManageTaskItemModal({ task }: { task?: TaskItem }) {
+export default function ManageTaskItemModal({ task, groupId, taskListId = 3696 }: TaskItemProps) {
   const { closeModal } = useModalContext();
 
   const buttonText = task ? '수정하기' : '만들기';
@@ -37,7 +37,7 @@ export default function ManageTaskItemModal({ task }: { task?: TaskItem }) {
       <ModalPortal modalId="task-item">
         <ModalOverlay modalId="task-item">
           <ModalContainer>
-            <ManageTaskItem task={task} />
+            <ManageTaskItem task={task} groupId={groupId} taskListId={taskListId} />
             <ModalFooter className="w-full">
               <Button
                 variant="outline-primary"
@@ -46,7 +46,7 @@ export default function ManageTaskItemModal({ task }: { task?: TaskItem }) {
               >
                 취소
               </Button>
-              <Button variant="solid" size="fullWidth">
+              <Button type="submit" variant="solid" size="fullWidth">
                 {buttonText}
               </Button>
             </ModalFooter>

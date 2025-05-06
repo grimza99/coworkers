@@ -71,7 +71,7 @@ export default function Page({ params }: Props) {
         <CreateTaskListModal groupId={groupId} />
       </div>
       <DateWiseTaskList groupId={groupId} date={currentDate} />
-      <ManageTaskItemModal />
+      <ManageTaskItemModal groupId={Number(groupId)} taskListId={3696} />
     </div>
   );
 }
