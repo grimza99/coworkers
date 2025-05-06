@@ -21,7 +21,7 @@ export default function TasksWiseTask({ task, groupId, taskListId }: Props) {
   const taskDeleteModalId = `${task.id}-delete`;
   const taskEditModalId = `${task.id}-edit`;
   const { popUpDeleteTaskModal, popUpEditTaskModal, popUpDetailTask } = useTaskModals();
-  const { taskStatusChange } = useTaskActions(task);
+  const { toggleTaskDone } = useTaskActions(task);
 
   const safeFormatDate = (dateString: string | undefined | null) => {
     if (!dateString) return '';
@@ -37,7 +37,7 @@ export default function TasksWiseTask({ task, groupId, taskListId }: Props) {
       <TaskListItem
         key={task.id}
         type="taskList"
-        onCheckStatusChange={() => taskStatusChange(groupId, taskListId, isDone, setIsDone)}
+        onCheckStatusChange={() => toggleTaskDone(groupId, taskListId, isDone, setIsDone)}
         onEdit={() => popUpEditTaskModal(taskEditModalId)}
         onDelete={() => popUpDeleteTaskModal(taskDeleteModalId)}
         onClick={() => popUpDetailTask(setIsDetailTaskOpen)}
