@@ -110,7 +110,6 @@ export default function SignupForm() {
   const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     try {
-      console.log('📤 요청 보냄:', formData);
       const response = await axiosClient.post('/auth/signUp', {
         email: formData.email,
         password: formData.password,
@@ -134,7 +133,6 @@ export default function SignupForm() {
         });
       }
 
-      // 어쨌든 실패했으니 모달은 항상 띄움
       openModal('signup-fail');
     }
   };
