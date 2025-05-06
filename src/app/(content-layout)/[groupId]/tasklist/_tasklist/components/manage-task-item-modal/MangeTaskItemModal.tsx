@@ -9,10 +9,21 @@ import {
 import ManageTaskItem from '@/components/manage-task-item/components/ManageTaskItem';
 import useModalContext from '@/components/common/modal/core/useModalContext';
 import Plus from '@/assets/Plus';
-import { TaskItemProps } from '@/components/manage-task-item/type';
+import { TaskItem, TaskItemProps } from '@/components/manage-task-item/type';
+import { useState } from 'react';
+import axiosClient from '@/lib/axiosClient';
 
 export default function ManageTaskItemModal({ task, groupId, taskListId }: TaskItemProps) {
+  const [taskItem, setTaskItem] = useState<TaskItem>();
   const { closeModal } = useModalContext();
+
+  const interceptTaskItem = (item: TaskItem) => {
+    setTaskItem(item);
+  };
+
+  const handleTaskItemSubmit = async () => {
+    await axiosClient.post(`/groups/${groupId}/task-lists/${taskListId}/tasks`, taskItem);
+  };
 
   const buttonText = task ? '수정하기' : '만들기';
 
@@ -37,7 +48,7 @@ export default function ManageTaskItemModal({ task, groupId, taskListId }: TaskI
       <ModalPortal modalId="task-item">
         <ModalOverlay modalId="task-item">
           <ModalContainer>
-            <ManageTaskItem task={task} groupId={groupId} taskListId={taskListId} />
+            <ManageTaskItem task={task} interceptTaskItem={interceptTaskItem} />
             <ModalFooter className="w-full">
               <Button
                 variant="outline-primary"
@@ -46,7 +57,7 @@ export default function ManageTaskItemModal({ task, groupId, taskListId }: TaskI
               >
                 취소
               </Button>
-              <Button type="submit" variant="solid" size="fullWidth">
+              <Button onClick={handleTaskItemSubmit} variant="solid" size="fullWidth">
                 {buttonText}
               </Button>
             </ModalFooter>

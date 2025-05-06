@@ -20,8 +20,13 @@ export default function DateWiseTaskLists({ date, groupId, updateTaskListId }: P
   const [currentTaskList, setCurrentTaskList] = useState<TaskList>();
   const [currentTasks, setCurrentTasks] = useState<Task[]>([]);
 
+  useEffect(() => {
+    if (!currentTaskList) return;
+
+    updateTaskListId(currentTaskList.id);
+  }, [updateTaskListId, currentTaskList]);
+
   const handleClickChangeCurrentTaskList = (taskList: TaskList) => {
-    updateTaskListId(taskList.id);
     setCurrentTaskList(taskList);
     fetchTaskListWiseTasks(taskList);
   };

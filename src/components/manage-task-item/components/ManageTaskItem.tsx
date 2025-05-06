@@ -7,12 +7,12 @@ import CalendarSelect from '../../calendar/CalendarSelect';
 import WeeklySelect from './WeeklySelect';
 import TimePicker from './TimePicker';
 import useManageTaskItem from '../useManageTaskItem';
-import { TaskItemProps } from '../type';
+import { CreateTaskItemProps } from '../type';
 import Button from '@/components/common/Button';
 
 const FREQUENCY_LIST = ['한 번', '매일', '주 반복', '월 반복'];
 
-export default function ManageTaskItem({ task, groupId, taskListId }: TaskItemProps) {
+export default function ManageTaskItem({ task, interceptTaskItem }: CreateTaskItemProps) {
   const {
     taskItem,
     selectedTime,
@@ -26,7 +26,7 @@ export default function ManageTaskItem({ task, groupId, taskListId }: TaskItemPr
     handleFrequencyChange,
     toggleDay,
     updateTime,
-  } = useManageTaskItem({ task, groupId, taskListId });
+  } = useManageTaskItem({ task, interceptTaskItem });
 
   const headingText = task ? '수정하기' : '만들기';
 
@@ -41,7 +41,7 @@ export default function ManageTaskItem({ task, groupId, taskListId }: TaskItemPr
             작성해 주시면 좋습니다.
           </p>
         </div>
-        <form className="flex flex-col gap-6">
+        <div className="flex flex-col gap-6">
           <FormField
             field="input"
             name="name"
@@ -112,7 +112,7 @@ export default function ManageTaskItem({ task, groupId, taskListId }: TaskItemPr
             placeholder="메모를 입력해 주세요."
             height={75}
           />
-        </form>
+        </div>
       </div>
     </div>
   );

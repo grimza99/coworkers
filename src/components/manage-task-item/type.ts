@@ -15,3 +15,7 @@ export interface TaskItemProps {
   groupId: number;
   taskListId: number;
 }
+
+export interface CreateTaskItemProps extends Pick<TaskItemProps, 'task'> {
+  interceptTaskItem: (item: TaskItem) => void;
+}
