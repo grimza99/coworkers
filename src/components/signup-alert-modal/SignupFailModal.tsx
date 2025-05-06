@@ -9,8 +9,11 @@ import {
   ModalPortal,
 } from '@/components/common/modal';
 import Button from '../common/Button';
+import useModalContext from '@/components/common/modal/core/useModalContext';
 
 export default function SignupFailModal() {
+  const { closeModal } = useModalContext();
+
   return (
     <>
       <ModalPortal modalId="signup-fail">
@@ -28,7 +31,7 @@ export default function SignupFailModal() {
                   variant="outline-gray"
                   className="w-full"
                   size="fullWidth"
-                  onClick={() => window.location.reload()}
+                  onClick={() => closeModal('signup-fail')}
                 >
                   다시 시도하기
                 </Button>
