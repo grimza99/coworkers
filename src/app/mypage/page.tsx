@@ -9,6 +9,7 @@ import { useEffect, useState } from 'react';
 import NicknameChangeSuccessModal from '@/components/mypage-modal/NicknameChangeSuccessModal';
 import useModalContext from '@/components/common/modal/core/useModalContext';
 import NicknameChangeFailModal from '@/components/mypage-modal/NicknameChangeFailModal';
+import ChangePasswordModal from '@/components/mypage-modal/ChangePasswordModal';
 
 async function fetchUserInfo(): Promise<getUserApiResponse | null> {
   try {
@@ -133,7 +134,12 @@ export default function MyTeam() {
               onChange={(e) => setPassword(e.target.value)}
               rightSlot={
                 <div className="flex items-center">
-                  <Button size="xs" fontSize="14" className="shrink-0">
+                  <Button
+                    size="xs"
+                    fontSize="14"
+                    className="shrink-0"
+                    onClick={() => openModal('change-password')}
+                  >
                     변경하기
                   </Button>
                 </div>
@@ -156,6 +162,7 @@ export default function MyTeam() {
         }}
       />
       <NicknameChangeFailModal />
+      <ChangePasswordModal />
     </div>
   );
 }
