@@ -11,7 +11,11 @@ import {
 import Button from '../common/Button';
 import useModalContext from '@/components/common/modal/core/useModalContext';
 
-export default function PasswordChangeSuccessModal() {
+interface PasswordChangeSuccessModalProps {
+  onClose: () => void;
+}
+
+export default function PasswordChangeSuccessModal({ onClose }: PasswordChangeSuccessModalProps) {
   const { closeModal } = useModalContext();
 
   return (
@@ -30,7 +34,10 @@ export default function PasswordChangeSuccessModal() {
                   variant="solid"
                   size="fullWidth"
                   className="w-full"
-                  onClick={() => closeModal('password-success')}
+                  onClick={() => {
+                    closeModal('password-success');
+                    onClose();
+                  }}
                 >
                   닫기
                 </Button>

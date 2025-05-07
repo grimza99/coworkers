@@ -14,7 +14,11 @@ import { validatePassword, validateConfirmPassword } from '@/utils/validators';
 import { useState } from 'react';
 import axiosClient from '@/lib/axiosClient';
 
-export default function ChangePasswordModal() {
+interface PasswordChangeSuccessModalProps {
+  onClose: () => void;
+}
+
+export default function ChangePasswordModal({ onClose }: PasswordChangeSuccessModalProps) {
   const { closeModal, openModal } = useModalContext();
 
   const [formData, setFormData] = useState({
@@ -74,7 +78,10 @@ export default function ChangePasswordModal() {
                     variant="outline-primary"
                     size="fullWidth"
                     className="w-full"
-                    onClick={() => closeModal('change-password')}
+                    onClick={() => {
+                      closeModal('change-password');
+                      onClose();
+                    }}
                   >
                     닫기
                   </Button>

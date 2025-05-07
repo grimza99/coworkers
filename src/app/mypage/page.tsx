@@ -108,7 +108,6 @@ export default function MyTeam() {
                     onClick={async () => {
                       try {
                         await axiosClient.patch('/user', { nickname });
-                        setNicknameError('');
                         openModal('nickname-change-success');
                       } catch (error: unknown) {
                         const errorObj = error as { response?: { data?: { message?: string } } };
@@ -153,10 +152,10 @@ export default function MyTeam() {
           </div>
         </div>
       </div>
-      <NicknameChangeSuccessModal nickname={nickname} onClose={() => {}} />
+      <NicknameChangeSuccessModal nickname={nickname} onClose={() => location.reload()} />
       <NicknameChangeFailModal />
-      <ChangePasswordModal />
-      <PasswordChangeSuccessModal />
+      <ChangePasswordModal onClose={() => {}} />
+      <PasswordChangeSuccessModal onClose={() => location.reload()} />
       <PasswordChangeFailModal />
     </div>
   );

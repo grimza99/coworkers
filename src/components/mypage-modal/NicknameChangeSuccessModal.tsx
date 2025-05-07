@@ -16,8 +16,13 @@ interface Props {
   onClose: () => void;
 }
 
-export default function NicknameChangeSuccessModal({ nickname }: Props) {
+export default function NicknameChangeSuccessModal({ nickname, onClose }: Props) {
   const { closeModal } = useModalContext();
+
+  const handleClose = () => {
+    closeModal('nickname-change-success');
+    onClose();
+  };
 
   return (
     <>
@@ -31,12 +36,7 @@ export default function NicknameChangeSuccessModal({ nickname }: Props) {
             </ModalDescription>
             <ModalFooter className="w-full">
               <div className="flex w-full gap-2">
-                <Button
-                  variant="solid"
-                  size="fullWidth"
-                  className="w-full"
-                  onClick={() => closeModal('nickname-change-success')}
-                >
+                <Button variant="solid" size="fullWidth" className="w-full" onClick={handleClose}>
                   닫기
                 </Button>
               </div>
