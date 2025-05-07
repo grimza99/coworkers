@@ -1,22 +1,14 @@
 'use client';
 
-import Button from '@/components/common/Button';
 import FormField from '@/components/common/formField';
 import axiosClient from '@/lib/axiosClient';
 import { getClientCookie, deleteClientCookie } from '@/lib/cookie/client';
 import { getUserApiResponse } from '@/types/user';
 import { useEffect, useState } from 'react';
-import NicknameChangeSuccessModal from '@/components/mypage-modal/NicknameChangeSuccessModal';
 import useModalContext from '@/components/common/modal/core/useModalContext';
-import NicknameChangeFailModal from '@/components/mypage-modal/NicknameChangeFailModal';
-import ChangePasswordModal from '@/components/mypage-modal/ChangePasswordModal';
-import PasswordChangeFailModal from '@/components/mypage-modal/PasswordChangeFailModal';
-import PasswordChangeSuccessModal from '@/components/mypage-modal/PasswordChangeSuccessModal';
-import DeleteAccountModal from '@/components/mypage-modal/DeleteAccountModal';
-import ConfirmDeleteAccountModal from '@/components/mypage-modal/ConfirmDeleteAccountModal';
-import DeleteAccountFailModal from '@/components/mypage-modal/DeleteAccountFailModal';
 import NicknameField from './_mypage/NicknameField';
 import PasswordField from './_mypage/PasswordField';
+import AccountModals from './_mypage/AccountModals';
 
 async function fetchUserInfo(): Promise<getUserApiResponse | null> {
   try {
@@ -131,14 +123,7 @@ export default function MyPage() {
           </div>
         </div>
       </div>
-      <NicknameChangeSuccessModal nickname={nickname} onClose={() => location.reload()} />
-      <NicknameChangeFailModal />
-      <ChangePasswordModal onClose={() => {}} />
-      <PasswordChangeSuccessModal onClose={() => location.reload()} />
-      <PasswordChangeFailModal />
-      <DeleteAccountModal />
-      <ConfirmDeleteAccountModal />
-      <DeleteAccountFailModal />
+      <AccountModals nickname={nickname} />
     </div>
   );
 }
