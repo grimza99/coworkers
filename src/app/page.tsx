@@ -39,13 +39,13 @@ export default function Home() {
         {/* @FIXME: border gradient 색상 적용*/}
         <div
           className={clsx(
-            'bg-bg300 flex h-[467px] w-[343px] flex-col items-start gap-10 rounded-[40px] border-1 px-13.5 pt-12 shadow-2xl drop-shadow-2xl',
+            'bg-bg300 flex h-[467px] w-[343px] flex-col items-start gap-10 rounded-[40px] border-1 px-13.5 pt-12 drop-shadow-md drop-shadow-white backdrop-blur-md',
             'md:h-[354px] md:w-[696px] md:flex-row-reverse md:items-center md:justify-between md:px-[121.5px] md:pt-0',
             'lg:h-[419px] lg:w-[996px] lg:px-[181px]'
           )}
         >
           <div className="text-lg-md lg:text-2xl-md flex flex-col items-start text-white">
-            <div className="bg-bg200 border-border mb-4 size-12 rounded-xl border-1 p-3 drop-shadow-lg">
+            <div className="bg-bg200 border-border mb-4 size-12 rounded-xl border-1 p-3 shadow-lg shadow-slate-800">
               <Image src={folderIcon} width={24} height={24} alt="폴더" className="size-6" />
             </div>
             그룹으로
@@ -61,7 +61,7 @@ export default function Home() {
         </div>
         <div
           className={clsx(
-            'bg-bg200 flex h-[467px] w-[343px] flex-col items-start gap-10 rounded-[40px] border-1 px-13.5 pb-12 shadow-2xl drop-shadow-2xl',
+            'bg-bg200 border-border flex h-[467px] w-[343px] flex-col items-start gap-10 rounded-[40px] border-1 px-13.5 pb-12 backdrop-blur-md',
             'md:h-[354px] md:w-[696px] md:flex-row-reverse md:items-center md:justify-between md:px-[121.5px] md:pt-0',
             'lg:h-[419px] lg:w-[996px] lg:px-[181px]'
           )}
@@ -74,7 +74,7 @@ export default function Home() {
             className="h-[273px] w-[235px] md:self-start lg:h-[338px] lg:w-[291px]"
           />
           <div className="text-lg-md lg:text-2xl-md flex flex-col items-start text-white md:items-end md:text-end">
-            <div className="bg-bg200 border-border mb-4 size-12 rounded-xl border-1 p-3 drop-shadow-lg">
+            <div className="bg-bg200 border-border mb-4 size-12 rounded-xl border-1 p-3 shadow-lg shadow-slate-900">
               <Image src={messageIcon} width={24} height={24} alt="메시지" className="size-6" />
             </div>
             간단하게 멤버들을
@@ -84,7 +84,7 @@ export default function Home() {
         </div>
         <div
           className={clsx(
-            'bg-bg200 flex h-[467px] w-[343px] flex-col items-start gap-10 rounded-[40px] border-1 px-13.5 pb-12 shadow-2xl drop-shadow-2xl',
+            'flex h-[467px] w-[343px] flex-col items-start gap-10 rounded-[40px] bg-slate-950 px-13.5 pb-12 backdrop-blur-md',
             'md:h-[354px] md:w-[696px] md:flex-row md:items-center md:justify-between md:px-[121.5px] md:pt-0',
             'lg:h-[419px] lg:w-[996px] lg:px-[181px]'
           )}
@@ -97,7 +97,7 @@ export default function Home() {
             className="h-[273px] w-[235px] md:self-start lg:h-[338px] lg:w-[291px]"
           />
           <div className="text-lg-md lg:text-2xl-md flex flex-col items-start text-white">
-            <div className="bg-bg200 border-border mb-4 size-12 rounded-xl border-1 p-3 drop-shadow-lg">
+            <div className="bg-bg200 border-border mb-4 size-12 rounded-xl border-1 p-3 shadow-lg shadow-slate-800">
               <Image src={doneIcon} width={24} height={24} alt="체크" className="size-6" />
             </div>
             할 일도 간편하게
