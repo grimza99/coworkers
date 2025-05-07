@@ -1,3 +1,4 @@
+'use client';
 import {
   ModalContainer,
   ModalDescription,
@@ -13,6 +14,7 @@ import dangerIcon from '@/../public/icons/danger.icon.svg';
 import Image from 'next/image';
 import Button from '@/components/common/Button';
 import useModalContext from '@/components/common/modal/core/useModalContext';
+import axiosClient from '@/lib/axiosClient';
 
 type RemoveMemberModalProps = {
   modalId: string;
@@ -20,9 +22,13 @@ type RemoveMemberModalProps = {
 };
 
 export default function RemoveMemberModal({ modalId, member }: RemoveMemberModalProps) {
-  const { userId, userName } = member;
+  const { userId, userName, groupId } = member;
   const { closeModal } = useModalContext();
-  // const RemoveMember =
+  const removeMember = () => {
+    const res = axiosClient.delete(`/groups/${groupId}/member/${userId}`);
+    console.log(res);
+  };
+
   return (
     <>
       <ModalTrigger modalId={modalId}>
@@ -40,7 +46,14 @@ export default function RemoveMemberModal({ modalId, member }: RemoveMemberModal
               <Button variant="outline-gray" size="fullWidth" onClick={() => closeModal(modalId)}>
                 닫기
               </Button>
-              <Button variant="danger" size="fullWidth">
+              <Button
+                variant="danger"
+                size="fullWidth"
+                onClick={() => {
+                  removeMember();
+                  closeModal(modalId);
+                }}
+              >
                 내보내기
               </Button>
             </ModalFooter>

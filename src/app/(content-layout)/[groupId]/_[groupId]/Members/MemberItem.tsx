@@ -1,4 +1,3 @@
-'use client';
 import profileIcon from '@/../public/icons/profile-icon.svg';
 import { Member } from '@/types/user';
 import Image from 'next/image';
