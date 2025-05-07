@@ -17,7 +17,7 @@ export default function Members({ groupId, members }: MembersProps) {
         </h2>
         {/* @TODO: 멤버 추가 기능  */}
       </div>
-      <ul className="flex flex-col gap-4">
+      <ul className="grid grid-cols-2 gap-6 md:grid-cols-3">
         {members.map((member) => (
           <MemberItem key={member.userId} member={member} />
         ))}
