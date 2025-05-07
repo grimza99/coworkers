@@ -20,8 +20,6 @@ interface TaskListItemProps {
   frequency?: ScheduleType;
 }
 
-const DROPDOWN_OPTION_LIST = ['수정하기', '삭제하기'];
-
 export default function TaskListItem({
   type = 'taskList',
   onCheckStatusChange,
@@ -36,6 +34,7 @@ export default function TaskListItem({
   frequency,
 }: TaskListItemProps) {
   const checkIcon = isDone ? '/icons/check-box.svg' : '/icons/none-check-box.svg';
+  const DROPDOWN_OPTION_LIST = ['수정하기', '삭제하기'];
 
   const onDropdownListClick = (e: React.MouseEvent<HTMLDivElement>) => {
     const option = e.currentTarget.textContent;
@@ -84,7 +83,6 @@ export default function TaskListItem({
                 <Image src="/icons/comment.svg" width={16} height={16} alt="comment" />
                 <span className="text-xs-rg text-gray500 pt-0.5">{commentCount}</span>
               </div>
-
               <DropDown
                 onSelect={(e: React.MouseEvent<HTMLDivElement>) => {
                   e.stopPropagation();
