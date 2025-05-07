@@ -15,7 +15,7 @@ import { useState } from 'react';
 import axiosClient from '@/lib/axiosClient';
 
 export default function ChangePasswordModal() {
-  const { closeModal } = useModalContext();
+  const { closeModal, openModal } = useModalContext();
 
   const [formData, setFormData] = useState({
     newPassword: '',
@@ -99,8 +99,11 @@ export default function ChangePasswordModal() {
                           passwordConfirmation: formData.confirmPassword,
                         });
                         closeModal('change-password');
+                        openModal('password-success');
                       } catch (error) {
                         console.error('비밀번호 변경 실패:', error);
+                        closeModal('change-password');
+                        openModal('password-fail');
                       }
                     }}
                   >

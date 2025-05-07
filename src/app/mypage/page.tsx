@@ -10,6 +10,8 @@ import NicknameChangeSuccessModal from '@/components/mypage-modal/NicknameChange
 import useModalContext from '@/components/common/modal/core/useModalContext';
 import NicknameChangeFailModal from '@/components/mypage-modal/NicknameChangeFailModal';
 import ChangePasswordModal from '@/components/mypage-modal/ChangePasswordModal';
+import PasswordChangeFailModal from '@/components/mypage-modal/PasswordChangeFailModal';
+import PasswordChangeSuccessModal from '@/components/mypage-modal/PasswordChangeSuccessModal';
 
 async function fetchUserInfo(): Promise<getUserApiResponse | null> {
   try {
@@ -154,6 +156,8 @@ export default function MyTeam() {
       <NicknameChangeSuccessModal nickname={nickname} onClose={() => {}} />
       <NicknameChangeFailModal />
       <ChangePasswordModal />
+      <PasswordChangeSuccessModal />
+      <PasswordChangeFailModal />
     </div>
   );
 }

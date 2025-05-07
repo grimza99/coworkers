@@ -16,13 +16,13 @@ export default function PasswordChangeFailModal() {
 
   return (
     <>
-      <ModalPortal modalId="nickname-fail">
-        <ModalOverlay modalId="nickname-fail">
+      <ModalPortal modalId="password-fail">
+        <ModalOverlay modalId="password-fail">
           <ModalContainer>
             <img src="/icons/danger.icon.svg" alt="!" width={24} height={24} className="pb-3" />
-            <ModalHeading className="text-md-md mb-2 text-white">닉네임 변경 실패</ModalHeading>
+            <ModalHeading className="text-md-md mb-2 text-white">비밀번호 변경 실패</ModalHeading>
             <ModalDescription className="text-gray500 text-lg-rg mb-5 w-full px-3">
-              닉네임 변경 도중 문제가 발생했습니다. <br />
+              비밀번호 변경 도중 문제가 발생했습니다. <br />
               다시 시도해주세요.
             </ModalDescription>
             <ModalFooter className="w-full">
@@ -31,7 +31,7 @@ export default function PasswordChangeFailModal() {
                   variant="outline-gray"
                   className="w-full"
                   size="fullWidth"
-                  onClick={() => closeModal('nickname-fail')}
+                  onClick={() => closeModal('password-fail')}
                 >
                   다시 시도하기
                 </Button>
