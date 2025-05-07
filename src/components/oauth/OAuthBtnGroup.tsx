@@ -1,21 +1,18 @@
 'use client';
 import Image from 'next/image';
 import kakaoIcon from '@/../public/icons/kakao-oauth-icon.svg';
-import googleIcon from '@/../public/icons/google-oauth-icon.svg';
+import Link from 'next/link';
+import { useId } from 'react';
 
 export default function OAuthButtonGroup() {
-  const handleClick = () => {
-    //OAuth 함수구현
-  };
-
+  const state = useId();
   return (
     <div className="flex gap-4">
-      <button>
-        <Image onClick={handleClick} src={googleIcon} width={42} height={42} alt="구글" />
-      </button>
-      <button>
-        <Image onClick={handleClick} src={kakaoIcon} width={42} height={42} alt="카카오" />
-      </button>
+      <Link
+        href={`https://kauth.kakao.com/oauth/authorize?client_id=${process.env.NEXT_PUBLIC_KAKAO_CLIENT_ID}&redirect_uri=${process.env.NEXT_PUBLIC_KAKAO_REDIRECT_URI}&response_type=code&state=${state}`}
+      >
+        <Image src={kakaoIcon} width="40" height="40" alt="카카오톡" />
+      </Link>
     </div>
   );
 }

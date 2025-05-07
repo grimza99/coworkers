@@ -5,7 +5,7 @@ import FormField from '@/components/common/formField';
 import useManageGroup from './useManageGroup';
 
 export interface Group {
-  image: string | null;
+  image: string;
   name: string;
 }
 

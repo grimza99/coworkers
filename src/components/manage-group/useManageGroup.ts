@@ -6,7 +6,7 @@ import manageGroupValidate, { GROUP_MESSAGE, Validation } from './group-validate
 import { useRouter } from 'next/navigation';
 
 const INITIAL_GROUP_VALUE: Group = {
-  image: null,
+  image: '',
   name: '',
 };
 

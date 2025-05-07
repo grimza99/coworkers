@@ -62,7 +62,7 @@ export default function DateWiseTaskLists({ date, groupId }: Props) {
     setTaskLists(fetchedTaskLists);
     setCurrentTaskList(fetchedTaskLists[0]);
     fetchTaskListWiseTasks(fetchedTaskLists[0]);
-  }, [groupId, fetchTaskListWiseTasks]);
+  }, [groupId, fetchTaskListWiseTasks, date]);
 
   useEffect(() => {
     fetchTaskLists();
