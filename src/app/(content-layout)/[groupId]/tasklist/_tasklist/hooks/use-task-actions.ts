@@ -19,16 +19,16 @@ export function useTaskActions(task?: Task) {
   const toggleTaskDone = async (
     groupId: string,
     taskListId: number,
-    isDone: boolean,
-    setIsDone: () => void
+    doneState: boolean,
+    toggleDoneState: () => void
   ) => {
     if (!task) return;
     await axiosClient.patch(`/groups/${groupId}/task-lists/${taskListId}/tasks/${task.id}`, {
       name: task.name,
       description: task.description,
-      done: !isDone,
+      done: !doneState,
     });
-    setIsDone();
+    toggleDoneState();
   };
 
   return {

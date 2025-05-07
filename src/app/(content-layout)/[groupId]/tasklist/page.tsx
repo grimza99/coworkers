@@ -18,11 +18,6 @@ interface Props {
   params: Promise<{ groupId: string }>;
 }
 
-/*
- * @Todo
- * 1. 할일추가 버튼으로 할일 생성 모달 띄우기 -> 할일 생성 리퀘스트
- * 2. repeat, 매일반복부분 팀미팅 후 수정
- */
 export default function Page({ params }: Props) {
   const { groupId } = use(params);
   const [currentDate, setCurrentDate] = useState(new Date());
