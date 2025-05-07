@@ -26,7 +26,7 @@ export default function NicknameChangeSuccessModal({ nickname }: Props) {
           <ModalContainer className="px-6 py-6">
             <img src="/icons/user.svg" alt="user-icon" width={24} height={24} className="pb-3" />
             <ModalHeading className="text-md-md mb-2 text-white">닉네임 변경 성공</ModalHeading>
-            <ModalDescription className="text-lg-rg mb-6 w-full px-3">
+            <ModalDescription className="text-lg-rg mb-5 w-full px-3">
               회원님의 닉네임이 <span className="text-primary">{nickname}</span>으로 변경되었습니다.
             </ModalDescription>
             <ModalFooter className="w-full">
