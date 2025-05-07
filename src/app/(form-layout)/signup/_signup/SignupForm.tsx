@@ -10,8 +10,11 @@ import {
   validateLengthLimit,
 } from '@/utils/validators';
 import PasswordToggleButton from './PasswordToggleButton';
+import usePasswordVisibility from '@/utils/use-password-visibility';
 
 export default function SignupForm() {
+  const { isPasswordVisible, togglePasswordVisibility } = usePasswordVisibility();
+
   const [formData, setFormData] = useState({
     name: '',
     email: '',
@@ -19,22 +22,10 @@ export default function SignupForm() {
     confirmPassword: '',
   });
 
-  const [isPasswordVisible, setIsPasswordVisible] = useState({
-    password: false,
-    confirmPassword: false,
-  });
-
   const setFieldValue = (key: keyof typeof formData, value: string) => {
     setFormData((prev) => ({
       ...prev,
       [key]: value.trim(),
-    }));
-  };
-
-  const togglePasswordVisibility = (key: 'password' | 'confirmPassword') => {
-    setIsPasswordVisible((prev) => ({
-      ...prev,
-      [key]: !prev[key],
     }));
   };
 

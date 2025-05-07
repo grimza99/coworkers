@@ -5,7 +5,7 @@ import Plus from '@/assets/Plus';
 
 interface ImageUploaderProps {
   imageUploaderType?: ImageUploaderType;
-  image: string;
+  image: string | null;
   inputRef: React.RefObject<HTMLInputElement | null>;
 }
 

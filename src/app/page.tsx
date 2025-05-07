@@ -18,9 +18,7 @@ export default function Home() {
         </div>
         <ResponsiveImage />
       </div>
-      <StartButton className="text-lg-semi flex h-12 justify-center rounded-4xl bg-(image:--color-gradient) px-[143px] py-[14.5px]">
-        지금 시작하기
-      </StartButton>
+      <StartButton>지금 시작하기</StartButton>
     </div>
   );
 }
