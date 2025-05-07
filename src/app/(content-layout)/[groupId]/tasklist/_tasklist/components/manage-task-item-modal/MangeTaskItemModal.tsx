@@ -22,7 +22,10 @@ export default function ManageTaskItemModal({ task, groupId, taskListId }: TaskI
   }, []);
 
   const handleTaskItemSubmit = async () => {
-    await axiosClient.post(`/groups/${groupId}/task-lists/${taskListId}/tasks`, { ...taskItem });
+    await axiosClient
+      .post(`/groups/${groupId}/task-lists/${taskListId}/tasks`, { ...taskItem })
+      .then(() => closeModal('task-item'))
+      .catch((err) => console.error(err));
   };
 
   const buttonText = task ? '수정하기' : '만들기';
