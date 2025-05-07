@@ -31,7 +31,7 @@ export default function ChangePasswordModal() {
   return (
     <>
       <ModalPortal modalId="change-password">
-        <ModalOverlay modalId="change-password">
+        <ModalOverlay modalId="change-password" disableOverlayClose>
           <ModalContainer className="px-6 py-6">
             <ModalHeading className="text-lg-md p-4">비밀번호 변경하기</ModalHeading>
             <div className="mx-6 w-70">
