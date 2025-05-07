@@ -8,7 +8,7 @@ type MemberItemProps = {
 };
 
 export default function MemberItem({ member }: MemberItemProps) {
-  const { userId, userName, userImage, userEmail } = member;
+  const { userId, userName, userImage, userEmail, role } = member;
   return (
     <li className="bg-bg200 flex items-center justify-between gap-1.5 rounded-2xl px-4 py-3 md:px-6 md:py-5">
       <div className="flex min-w-0 items-center gap-3">
@@ -21,7 +21,7 @@ export default function MemberItem({ member }: MemberItemProps) {
           <div className="text-xs-rg text-gray300 truncate">{userEmail}</div>
         </div>
       </div>
-      <RemoveMemberModal modalId={`${userId}`} member={member} />
+      {role === 'MEMBER' && <RemoveMemberModal modalId={`${userId}`} member={member} />}
     </li>
   );
 }
