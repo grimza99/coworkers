@@ -6,10 +6,8 @@ import {
   ModalHeading,
   ModalOverlay,
   ModalPortal,
-  ModalTrigger,
 } from '@/components/common/modal';
 import { Member } from '@/types/user';
-import xIcon from '@/../public/icons/x-icon.svg';
 import dangerIcon from '@/../public/icons/danger.icon.svg';
 import Image from 'next/image';
 import Button from '@/components/common/Button';
@@ -31,9 +29,6 @@ export default function RemoveMemberModal({ modalId, member }: RemoveMemberModal
 
   return (
     <>
-      <ModalTrigger modalId={modalId}>
-        <Image width={24} height={24} src={xIcon} alt="멤버 삭제" className="size-4" />
-      </ModalTrigger>
       <ModalPortal modalId={modalId}>
         <ModalOverlay modalId={modalId}>
           <ModalContainer>
@@ -42,7 +37,7 @@ export default function RemoveMemberModal({ modalId, member }: RemoveMemberModal
               {userName}님을 그룹에서 내보내시겠어요?
             </ModalHeading>
             <ModalDescription>내보낸 멤버는 다시 초대할 수 있습니다.</ModalDescription>
-            <ModalFooter className="mt-6 w-full">
+            <ModalFooter className="mt-6 w-70">
               <Button variant="outline-gray" size="fullWidth" onClick={() => closeModal(modalId)}>
                 닫기
               </Button>
