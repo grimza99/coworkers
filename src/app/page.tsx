@@ -46,8 +46,7 @@ export default function Home() {
         >
           <div
             className={clsx(
-              'size-full',
-              'bg-bg300 flex flex-col items-start gap-10 rounded-[40px] px-13.5 pt-12',
+              'bg-bg300 size-full, flex flex-col items-start gap-10 rounded-[40px] px-13.5 pt-12',
               'md:flex-row-reverse md:items-center md:justify-between md:px-[121.5px] md:pt-0',
               'lg:px-[181px]'
             )}
