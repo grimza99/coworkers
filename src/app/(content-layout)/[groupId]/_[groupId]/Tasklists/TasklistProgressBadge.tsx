@@ -35,19 +35,26 @@ function TasklistProgressIcon({ total, done }: TasklistProgressIconProps) {
   return (
     <svg width={SIZE} height={SIZE}>
       {/* 배경 원 */}
-      <circle cx={CENTER} cy={CENTER} r={RADIUS} stroke="#F8FAFC" strokeWidth="2" fill="none" />
+      <circle
+        cx={CENTER}
+        cy={CENTER}
+        r={RADIUS}
+        strokeWidth="2"
+        fill="none"
+        className="stroke-gray100"
+      />
       {/* 진행 원 */}
       <circle
         cx={CENTER}
         cy={CENTER}
         r={RADIUS}
-        stroke="#10B981"
         strokeWidth="2"
         fill="none"
         strokeDasharray={CIRCUMFERENCE}
         strokeDashoffset={offset}
         strokeLinecap="round"
         transform={`rotate(-90 ${CENTER} ${CENTER})`} // 위에서 시작하게 회전
+        className="stroke-primary"
       />
     </svg>
   );
