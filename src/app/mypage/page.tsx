@@ -16,6 +16,7 @@ import DeleteAccountModal from '@/components/mypage-modal/DeleteAccountModal';
 import ConfirmDeleteAccountModal from '@/components/mypage-modal/ConfirmDeleteAccountModal';
 import DeleteAccountFailModal from '@/components/mypage-modal/DeleteAccountFailModal';
 import NicknameField from './_mypage/NicknameField';
+import PasswordField from './_mypage/PasswordField';
 
 async function fetchUserInfo(): Promise<getUserApiResponse | null> {
   try {
@@ -111,24 +112,10 @@ export default function MyPage() {
               }}
             />
             <FormField field="input" label="이메일" value={userData?.email || ''} readOnly />
-            <FormField
-              field="input"
-              type="password"
-              label="비밀번호"
-              value={password}
-              onChange={(e) => setPassword(e.target.value)}
-              rightSlot={
-                <div className="flex items-center">
-                  <Button
-                    size="xs"
-                    fontSize="14"
-                    className="shrink-0"
-                    onClick={() => openModal('change-password')}
-                  >
-                    변경하기
-                  </Button>
-                </div>
-              }
+            <PasswordField
+              password={password}
+              setPassword={setPassword}
+              onClick={() => openModal('change-password')}
             />
             <button
               type="button"
