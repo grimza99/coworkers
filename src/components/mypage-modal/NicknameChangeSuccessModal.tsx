@@ -14,18 +14,20 @@ import { useRouter } from 'next/navigation';
 
 interface Props {
   nickname: string;
+  onClose: () => void;
 }
 
-export default function SignupSuccessModal({ nickname }: Props) {
+export default function NicknameChangeSuccessModal({ nickname, onClose }: Props) {
   const router = useRouter();
 
   useEffect(() => {
     const timer = setTimeout(() => {
-      router.push('/teams'); // Replace with your actual redirect path
+      router.push('/mypage');
+      onClose();
     }, 5000);
 
     return () => clearTimeout(timer);
-  }, [router]);
+  }, [router, onClose]);
 
   return (
     <>
@@ -33,20 +35,15 @@ export default function SignupSuccessModal({ nickname }: Props) {
         <ModalOverlay modalId="signup-success">
           <ModalContainer className="px-6 py-6">
             <img src="/icons/user.svg" alt="user-icon" width={24} height={24} className="pb-3" />
-            <ModalHeading className="text-md-md mb-2 text-white">회원가입 성공</ModalHeading>
+            <ModalHeading className="text-md-md mb-2 text-white">닉네임 변경 성공</ModalHeading>
             <ModalDescription className="text-lg-rg mb-6 w-full px-3">
-              <span className="text-primary">{nickname}</span>님 회원가입에 성공하셨습니다. <br />
-              5초 뒤 자동으로 로그인됩니다.
+              닉네임이<span className="text-primary">{nickname}</span>으로 변경에 성공하셨습니다.{' '}
+              <br />
             </ModalDescription>
             <ModalFooter className="w-full">
               <div className="flex w-full gap-2">
-                <Button
-                  variant="solid"
-                  size="fullWidth"
-                  className="w-full"
-                  onClick={() => router.push('/login')}
-                >
-                  로그인 페이지로 이동
+                <Button variant="solid" size="fullWidth" className="w-full" onClick={onClose}>
+                  닫기
                 </Button>
               </div>
             </ModalFooter>

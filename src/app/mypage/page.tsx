@@ -6,6 +6,7 @@ import axiosClient from '@/lib/axiosClient';
 import { getClientCookie, deleteClientCookie } from '@/lib/cookie/client';
 import { getUserApiResponse } from '@/types/user';
 import { useEffect, useState } from 'react';
+import NicknameChangeSuccessModal from '@/components/mypage-modal/NicknameChangeSuccessModal';
 
 async function fetchUserInfo(): Promise<getUserApiResponse | null> {
   try {
@@ -105,8 +106,9 @@ export default function MyTeam() {
                         await axiosClient.patch('/user', { nickname });
                         setNicknameError('');
                         setNicknameSuccess(true);
-                      } catch (error: any) {
-                        const message = error?.response?.data?.message || '닉네임 변경 실패';
+                      } catch (error: unknown) {
+                        const errorObj = error as { response?: { data?: { message?: string } } };
+                        const message = errorObj?.response?.data?.message || '닉네임 변경 실패';
                         setNicknameError(message);
                         setNicknameSuccess(false);
                       }
@@ -142,6 +144,9 @@ export default function MyTeam() {
           </div>
         </div>
       </div>
+      {nicknameSuccess && (
+        <NicknameChangeSuccessModal nickname={nickname} onClose={() => setNicknameSuccess(false)} />
+      )}
     </div>
   );
 }
