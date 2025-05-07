@@ -12,6 +12,7 @@ import useModalContext from '@/components/common/modal/core/useModalContext';
 import FormField from '../common/formField';
 import { validatePassword, validateConfirmPassword } from '@/utils/validators';
 import { useState } from 'react';
+import axiosClient from '@/lib/axiosClient';
 
 export default function ChangePasswordModal() {
   const { closeModal } = useModalContext();
@@ -82,7 +83,26 @@ export default function ChangePasswordModal() {
                     variant="solid"
                     size="fullWidth"
                     className="w-full"
-                    onClick={() => closeModal('change-password')}
+                    onClick={async () => {
+                      // 비밀번호 유효성 검사
+                      const isPasswordValid = validatePassword(formData.newPassword);
+                      const isConfirmValid = validateConfirmPassword(
+                        formData.newPassword,
+                        formData.confirmPassword
+                      );
+                      if (!isPasswordValid || !isConfirmValid) {
+                        return;
+                      }
+                      try {
+                        await axiosClient.patch('/user/password', {
+                          password: formData.newPassword,
+                          passwordConfirmation: formData.confirmPassword,
+                        });
+                        closeModal('change-password');
+                      } catch (error) {
+                        console.error('비밀번호 변경 실패:', error);
+                      }
+                    }}
                   >
                     변경하기
                   </Button>
