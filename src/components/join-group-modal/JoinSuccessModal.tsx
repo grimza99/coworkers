@@ -13,10 +13,10 @@ import { useEffect } from 'react';
 import { useRouter } from 'next/navigation';
 
 interface Props {
-  nickname: string;
+  groupName: string;
 }
 
-export default function SignupSuccessModal({ nickname }: Props) {
+export default function JoinSuccessModal({ groupName }: Props) {
   const router = useRouter();
 
   useEffect(() => {
@@ -29,13 +29,13 @@ export default function SignupSuccessModal({ nickname }: Props) {
 
   return (
     <>
-      <ModalPortal modalId="signup-success">
-        <ModalOverlay modalId="signup-success">
+      <ModalPortal modalId="join-success">
+        <ModalOverlay modalId="join-success">
           <ModalContainer className="px-6 py-6">
             <img src="/icons/user.svg" alt="user-icon" width={24} height={24} className="pb-3" />
             <ModalHeading className="text-md-md mb-2 text-white">팀 참여 성공</ModalHeading>
             <ModalDescription className="text-lg-rg mb-6 w-full px-3">
-              <span className="text-primary">{nickname}</span>그룹 참여에 성공하셨습니다. <br />
+              <span className="text-primary">{groupName}</span>그룹 참여에 성공하셨습니다. <br />
               5초 뒤 자동으로 팀페이지로 이동합니다.
             </ModalDescription>
             <ModalFooter className="w-full">
@@ -44,7 +44,7 @@ export default function SignupSuccessModal({ nickname }: Props) {
                   variant="solid"
                   size="fullWidth"
                   className="w-full"
-                  onClick={() => router.push('/login')}
+                  onClick={() => router.push('/{groupId}')}
                 >
                   팀 페이지로 이동
                 </Button>

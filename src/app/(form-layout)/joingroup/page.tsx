@@ -1,23 +1,26 @@
 'use client';
 
+import { useState } from 'react';
+import axios from 'axios';
 import Button from '@/components/common/Button';
 import FormField from '@/components/common/formField';
-import { useState } from 'react';
-import { useRouter } from 'next/navigation';
-import axios from 'axios';
+import useModalContext from '@/components/common/modal/core/useModalContext';
+import JoinSuccessModal from '@/components/join-group-modal/JoinSuccessModal';
 
 export default function JoinGroup() {
   const [inviteLink, setInviteLink] = useState('');
-  const router = useRouter();
+  const { openModal } = useModalContext();
+  const [groupName, setGroupName] = useState('');
 
   function parseInviteLink(link: string) {
     try {
-      const url = new URL(link);
-      const groupId = url.pathname.split('/')[3];
+      const hasProtocol = link.startsWith('http://') || link.startsWith('https://');
+      const url = new URL(hasProtocol ? link.trim() : `https://dummy.com?${link.trim()}`);
+      const groupId = url.searchParams.get('groupId');
       const token = url.searchParams.get('token');
       return { groupId, token };
     } catch (e) {
-      console.error('링크 분석 중 오류:', e); // 나중에 에러 확인 후 지우면 됨
+      console.error('링크 분석 중 오류:', e);
       return { groupId: null, token: null };
     }
   }
@@ -34,17 +37,24 @@ export default function JoinGroup() {
     }
 
     try {
-      await axios.post(`/groups/accept-invitation`, {
+      const response = await axios.post(`/groups/accept-invitation`, {
         userEmail,
         token,
       });
-      alert('참여가 완료되었습니다!'); // @TODO: 모달로 대체
-      router.push(`/${groupId}`);
+      const { groupId: acceptedGroupId } = response.data;
+
+      // Fetch group info to get the group name
+      const groupRes = await axios.get(`/groups/${acceptedGroupId}`);
+      setGroupName(groupRes.data.name);
+      openModal('join-success');
     } catch (err) {
       alert('참여에 실패했습니다. 링크를 다시 확인해주세요.'); // @TODO: 모달로 대체
       console.error(err);
     }
   };
+
+  console.log('링크 원본:', inviteLink);
+  console.log('파싱 결과:', parseInviteLink(inviteLink));
 
   return (
     <div className="flex w-full flex-col items-center gap-20">
@@ -68,6 +78,7 @@ export default function JoinGroup() {
           </p>
         </div>
       </form>
+      <JoinSuccessModal groupName={groupName} />
     </div>
   );
 }
