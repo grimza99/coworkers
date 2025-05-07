@@ -13,6 +13,8 @@ import ChangePasswordModal from '@/components/mypage-modal/ChangePasswordModal';
 import PasswordChangeFailModal from '@/components/mypage-modal/PasswordChangeFailModal';
 import PasswordChangeSuccessModal from '@/components/mypage-modal/PasswordChangeSuccessModal';
 import DeleteAccountModal from '@/components/mypage-modal/DeleteAccountModal';
+import ConfirmDeleteAccountModal from '@/components/mypage-modal/ConfirmDeleteAccountModal';
+import DeleteAccountFailModal from '@/components/mypage-modal/DeleteAccountFailModal';
 
 async function fetchUserInfo(): Promise<getUserApiResponse | null> {
   try {
@@ -37,7 +39,7 @@ export default function MyTeam() {
   const [password, setPassword] = useState('');
   const [image, setImage] = useState('');
   const [nicknameError, setNicknameError] = useState('');
-  const { openModal } = useModalContext();
+  const { openModal, closeModal } = useModalContext();
 
   useEffect(() => {
     fetchUserInfo().then((data) => {
@@ -146,7 +148,10 @@ export default function MyTeam() {
             <button
               type="button"
               className="text-danger text-lg-md flex w-fit items-center gap-1 text-start"
-              onClick={() => openModal('delete-account')}
+              onClick={() => {
+                closeModal('confirm-delete-account');
+                openModal('delete-account');
+              }}
             >
               <img src="/icons/secession.svg" width={24} height={24} alt="회원탈퇴 아이콘" />
               회원 탈퇴하기
@@ -160,6 +165,8 @@ export default function MyTeam() {
       <PasswordChangeSuccessModal onClose={() => location.reload()} />
       <PasswordChangeFailModal />
       <DeleteAccountModal />
+      <ConfirmDeleteAccountModal />
+      <DeleteAccountFailModal />
     </div>
   );
 }

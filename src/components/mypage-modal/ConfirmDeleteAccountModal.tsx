@@ -10,23 +10,24 @@ import {
 } from '@/components/common/modal';
 import Button from '../common/Button';
 import useModalContext from '@/components/common/modal/core/useModalContext';
+import axiosClient from '@/lib/axiosClient';
 
-export default function DeleteAccountModal() {
+export default function ConfirmDeleteAccountModal() {
   const { closeModal, openModal } = useModalContext();
 
   return (
     <>
-      <ModalPortal modalId="delete-account">
-        <ModalOverlay modalId="delete-account">
+      <ModalPortal modalId="confirm-delete-account">
+        <ModalOverlay modalId="confirm-delete-account">
           <ModalContainer>
             <img src="/icons/danger.icon.svg" alt="!" width={24} height={24} className="m-4" />
             <ModalHeading className="text-lg-md w-full pb-2 text-white">
-              회원 탈퇴를 진행하시겠어요?
+              정말 탈퇴 하시겠어요?
             </ModalHeading>
             <ModalDescription className="text-md-md w-84 px-3 pb-5">
-              그룹장으로 있는 그룹은 자동으로 삭제되고,
+              탈퇴 버튼 선택 시,
               <br />
-              모든 그룹에서 나가집니다.
+              계정은 삭제되며 복구되지 않습니다.
             </ModalDescription>
             <ModalFooter className="w-full">
               <div className="flex w-70 gap-2">
@@ -34,17 +35,24 @@ export default function DeleteAccountModal() {
                   variant="outline-gray"
                   className="w-full"
                   size="fullWidth"
-                  onClick={() => closeModal('delete-account')}
+                  onClick={() => closeModal('confirm-delete-account')}
                 >
-                  닫기
+                  돌아가기
                 </Button>
                 <Button
                   variant="danger"
                   className="w-full"
                   size="fullWidth"
-                  onClick={() => {
-                    closeModal('delete-account');
-                    openModal('confirm-delete-account');
+                  onClick={async () => {
+                    try {
+                      await axiosClient.delete('/user');
+                      closeModal('confirm-delete-account');
+                      window.location.href = '/'; // Redirect to home after deletion
+                    } catch (error) {
+                      console.error('회원 탈퇴 실패:', error);
+                      closeModal('confirm-delete-account');
+                      openModal('delete-account-fail');
+                    }
                   }}
                 >
                   회원 탈퇴
