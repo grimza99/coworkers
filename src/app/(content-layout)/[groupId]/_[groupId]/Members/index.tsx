@@ -1,8 +1,8 @@
-import { Member } from '@/types/user';
-import MemberItem from './MemberItem';
-import { Group } from '@/types/group';
+import MemberItem from '@/app/(content-layout)/[groupId]/_[groupId]/Members/MemberItem';
+import MemberInvitationModal from '@/app/(content-layout)/[groupId]/_[groupId]/Members/MemberInvitationModal';
 import { ModalTrigger } from '@/components/common/modal';
-import MemberInvitationModal from './MemberInvitationModal';
+import { Member } from '@/types/user';
+import { Group } from '@/types/group';
 
 type MembersProps = {
   groupId: Group['id'];

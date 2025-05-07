@@ -1,4 +1,7 @@
 'use client';
+import Image from 'next/image';
+import dangerIcon from '@/../public/icons/danger.icon.svg';
+import Button from '@/components/common/Button';
 import {
   ModalContainer,
   ModalDescription,
@@ -7,12 +10,9 @@ import {
   ModalOverlay,
   ModalPortal,
 } from '@/components/common/modal';
-import { Member } from '@/types/user';
-import dangerIcon from '@/../public/icons/danger.icon.svg';
-import Image from 'next/image';
-import Button from '@/components/common/Button';
 import useModalContext from '@/components/common/modal/core/useModalContext';
 import axiosClient from '@/lib/axiosClient';
+import { Member } from '@/types/user';
 
 type MemberRemovalModalProps = {
   modalId: string;
@@ -23,8 +23,8 @@ export default function MemberRemovalModal({ modalId, member }: MemberRemovalMod
   const { userId, userName, groupId } = member;
   const { closeModal } = useModalContext();
   const removeMember = () => {
-    const res = axiosClient.delete(`/groups/${groupId}/member/${userId}`);
-    console.log(res);
+    // @TODO: 삭제 후 UI 처리
+    axiosClient.delete(`/groups/${groupId}/member/${userId}`);
   };
 
   return (

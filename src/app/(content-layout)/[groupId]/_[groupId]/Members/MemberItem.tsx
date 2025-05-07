@@ -1,10 +1,10 @@
-import profileIcon from '@/../public/icons/profile-icon.svg';
-import { Member } from '@/types/user';
 import Image from 'next/image';
-import MemberRemovalModal from './MemberRemovalModal';
-import { ModalTrigger } from '@/components/common/modal';
 import xIcon from '@/../public/icons/x-icon.svg';
-import MemberDetailModal from './MemberDetailModal';
+import profileIcon from '@/../public/icons/profile-icon.svg';
+import MemberDetailModal from '@/app/(content-layout)/[groupId]/_[groupId]/Members/MemberDetailModal';
+import MemberRemovalModal from '@/app/(content-layout)/[groupId]/_[groupId]/Members/MemberRemovalModal';
+import { ModalTrigger } from '@/components/common/modal';
+import { Member } from '@/types/user';
 
 type MemberItemProps = {
   member: Member;
@@ -13,34 +13,36 @@ type MemberItemProps = {
 export default function MemberItem({ member }: MemberItemProps) {
   const { userId, userName, userImage, userEmail, role } = member;
   return (
-    <li className="bg-bg200 flex items-center justify-between gap-1.5 rounded-2xl px-4 py-3 md:px-6 md:py-5">
-      <ModalTrigger modalId={`${userId}detail`}>
-        <div className="flex min-w-0 items-center gap-3">
-          <MemberProfileImage
-            userImage={userImage}
-            className="hidden shrink-0 md:block md:size-8"
-          />
-          <div className="flex min-w-0 flex-col gap-1.5">
-            <div className="flex items-center gap-2">
-              <MemberProfileImage
-                userImage={userImage}
-                className="block size-6 shrink-0 md:hidden"
-              />
-              <div className="text-sm-md truncate">{userName}</div>
+    <>
+      <li className="bg-bg200 flex items-center justify-between gap-1.5 rounded-2xl px-4 py-3 md:px-6 md:py-5">
+        <ModalTrigger modalId={`${userId}detail`}>
+          <div className="flex min-w-0 items-center gap-3">
+            <MemberProfileImage
+              userImage={userImage}
+              className="hidden shrink-0 md:block md:size-8"
+            />
+            <div className="flex min-w-0 flex-col gap-1.5">
+              <div className="flex items-center gap-2">
+                <MemberProfileImage
+                  userImage={userImage}
+                  className="block size-6 shrink-0 md:hidden"
+                />
+                <div className="text-sm-md truncate">{userName}</div>
+              </div>
+              <div className="text-xs-rg text-gray300 truncate">{userEmail}</div>
             </div>
-            <div className="text-xs-rg text-gray300 truncate">{userEmail}</div>
           </div>
-        </div>
-      </ModalTrigger>
-      {role === 'MEMBER' && (
-        <ModalTrigger modalId={`remove${userId}`}>
-          <Image width={24} height={24} src={xIcon} alt="멤버 삭제" className="size-4" />
         </ModalTrigger>
-      )}
+        {role === 'MEMBER' && (
+          <ModalTrigger modalId={`remove${userId}`}>
+            <Image width={24} height={24} src={xIcon} alt="멤버 삭제" className="size-4" />
+          </ModalTrigger>
+        )}
+      </li>
 
       <MemberDetailModal modalId={`${userId}detail`} member={member} />
       <MemberRemovalModal modalId={`remove${userId}`} member={member} />
-    </li>
+    </>
   );
 }
 

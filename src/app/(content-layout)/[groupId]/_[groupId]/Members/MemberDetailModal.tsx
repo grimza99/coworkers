@@ -3,6 +3,7 @@ import Image from 'next/image';
 import profileIcon from '@/../public/icons/profile-icon.svg';
 import Button from '@/components/common/Button';
 import {
+  ModalCloseButton,
   ModalContainer,
   ModalDescription,
   ModalFooter,
@@ -29,6 +30,7 @@ export default function MemberDetailModal({ modalId, member }: MemberDetailModal
     <ModalPortal modalId={modalId}>
       <ModalOverlay modalId={modalId}>
         <ModalContainer>
+          <ModalCloseButton modalId={modalId} />
           <div className="size-11.5">
             {userImage ? (
               <img src={userImage} className="rounded-full" />

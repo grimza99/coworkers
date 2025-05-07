@@ -18,10 +18,12 @@ interface MemberInvitationModalProps {
   groupId: Group['id'];
 }
 
+// @TODO: '이메일로 초대' API 활용? /{teamId}/groups/{id}/member
 export default function MemberInvitationModal({ modalId, groupId }: MemberInvitationModalProps) {
   const { closeModal } = useModalContext();
 
   const copyInvitationTokenToClipboard = async () => {
+    // @TODO: 요청 중 UI 처리
     const res = await axiosClient.get(`/groups/${groupId}/invitation`);
     const token = res.data;
     navigator.clipboard.writeText(token);
@@ -43,7 +45,7 @@ export default function MemberInvitationModal({ modalId, groupId }: MemberInvita
                 closeModal(modalId);
               }}
             >
-              이메일 복사하기
+              링크 복사하기
             </Button>
           </ModalFooter>
         </ModalContainer>
