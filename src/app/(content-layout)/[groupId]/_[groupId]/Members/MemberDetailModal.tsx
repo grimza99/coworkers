@@ -1,4 +1,7 @@
 'use client';
+import Image from 'next/image';
+import profileIcon from '@/../public/icons/profile-icon.svg';
+import Button from '@/components/common/Button';
 import {
   ModalContainer,
   ModalDescription,
@@ -7,11 +10,8 @@ import {
   ModalOverlay,
   ModalPortal,
 } from '@/components/common/modal';
-import { Member } from '@/types/user';
-import Image from 'next/image';
-import Button from '@/components/common/Button';
 import useModalContext from '@/components/common/modal/core/useModalContext';
-import profileIcon from '@/../public/icons/profile-icon.svg';
+import { Member } from '@/types/user';
 
 type MemberDetailModalProps = {
   modalId: string;
@@ -21,6 +21,9 @@ type MemberDetailModalProps = {
 export default function MemberDetailModal({ modalId, member }: MemberDetailModalProps) {
   const { userName, userImage, userEmail } = member;
   const { closeModal } = useModalContext();
+  const copyEmailToClipboard = () => {
+    navigator.clipboard.writeText(userEmail);
+  };
 
   return (
     <>
@@ -41,9 +44,16 @@ export default function MemberDetailModal({ modalId, member }: MemberDetailModal
               )}
             </div>
             <ModalHeading className="mt-4 mb-2">{userName}</ModalHeading>
-            <ModalDescription>{userEmail}</ModalDescription>
+            <ModalDescription className="text-xs-rg">{userEmail}</ModalDescription>
             <ModalFooter className="mt-6 w-70">
-              <Button variant="solid" size="fullWidth" onClick={() => closeModal(modalId)}>
+              <Button
+                variant="solid"
+                size="fullWidth"
+                onClick={() => {
+                  copyEmailToClipboard();
+                  closeModal(modalId);
+                }}
+              >
                 이메일 복사하기
               </Button>
             </ModalFooter>
