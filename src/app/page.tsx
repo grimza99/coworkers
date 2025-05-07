@@ -35,7 +35,7 @@ export default function Home() {
         <MainBackgroundImage />
         <StartButton className="mx-auto mb-12 sm:mb-30">지금 시작하기</StartButton>
       </div>
-      <div className="flex flex-col items-center">
+      <div className="flex flex-col items-center gap-6 lg:gap-10">
         {/* @FIXME: border gradient 색상 적용*/}
         <div
           className={clsx(
@@ -44,7 +44,7 @@ export default function Home() {
             'lg:h-[419px] lg:w-[996px] lg:px-[181px]'
           )}
         >
-          <div className="text-lg-md lg:text-2xl-md text-white">
+          <div className="text-lg-md lg:text-2xl-md flex flex-col items-start text-white">
             <div className="bg-bg200 border-border mb-4 size-12 rounded-xl border-1 p-3 drop-shadow-lg">
               <Image src={folderIcon} width={24} height={24} alt="폴더" className="size-6" />
             </div>
@@ -58,6 +58,29 @@ export default function Home() {
             alt="그룹 관리 예시 화면"
             className="h-[273px] w-[235px] md:self-end lg:h-[338px] lg:w-[291px]"
           />
+        </div>
+        <div
+          className={clsx(
+            'bg-bg200 flex h-[467px] w-[343px] flex-col items-start gap-10 rounded-[40px] border-1 px-13.5 pb-12 shadow-2xl drop-shadow-2xl',
+            'md:h-[354px] md:w-[696px] md:flex-row-reverse md:items-center md:justify-between md:px-[121.5px] md:pt-0',
+            'lg:h-[419px] lg:w-[996px] lg:px-[181px]'
+          )}
+        >
+          <Image
+            src={mockupImage2}
+            width={849}
+            height={1014}
+            alt="멤버 초대 예시 화면"
+            className="h-[273px] w-[235px] md:self-start lg:h-[338px] lg:w-[291px]"
+          />
+          <div className="text-lg-md lg:text-2xl-md flex flex-col items-start text-white md:items-end md:text-end">
+            <div className="bg-bg200 border-border mb-4 size-12 rounded-xl border-1 p-3 drop-shadow-lg">
+              <Image src={messageIcon} width={24} height={24} alt="메시지" className="size-6" />
+            </div>
+            간단하게 멤버들을
+            <br />
+            초대해요
+          </div>
         </div>
       </div>
       <div className="relative h-[640px] pt-[123px] sm:h-[940px] sm:pt-[176px] lg:h-[1080px] lg:pt-[230px]">
