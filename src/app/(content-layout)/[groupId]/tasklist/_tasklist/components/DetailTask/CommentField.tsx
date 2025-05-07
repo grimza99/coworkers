@@ -15,11 +15,11 @@ interface Props {
 /**
  * @todo
  * 1. deleteComment 에서 삭제 실패시 에러 핸들링
- * 2. 삭제후 화면 바로 반영
  * 1. editComment 에러 핸들링
  */
 export default function CommentField({ comment, taskId }: Props) {
   const [isEdit, setIsEdit] = useState(false);
+  const [isDelete, setIsDelete] = useState(false);
   const { openModal } = useModalContext();
   const [currentComment, setCurrentComment] = useState(comment);
   const [currentContent, setCurrentContent] = useState(comment.content);
@@ -35,6 +35,7 @@ export default function CommentField({ comment, taskId }: Props) {
 
   const deleteComment = async () => {
     await axiosClient.delete(`/tasks/${taskId}/comments/${comment.id}`);
+    setIsDelete(true);
   };
 
   const deleteCommentModalPopUp = () => {
@@ -64,13 +65,17 @@ export default function CommentField({ comment, taskId }: Props) {
         />
       ) : (
         <>
-          <CommentItem
-            key={comment.id}
-            comment={currentComment}
-            onDelete={deleteCommentModalPopUp}
-            onEdit={onEdit}
-          />
-          <RemoveCommentModal modalId={deleteCommentModalId} onDelete={deleteComment} />
+          {!isDelete && (
+            <>
+              <CommentItem
+                key={comment.id}
+                comment={currentComment}
+                onDelete={deleteCommentModalPopUp}
+                onEdit={onEdit}
+              />
+              <RemoveCommentModal modalId={deleteCommentModalId} onDelete={deleteComment} />
+            </>
+          )}
         </>
       )}
     </>
