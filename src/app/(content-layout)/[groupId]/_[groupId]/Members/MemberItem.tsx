@@ -1,7 +1,7 @@
 import profileIcon from '@/../public/icons/profile-icon.svg';
 import { Member } from '@/types/user';
 import Image from 'next/image';
-import RemoveMemberModal from './RemoveMemberModal';
+import MemberRemovalModal from './MemberRemovalModal';
 import { ModalTrigger } from '@/components/common/modal';
 import xIcon from '@/../public/icons/x-icon.svg';
 import MemberDetailModal from './MemberDetailModal';
@@ -39,7 +39,7 @@ export default function MemberItem({ member }: MemberItemProps) {
       )}
 
       <MemberDetailModal modalId={`${userId}detail`} member={member} />
-      <RemoveMemberModal modalId={`remove${userId}`} member={member} />
+      <MemberRemovalModal modalId={`remove${userId}`} member={member} />
     </li>
   );
 }

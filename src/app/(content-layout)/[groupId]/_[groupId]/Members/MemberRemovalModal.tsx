@@ -14,12 +14,12 @@ import Button from '@/components/common/Button';
 import useModalContext from '@/components/common/modal/core/useModalContext';
 import axiosClient from '@/lib/axiosClient';
 
-type RemoveMemberModalProps = {
+type MemberRemovalModalProps = {
   modalId: string;
   member: Member;
 };
 
-export default function RemoveMemberModal({ modalId, member }: RemoveMemberModalProps) {
+export default function MemberRemovalModal({ modalId, member }: MemberRemovalModalProps) {
   const { userId, userName, groupId } = member;
   const { closeModal } = useModalContext();
   const removeMember = () => {
