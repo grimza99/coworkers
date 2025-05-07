@@ -1,14 +1,15 @@
 'use client';
 
-import FormField from '@/components/common/formField';
+import ProfileImageUploader from './_mypage/ProfileImageUploader';
+import NicknameField from './_mypage/NicknameField';
+import PasswordField from './_mypage/PasswordField';
+import AccountModals from './_mypage/AccountModals';
 import axiosClient from '@/lib/axiosClient';
 import { getClientCookie, deleteClientCookie } from '@/lib/cookie/client';
 import { getUserApiResponse } from '@/types/user';
 import { useEffect, useState } from 'react';
 import useModalContext from '@/components/common/modal/core/useModalContext';
-import NicknameField from './_mypage/NicknameField';
-import PasswordField from './_mypage/PasswordField';
-import AccountModals from './_mypage/AccountModals';
+import FormField from '@/components/common/formField';
 
 async function fetchUserInfo(): Promise<getUserApiResponse | null> {
   try {
@@ -51,41 +52,7 @@ export default function MyPage() {
         <div className="flex w-full flex-col items-center">
           <h1 className="text-xl-bold flex w-full flex-col pb-3 text-start">계정설정</h1>
           <div className="flex w-full flex-col gap-6">
-            <FormField
-              field="file-input"
-              label=""
-              imageUploaderType="user"
-              image={image}
-              onImageChange={async (e) => {
-                const file = e.target.files?.[0];
-                if (!file) return;
-
-                const formData = new FormData();
-                formData.append('image', file);
-
-                try {
-                  const uploadRes = await axiosClient.post<{ url: string }>(
-                    '/images/upload',
-                    formData,
-                    {
-                      headers: {
-                        'Content-Type': 'multipart/form-data',
-                      },
-                    }
-                  );
-
-                  const uploadedUrl = uploadRes.data.url;
-
-                  await axiosClient.patch('/user', {
-                    image: uploadedUrl,
-                  });
-
-                  setImage(uploadedUrl);
-                } catch (error) {
-                  console.error('프로필 이미지 저장 실패:', error);
-                }
-              }}
-            />
+            <ProfileImageUploader image={image} setImage={setImage} />
             <NicknameField
               nickname={nickname}
               nicknameError={nicknameError}
