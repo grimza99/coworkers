@@ -1,7 +1,7 @@
 import Image from 'next/image';
 import StartButton from '@/app/_home/StartButton';
 import repairIcon from '@/../public/icons/repair-icon.svg';
-import BackgroundImage from './_home/BackgroundImage';
+import MainImage from '@/app/_home/BackgroundImage';
 
 export default function Home() {
   return (
@@ -25,7 +25,7 @@ export default function Home() {
             Coworkers
           </h1>
         </div>
-        <BackgroundImage variant="main" />
+        <MainImage variant="main" />
         <StartButton className="mx-auto mb-12 sm:mb-30">지금 시작하기</StartButton>
       </div>
     </main>
