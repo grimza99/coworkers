@@ -1,11 +1,11 @@
 import DropDown from '@/components/common/dropdown';
-import { DetailTask } from '../../types/task-list-page-type';
+import { DetailTask } from '../../types/task-type';
 import Image from 'next/image';
 import ProfileBadge from '@/components/profile-badge';
 import Repeat from '@/assets/Repeat';
 import { format } from 'date-fns';
 import clsx from 'clsx';
-import { useTaskHandlers } from '../../utils/task-handlers';
+import { useTaskModals } from '../../hooks/use-task-modals';
 
 interface Props {
   task: DetailTask;
@@ -15,7 +15,7 @@ const DROPDOWN_OPTION_LIST = ['수정하기', '삭제하기'];
 
 export default function Content({ task, isDone }: Props) {
   const { name, doneBy, updatedAt, date, description } = task;
-  const { popUpDeleteTaskModal, popUpEditTaskModal } = useTaskHandlers();
+  const { popUpDeleteTaskModal, popUpEditTaskModal } = useTaskModals();
 
   const taskDeleteModalId = `${task.id}-delete`;
   const taskEditModalId = `${task.id}-edit`;

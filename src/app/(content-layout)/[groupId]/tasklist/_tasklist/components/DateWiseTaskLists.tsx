@@ -2,7 +2,7 @@
 import { useCallback, useEffect, useState } from 'react';
 import clsx from 'clsx';
 import axiosClient from '@/lib/axiosClient';
-import { Task, TaskList } from '../types/task-list-page-type';
+import { Task, TaskList } from '../types/task-type';
 import TasksWiseTask from './TasksWiseTask';
 
 interface Props {
