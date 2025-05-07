@@ -16,11 +16,14 @@ interface Props {
 
 export default function TasksWiseTask({ task, groupId, taskListId }: Props) {
   const [isDone, setIsDone] = useState(!!task.doneAt);
+  const [isDelete, setIsDelete] = useState(false);
   const [isDetailTaskOpen, setIsDetailTaskOpen] = useState(false);
 
   const taskDeleteModalId = `${task.id}-delete`;
   const taskEditModalId = `${task.id}-edit`;
+
   const { popUpDeleteTaskModal, popUpEditTaskModal, popUpDetailTask } = useTaskModals();
+  const { deleteTask } = useTaskActions();
   const { toggleTaskDone } = useTaskActions(task);
 
   const safeFormatDate = (dateString: string | undefined | null) => {
@@ -39,37 +42,45 @@ export default function TasksWiseTask({ task, groupId, taskListId }: Props) {
   const detailTaskOpen = () => {
     setIsDetailTaskOpen((prev) => !prev);
   };
+
+  const change = () => {
+    setIsDelete(true);
+  };
   return (
     <>
-      <TaskListItem
-        key={task.id}
-        type="taskList"
-        onCheckStatusChange={() => toggleTaskDone(groupId, taskListId, isDone, toggleTaskStatus)}
-        onEdit={() => popUpEditTaskModal(taskEditModalId)}
-        onDelete={() => popUpDeleteTaskModal(taskDeleteModalId)}
-        onClick={() => popUpDetailTask(detailTaskOpen)}
-        isDone={isDone}
-        name={task.name}
-        commentCount={task.commentCount}
-        date={safeFormatDate(task.date)}
-        frequency={task.frequency}
-      />
-      <DetailTask
-        isDone={isDone}
-        setIsDone={toggleTaskStatus}
-        taskId={task.id}
-        groupId={groupId}
-        taskListId={taskListId}
-        setIsOpen={detailTaskOpen}
-        isOpen={isDetailTaskOpen}
-      />
-      <RemoveTaskModal
-        taskName={task.name}
-        modalId={taskDeleteModalId}
-        taskId={task.id}
-        groupId={groupId}
-        taskListId={taskListId}
-      />
+      {!isDelete && (
+        <>
+          <TaskListItem
+            key={task.id}
+            type="taskList"
+            onCheckStatusChange={() =>
+              toggleTaskDone(groupId, taskListId, isDone, toggleTaskStatus)
+            }
+            onEdit={() => popUpEditTaskModal(taskEditModalId)}
+            onDelete={() => popUpDeleteTaskModal(taskDeleteModalId)}
+            onClick={() => popUpDetailTask(detailTaskOpen)}
+            isDone={isDone}
+            name={task.name}
+            commentCount={task.commentCount}
+            date={safeFormatDate(task.date)}
+            frequency={task.frequency}
+          />
+          <DetailTask
+            isDone={isDone}
+            setIsDone={toggleTaskStatus}
+            taskId={task.id}
+            groupId={groupId}
+            taskListId={taskListId}
+            setIsOpen={detailTaskOpen}
+            isOpen={isDetailTaskOpen}
+          />
+          <RemoveTaskModal
+            taskName={task.name}
+            modalId={taskDeleteModalId}
+            deleteTask={() => deleteTask(groupId, taskListId, task.id, change)}
+          />
+        </>
+      )}
     </>
   );
 }

@@ -6,8 +6,14 @@ export function useTaskActions(task?: Task) {
     //수정 리퀘스트
   };
 
-  const deleteTask = async (groupId: string, taskListId: number, taskId: number) => {
+  const deleteTask = async (
+    groupId: string,
+    taskListId: number,
+    taskId: number,
+    setIsDelete: () => void
+  ) => {
     await axiosClient.delete(`/groups/${groupId}/task-lists/${taskListId}/tasks/${taskId}`);
+    setIsDelete();
   };
 
   const toggleTaskDone = async (
