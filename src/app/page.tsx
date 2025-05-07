@@ -1,7 +1,7 @@
 import Image from 'next/image';
 import StartButton from '@/app/_home/StartButton';
 import repairIcon from '@/../public/icons/repair-icon.svg';
-import MainImage from '@/app/_home/BackgroundImage';
+import { MainBackgroundImage, BottomBackgroundImage } from '@/app/_home/BackgroundImage';
 
 export default function Home() {
   return (
@@ -25,8 +25,20 @@ export default function Home() {
             Coworkers
           </h1>
         </div>
-        <MainImage variant="main" />
+        <MainBackgroundImage />
         <StartButton className="mx-auto mb-12 sm:mb-30">지금 시작하기</StartButton>
+      </div>
+      <div className="relative h-[640px] pt-[123px] sm:h-[940px] sm:pt-[176px] lg:h-[1080px] lg:pt-[230px]">
+        <div className="mx-auto flex flex-col items-center">
+          <h2 className="text-2xl-semi font-semibold sm:text-[40px]">지금 바로 시작해보세요</h2>
+          <p className="text-lg-md sm:text-2xl-md mt-4 text-center sm:mt-6">
+            팀원 모두와 같은 방향,
+            <br className="block sm:hidden" />
+            같은 속도로 나아가는 가장 쉬운 방법
+          </p>
+        </div>
+
+        <BottomBackgroundImage />
       </div>
     </main>
   );
