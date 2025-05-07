@@ -10,10 +10,10 @@ import {
   validateLengthLimit,
 } from '@/utils/validators';
 import PasswordToggleButton from './PasswordToggleButton';
-import togglePasswordVisibilityLogic from '@/utils/use-password-visibility';
+import usePasswordVisibility from '@/utils/use-password-visibility';
 
 export default function SignupForm() {
-  const { isPasswordVisible, togglePasswordVisibility } = togglePasswordVisibilityLogic();
+  const { isPasswordVisible, togglePasswordVisibility } = usePasswordVisibility();
 
   const [formData, setFormData] = useState({
     name: '',

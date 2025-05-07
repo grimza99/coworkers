@@ -1,4 +1,5 @@
 'use client';
+import { useState } from 'react';
 import Button from '@/components/common/Button';
 import FormField from '@/components/common/formField';
 import {
@@ -13,7 +14,6 @@ import {
 } from '@/components/common/modal';
 import useModalContext from '@/components/common/modal/core/useModalContext';
 import axiosClient from '@/lib/axiosClient';
-import { useState } from 'react';
 
 interface Props {
   groupId: string;
@@ -33,7 +33,7 @@ export default function CreateTaskListModal({ groupId }: Props) {
 
   return (
     <>
-      <ModalTrigger className="text-primary size-20 w-fit" modalId="createTaskList">
+      <ModalTrigger className="text-primary w-fit" modalId="createTaskList">
         + 새로운 목록 추가하기
       </ModalTrigger>
       <ModalPortal modalId="createTaskList">
