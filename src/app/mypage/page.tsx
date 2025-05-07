@@ -15,6 +15,7 @@ import PasswordChangeSuccessModal from '@/components/mypage-modal/PasswordChange
 import DeleteAccountModal from '@/components/mypage-modal/DeleteAccountModal';
 import ConfirmDeleteAccountModal from '@/components/mypage-modal/ConfirmDeleteAccountModal';
 import DeleteAccountFailModal from '@/components/mypage-modal/DeleteAccountFailModal';
+import NicknameField from './_mypage/NicknameField';
 
 async function fetchUserInfo(): Promise<getUserApiResponse | null> {
   try {
@@ -33,7 +34,7 @@ async function fetchUserInfo(): Promise<getUserApiResponse | null> {
   }
 }
 
-export default function MyTeam() {
+export default function MyPage() {
   const [userData, setUserData] = useState<getUserApiResponse | null>(null);
   const [nickname, setNickname] = useState('');
   const [password, setPassword] = useState('');
@@ -92,38 +93,22 @@ export default function MyTeam() {
                 }
               }}
             />
-            <FormField
-              field="input"
-              label="이름"
-              value={nickname}
-              isFailure={!!nicknameError}
-              errorMessage={nicknameError}
-              onChange={(e) => {
-                setNickname(e.target.value);
-                setNicknameError('');
+            <NicknameField
+              nickname={nickname}
+              nicknameError={nicknameError}
+              setNickname={setNickname}
+              setNicknameError={setNicknameError}
+              onClick={async () => {
+                try {
+                  await axiosClient.patch('/user', { nickname });
+                  openModal('nickname-change-success');
+                } catch (error: unknown) {
+                  const errorObj = error as { response?: { data?: { message?: string } } };
+                  const message = errorObj?.response?.data?.message || '닉네임 변경 실패';
+                  setNicknameError(message);
+                  openModal('nickname-fail');
+                }
               }}
-              rightSlot={
-                <div className="flex items-center">
-                  <Button
-                    size="xs"
-                    fontSize="14"
-                    className="shrink-0"
-                    onClick={async () => {
-                      try {
-                        await axiosClient.patch('/user', { nickname });
-                        openModal('nickname-change-success');
-                      } catch (error: unknown) {
-                        const errorObj = error as { response?: { data?: { message?: string } } };
-                        const message = errorObj?.response?.data?.message || '닉네임 변경 실패';
-                        setNicknameError(message);
-                        openModal('nickname-fail');
-                      }
-                    }}
-                  >
-                    변경하기
-                  </Button>
-                </div>
-              }
             />
             <FormField field="input" label="이메일" value={userData?.email || ''} readOnly />
             <FormField
