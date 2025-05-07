@@ -13,7 +13,9 @@ export default function MemberItem({ member }: MemberItemProps) {
     <li className="bg-bg200 flex items-center justify-between gap-1.5 rounded-2xl px-4 py-3 md:px-6 md:py-5">
       <div className="flex items-center gap-3">
         <div className="hidden md:block md:size-8">
-          {userImage ?? (
+          {userImage ? (
+            <img src={userImage} className="rounded-full" />
+          ) : (
             <Image
               width={24}
               height={24}
@@ -26,7 +28,9 @@ export default function MemberItem({ member }: MemberItemProps) {
         <div className="flex flex-col gap-1.5">
           <div className="flex items-center gap-2">
             <div className="block size-6 md:hidden">
-              {userImage ?? (
+              {userImage ? (
+                <img src={userImage} className="rounded-full" />
+              ) : (
                 <Image
                   width={24}
                   height={24}
