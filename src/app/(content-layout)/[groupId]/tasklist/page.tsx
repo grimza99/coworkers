@@ -13,6 +13,15 @@ import CreateTaskListModal from './_tasklist/components/ModalContents/CreateTask
 import { ko } from 'date-fns/locale';
 import CalendarSelect from '@/components/calendar/CalendarSelect';
 import { useOutSideClickAutoClose } from '@/utils/use-outside-click-auto-close';
+import ErrorModal from '@/components/common/ErrorModal';
+import { ERROR_MODAL_ID } from '@/constants/error-modal';
+
+const ERROR_MODAL = [
+  ERROR_MODAL_ID.DELETE_TASK,
+  ERROR_MODAL_ID.EDIT_TASK,
+  ERROR_MODAL_ID.EDIT_COMMENT,
+  ERROR_MODAL_ID.DELETE_COMMENT,
+];
 
 interface Props {
   params: Promise<{ groupId: string }>;
@@ -70,6 +79,9 @@ export default function Page({ params }: Props) {
       <Button className="absolute right-6 bottom-40" onClick={() => {}} size="md" fontSize="16">
         <Plus width="16" height="16" />할 일 추가
       </Button>
+      {ERROR_MODAL.map((error) => {
+        return <ErrorModal key={error} modalId={error} />;
+      })}
     </div>
   );
 }

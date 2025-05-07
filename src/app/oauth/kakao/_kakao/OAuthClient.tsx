@@ -3,6 +3,7 @@
 import { loginApiResponse } from '@/app/(form-layout)/login/_login/LoginForm';
 import ErrorModal from '@/components/common/ErrorModal';
 import useModalContext from '@/components/common/modal/core/useModalContext';
+import { ERROR_MODAL_ID } from '@/constants/error-modal';
 import axiosClient from '@/lib/axiosClient';
 import { setClientCookie } from '@/lib/cookie/client';
 import { useRouter, useSearchParams } from 'next/navigation';
@@ -19,10 +20,9 @@ export default function OAuthClient() {
   const code = searchParams.get('code');
   const state = searchParams.get('state');
   const router = useRouter();
-  const modalId = 'kakao-OAuth';
   const oauthRequest = useCallback(async () => {
     try {
-      const res = await axiosClient.post<loginApiResponse>(`/auth/signIn/KAKAO`, {
+      const res = await axiosClient.post<loginApiResponse>(`/auth/sinIn/KAKAO`, {
         state: state,
         redirectUri: redirectUri,
         token: code,
@@ -40,7 +40,7 @@ export default function OAuthClient() {
         router.push(`${data.memberships[0].group.id}`);
       }
     } catch {
-      openModal(modalId);
+      openModal(ERROR_MODAL_ID.OAUTH);
     }
   }, [code, openModal, redirectUri, router, state]);
 
@@ -48,12 +48,5 @@ export default function OAuthClient() {
     oauthRequest();
   }, [oauthRequest]);
 
-  return (
-    <ErrorModal
-      modalId={modalId}
-      ButtonText="돌아가기"
-      description="간편 로그인에 실패 했습니다."
-      onClick={() => router.back()}
-    />
-  );
+  return <ErrorModal modalId={ERROR_MODAL_ID.OAUTH} onClick={() => router.back()} />;
 }
