@@ -34,7 +34,6 @@ export default function MyTeam() {
   const [password, setPassword] = useState('');
   const [image, setImage] = useState('');
   const [nicknameError, setNicknameError] = useState('');
-  const [nicknameSuccess, setNicknameSuccess] = useState(false);
   const { openModal } = useModalContext();
 
   useEffect(() => {
@@ -97,7 +96,6 @@ export default function MyTeam() {
               onChange={(e) => {
                 setNickname(e.target.value);
                 setNicknameError('');
-                setNicknameSuccess(false);
               }}
               rightSlot={
                 <div className="flex items-center">
@@ -109,13 +107,11 @@ export default function MyTeam() {
                       try {
                         await axiosClient.patch('/user', { nickname });
                         setNicknameError('');
-                        setNicknameSuccess(true);
                         openModal('nickname-change-success');
                       } catch (error: unknown) {
                         const errorObj = error as { response?: { data?: { message?: string } } };
                         const message = errorObj?.response?.data?.message || '닉네임 변경 실패';
                         setNicknameError(message);
-                        setNicknameSuccess(false);
                         openModal('nickname-fail');
                       }
                     }}
@@ -155,12 +151,7 @@ export default function MyTeam() {
           </div>
         </div>
       </div>
-      <NicknameChangeSuccessModal
-        nickname={nickname}
-        onClose={() => {
-          setNicknameSuccess(false);
-        }}
-      />
+      <NicknameChangeSuccessModal nickname={nickname} onClose={() => {}} />
       <NicknameChangeFailModal />
       <ChangePasswordModal />
     </div>
