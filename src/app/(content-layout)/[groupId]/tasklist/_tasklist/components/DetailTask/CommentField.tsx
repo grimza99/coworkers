@@ -16,16 +16,23 @@ interface Props {
  * @todo
  * 1. deleteComment 에서 삭제 실패시 에러 핸들링
  * 2. 삭제후 화면 바로 반영
+ * 1. editComment 에러 핸들링
  */
 export default function CommentField({ comment, taskId }: Props) {
   const [isEdit, setIsEdit] = useState(false);
   const { openModal } = useModalContext();
+  const [currentComment, setCurrentComment] = useState(comment);
+  const [currentContent, setCurrentContent] = useState(comment.content);
 
-  const deleteCommentModalId = `${taskId}-delete-comment`;
+  const deleteCommentModalId = `${comment.id}-delete-comment`;
 
-  const editComment = () => {
+  const onEdit = () => {
     setIsEdit(true);
   };
+  const onEditCancel = () => {
+    setIsEdit(false);
+  };
+
   const deleteComment = async () => {
     await axiosClient.delete(`/tasks/${taskId}/comments/${comment.id}`);
   };
@@ -34,20 +41,34 @@ export default function CommentField({ comment, taskId }: Props) {
     openModal(deleteCommentModalId);
   };
 
-  const onEditCancel = () => {
-    setIsEdit(false);
+  const handleChangeComment = (e: React.ChangeEvent<HTMLTextAreaElement>) => {
+    setCurrentContent(e.currentTarget.value);
   };
+
+  const editComment = async () => {
+    await axiosClient.patch(`/tasks/${taskId}/comments/${comment.id}`, {
+      content: currentContent,
+    });
+    setCurrentComment((prev) => ({ ...prev, content: currentContent }));
+    onEditCancel();
+  };
+
   return (
     <>
       {isEdit ? (
-        <EditCommentInput comment={comment} onEditCancel={onEditCancel} taskId={taskId} />
+        <EditCommentInput
+          editComment={editComment}
+          onChange={handleChangeComment}
+          onEditCancel={onEditCancel}
+          currentContent={currentContent}
+        />
       ) : (
         <>
           <CommentItem
             key={comment.id}
-            comment={comment}
+            comment={currentComment}
             onDelete={deleteCommentModalPopUp}
-            onEdit={editComment}
+            onEdit={onEdit}
           />
           <RemoveCommentModal modalId={deleteCommentModalId} onDelete={deleteComment} />
         </>
