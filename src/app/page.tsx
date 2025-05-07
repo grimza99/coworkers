@@ -1,11 +1,18 @@
 import Image from 'next/image';
+import clsx from 'clsx';
 import StartButton from '@/app/_home/StartButton';
 import repairIcon from '@/../public/icons/repair-icon.svg';
 import { MainBackgroundImage, BottomBackgroundImage } from '@/app/_home/BackgroundImage';
+import folderIcon from '@/../public/icons/folder-icon.svg';
+import messageIcon from '@/../public/icons/message-icon.svg';
+import doneIcon from '@/../public/icons/done-icon.svg';
+import mockupImage1 from '@/../public/images/landing-mockup1.png';
+import mockupImage2 from '@/../public/images/landing-mockup2.png';
+import mockupImage3 from '@/../public/images/landing-mockup3.png';
 
 export default function Home() {
   return (
-    <main className="">
+    <main>
       <div className="relative flex h-[640px] flex-col justify-between sm:h-[940px] lg:h-[1080px]">
         <div className="mt-13.5 flex flex-col items-center gap-1 sm:mt-21">
           <div className="flex items-center gap-1">
@@ -28,6 +35,31 @@ export default function Home() {
         <MainBackgroundImage />
         <StartButton className="mx-auto mb-12 sm:mb-30">지금 시작하기</StartButton>
       </div>
+      <div className="flex flex-col items-center">
+        {/* @FIXME: border gradient 색상 적용*/}
+        <div
+          className={clsx(
+            'bg-bg300 flex h-[467px] w-[343px] flex-col items-start gap-10 rounded-[40px] border-1 px-13.5 pt-12 shadow-2xl drop-shadow-2xl',
+            'md:h-[354px] md:w-[696px] md:flex-row-reverse md:items-center md:justify-between md:px-[121.5px] md:pt-0',
+            'lg:h-[419px] lg:w-[996px] lg:px-[181px]'
+          )}
+        >
+          <div className="text-lg-md lg:text-2xl-md text-white">
+            <div className="bg-bg200 border-border mb-4 size-12 rounded-xl border-1 p-3 drop-shadow-lg">
+              <Image src={folderIcon} width={24} height={24} alt="폴더" className="size-6" />
+            </div>
+            그룹으로
+            <br />할 일을 관리해요
+          </div>
+          <Image
+            src={mockupImage1}
+            width={873}
+            height={1011}
+            alt="그룹 관리 예시 화면"
+            className="h-[273px] w-[235px] md:self-end lg:h-[338px] lg:w-[291px]"
+          />
+        </div>
+      </div>
       <div className="relative h-[640px] pt-[123px] sm:h-[940px] sm:pt-[176px] lg:h-[1080px] lg:pt-[230px]">
         <div className="mx-auto flex flex-col items-center">
           <h2 className="text-2xl-semi font-semibold sm:text-[40px]">지금 바로 시작해보세요</h2>
@@ -37,7 +69,6 @@ export default function Home() {
             같은 속도로 나아가는 가장 쉬운 방법
           </p>
         </div>
-
         <BottomBackgroundImage />
       </div>
     </main>
