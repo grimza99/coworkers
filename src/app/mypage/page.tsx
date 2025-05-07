@@ -8,6 +8,7 @@ import { getUserApiResponse } from '@/types/user';
 import { useEffect, useState } from 'react';
 import NicknameChangeSuccessModal from '@/components/mypage-modal/NicknameChangeSuccessModal';
 import useModalContext from '@/components/common/modal/core/useModalContext';
+import NicknameChangeFailModal from '@/components/mypage-modal/NicknameChangeFailModal';
 
 async function fetchUserInfo(): Promise<getUserApiResponse | null> {
   try {
@@ -114,6 +115,7 @@ export default function MyTeam() {
                         const message = errorObj?.response?.data?.message || '닉네임 변경 실패';
                         setNicknameError(message);
                         setNicknameSuccess(false);
+                        openModal('nickname-fail');
                       }
                     }}
                   >
@@ -153,6 +155,7 @@ export default function MyTeam() {
           setNicknameSuccess(false);
         }}
       />
+      <NicknameChangeFailModal />
     </div>
   );
 }

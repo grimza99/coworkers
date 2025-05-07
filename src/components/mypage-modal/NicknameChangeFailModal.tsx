@@ -11,18 +11,18 @@ import {
 import Button from '../common/Button';
 import useModalContext from '@/components/common/modal/core/useModalContext';
 
-export default function SignupFailModal() {
+export default function NicknameChangeFailModal() {
   const { closeModal } = useModalContext();
 
   return (
     <>
-      <ModalPortal modalId="signup-fail">
-        <ModalOverlay modalId="signup-fail">
+      <ModalPortal modalId="nickname-fail">
+        <ModalOverlay modalId="nickname-fail">
           <ModalContainer>
             <img src="/icons/danger.icon.svg" alt="!" width={24} height={24} className="pb-3" />
-            <ModalHeading className="text-md-bold mb-2 text-white">회원가입 실패</ModalHeading>
+            <ModalHeading className="text-md-bold mb-2 text-white">닉네임 변경 실패</ModalHeading>
             <ModalDescription className="text-gray500 text-md-md mb-6 w-full px-3">
-              회원가입 도중 문제가 발생했습니다. <br />
+              닉네임 변경 도중 문제가 발생했습니다. <br />
               다시 시도해주세요.
             </ModalDescription>
             <ModalFooter className="w-full">
@@ -31,7 +31,7 @@ export default function SignupFailModal() {
                   variant="outline-gray"
                   className="w-full"
                   size="fullWidth"
-                  onClick={() => closeModal('signup-fail')}
+                  onClick={() => closeModal('nickname-fail')}
                 >
                   다시 시도하기
                 </Button>
