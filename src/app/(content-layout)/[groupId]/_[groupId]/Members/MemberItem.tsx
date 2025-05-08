@@ -50,7 +50,7 @@ export default function MemberItem({ member }: MemberItemProps) {
 }
 
 type MemberProfileImageProps = {
-  userImage: string;
+  userImage: Member['userImage'];
   className: string;
 };
 
