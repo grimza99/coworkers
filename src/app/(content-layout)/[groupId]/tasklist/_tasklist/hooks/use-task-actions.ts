@@ -1,7 +1,7 @@
 import axiosClient from '@/lib/axiosClient';
 import { Task } from '../types/task-type';
 import useModalContext from '@/components/common/modal/core/useModalContext';
-import { ERROR_MODAL_ID } from '@/constants/error-modal';
+import { ERROR_MODAL } from '@/constants/error-modal';
 
 export function useTaskActions(task?: Task) {
   const { openModal } = useModalContext();
@@ -17,14 +17,10 @@ export function useTaskActions(task?: Task) {
     setIsDelete: () => void
   ) => {
     try {
-      const res = await axiosClient.delete(
-        `/groups/${groupId}/task-lists/${taskListId}/tass/${taskId}`
-      );
-      if (res.status === 204) {
-        setIsDelete();
-      }
+      await axiosClient.delete(`/groups/${groupId}/task-lists/${taskListId}/tass/${taskId}`);
+      setIsDelete();
     } catch {
-      openModal(ERROR_MODAL_ID.DELETE_TASK);
+      openModal(ERROR_MODAL.DELETE_TASK);
     }
   };
 
@@ -35,12 +31,16 @@ export function useTaskActions(task?: Task) {
     toggleDoneState: () => void
   ) => {
     if (!task) return;
-    await axiosClient.patch(`/groups/${groupId}/task-lists/${taskListId}/tasks/${task.id}`, {
-      name: task.name,
-      description: task.description,
-      done: !doneState,
-    });
-    toggleDoneState();
+    try {
+      await axiosClient.patch(`/groups/${groupId}/task-lists/${taskListId}/tasks/${task.id}`, {
+        name: task.name,
+        description: task.description,
+        done: !doneState,
+      });
+      toggleDoneState();
+    } catch {
+      openModal(ERROR_MODAL.TASK_DONE);
+    }
   };
 
   return {
