@@ -35,7 +35,7 @@ export default function SignupSuccessModal({ nickname }: Props) {
             <img src="/icons/user.svg" alt="user-icon" width={24} height={24} className="pb-3" />
             <ModalHeading className="text-md-md mb-2 text-white">회원가입 성공</ModalHeading>
             <ModalDescription className="text-lg-rg mb-6 w-full px-3">
-              <span className="text-primary">{nickname}</span>님 회원가입에 성공하셨습니다. <br />
+              <span className="text-primary">{nickname}</span> 님, 반가워요! <br />
               5초 뒤 자동으로 로그인됩니다.
             </ModalDescription>
             <ModalFooter className="w-full">

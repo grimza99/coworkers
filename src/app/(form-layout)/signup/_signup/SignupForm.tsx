@@ -30,7 +30,6 @@ export default function SignupForm() {
   });
 
   const [duplicateError, setDuplicateError] = useState({
-    //중복 에러 네이밍 고민
     nickname: false,
     email: false,
   });
@@ -81,7 +80,9 @@ export default function SignupForm() {
       errorMessage:
         formData.password.trim() === ''
           ? '비밀번호를 입력해주세요.'
-          : '비밀번호는 8자 이상 20자 이하이며 영문자, 숫자, 특수문자(!@#$%^&*)만 사용할 수 있습니다.',
+          : !validatePassword(formData.password)
+            ? '비밀번호는 8자 이상 20자 이하이며 영문자, 숫자, 특수문자(!@#$%^&*)만 사용할 수 있습니다.'
+            : '',
       placeholder: '비밀번호를 입력해주세요.',
       rightSlot: (
         <PasswordToggleButton
