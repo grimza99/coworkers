@@ -75,6 +75,7 @@ export default function TasksWiseTask({ task, groupId, taskListId }: Props) {
         task={task}
         groupId={Number(groupId)}
         taskListId={taskListId}
+        isDone={isDone}
         createOrEditModalId={createOrEditModalId}
       />
     </>

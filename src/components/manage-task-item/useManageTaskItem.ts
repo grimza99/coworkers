@@ -27,7 +27,13 @@ const REVERSE_FREQUENCY_MAP: Record<string, Frequency> = {
   '월 반복': 'MONTHLY',
 };
 
-export default function useManageTaskItem({ task, groupId, taskListId }: TaskItemProps) {
+export default function useManageTaskItem({
+  task,
+  groupId,
+  taskListId,
+  isDone,
+  createOrEditModalId,
+}: TaskItemProps) {
   const { am, pm } = generateTime();
 
   const { closeModal } = useModalContext();
@@ -93,7 +99,7 @@ export default function useManageTaskItem({ task, groupId, taskListId }: TaskIte
     setSelectedFrequency(frequency);
     setTaskItem((prev) => ({
       ...prev,
-      frequency: REVERSE_FREQUENCY_MAP[frequency] || 'ONCE',
+      frequencyType: REVERSE_FREQUENCY_MAP[frequency] || 'ONCE',
     }));
   };
 
@@ -114,7 +120,7 @@ export default function useManageTaskItem({ task, groupId, taskListId }: TaskIte
     });
   };
 
-  const closeTaskItemModal = (modalId: string) => closeModal(modalId);
+  const closeTaskItemModal = () => closeModal(createOrEditModalId ?? '');
 
   const withWeekDaysTaskItem = (item: TaskItem): TaskItem => ({
     ...item,
@@ -126,8 +132,11 @@ export default function useManageTaskItem({ task, groupId, taskListId }: TaskIte
     monthDay: getDate(item.startDate),
   });
 
-  const handleCreateTaskItemSubmit = async () => {
+  const handleCreateTaskItemSubmit = (e: React.FormEvent<HTMLFormElement>) => {
+    e.preventDefault();
+
     let finalTaskItem = { ...taskItem };
+    console.log(taskItem);
 
     if (taskItem.frequencyType === 'WEEKLY') {
       finalTaskItem = withWeekDaysTaskItem(finalTaskItem);
@@ -137,15 +146,28 @@ export default function useManageTaskItem({ task, groupId, taskListId }: TaskIte
       finalTaskItem = withMonthDayTaskItem(finalTaskItem);
     }
 
-    try {
-      await axiosClient.post(`/groups/${groupId}/task-lists/${taskListId}/tasks`, finalTaskItem);
-      closeModal('task-item');
-    } catch (err) {
-      console.error(err);
-    }
+    axiosClient
+      .post(`/groups/${groupId}/task-lists/${taskListId}/tasks`, finalTaskItem)
+      .then(() => closeTaskItemModal)
+      .catch((err) => console.error(err));
+  };
+
+  const handleEditTaskItemSubmit = (e: React.FormEvent<HTMLFormElement>) => {
+    e.preventDefault();
+
+    axiosClient
+      .patch(`/groups/${groupId}/task-lists/${taskListId}/tasks/${taskItem.id}`, {
+        done: isDone,
+        name: taskItem.name,
+        description: taskItem.description,
+      })
+      .then(() => closeTaskItemModal)
+      .catch((err) => console.error(err));
   };
 
   const isWeekly = selectedFrequency === '주 반복';
+
+  const createOrEditSubmit = task ? handleEditTaskItemSubmit : handleCreateTaskItemSubmit;
 
   return {
     taskItem,
@@ -158,7 +180,7 @@ export default function useManageTaskItem({ task, groupId, taskListId }: TaskIte
     handleInputChange,
     handleCalendarDateChange,
     handleFrequencyChange,
-    handleCreateTaskItemSubmit,
+    createOrEditSubmit,
     toggleDay,
     updateTime,
     closeModal: closeTaskItemModal,

@@ -17,6 +17,7 @@ export default function ManageTaskItem({
   task,
   groupId,
   taskListId,
+  isDone,
   createOrEditModalId,
 }: TaskItemProps) {
   const {
@@ -30,10 +31,11 @@ export default function ManageTaskItem({
     handleInputChange,
     handleCalendarDateChange,
     handleFrequencyChange,
+    createOrEditSubmit,
     toggleDay,
     updateTime,
     closeModal,
-  } = useManageTaskItem({ task, groupId, taskListId });
+  } = useManageTaskItem({ task, groupId, taskListId, isDone, createOrEditModalId });
 
   const createOrEdit = task ? '수정하기' : '만들기';
 
@@ -48,7 +50,7 @@ export default function ManageTaskItem({
             작성해 주시면 좋습니다.
           </p>
         </div>
-        <form className="flex flex-col gap-6">
+        <form onSubmit={createOrEditSubmit} className="flex flex-col gap-6">
           <FormField
             field="input"
             name="name"
@@ -120,11 +122,7 @@ export default function ManageTaskItem({
             height={75}
           />
           <ModalFooter className="w-full">
-            <Button
-              onClick={() => closeModal(createOrEditModalId ?? '')}
-              variant="outline-primary"
-              size="fullWidth"
-            >
+            <Button onClick={closeModal} variant="outline-primary" size="fullWidth">
               취소
             </Button>
             <Button type="submit" variant="solid" size="fullWidth">

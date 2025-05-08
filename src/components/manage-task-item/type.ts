@@ -4,6 +4,7 @@ import {
 } from '@/app/(content-layout)/[groupId]/tasklist/_tasklist/types/task-list-page-type';
 
 export interface TaskItem extends Pick<Task, 'name' | 'description'> {
+  id?: number;
   weekDays?: number[];
   monthDay?: number;
   startDate: Date | string;
@@ -19,5 +20,6 @@ export interface TaskItemProps {
   task?: Task;
   groupId: number;
   taskListId: number;
+  isDone?: boolean;
   createOrEditModalId?: string;
 }

@@ -7,6 +7,7 @@ export default function ManageTaskItemModal({
   task,
   groupId,
   taskListId,
+  isDone,
   createOrEditModalId,
 }: TaskItemProps) {
   const modalId = createOrEditModalId ?? '';
@@ -34,6 +35,7 @@ export default function ManageTaskItemModal({
               task={task}
               groupId={groupId}
               taskListId={taskListId}
+              isDone={isDone}
               createOrEditModalId={createOrEditModalId}
             />
           </ModalContainer>
