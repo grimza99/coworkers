@@ -108,46 +108,6 @@ export default function DateWiseTaskLists({ date, groupId, updateTaskListId }: P
                 />
               );
             })}
-            {currentTasks.map((task) => {
-              return (
-                <TasksWiseTask
-                  taskListId={currentTaskList.id}
-                  task={task}
-                  key={task.id}
-                  groupId={groupId}
-                />
-              );
-            })}
-            {currentTasks.map((task) => {
-              return (
-                <TasksWiseTask
-                  taskListId={currentTaskList.id}
-                  task={task}
-                  key={task.id}
-                  groupId={groupId}
-                />
-              );
-            })}
-            {currentTasks.map((task) => {
-              return (
-                <TasksWiseTask
-                  taskListId={currentTaskList.id}
-                  task={task}
-                  key={task.id}
-                  groupId={groupId}
-                />
-              );
-            })}
-            {currentTasks.map((task) => {
-              return (
-                <TasksWiseTask
-                  taskListId={currentTaskList.id}
-                  task={task}
-                  key={task.id}
-                  groupId={groupId}
-                />
-              );
-            })}
           </div>
         ) : (
           <p className="text-md-md text-gray500">
