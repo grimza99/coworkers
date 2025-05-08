@@ -132,36 +132,42 @@ export default function useManageTaskItem({
     monthDay: getDate(item.startDate),
   });
 
-  const handleCreateTaskItemSubmit = (e: React.FormEvent<HTMLFormElement>) => {
+  const handleCreateTaskItemSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
 
-    let finalTaskItem = { ...taskItem };
+    try {
+      let finalTaskItem = { ...taskItem };
 
-    if (taskItem.frequencyType === 'WEEKLY') {
-      finalTaskItem = withWeekDaysTaskItem(finalTaskItem);
+      if (taskItem.frequencyType === 'WEEKLY') {
+        finalTaskItem = withWeekDaysTaskItem(finalTaskItem);
+      }
+
+      if (taskItem.frequencyType === 'MONTHLY') {
+        finalTaskItem = withMonthDayTaskItem(finalTaskItem);
+      }
+
+      await axiosClient.post(`/groups/${groupId}/task-lists/${taskListId}/tasks`, finalTaskItem);
+
+      closeTaskItemModal();
+    } catch (err) {
+      console.error(err);
     }
-
-    if (taskItem.frequencyType === 'MONTHLY') {
-      finalTaskItem = withMonthDayTaskItem(finalTaskItem);
-    }
-
-    axiosClient
-      .post(`/groups/${groupId}/task-lists/${taskListId}/tasks`, finalTaskItem)
-      .then(() => closeTaskItemModal)
-      .catch((err) => console.error(err));
   };
 
-  const handleEditTaskItemSubmit = (e: React.FormEvent<HTMLFormElement>) => {
+  const handleEditTaskItemSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
 
-    axiosClient
-      .patch(`/groups/${groupId}/task-lists/${taskListId}/tasks/${taskItem.id}`, {
+    try {
+      await axiosClient.patch(`/groups/${groupId}/task-lists/${taskListId}/tasks/${taskItem.id}`, {
         done: isDone,
         name: taskItem.name,
         description: taskItem.description,
-      })
-      .then(() => closeTaskItemModal)
-      .catch((err) => console.error(err));
+      });
+
+      closeTaskItemModal();
+    } catch (err) {
+      console.error(err);
+    }
   };
 
   const isWeekly = selectedFrequency === '주 반복';
