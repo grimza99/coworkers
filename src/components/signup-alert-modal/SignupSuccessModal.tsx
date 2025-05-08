@@ -39,16 +39,14 @@ export default function SignupSuccessModal({ nickname }: Props) {
               5초 뒤 자동으로 로그인됩니다.
             </ModalDescription>
             <ModalFooter className="w-full">
-              <div className="flex w-full gap-2">
-                <Button
-                  variant="solid"
-                  size="fullWidth"
-                  className="w-full"
-                  onClick={() => router.push('/login')}
-                >
-                  로그인 페이지로 이동
-                </Button>
-              </div>
+              <Button
+                variant="solid"
+                size="fullWidth"
+                className="w-full"
+                onClick={() => router.push('/login')}
+              >
+                로그인 페이지로 이동
+              </Button>
             </ModalFooter>
           </ModalContainer>
         </ModalOverlay>
