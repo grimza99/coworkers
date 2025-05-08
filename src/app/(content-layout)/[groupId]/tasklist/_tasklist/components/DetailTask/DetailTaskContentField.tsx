@@ -9,12 +9,16 @@ import { useTaskModals } from '../../hooks/use-task-modals';
 import { getRepeatDescription } from '../../hooks/format-repeat-schedule';
 
 interface Props {
-  task: DetailTaskType;
+  task: DetailTaskType | undefined;
   isDone: boolean;
 }
 const DROPDOWN_OPTION_LIST = ['수정하기', '삭제하기'];
 
 export default function Content({ task, isDone }: Props) {
+  if (!task) {
+    return <div>오류가 발생했습니다.</div>;
+  }
+
   const { name, doneBy, updatedAt, date, description, frequency } = task;
   const { popUpDeleteTaskModal, popUpEditTaskModal } = useTaskModals();
 

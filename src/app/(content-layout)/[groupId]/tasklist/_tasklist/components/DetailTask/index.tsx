@@ -20,10 +20,6 @@ interface Props {
   setIsOpen: () => void;
 }
 
-/**@todo
- * 1. fetchTask 에러 핸들링
- */
-
 export function DetailTask({
   groupId,
   taskId,
@@ -40,12 +36,15 @@ export function DetailTask({
 
   const fetchTask = useCallback(async () => {
     if (!isOpen || !taskId) return;
+    try {
+      const { data } = await axiosClient(
+        `/groups/${groupId}/tak-lists/${taskListId}/tasks/${taskId}`
+      );
 
-    const { data } = await axiosClient(
-      `/groups/${groupId}/task-lists/${taskListId}/tasks/${taskId}`
-    );
-
-    setCurrentTask(data);
+      setCurrentTask(data);
+    } catch (error: any) {
+      throw new Error(error.message || '에러가 발생했습니다');
+    }
   }, [groupId, taskListId, taskId, isOpen]);
 
   const closingDetailTaskOutsideClick = (e: MouseEvent) => {
@@ -62,8 +61,6 @@ export function DetailTask({
     };
   }, [isOpen, fetchTask]);
 
-  if (!currentTask) return;
-
   return (
     <>
       {isOpen && (
@@ -77,9 +74,10 @@ export function DetailTask({
             </button>
             <div className="flex h-full flex-col gap-25 overflow-scroll">
               <Content isDone={isDone} task={currentTask} />
-              <DetailTaskCommentField taskId={currentTask.id} />
+              <DetailTaskCommentField taskId={currentTask?.id} />
             </div>
           </div>
+
           <Button
             onClick={() => toggleTaskDone(groupId, taskListId, isDone, setIsDone)}
             className="absolute right-6 bottom-6 lg:right-10 lg:bottom-10"

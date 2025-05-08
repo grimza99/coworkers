@@ -7,7 +7,7 @@ import CommentField from './CommentField';
 import CommentSubmit from '@/assets/CommentSubmit';
 
 interface Props {
-  taskId: number;
+  taskId: number | undefined;
 }
 
 /**
@@ -17,6 +17,8 @@ interface Props {
  */
 
 export default function DetailTaskCommentField({ taskId }: Props) {
+  if (!taskId) return;
+
   const [commentValue, setCommentValue] = useState('');
   const [currentComments, setCurrentComments] = useState<Comment[]>([]);
 
