@@ -16,7 +16,7 @@ import { useOutSideClickAutoClose } from '@/utils/use-outside-click-auto-close';
 import ErrorModal from '@/components/common/ErrorModal';
 import { ERROR_MODAL } from '@/constants/error-modal';
 import { ErrorBoundary } from 'next/dist/client/components/error-boundary';
-import Error from '../error';
+import Error from './error';
 
 const ERROR_MODAL_ID = [
   ERROR_MODAL.DELETE_TASK,

@@ -9,6 +9,8 @@ import axiosClient from '@/lib/axiosClient';
 import { useCallback, useEffect, useRef, useState } from 'react';
 import { useTaskActions } from '../../hooks/use-task-actions';
 import { DetailTaskType } from '../../types/task-type';
+import { ErrorBoundary } from 'next/dist/client/components/error-boundary';
+import FallBackComponent from '../../../error';
 
 interface Props {
   groupId: string;
@@ -34,16 +36,18 @@ export function DetailTask({
   const buttonText = isDone ? '완료 취소하기' : '완료 하기';
   const detailTaskRef = useRef<HTMLDivElement>(null);
 
+  //todo : fetchTask 에러 바운더리 안으로 집어넣기
+
   const fetchTask = useCallback(async () => {
     if (!isOpen || !taskId) return;
     try {
       const { data } = await axiosClient(
-        `/groups/${groupId}/tak-lists/${taskListId}/tasks/${taskId}`
+        `/groups/${groupId}/task-lists/${taskListId}/tasks/${taskId}`
       );
 
       setCurrentTask(data);
     } catch (error: any) {
-      throw new Error(error.message || '에러가 발생했습니다');
+      throw Error;
     }
   }, [groupId, taskListId, taskId, isOpen]);
 
@@ -73,11 +77,12 @@ export function DetailTask({
               <Image src="/icons/close.svg" alt="x" width={24} height={24} />
             </button>
             <div className="flex h-full flex-col gap-25 overflow-scroll">
-              <Content isDone={isDone} task={currentTask} />
-              <DetailTaskCommentField taskId={currentTask?.id} />
+              <ErrorBoundary errorComponent={FallBackComponent}>
+                <Content isDone={isDone} task={currentTask} />
+                <DetailTaskCommentField taskId={currentTask?.id} />{' '}
+              </ErrorBoundary>
             </div>
           </div>
-
           <Button
             onClick={() => toggleTaskDone(groupId, taskListId, isDone, setIsDone)}
             className="absolute right-6 bottom-6 lg:right-10 lg:bottom-10"

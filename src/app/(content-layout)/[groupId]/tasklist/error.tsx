@@ -5,7 +5,7 @@ import { useEffect } from 'react';
 interface Props {
   error: Error;
 }
-export default function Error({ error }: Props) {
+export default function FallBackComponent({ error }: Props) {
   useEffect(() => {
     console.error(error.message);
   }, [error]);
