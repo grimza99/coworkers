@@ -1,7 +1,6 @@
 'use client';
 
 import { useState, ChangeEvent } from 'react';
-import axios, { AxiosError } from 'axios';
 import axiosClient from '@/lib/axiosClient';
 import { setClientCookie } from '@/lib/cookie/client';
 import FormField from '@/components/common/formField';
@@ -109,6 +108,14 @@ export default function SignupForm() {
       ),
     },
   ];
+  interface ErrorResponse {
+    response?: {
+      data?: {
+        message?: string;
+      };
+    };
+  }
+
   const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     try {
@@ -124,17 +131,14 @@ export default function SignupForm() {
       setClientCookie('refreshToken', refreshToken);
       openModal('signup-success');
       setIsSuccess(true);
-    } catch (error) {
-      if (axios.isAxiosError(error)) {
-        const message = error.response?.data?.message;
+    } catch (error: unknown) {
+      const err = error as ErrorResponse;
+      const message = err.response?.data?.message || '';
 
-        if (message) {
-          setDuplicateError({
-            email: message.includes('이메일'),
-            nickname: message.includes('닉네임'),
-          });
-        }
-      }
+      setDuplicateError({
+        email: message.includes('이메일'),
+        nickname: message.includes('닉네임'),
+      });
 
       openModal('signup-fail');
     }
