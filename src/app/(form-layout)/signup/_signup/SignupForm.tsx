@@ -2,7 +2,6 @@
 
 import { useState, ChangeEvent } from 'react';
 import axiosClient from '@/lib/axiosClient';
-import { setClientCookie } from '@/lib/cookie/client';
 import FormField from '@/components/common/formField';
 import Button from '@/components/common/Button';
 import {
@@ -16,6 +15,7 @@ import usePasswordVisibility from '@/utils/use-password-visibility';
 import SignupFailModal from '@/components/signup-alert-modal/SignupFailModal';
 import SignupSuccessModal from '@/components/signup-alert-modal/SignupSuccessModal';
 import useModalContext from '@/components/common/modal/core/useModalContext';
+import { SIGNUP_MESSAGES } from '@/constants/messages/signup';
 
 export default function SignupForm() {
   const { isPasswordVisible, togglePasswordVisibility } = usePasswordVisibility();
@@ -49,11 +49,11 @@ export default function SignupForm() {
       isFailure: !validateLengthLimit(formData.nickname) || duplicateError.nickname,
       errorMessage:
         formData.nickname.trim() === ''
-          ? '이름을 입력해주세요.'
+          ? SIGNUP_MESSAGES.nickname.required
           : !validateLengthLimit(formData.nickname)
-            ? '이름은 10글자 이하로 작성해주세요.'
+            ? SIGNUP_MESSAGES.nickname.tooLong
             : duplicateError.nickname
-              ? '이미 사용 중인 이름입니다.'
+              ? SIGNUP_MESSAGES.nickname.duplicated
               : '',
       placeholder: '이름을 입력해주세요.',
     },
@@ -63,11 +63,11 @@ export default function SignupForm() {
       isFailure: !validateEmail(formData.email) || duplicateError.email,
       errorMessage:
         formData.email.trim() === ''
-          ? '이메일을 입력해주세요.'
+          ? SIGNUP_MESSAGES.email.required
           : !validateEmail(formData.email)
-            ? '올바른 이메일 형식이 아닙니다.'
+            ? SIGNUP_MESSAGES.email.invalid
             : duplicateError.email
-              ? '이미 사용 중인 이메일입니다.'
+              ? SIGNUP_MESSAGES.email.duplicated
               : '',
       placeholder: '이메일을 입력해주세요.',
     },
@@ -78,9 +78,9 @@ export default function SignupForm() {
       isFailure: !validatePassword(formData.password),
       errorMessage:
         formData.password.trim() === ''
-          ? '비밀번호를 입력해주세요.'
+          ? SIGNUP_MESSAGES.password.required
           : !validatePassword(formData.password)
-            ? '비밀번호는 8자 이상 20자 이하이며 영문자, 숫자, 특수문자(!@#$%^&*)만 사용할 수 있습니다.'
+            ? SIGNUP_MESSAGES.password.invalid
             : '',
       placeholder: '비밀번호를 입력해주세요.',
       rightSlot: (
@@ -97,8 +97,8 @@ export default function SignupForm() {
       isFailure: !validateConfirmPassword(formData.password, formData.passwordConfirmation),
       errorMessage:
         formData.passwordConfirmation.trim() === ''
-          ? '비밀번호를 입력해주세요.'
-          : '비밀번호가 일치하지 않습니다.',
+          ? SIGNUP_MESSAGES.passwordConfirmation.required
+          : SIGNUP_MESSAGES.passwordConfirmation.notMatch,
       placeholder: '비밀번호를 다시 한 번 입력해주세요.',
       rightSlot: (
         <PasswordToggleButton
@@ -119,7 +119,7 @@ export default function SignupForm() {
   const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     try {
-      const response = await axiosClient.post('/auth/signUp', {
+      await axiosClient.post('/auth/signUp', {
         email: formData.email,
         password: formData.password,
         passwordConfirmation: formData.passwordConfirmation,
