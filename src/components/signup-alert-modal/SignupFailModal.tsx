@@ -18,10 +18,10 @@ export default function SignupFailModal() {
     <>
       <ModalPortal modalId="signup-fail">
         <ModalOverlay modalId="signup-fail">
-          <ModalContainer>
+          <ModalContainer className="pr-4 pb-8 pl-4">
             <img src="/icons/danger.icon.svg" alt="!" width={24} height={24} className="pb-3" />
             <ModalHeading className="text-md-bold mb-2 text-white">회원가입 실패</ModalHeading>
-            <ModalDescription className="text-gray500 text-md-md mb-6 w-full px-3">
+            <ModalDescription className="text-gray500 text-md-md mb-6 w-60 px-3">
               회원가입 도중 문제가 발생했습니다. <br />
               다시 시도해주세요.
             </ModalDescription>
