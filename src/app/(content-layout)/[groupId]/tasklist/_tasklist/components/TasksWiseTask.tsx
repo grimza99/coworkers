@@ -7,8 +7,6 @@ import { DetailTask } from './DetailTask';
 import RemoveTaskModal from './ModalContents/RemoveTaskModal';
 import { useTaskActions } from '../hooks/use-task-actions';
 import { useTaskModals } from '../hooks/use-task-modals';
-import { ErrorBoundary } from 'next/dist/client/components/error-boundary';
-import Error from '../../error';
 
 interface Props {
   task: Task;

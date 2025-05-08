@@ -34,8 +34,12 @@ export default function DateWiseTaskLists({ date, groupId }: Props) {
         );
 
         setCurrentTasks(tasksData);
-      } catch (error: any) {
-        setUnexpectedError(error);
+      } catch (error: unknown) {
+        if (error instanceof Error) {
+          setUnexpectedError(error);
+        } else {
+          setUnexpectedError(new Error('Unknown error occurred'));
+        }
       }
     },
 
@@ -63,8 +67,12 @@ export default function DateWiseTaskLists({ date, groupId }: Props) {
       setTaskLists(fetchedTaskLists);
       setCurrentTaskList(fetchedTaskLists[0]);
       fetchTaskListWiseTasks(fetchedTaskLists[0]);
-    } catch (error: any) {
-      setUnexpectedError(error);
+    } catch (error: unknown) {
+      if (error instanceof Error) {
+        setUnexpectedError(error);
+      } else {
+        setUnexpectedError(new Error('Unknown error occurred'));
+      }
     }
   }, [groupId, fetchTaskListWiseTasks, date]);
 

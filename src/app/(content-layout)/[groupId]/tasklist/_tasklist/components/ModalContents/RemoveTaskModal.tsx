@@ -10,7 +10,6 @@ import {
 import Image from 'next/image';
 import Button from '@/components/common/Button';
 import useModalContext from '@/components/common/modal/core/useModalContext';
-import { useTaskActions } from '../../hooks/use-task-actions';
 
 interface Props {
   taskName: string;

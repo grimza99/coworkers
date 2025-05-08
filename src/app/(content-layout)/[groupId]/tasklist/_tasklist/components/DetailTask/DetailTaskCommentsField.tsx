@@ -11,8 +11,6 @@ interface Props {
 }
 
 export default function DetailTaskCommentField({ taskId }: Props) {
-  if (!taskId) return;
-
   const [commentValue, setCommentValue] = useState('');
   const [currentComments, setCurrentComments] = useState<Comment[]>([]);
 
@@ -21,8 +19,8 @@ export default function DetailTaskCommentField({ taskId }: Props) {
     try {
       const { data } = await axiosClient(`/tasks/${taskId}/comments`);
       setCurrentComments(data);
-    } catch (error: any) {
-      throw Error(error);
+    } catch {
+      throw Error;
     }
   }, [taskId]);
 
@@ -41,6 +39,7 @@ export default function DetailTaskCommentField({ taskId }: Props) {
     setCommentValue('');
     //toast로 에러 핸들링
   };
+  if (!taskId) return;
 
   return (
     <div className="flex flex-col gap-6">

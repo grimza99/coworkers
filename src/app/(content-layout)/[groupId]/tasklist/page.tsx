@@ -13,7 +13,6 @@ import CreateTaskListModal from './_tasklist/components/ModalContents/CreateTask
 import { ko } from 'date-fns/locale';
 import CalendarSelect from '@/components/calendar/CalendarSelect';
 import { useOutSideClickAutoClose } from '@/utils/use-outside-click-auto-close';
-import ErrorModal from '@/components/common/ErrorModal';
 import { ErrorBoundary } from 'next/dist/client/components/error-boundary';
 import Error from './error';
 

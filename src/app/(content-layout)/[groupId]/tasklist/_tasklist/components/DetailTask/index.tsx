@@ -6,7 +6,7 @@ import Check from '@/assets/Check';
 import clsx from 'clsx';
 import DetailTaskCommentField from './DetailTaskCommentsField';
 import axiosClient from '@/lib/axiosClient';
-import { useCallback, useEffect, useRef, useState } from 'react';
+import { useCallback, useEffect, useState } from 'react';
 import { useTaskActions } from '../../hooks/use-task-actions';
 import { DetailTaskType } from '../../types/task-type';
 import { ErrorBoundary } from 'next/dist/client/components/error-boundary';
@@ -34,9 +34,10 @@ export function DetailTask({
   const [currentTask, setCurrentTask] = useState<DetailTaskType>();
   const { toggleTaskDone } = useTaskActions(currentTask);
   const buttonText = isDone ? '완료 취소하기' : '완료 하기';
-  const detailTaskRef = useRef<HTMLDivElement>(null);
+  // const detailTaskRef = useRef<HTMLDivElement>(null);
 
   //todo : fetchTask 에러 바운더리 안으로 집어넣기
+  //ref 바깥영역 클릭시 닫힘 설정시 모달 팝업후 클릭시, 닫힘 해결하기
 
   const fetchTask = useCallback(async () => {
     if (!isOpen || !taskId) return;
@@ -46,23 +47,23 @@ export function DetailTask({
       );
 
       setCurrentTask(data);
-    } catch (error: any) {
+    } catch {
       throw Error;
     }
   }, [groupId, taskListId, taskId, isOpen]);
 
-  const closingDetailTaskOutsideClick = (e: MouseEvent) => {
-    if (detailTaskRef.current && !detailTaskRef.current.contains(e.target as Node)) {
-      setIsOpen();
-    }
-  };
+  // const closingDetailTaskOutsideClick = (e: MouseEvent) => {
+  //   if (detailTaskRef.current && !detailTaskRef.current.contains(e.target as Node)) {
+  //     setIsOpen();
+  //   }
+  // };
 
   useEffect(() => {
     fetchTask();
-    document.addEventListener('mousedown', closingDetailTaskOutsideClick);
-    return () => {
-      document.removeEventListener('mousedown', closingDetailTaskOutsideClick);
-    };
+    // document.addEventListener('mousedown', closingDetailTaskOutsideClick);
+    // return () => {
+    //   document.removeEventListener('mousedown', closingDetailTaskOutsideClick);
+    // };
   }, [isOpen, fetchTask]);
   if (!currentTask) return;
   return (

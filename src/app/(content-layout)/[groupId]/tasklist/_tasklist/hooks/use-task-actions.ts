@@ -1,10 +1,7 @@
 import axiosClient from '@/lib/axiosClient';
 import { Task } from '../types/task-type';
-import useModalContext from '@/components/common/modal/core/useModalContext';
 
 export function useTaskActions(task?: Task) {
-  const { openModal } = useModalContext();
-
   const editTask = () => {
     //수정 리퀘스트
   };
