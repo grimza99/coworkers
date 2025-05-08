@@ -89,7 +89,7 @@ export default function ManageTaskItem({
           <div className="flex flex-col gap-4">
             <label className="text-lg-md">반복 설정</label>
             {task ? (
-              <Button variant="danger" size="custom" className="h-10 w-40 rounded-xl">
+              <Button type="button" variant="danger" size="custom" className="h-10 w-40 rounded-xl">
                 반복 설정 삭제하기
               </Button>
             ) : (
