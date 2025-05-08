@@ -10,6 +10,7 @@ export default async function Page({ params }: { params: Promise<{ groupId: stri
   const { groupId } = await params;
   const res = await axiosServer.get(`/groups/${groupId}`);
   const data = res.data;
+
   return (
     <main>
       <div className="border-gray100/10 bg-gray100/10 relative flex h-16 w-full items-center justify-between rounded-xl border-1 px-6 py-5">
