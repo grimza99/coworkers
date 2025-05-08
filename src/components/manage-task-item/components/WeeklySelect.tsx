@@ -13,16 +13,17 @@ export default function WeeklySelect({ selectedDays, toggleDay }: WeeklySelectPr
       <label className="text-lg-md">반복 요일</label>
       <div className="flex justify-between">
         {DAY_OF_THE_WEEK.map((w, idx) => (
-          <div
+          <button
             key={w}
-            onClick={() => toggleDay(idx + 1)}
+            type="button"
+            onClick={() => toggleDay(idx)}
             className={clsx(
               'text-md-md flex h-12 w-11 cursor-pointer items-center justify-center rounded-xl',
-              selectedDays?.includes(idx + 1) ? 'bg-primary text-gray100' : 'bg-bg400 text-gray500'
+              selectedDays?.includes(idx) ? 'bg-primary text-gray100' : 'bg-bg400 text-gray500'
             )}
           >
             {w}
-          </div>
+          </button>
         ))}
       </div>
     </div>

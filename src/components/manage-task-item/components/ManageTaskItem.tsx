@@ -23,6 +23,7 @@ export default function ManageTaskItem({
   const {
     taskItem,
     selectedTime,
+    weekDays,
     isWeekly,
     isCalendarOpen,
     isTimeOpen,
@@ -106,10 +107,7 @@ export default function ManageTaskItem({
           </div>
 
           {isWeekly && (
-            <WeeklySelect
-              selectedDays={taskItem?.weekDays}
-              toggleDay={(idx: number) => toggleDay(idx)}
-            />
+            <WeeklySelect selectedDays={weekDays} toggleDay={(idx: number) => toggleDay(idx)} />
           )}
 
           <FormField

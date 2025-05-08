@@ -136,7 +136,6 @@ export default function useManageTaskItem({
     e.preventDefault();
 
     let finalTaskItem = { ...taskItem };
-    console.log(taskItem);
 
     if (taskItem.frequencyType === 'WEEKLY') {
       finalTaskItem = withWeekDaysTaskItem(finalTaskItem);
@@ -172,6 +171,7 @@ export default function useManageTaskItem({
   return {
     taskItem,
     selectedTime,
+    weekDays,
     isWeekly,
     isCalendarOpen,
     isTimeOpen,
