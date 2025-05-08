@@ -6,7 +6,11 @@ import PATHS from '@/constants/paths';
 import { getUserApiResponse } from '@/types/user';
 
 // @FIXME: 1. 유저 정보를 전역 상태로 관리해서, 요청 수 줄이기  2 href를 state로 관리 + Link 컴포넌트 사용
-export default function StartButton({ children }: { children: React.ReactNode }) {
+export default function StartButton({
+  className,
+  children,
+  ...props
+}: React.ComponentProps<'button'>) {
   const router = useRouter();
   const handleClick = async () => {
     const res = await axiosClient.get<getUserApiResponse>(`/user`);
@@ -19,7 +23,14 @@ export default function StartButton({ children }: { children: React.ReactNode })
   };
 
   return (
-    <Button variant="gradient" fontSize="16" size="xl" onClick={handleClick}>
+    <Button
+      variant="gradient"
+      fontSize="16"
+      size="xl"
+      onClick={handleClick}
+      className={className}
+      {...props}
+    >
       {children}
     </Button>
   );
