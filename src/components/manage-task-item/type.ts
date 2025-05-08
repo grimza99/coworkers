@@ -16,17 +16,8 @@ export interface Time {
 }
 
 export interface TaskItemProps {
-  task?: TaskItem;
+  task?: Task;
   groupId: number;
   taskListId: number;
-}
-
-export interface CreateTaskItemProps extends Pick<TaskItemProps, 'task'> {
-  interceptTaskItem: ({ taskItem, monthDay, weekDays }: InterceptedTaskItem) => void;
-}
-
-export interface InterceptedTaskItem {
-  taskItem: TaskItem;
-  monthDay?: number;
-  weekDays?: number[];
+  createOrEditModalId?: string;
 }

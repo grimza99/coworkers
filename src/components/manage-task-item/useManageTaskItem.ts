@@ -1,8 +1,10 @@
-import { useEffect, useState } from 'react';
+import { useState } from 'react';
 import { format, getDate } from 'date-fns';
 import { Frequency } from '@/app/(content-layout)/[groupId]/tasklist/_tasklist/types/task-list-page-type';
 import generateTime from './time-table';
-import { CreateTaskItemProps, TaskItem, Time } from './type';
+import { TaskItemProps, TaskItem, Time } from './type';
+import axiosClient from '@/lib/axiosClient';
+import useModalContext from '../common/modal/core/useModalContext';
 
 const INITIAL_TASK_ITEM: TaskItem = {
   name: '',
@@ -25,8 +27,10 @@ const REVERSE_FREQUENCY_MAP: Record<string, Frequency> = {
   '월 반복': 'MONTHLY',
 };
 
-export default function useManageTaskItem({ task, interceptTaskItem }: CreateTaskItemProps) {
+export default function useManageTaskItem({ task, groupId, taskListId }: TaskItemProps) {
   const { am, pm } = generateTime();
+
+  const { closeModal } = useModalContext();
 
   const [isCalendarOpen, setIsCalendarOpen] = useState(false);
   const [taskItem, setTaskItem] = useState<TaskItem>(() => ({
@@ -36,25 +40,10 @@ export default function useManageTaskItem({ task, interceptTaskItem }: CreateTas
   const [isTimeOpen, setIsTimeOpen] = useState(false);
   const [selectedFrequency, setSelectedFrequency] = useState('');
   const [weekDays, setWeekDays] = useState<number[]>([]);
-  const [monthDay, setMonthDay] = useState(0);
   const [selectedTime, setSelectedTime] = useState<Time>({
     period: '오전',
     time: am[0],
   });
-
-  useEffect(() => {
-    if (taskItem.frequencyType === 'WEEKLY') {
-      interceptTaskItem({ taskItem, weekDays });
-    }
-
-    if (taskItem.frequencyType === 'MONTHLY') {
-      const day = getDate(taskItem.startDate);
-      setMonthDay(day);
-      interceptTaskItem({ taskItem, monthDay: day });
-    }
-
-    interceptTaskItem({ taskItem });
-  }, [taskItem, weekDays, monthDay, interceptTaskItem]);
 
   const select = [
     {
@@ -125,6 +114,37 @@ export default function useManageTaskItem({ task, interceptTaskItem }: CreateTas
     });
   };
 
+  const closeTaskItemModal = (modalId: string) => closeModal(modalId);
+
+  const withWeekDaysTaskItem = (item: TaskItem): TaskItem => ({
+    ...item,
+    weekDays,
+  });
+
+  const withMonthDayTaskItem = (item: TaskItem): TaskItem => ({
+    ...item,
+    monthDay: getDate(item.startDate),
+  });
+
+  const handleCreateTaskItemSubmit = async () => {
+    let finalTaskItem = { ...taskItem };
+
+    if (taskItem.frequencyType === 'WEEKLY') {
+      finalTaskItem = withWeekDaysTaskItem(finalTaskItem);
+    }
+
+    if (taskItem.frequencyType === 'MONTHLY') {
+      finalTaskItem = withMonthDayTaskItem(finalTaskItem);
+    }
+
+    try {
+      await axiosClient.post(`/groups/${groupId}/task-lists/${taskListId}/tasks`, finalTaskItem);
+      closeModal('task-item');
+    } catch (err) {
+      console.error(err);
+    }
+  };
+
   const isWeekly = selectedFrequency === '주 반복';
 
   return {
@@ -138,7 +158,9 @@ export default function useManageTaskItem({ task, interceptTaskItem }: CreateTas
     handleInputChange,
     handleCalendarDateChange,
     handleFrequencyChange,
+    handleCreateTaskItemSubmit,
     toggleDay,
     updateTime,
+    closeModal: closeTaskItemModal,
   };
 }

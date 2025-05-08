@@ -6,6 +6,7 @@ import { Task } from '../types/task-list-page-type';
 import { useTaskHandlers } from '../utils/task-handlers';
 import { DetailTask } from './DetailTask';
 import RemoveTaskModal from './ModalContents/RemoveTaskModal';
+import ManageTaskItemModal from './manage-task-item-modal/MangeTaskItemModal';
 
 interface Props {
   task: Task;
@@ -18,7 +19,8 @@ export default function TasksWiseTask({ task, groupId, taskListId }: Props) {
   const [isDetailTaskOpen, setIsDetailTaskOpen] = useState(false);
 
   const taskDeleteModalId = `${task.id}-delete`;
-  const taskEditModalId = `${task.id}-edit`;
+
+  const createOrEditModalId = task ? `${task.id}-edit` : `${taskListId}-create`;
 
   const {
     popUpDeleteTaskModal,
@@ -43,7 +45,7 @@ export default function TasksWiseTask({ task, groupId, taskListId }: Props) {
         key={task.id}
         type="taskList"
         onCheckStatusChange={() => taskStatusChange(groupId, taskListId, isDone, setIsDone)}
-        onEdit={() => popUpEditTaskModal(taskEditModalId)}
+        onEdit={() => popUpEditTaskModal(createOrEditModalId)}
         onDelete={() => popUpDeleteTaskModal(taskDeleteModalId)}
         onClick={() => PopUpDetailTask(setIsDetailTaskOpen)}
         onClickToggleDailyMode={toggleDailyMode}
@@ -68,6 +70,12 @@ export default function TasksWiseTask({ task, groupId, taskListId }: Props) {
         taskId={task.id}
         groupId={groupId}
         taskListId={taskListId}
+      />
+      <ManageTaskItemModal
+        task={task}
+        groupId={Number(groupId)}
+        taskListId={taskListId}
+        createOrEditModalId={createOrEditModalId}
       />
     </>
   );
