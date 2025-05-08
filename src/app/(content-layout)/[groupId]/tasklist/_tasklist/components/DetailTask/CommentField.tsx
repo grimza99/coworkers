@@ -6,17 +6,13 @@ import EditCommentInput from './EditCommentInput';
 import axiosClient from '@/lib/axiosClient';
 import RemoveCommentModal from '../ModalContents/RemoveCommentModal';
 import useModalContext from '@/components/common/modal/core/useModalContext';
+import { ERROR_MODAL } from '@/constants/error-modal';
 
 interface Props {
   comment: Comment;
   taskId: number;
 }
 
-/**
- * @todo
- * 1. deleteComment 에서 삭제 실패시 에러 핸들링
- * 1. editComment 에러 핸들링
- */
 export default function CommentField({ comment, taskId }: Props) {
   const [isEdit, setIsEdit] = useState(false);
   const [isDelete, setIsDelete] = useState(false);
@@ -34,8 +30,12 @@ export default function CommentField({ comment, taskId }: Props) {
   };
 
   const deleteComment = async () => {
-    await axiosClient.delete(`/tasks/${taskId}/comments/${comment.id}`);
-    setIsDelete(true);
+    try {
+      await axiosClient.delete(`/tasks/${taskId}/comments/${comment.id}`);
+      setIsDelete(true);
+    } catch {
+      openModal(ERROR_MODAL.DELETE_COMMENT);
+    }
   };
 
   const deleteCommentModalPopUp = () => {
@@ -47,11 +47,15 @@ export default function CommentField({ comment, taskId }: Props) {
   };
 
   const editComment = async () => {
-    await axiosClient.patch(`/tasks/${taskId}/comments/${comment.id}`, {
-      content: currentContent,
-    });
-    setCurrentComment((prev) => ({ ...prev, content: currentContent }));
-    onEditCancel();
+    try {
+      await axiosClient.patch(`/tasks/${taskId}/comments/${comment.id}`, {
+        content: currentContent,
+      });
+      setCurrentComment((prev) => ({ ...prev, content: currentContent }));
+      onEditCancel();
+    } catch {
+      openModal(ERROR_MODAL.EDIT_COMMENT);
+    }
   };
 
   return (

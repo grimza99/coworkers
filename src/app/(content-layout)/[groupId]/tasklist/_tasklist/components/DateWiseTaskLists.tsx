@@ -9,11 +9,13 @@ interface Props {
   date: Date;
   groupId: string;
 }
+
 /*
  * @Todo
  * 1. fetchTaskLists 에러핸들링
  * 2. fetchTaskListWiseTasks 에러 핸들링
  */
+
 export default function DateWiseTaskLists({ date, groupId }: Props) {
   const [taskLists, setTaskLists] = useState<TaskList[]>([]);
   const [currentTaskList, setCurrentTaskList] = useState<TaskList>();

@@ -3,7 +3,7 @@
 import { loginApiResponse } from '@/app/(form-layout)/login/_login/LoginForm';
 import ErrorModal from '@/components/common/ErrorModal';
 import useModalContext from '@/components/common/modal/core/useModalContext';
-import { ERROR_MODAL_ID } from '@/constants/error-modal';
+import { ERROR_MODAL } from '@/constants/error-modal';
 import axiosClient from '@/lib/axiosClient';
 import { setClientCookie } from '@/lib/cookie/client';
 import { useRouter, useSearchParams } from 'next/navigation';
@@ -40,7 +40,7 @@ export default function OAuthClient() {
         router.push(`${data.memberships[0].group.id}`);
       }
     } catch {
-      openModal(ERROR_MODAL_ID.OAUTH);
+      openModal(ERROR_MODAL.OAUTH);
     }
   }, [code, openModal, redirectUri, router, state]);
 
@@ -48,5 +48,5 @@ export default function OAuthClient() {
     oauthRequest();
   }, [oauthRequest]);
 
-  return <ErrorModal modalId={ERROR_MODAL_ID.OAUTH} onClick={() => router.back()} />;
+  return <ErrorModal modalId={ERROR_MODAL.OAUTH} onClick={() => router.back()} />;
 }
