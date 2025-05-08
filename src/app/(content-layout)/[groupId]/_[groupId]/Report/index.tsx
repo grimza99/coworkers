@@ -9,7 +9,7 @@ interface Props {
 
 export default function Report({ tasklists }: Props) {
   const { totalTaskCount, doneTaskCount } = calculateTaskProgress(tasklists);
-  const percent = Math.ceil((doneTaskCount / totalTaskCount) * 100);
+  const percent = totalTaskCount === 0 ? 0 : Math.ceil((doneTaskCount / totalTaskCount) * 100);
 
   return (
     <section className="flex w-full flex-col gap-4">
