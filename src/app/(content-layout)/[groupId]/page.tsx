@@ -3,8 +3,7 @@ import gearIcon from '@/../public/icons/gear-icon.svg';
 import groupThumbnailImage from '@/../public/images/group-thumbnail.png';
 import axiosServer from '@/lib/axiosServer';
 import Tasklists from './_[groupId]/Tasklists';
-// import Report from './_[groupId]/Report';
-import { Task } from '@/types/task';
+import Report from './_[groupId]/Report';
 import Members from './_[groupId]/Members';
 
 export default async function Page({ params }: { params: Promise<{ groupId: string }> }) {
@@ -26,7 +25,7 @@ export default async function Page({ params }: { params: Promise<{ groupId: stri
       </div>
       <div className="mt-6 mb-50 flex flex-col gap-12 lg:gap-16">
         <Tasklists groupId={data.groupId} tasklists={data.taskLists} />
-        {/* <Report taskCount={} doneCount={} /> */}
+        <Report tasklists={data.taskLists} />
         <Members groupId={data.groupId} members={data.members} />
       </div>
     </main>

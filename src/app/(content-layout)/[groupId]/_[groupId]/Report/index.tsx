@@ -1,13 +1,15 @@
-import ReportProgress from './GroupProgress';
-import TaskCount from './TaskCount';
+import ReportProgress from '@/app/(content-layout)/[groupId]/_[groupId]/Report/GroupProgress';
+import TaskCount from '@/app/(content-layout)/[groupId]/_[groupId]/Report/TaskCount';
+import { calculateTaskProgress } from '@/app/(content-layout)/[groupId]/_[groupId]/taskUtils';
+import { Tasklist } from '@/types/tasklist';
 
 interface Props {
-  taskCount: number;
-  doneCount: number;
+  tasklists: Tasklist[];
 }
 
-export default function Report({ taskCount, doneCount }: Props) {
-  const percent = Math.ceil((doneCount / taskCount) * 100);
+export default function Report({ tasklists }: Props) {
+  const { totalTaskCount, doneTaskCount } = calculateTaskProgress(tasklists);
+  const percent = Math.ceil((doneTaskCount / totalTaskCount) * 100);
 
   return (
     <div className="flex w-full flex-col gap-4">
@@ -16,8 +18,8 @@ export default function Report({ taskCount, doneCount }: Props) {
         <div className="flex justify-between">
           <ReportProgress percent={percent} />
           <div className="flex h-full w-full max-w-100 flex-col gap-4">
-            <TaskCount variant="total" count={taskCount} />
-            <TaskCount variant="done" count={doneCount} />
+            <TaskCount variant="total" count={totalTaskCount} />
+            <TaskCount variant="done" count={doneTaskCount} />
           </div>
         </div>
       </div>
