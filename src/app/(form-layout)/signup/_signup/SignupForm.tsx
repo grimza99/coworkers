@@ -42,33 +42,65 @@ export default function SignupForm() {
     }));
   };
 
+  function getNicknameErrorMessage() {
+    if (formData.nickname.trim() === '') {
+      return SIGNUP_MESSAGES.nickname.required;
+    }
+    if (!validateLengthLimit(formData.nickname)) {
+      return SIGNUP_MESSAGES.nickname.tooLong;
+    }
+    if (duplicateError.nickname) {
+      return SIGNUP_MESSAGES.nickname.duplicated;
+    }
+    return '';
+  }
+
+  function getEmailErrorMessage() {
+    if (formData.email.trim() === '') {
+      return SIGNUP_MESSAGES.email.required;
+    }
+    if (!validateEmail(formData.email)) {
+      return SIGNUP_MESSAGES.email.invalid;
+    }
+    if (duplicateError.email) {
+      return SIGNUP_MESSAGES.email.duplicated;
+    }
+    return '';
+  }
+
+  function getPasswordErrorMessage() {
+    if (formData.password.trim() === '') {
+      return SIGNUP_MESSAGES.password.required;
+    }
+    if (!validatePassword(formData.password)) {
+      return SIGNUP_MESSAGES.password.invalid;
+    }
+    return '';
+  }
+
+  function getPasswordConfirmationErrorMessage() {
+    if (formData.passwordConfirmation.trim() === '') {
+      return SIGNUP_MESSAGES.passwordConfirmation.required;
+    }
+    if (!validateConfirmPassword(formData.password, formData.passwordConfirmation)) {
+      return SIGNUP_MESSAGES.passwordConfirmation.notMatch;
+    }
+    return '';
+  }
+
   const formFields = [
     {
       label: '이름',
       name: 'nickname',
       isFailure: !validateLengthLimit(formData.nickname) || duplicateError.nickname,
-      errorMessage:
-        formData.nickname.trim() === ''
-          ? SIGNUP_MESSAGES.nickname.required
-          : !validateLengthLimit(formData.nickname)
-            ? SIGNUP_MESSAGES.nickname.tooLong
-            : duplicateError.nickname
-              ? SIGNUP_MESSAGES.nickname.duplicated
-              : '',
+      errorMessage: getNicknameErrorMessage(),
       placeholder: '이름을 입력해주세요.',
     },
     {
       label: '이메일',
       name: 'email',
       isFailure: !validateEmail(formData.email) || duplicateError.email,
-      errorMessage:
-        formData.email.trim() === ''
-          ? SIGNUP_MESSAGES.email.required
-          : !validateEmail(formData.email)
-            ? SIGNUP_MESSAGES.email.invalid
-            : duplicateError.email
-              ? SIGNUP_MESSAGES.email.duplicated
-              : '',
+      errorMessage: getEmailErrorMessage(),
       placeholder: '이메일을 입력해주세요.',
     },
     {
@@ -76,12 +108,7 @@ export default function SignupForm() {
       name: 'password',
       type: isPasswordVisible.password ? 'text' : 'password',
       isFailure: !validatePassword(formData.password),
-      errorMessage:
-        formData.password.trim() === ''
-          ? SIGNUP_MESSAGES.password.required
-          : !validatePassword(formData.password)
-            ? SIGNUP_MESSAGES.password.invalid
-            : '',
+      errorMessage: getPasswordErrorMessage(),
       placeholder: '비밀번호를 입력해주세요.',
       rightSlot: (
         <PasswordToggleButton
@@ -95,10 +122,7 @@ export default function SignupForm() {
       name: 'passwordConfirmation',
       type: isPasswordVisible.confirmPassword ? 'text' : 'password',
       isFailure: !validateConfirmPassword(formData.password, formData.passwordConfirmation),
-      errorMessage:
-        formData.passwordConfirmation.trim() === ''
-          ? SIGNUP_MESSAGES.passwordConfirmation.required
-          : SIGNUP_MESSAGES.passwordConfirmation.notMatch,
+      errorMessage: getPasswordConfirmationErrorMessage(),
       placeholder: '비밀번호를 다시 한 번 입력해주세요.',
       rightSlot: (
         <PasswordToggleButton
