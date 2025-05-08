@@ -1,7 +1,7 @@
 'use client';
 
 import { useState, ChangeEvent } from 'react';
-import { AxiosError } from 'axios';
+import axios, { AxiosError } from 'axios';
 import axiosClient from '@/lib/axiosClient';
 import { setClientCookie } from '@/lib/cookie/client';
 import FormField from '@/components/common/formField';
@@ -125,14 +125,15 @@ export default function SignupForm() {
       openModal('signup-success');
       setIsSuccess(true);
     } catch (error) {
-      const axiosError = error as AxiosError<{ message: string }>;
-      const message = axiosError.response?.data?.message;
+      if (axios.isAxiosError(error)) {
+        const message = error.response?.data?.message;
 
-      if (message) {
-        setDuplicateError({
-          email: message.includes('이메일'),
-          nickname: message.includes('닉네임'),
-        });
+        if (message) {
+          setDuplicateError({
+            email: message.includes('이메일'),
+            nickname: message.includes('닉네임'),
+          });
+        }
       }
 
       openModal('signup-fail');
