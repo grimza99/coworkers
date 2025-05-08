@@ -1,3 +1,4 @@
+import { Metadata } from 'next';
 import Image from 'next/image';
 import gearIcon from '@/../public/icons/gear-icon.svg';
 import groupThumbnailImage from '@/../public/images/group-thumbnail.png';
@@ -5,11 +6,54 @@ import axiosServer from '@/lib/axiosServer';
 import Tasklists from './_[groupId]/Tasklists';
 import Report from './_[groupId]/Report';
 import Members from './_[groupId]/Members';
+import { cache } from 'react';
+
+export const getGroup = cache(async (groupId: string) => {
+  'use server';
+  const data = await axiosServer.get(`/groups/${groupId}`).then((res) => res.data);
+  return data;
+});
+
+export async function generateMetadata({
+  params,
+}: {
+  params: Promise<{ groupId: string }>;
+}): Promise<Metadata> {
+  const data = await getGroup((await params).groupId);
+  const image = data.image || '/images/group-thumbnail.png';
+  const title = `${data.name} | Coworkers`;
+  const description = `${data.name} 그룹의 할 일 목록과 활동을 확인하세요.`;
+
+  return {
+    title: title,
+    description: description,
+
+    openGraph: {
+      title: title,
+      description: description,
+      // url: '',
+      siteName: 'Coworkers',
+      images: [
+        {
+          url: image,
+          width: 400,
+          height: 400,
+          alt: `${data.name} 썸네일 이미지`,
+        },
+      ],
+    },
+    twitter: {
+      card: 'summary',
+      title: title,
+      description: description,
+      images: [image],
+    },
+  };
+}
 
 export default async function Page({ params }: { params: Promise<{ groupId: string }> }) {
   const { groupId } = await params;
-  const res = await axiosServer.get(`/groups/${groupId}`);
-  const data = res.data;
+  const data = await getGroup(groupId);
 
   return (
     <main>
