@@ -11,7 +11,7 @@ type MembersProps = {
 
 export default function Members({ groupId, members }: MembersProps) {
   const memberCount = members.length;
-  const memberInvitaionModalId = `${groupId}-memberInvitation`;
+  const memberInvitationModalId = `${groupId}-memberInvitation`;
 
   return (
     <>
@@ -20,7 +20,7 @@ export default function Members({ groupId, members }: MembersProps) {
           <h2 className="text-lg-md">
             멤버 <span className="text-lg-rg text-gray500">({memberCount}명)</span>
           </h2>
-          <ModalTrigger className="text-primary text-md-rg" modalId={memberInvitaionModalId}>
+          <ModalTrigger className="text-primary text-md-rg" modalId={memberInvitationModalId}>
             + 새로운 멤버 초대하기
           </ModalTrigger>
         </div>
@@ -31,7 +31,7 @@ export default function Members({ groupId, members }: MembersProps) {
         </ul>
       </section>
 
-      <MemberInvitationModal modalId={memberInvitaionModalId} groupId={groupId} />
+      <MemberInvitationModal modalId={memberInvitationModalId} groupId={groupId} />
     </>
   );
 }
