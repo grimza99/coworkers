@@ -101,7 +101,7 @@ export default function Header() {
 
   if (isMinimalHeader) {
     return (
-      <header className="bg-bg200 border-border sticky top-0 flex h-15 w-full justify-center border-b-1 py-[14px]">
+      <header className="bg-bg200 border-border sticky top-0 z-200 flex h-15 w-full justify-center border-b-1 py-[14px]">
         <div className="flex w-full max-w-300 items-center justify-between p-4">
           <Logo />
         </div>
