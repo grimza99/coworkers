@@ -9,6 +9,7 @@ type TasklistsProps = {
 
 export default function Tasklists({ groupId, tasklists }: TasklistsProps) {
   const totalTasklistCount = tasklists.length;
+
   return (
     <section>
       <div className="mb-4 flex items-center justify-between">
