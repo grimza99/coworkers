@@ -11,7 +11,8 @@ type MembersProps = {
 
 export default function Members({ groupId, members }: MembersProps) {
   const memberCount = members.length;
-  const memberInvitaionModalId = 'memberInvitation';
+  const memberInvitaionModalId = `${groupId}-memberInvitation`;
+
   return (
     <>
       <section>

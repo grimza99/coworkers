@@ -12,8 +12,8 @@ type MemberItemProps = {
 
 export default function MemberItem({ member }: MemberItemProps) {
   const { userId, userName, userImage, userEmail, role } = member;
-  const memberDetailModalId = `${userId}detail`;
-  const memberRemovalModalId = `${userId}removal`;
+  const memberDetailModalId = `${userId}-detail`;
+  const memberRemovalModalId = `${userId}-removal`;
 
   return (
     <>
