@@ -126,9 +126,6 @@ export default function SignupForm() {
         nickname: formData.nickname,
       });
 
-      const { accessToken, refreshToken } = response.data;
-      setClientCookie('accessToken', accessToken);
-      setClientCookie('refreshToken', refreshToken);
       openModal('signup-success');
       setIsSuccess(true);
     } catch (error: unknown) {
