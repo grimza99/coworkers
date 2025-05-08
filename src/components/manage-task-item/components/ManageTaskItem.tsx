@@ -84,6 +84,7 @@ export default function ManageTaskItem({
               <CalendarSelect
                 onDateChange={handleCalendarDateChange}
                 date={taskItem.startDate as Date}
+                disablePast
               />
             )}
             {isTimeOpen && <TimePicker selectedTime={selectedTime} onTimeChange={updateTime} />}
