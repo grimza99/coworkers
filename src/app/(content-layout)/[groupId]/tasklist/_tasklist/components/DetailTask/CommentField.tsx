@@ -6,7 +6,6 @@ import EditCommentInput from './EditCommentInput';
 import axiosClient from '@/lib/axiosClient';
 import RemoveCommentModal from '../ModalContents/RemoveCommentModal';
 import useModalContext from '@/components/common/modal/core/useModalContext';
-import { ERROR_MODAL } from '@/constants/error-modal';
 
 interface Props {
   comment: Comment;
@@ -34,7 +33,7 @@ export default function CommentField({ comment, taskId }: Props) {
       await axiosClient.delete(`/tasks/${taskId}/comments/${comment.id}`);
       setIsDelete(true);
     } catch {
-      openModal(ERROR_MODAL.DELETE_COMMENT);
+      //toast 예정-선향
     }
   };
 
@@ -54,7 +53,7 @@ export default function CommentField({ comment, taskId }: Props) {
       setCurrentComment((prev) => ({ ...prev, content: currentContent }));
       onEditCancel();
     } catch {
-      openModal(ERROR_MODAL.EDIT_COMMENT);
+      //toast 예정-선향
     }
   };
 

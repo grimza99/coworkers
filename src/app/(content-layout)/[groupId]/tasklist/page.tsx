@@ -14,17 +14,8 @@ import { ko } from 'date-fns/locale';
 import CalendarSelect from '@/components/calendar/CalendarSelect';
 import { useOutSideClickAutoClose } from '@/utils/use-outside-click-auto-close';
 import ErrorModal from '@/components/common/ErrorModal';
-import { ERROR_MODAL } from '@/constants/error-modal';
 import { ErrorBoundary } from 'next/dist/client/components/error-boundary';
 import Error from './error';
-
-const ERROR_MODAL_ID = [
-  ERROR_MODAL.DELETE_TASK,
-  ERROR_MODAL.EDIT_TASK,
-  ERROR_MODAL.EDIT_COMMENT,
-  ERROR_MODAL.DELETE_COMMENT,
-  ERROR_MODAL.TASK_DONE,
-];
 
 interface Props {
   params: Promise<{ groupId: string }>;
@@ -84,9 +75,6 @@ export default function Page({ params }: Props) {
       <Button className="absolute right-6 bottom-40" onClick={() => {}} size="md" fontSize="16">
         <Plus width="16" height="16" />할 일 추가
       </Button>
-      {ERROR_MODAL_ID.map((error) => {
-        return <ErrorModal key={error} modalId={error} />;
-      })}
     </div>
   );
 }

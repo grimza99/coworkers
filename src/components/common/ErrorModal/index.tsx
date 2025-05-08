@@ -9,18 +9,16 @@ import {
 import Image from 'next/image';
 import Button from '@/components/common/Button';
 import useModalContext from '@/components/common/modal/core/useModalContext';
-import { getErrorModalButtonText, getErrorModalDescription } from '@/constants/error-modal';
 
 interface Props {
   modalId: string;
-  description?: string;
+  description: string;
   onClick?: () => void;
   buttonText?: string;
 }
 export default function ErrorModal({ modalId, description, onClick, buttonText }: Props) {
   const { closeModal } = useModalContext();
-  const modalButtonText = buttonText ? buttonText : getErrorModalButtonText(modalId);
-  const errorDescription = description ? description : getErrorModalDescription(modalId);
+  const modalButtonText = buttonText ? buttonText : '닫기';
 
   return (
     <>
@@ -29,7 +27,7 @@ export default function ErrorModal({ modalId, description, onClick, buttonText }
           <ModalContainer className="md:max-w-96 lg:max-w-96">
             <Image src="/icons/danger.icon.svg" alt="!" width={20} height={20} />
             <ModalDescription className="text-md-md text-gray500 mt-4 mb-6 w-full">
-              {errorDescription}
+              {description}
             </ModalDescription>
             <ModalFooter className="w-full">
               <div className="flex w-full gap-2">

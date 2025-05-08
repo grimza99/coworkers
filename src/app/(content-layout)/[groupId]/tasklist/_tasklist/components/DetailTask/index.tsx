@@ -64,7 +64,7 @@ export function DetailTask({
       document.removeEventListener('mousedown', closingDetailTaskOutsideClick);
     };
   }, [isOpen, fetchTask]);
-
+  if (!currentTask) return;
   return (
     <>
       {isOpen && (
@@ -79,7 +79,7 @@ export function DetailTask({
             <div className="flex h-full flex-col gap-25 overflow-scroll">
               <ErrorBoundary errorComponent={FallBackComponent}>
                 <Content isDone={isDone} task={currentTask} />
-                <DetailTaskCommentField taskId={currentTask?.id} />{' '}
+                <DetailTaskCommentField taskId={currentTask?.id} />
               </ErrorBoundary>
             </div>
           </div>

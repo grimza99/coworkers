@@ -3,16 +3,17 @@
 import { loginApiResponse } from '@/app/(form-layout)/login/_login/LoginForm';
 import ErrorModal from '@/components/common/ErrorModal';
 import useModalContext from '@/components/common/modal/core/useModalContext';
-import { ERROR_MODAL } from '@/constants/error-modal';
+import { ERROR_MODAL_ID } from '@/constants/modal-id/error-modal';
 import axiosClient from '@/lib/axiosClient';
 import { setClientCookie } from '@/lib/cookie/client';
 import { useRouter, useSearchParams } from 'next/navigation';
 import { useCallback, useEffect } from 'react';
+
 /**
- *
  * @todo
  * get user response type지정
  */
+
 export default function OAuthClient() {
   const { openModal } = useModalContext();
   const searchParams = useSearchParams();
@@ -20,6 +21,7 @@ export default function OAuthClient() {
   const code = searchParams.get('code');
   const state = searchParams.get('state');
   const router = useRouter();
+
   const oauthRequest = useCallback(async () => {
     try {
       const res = await axiosClient.post<loginApiResponse>(`/auth/sinIn/KAKAO`, {
@@ -40,7 +42,7 @@ export default function OAuthClient() {
         router.push(`${data.memberships[0].group.id}`);
       }
     } catch {
-      openModal(ERROR_MODAL.OAUTH);
+      openModal(ERROR_MODAL_ID.OAUTH);
     }
   }, [code, openModal, redirectUri, router, state]);
 
@@ -48,5 +50,11 @@ export default function OAuthClient() {
     oauthRequest();
   }, [oauthRequest]);
 
-  return <ErrorModal modalId={ERROR_MODAL.OAUTH} onClick={() => router.back()} />;
+  return (
+    <ErrorModal
+      modalId={ERROR_MODAL_ID.OAUTH}
+      description="간편로그인에 실패 했습니다."
+      onClick={() => router.back()}
+    />
+  );
 }
