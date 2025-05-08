@@ -76,7 +76,7 @@ export default function DateWiseTaskLists({ date, groupId, updateTaskListId }: P
   }, [date, groupId, fetchTaskLists]);
 
   return (
-    <div className="flex flex-col gap-4">
+    <div className="relative flex h-full flex-col gap-4">
       <div className="flex gap-3">
         {taskLists.map((taskList) => {
           return (
@@ -95,9 +95,49 @@ export default function DateWiseTaskLists({ date, groupId, updateTaskListId }: P
           );
         })}
       </div>
-      <div className="flex w-full items-center justify-center">
+      <div className="flex h-full flex-col items-center justify-start">
         {currentTasks.length > 0 && currentTaskList ? (
-          <div className="flex w-full flex-col gap-4">
+          <div className="flex h-full w-full flex-col gap-4">
+            {currentTasks.map((task) => {
+              return (
+                <TasksWiseTask
+                  taskListId={currentTaskList.id}
+                  task={task}
+                  key={task.id}
+                  groupId={groupId}
+                />
+              );
+            })}
+            {currentTasks.map((task) => {
+              return (
+                <TasksWiseTask
+                  taskListId={currentTaskList.id}
+                  task={task}
+                  key={task.id}
+                  groupId={groupId}
+                />
+              );
+            })}
+            {currentTasks.map((task) => {
+              return (
+                <TasksWiseTask
+                  taskListId={currentTaskList.id}
+                  task={task}
+                  key={task.id}
+                  groupId={groupId}
+                />
+              );
+            })}
+            {currentTasks.map((task) => {
+              return (
+                <TasksWiseTask
+                  taskListId={currentTaskList.id}
+                  task={task}
+                  key={task.id}
+                  groupId={groupId}
+                />
+              );
+            })}
             {currentTasks.map((task) => {
               return (
                 <TasksWiseTask

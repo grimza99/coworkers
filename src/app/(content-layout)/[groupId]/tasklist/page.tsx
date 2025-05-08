@@ -31,12 +31,6 @@ export default function Page({ params }: Props) {
     ref,
   } = useOutSideClickAutoClose(false);
 
-  const [taskListId, setTaskListId] = useState(0);
-
-  const updateTaskListId = (id: number) => {
-    setTaskListId(id);
-  };
-
   const handleClickChangeDayIcon = (value: string) => {
     if (value === 'prev') {
       setCurrentDate((prev) => subDays(prev, 1));
@@ -45,8 +39,14 @@ export default function Page({ params }: Props) {
     }
   };
 
+  const [taskListId, setTaskListId] = useState(0);
+
+  const updateTaskListId = (id: number) => {
+    setTaskListId(id);
+  };
+
   return (
-    <div className="relative flex h-dvh w-full flex-col gap-6">
+    <div className="relative flex h-[calc(100vh-84px)] w-full flex-col gap-6">
       <p className="text-lg-bold md:text-xl-bold">할 일</p>
       <div className="flex justify-between">
         <div className="relative flex items-center gap-3">
