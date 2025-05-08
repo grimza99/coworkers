@@ -58,6 +58,10 @@
   --text-4xl--line-height: 3rem;
   --text-4xl--font-weight: 500;
 
+  --text-4xl-bold: 2.5rem;
+  --text-4xl-bold--line-height: 3rem;
+  --text-4xl-bold--font-weight: 700;
+
   --text-3xl-bold: 2rem;
   --text-3xl-bold--line-height: 2.375rem;
   --text-3xl-bold--font-weight: 700;
@@ -236,4 +240,11 @@
   font-weight: 700;
   font-style: normal;
   font-display: swap;
+}
+@layer utilities {
+  .text-gradient {
+    background: var(--color-gradient);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+  }
 }

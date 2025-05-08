@@ -2,7 +2,7 @@
 import { useCallback, useEffect, useState } from 'react';
 import clsx from 'clsx';
 import axiosClient from '@/lib/axiosClient';
-import { Task, TaskList } from '../types/task-list-page-type';
+import { Task, TaskList } from '../types/task-type';
 import TasksWiseTask from './TasksWiseTask';
 
 interface Props {
@@ -69,7 +69,7 @@ export default function DateWiseTaskLists({ date, groupId, updateTaskListId }: P
     setTaskLists(fetchedTaskLists);
     setCurrentTaskList(fetchedTaskLists[0]);
     fetchTaskListWiseTasks(fetchedTaskLists[0]);
-  }, [groupId, fetchTaskListWiseTasks]);
+  }, [groupId, fetchTaskListWiseTasks, date]);
 
   useEffect(() => {
     fetchTaskLists();

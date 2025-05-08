@@ -11,7 +11,7 @@ import { validateEmail } from '@/utils/validators';
 import { User } from '@/types/user';
 import PATHS from '@/constants/paths';
 
-interface loginApiResponse {
+export interface loginApiResponse {
   accessToken: string;
   refreshToken: string;
   user: User;

@@ -2,10 +2,11 @@
 import TaskListItem from '@/components/task-list-item/TaskListItem';
 import { format, isValid } from 'date-fns';
 import { useState } from 'react';
-import { Task } from '../types/task-list-page-type';
-import { useTaskHandlers } from '../utils/task-handlers';
+import { Task } from '../types/task-type';
 import { DetailTask } from './DetailTask';
 import RemoveTaskModal from './ModalContents/RemoveTaskModal';
+import { useTaskActions } from '../hooks/use-task-actions';
+import { useTaskModals } from '../hooks/use-task-modals';
 import ManageTaskItemModal from './manage-task-item-modal/MangeTaskItemModal';
 
 interface Props {
@@ -19,16 +20,10 @@ export default function TasksWiseTask({ task, groupId, taskListId }: Props) {
   const [isDetailTaskOpen, setIsDetailTaskOpen] = useState(false);
 
   const taskDeleteModalId = `${task.id}-delete`;
-
   const createOrEditModalId = task ? `${task.id}-edit` : `${taskListId}-create`;
 
-  const {
-    popUpDeleteTaskModal,
-    popUpEditTaskModal,
-    PopUpDetailTask,
-    taskStatusChange,
-    toggleDailyMode,
-  } = useTaskHandlers(task);
+  const { popUpDeleteTaskModal, popUpEditTaskModal, popUpDetailTask } = useTaskModals();
+  const { toggleTaskDone } = useTaskActions(task);
 
   const safeFormatDate = (dateString: string | undefined | null) => {
     if (!dateString) return '';
@@ -39,16 +34,22 @@ export default function TasksWiseTask({ task, groupId, taskListId }: Props) {
     return format(date, 'yyyy년 MM월 dd일');
   };
 
+  const toggleTaskStatus = () => {
+    setIsDone((prev) => !prev);
+  };
+
+  const detailTaskOpen = () => {
+    setIsDetailTaskOpen((prev) => !prev);
+  };
   return (
     <>
       <TaskListItem
         key={task.id}
         type="taskList"
-        onCheckStatusChange={() => taskStatusChange(groupId, taskListId, isDone, setIsDone)}
+        onCheckStatusChange={() => toggleTaskDone(groupId, taskListId, isDone, toggleTaskStatus)}
         onEdit={() => popUpEditTaskModal(createOrEditModalId)}
         onDelete={() => popUpDeleteTaskModal(taskDeleteModalId)}
-        onClick={() => PopUpDetailTask(setIsDetailTaskOpen)}
-        onClickToggleDailyMode={toggleDailyMode}
+        onClick={() => popUpDetailTask(detailTaskOpen)}
         isDone={isDone}
         name={task.name}
         commentCount={task.commentCount}
@@ -57,11 +58,11 @@ export default function TasksWiseTask({ task, groupId, taskListId }: Props) {
       />
       <DetailTask
         isDone={isDone}
-        setIsDone={setIsDone}
+        setIsDone={toggleTaskStatus}
         taskId={task.id}
         groupId={groupId}
         taskListId={taskListId}
-        setIsOpen={setIsDetailTaskOpen}
+        setIsOpen={detailTaskOpen}
         isOpen={isDetailTaskOpen}
       />
       <RemoveTaskModal
