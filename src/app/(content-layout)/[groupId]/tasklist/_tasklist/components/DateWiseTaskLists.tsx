@@ -10,16 +10,11 @@ interface Props {
   groupId: string;
 }
 
-/*
- * @Todo
- * 1. fetchTaskLists 에러핸들링
- * 2. fetchTaskListWiseTasks 에러 핸들링
- */
-
 export default function DateWiseTaskLists({ date, groupId }: Props) {
   const [taskLists, setTaskLists] = useState<TaskList[]>([]);
   const [currentTaskList, setCurrentTaskList] = useState<TaskList>();
   const [currentTasks, setCurrentTasks] = useState<Task[]>([]);
+  const [unexpectedError, setUnexpectedError] = useState<Error | null>(null);
 
   const handleClickChangeCurrentTaskList = (taskList: TaskList) => {
     setCurrentTaskList(taskList);
@@ -30,14 +25,18 @@ export default function DateWiseTaskLists({ date, groupId }: Props) {
     async (currentTaskList: TaskList) => {
       if (!currentTaskList) return;
 
-      const { data: tasksData } = await axiosClient(
-        `groups/${groupId}/task-lists/${currentTaskList.id}/tasks`,
-        {
-          params: { date },
-        }
-      );
+      try {
+        const { data: tasksData } = await axiosClient(
+          `groups/${groupId}/task-lists/${currentTaskList.id}/tasks`,
+          {
+            params: { date },
+          }
+        );
 
-      setCurrentTasks(tasksData);
+        setCurrentTasks(tasksData);
+      } catch (error: any) {
+        setUnexpectedError(error);
+      }
     },
 
     [groupId, date]
@@ -45,30 +44,36 @@ export default function DateWiseTaskLists({ date, groupId }: Props) {
 
   const fetchTaskLists = useCallback(async () => {
     if (!date || !groupId) return;
+    try {
+      const { data: taskListsData } = await axiosClient(`/groups/${groupId}`);
+      const fetchedTaskLists: TaskList[] = taskListsData.taskLists;
 
-    const { data: taskListsData } = await axiosClient(`/groups/${groupId}`);
-    const fetchedTaskLists: TaskList[] = taskListsData.taskLists;
+      if (taskListsData && fetchedTaskLists.length < 1) {
+        return (
+          <div className="flex h-200 items-center justify-center">
+            <p className="text-md-md text-gray500">
+              아직 할 일 목록이 없습니다.
+              <br />
+              새로운 목록을 추가해주세요.
+            </p>
+          </div>
+        );
+      }
 
-    if (fetchedTaskLists.length < 1) {
-      return (
-        <div className="flex h-200 items-center justify-center">
-          <p className="text-md-md text-gray500">
-            아직 할 일 목록이 없습니다.
-            <br />
-            새로운 목록을 추가해주세요.
-          </p>
-        </div>
-      );
+      setTaskLists(fetchedTaskLists);
+      setCurrentTaskList(fetchedTaskLists[0]);
+      fetchTaskListWiseTasks(fetchedTaskLists[0]);
+    } catch (error: any) {
+      setUnexpectedError(error);
     }
-
-    setTaskLists(fetchedTaskLists);
-    setCurrentTaskList(fetchedTaskLists[0]);
-    fetchTaskListWiseTasks(fetchedTaskLists[0]);
   }, [groupId, fetchTaskListWiseTasks, date]);
 
   useEffect(() => {
+    if (unexpectedError) {
+      throw unexpectedError;
+    }
     fetchTaskLists();
-  }, [date, groupId, fetchTaskLists]);
+  }, [date, groupId, fetchTaskLists, unexpectedError]);
 
   return (
     <div className="flex flex-col gap-4">

@@ -15,6 +15,8 @@ import CalendarSelect from '@/components/calendar/CalendarSelect';
 import { useOutSideClickAutoClose } from '@/utils/use-outside-click-auto-close';
 import ErrorModal from '@/components/common/ErrorModal';
 import { ERROR_MODAL } from '@/constants/error-modal';
+import { ErrorBoundary } from 'next/dist/client/components/error-boundary';
+import Error from '../error';
 
 const ERROR_MODAL_ID = [
   ERROR_MODAL.DELETE_TASK,
@@ -76,7 +78,9 @@ export default function Page({ params }: Props) {
         </div>
         <CreateTaskListModal groupId={groupId} />
       </div>
-      <DateWiseTaskList groupId={groupId} date={currentDate} />
+      <ErrorBoundary errorComponent={Error}>
+        <DateWiseTaskList groupId={groupId} date={currentDate} />
+      </ErrorBoundary>
       <Button className="absolute right-6 bottom-40" onClick={() => {}} size="md" fontSize="16">
         <Plus width="16" height="16" />할 일 추가
       </Button>
