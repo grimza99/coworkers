@@ -1,10 +1,10 @@
 'use client';
-import CommentSlot from '@/assets/CommentSlot';
 import { Comment } from '@/components/comment/types';
 import Textarea from '@/components/common/formField/compound/Textarea';
 import axiosClient from '@/lib/axiosClient';
 import { useCallback, useEffect, useState } from 'react';
 import CommentField from './CommentField';
+import CommentSubmit from '@/assets/CommentSubmit';
 
 interface Props {
   taskId: number;
@@ -45,7 +45,7 @@ export default function DetailTaskCommentField({ taskId }: Props) {
       <div className="border-border border-t-1 border-b-1 py-3">
         <Textarea
           rightSlot={
-            <CommentSlot
+            <CommentSubmit
               className="text-primary mt-1.5 mr-1.5 cursor-pointer"
               onClick={handleSubmitComment}
               color="#10b981"
