@@ -18,9 +18,7 @@ export default function RootLayout({
       <body className="flex min-h-screen flex-col">
         <ModalProvider>
           <Header />
-          <ToastProvider>
-            <div>{children}</div>
-          </ToastProvider>
+          <ToastProvider>{children}</ToastProvider>
           <div id="modal-container"></div>
         </ModalProvider>
       </body>
