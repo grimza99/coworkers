@@ -79,9 +79,9 @@ export default async function Page({ params }: { params: Promise<{ groupId: stri
         </Link>
       </div>
       <div className="mt-6 mb-50 flex flex-col gap-12 lg:gap-16">
-        <Tasklists groupId={data.groupId} tasklists={data.taskLists} />
+        <Tasklists groupId={groupId} tasklists={data.taskLists} />
         <Report tasklists={data.taskLists} />
-        <Members groupId={data.groupId} members={data.members} />
+        <Members groupId={groupId} members={data.members} />
       </div>
     </main>
   );
