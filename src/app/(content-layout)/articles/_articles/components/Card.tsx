@@ -9,7 +9,7 @@ export default function Card(props: CardProps) {
   const { title, image, writer, createdAt, likeCount } = props;
 
   return (
-    <div className="border-bg100 bg-bg200 flex h-[176px] w-[590px] flex-col gap-6 rounded-lg border px-8 py-6">
+    <div className="border-bg100 bg-bg200 flex h-[176px] w-full flex-col gap-6 rounded-lg border px-8 py-6">
       <div className="flex justify-between">
         <h3 className="text-2lg-md text-gray300">{title}</h3>
         <div className="h-18 w-18 overflow-hidden rounded-md bg-gray-700">

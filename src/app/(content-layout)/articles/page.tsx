@@ -20,6 +20,71 @@ const mockArticles: Article[] = [
       nickname: '홍길동',
     },
   },
+  {
+    id: 2,
+    title: '게시글 제목입니다.',
+    content: '게시글 내용입니다.',
+    image: 'https://example.com/sample-thumbnail.jpg',
+    createdAt: '2025-05-09T02:40:12.877Z',
+    updatedAt: '2025-05-09T02:40:12.877Z',
+    likeCount: 123,
+    writer: {
+      id: 1,
+      nickname: '홍길동',
+    },
+  },
+  {
+    id: 3,
+    title: '게시글 제목입니다.',
+    content: '게시글 내용입니다.',
+    image: 'https://example.com/sample-thumbnail.jpg',
+    createdAt: '2025-05-09T02:40:12.877Z',
+    updatedAt: '2025-05-09T02:40:12.877Z',
+    likeCount: 123,
+    writer: {
+      id: 1,
+      nickname: '홍길동',
+    },
+  },
+  {
+    id: 4,
+    title: '게시글 제목입니다.',
+    content: '게시글 내용입니다.',
+    image: 'https://example.com/sample-thumbnail.jpg',
+    createdAt: '2025-05-09T02:40:12.877Z',
+    updatedAt: '2025-05-09T02:40:12.877Z',
+    likeCount: 123,
+    writer: {
+      id: 1,
+      nickname: '홍길동',
+    },
+  },
+  {
+    id: 5,
+    title: '게시글 제목입니다.',
+    content: '게시글 내용입니다.',
+    image: 'https://example.com/sample-thumbnail.jpg',
+    createdAt: '2025-05-09T02:40:12.877Z',
+    updatedAt: '2025-05-09T02:40:12.877Z',
+    likeCount: 123,
+    writer: {
+      id: 1,
+      nickname: '홍길동',
+    },
+  },
+  {
+    id: 6,
+    title: '게시글 제목입니다.',
+    content: '게시글 내용입니다.',
+    image: 'https://example.com/sample-thumbnail.jpg',
+    createdAt: '2025-05-09T02:40:12.877Z',
+    updatedAt: '2025-05-09T02:40:12.877Z',
+    likeCount: 123,
+    writer: {
+      id: 1,
+      nickname: '홍길동',
+    },
+  },
   // 추가 데이터 ...
 ];
 
@@ -47,7 +112,7 @@ export default function ArticlesPage() {
           <h2 className="text-xl-bold">게시글</h2>
           <p>토글</p>
         </div>
-        <div className="grid grid-cols-1 gap-6 md:grid-cols-2">
+        <div className="grid grid-cols-1 gap-6 lg:grid-cols-2">
           {mockArticles.map((article) => (
             <Card key={article.id} {...article} />
           ))}
