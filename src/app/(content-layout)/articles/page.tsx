@@ -3,10 +3,10 @@
 import Button from '@/components/common/Button';
 import Card from './_articles/components/Card';
 import BestCard from './_articles/components/BestCard';
-import Input from '@/components/common/formField/compound/Input';
 import SortToggle from './_articles/components/SortToggle';
 import { Article } from '@/types/article';
 import ArticleSearchBar from './_articles/components/ArticleSearchBar';
+import { useState } from 'react';
 
 const mockArticles: Article[] = [
   {
@@ -96,13 +96,14 @@ const mockArticles: Article[] = [
 ];
 
 export default function ArticlesPage() {
+  const [searchKeyword, setSearchKeyword] = useState('');
   const bestArticles = [...mockArticles].sort((a, b) => b.likeCount - a.likeCount).slice(0, 3);
 
   return (
     <main className="">
       <section className="flex flex-col gap-10 pb-10">
         <h1 className="text-2xl-bold">자유게시판</h1>
-        <ArticleSearchBar />
+        <ArticleSearchBar value={searchKeyword} onChange={setSearchKeyword} />
       </section>
 
       <section className="border-bg200 flex flex-col gap-14 border-b pb-10">

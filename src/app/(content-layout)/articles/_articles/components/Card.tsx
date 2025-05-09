@@ -2,6 +2,7 @@
 
 import { Article } from '@/types/article';
 import ArticleOptionsDropdown from './ArticleOptionsDropdown';
+import LikeToggleButton from './LikeToggleButton';
 
 export default function Card(props: Article) {
   const { title, image, writer, createdAt, likeCount } = props;
@@ -35,10 +36,7 @@ export default function Card(props: Article) {
             {new Date(createdAt).toLocaleDateString()}
           </span>
         </div>
-        <button type="button" className="flex gap-1">
-          <img width={16} height={16} alt="like" src="/icons/heart.svg" />
-          <span className="text-md-rg text-gray400">{likeCount > 9999 ? '9999+' : likeCount}</span>
-        </button>
+        <LikeToggleButton isLiked={false} initialCount={likeCount} />
       </div>
     </div>
   );

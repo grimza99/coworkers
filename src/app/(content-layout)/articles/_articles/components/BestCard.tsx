@@ -1,6 +1,7 @@
 'use client';
 
 import { Article } from '@/types/article';
+import LikeToggleButton from './LikeToggleButton';
 
 export default function BestCard(props: Article) {
   const { title, image, writer, createdAt, likeCount } = props;
@@ -40,8 +41,7 @@ export default function BestCard(props: Article) {
           </div>
 
           <div className="flex gap-1">
-            <img src="/icons/heart.svg" alt="like" className="h-full w-full object-cover" />
-            <span className="text-md-rg text-gray400">{likeCount > 999 ? '999+' : likeCount}</span>
+            <LikeToggleButton isLiked={false} initialCount={likeCount} />
           </div>
         </div>
       </div>
