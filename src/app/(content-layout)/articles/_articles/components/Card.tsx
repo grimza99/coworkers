@@ -1,6 +1,7 @@
 'use client';
 
 import { Article } from '@/types/article';
+import KebabDropDown from './Kebab';
 
 export default function Card(props: Article) {
   const { title, image, writer, createdAt, likeCount } = props;
@@ -9,10 +10,12 @@ export default function Card(props: Article) {
     <div className="border-bg100 bg-bg200 flex h-[176px] w-full flex-col gap-6 rounded-lg border px-8 py-6">
       <div className="flex justify-between">
         <h3 className="text-2lg-md text-gray300">{title}</h3>
-        <div className="h-18 w-18 overflow-hidden rounded-md bg-gray-700">
-          <img src={image} alt="썸네일" className="h-full w-full" />
+        <div className="flex items-start gap-4">
+          <div className="h-18 w-18 overflow-hidden rounded-md bg-gray-700">
+            <img src={image} alt="썸네일" className="h-full w-full" />
+          </div>
+          <KebabDropDown />
         </div>
-        {/* 드롭다운*/}
       </div>
 
       <div className="flex items-center justify-between">
@@ -32,10 +35,10 @@ export default function Card(props: Article) {
             {new Date(createdAt).toLocaleDateString()}
           </span>
         </div>
-        <div className="flex gap-1">
+        <button type="button" className="flex gap-1">
           <img width={16} height={16} alt="like" src="/icons/heart.svg" />
-          <span className="text-md-rg text-gray400">{likeCount > 999 ? '999+' : likeCount}</span>
-        </div>
+          <span className="text-md-rg text-gray400">{likeCount > 9999 ? '9999+' : likeCount}</span>
+        </button>
       </div>
     </div>
   );
