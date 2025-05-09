@@ -1,3 +1,5 @@
+import Check from '@/assets/Check';
+import ExclamationMark from '@/assets/ExclamationMark';
 import { toast, ToastOptions } from 'react-toastify';
 
 interface ToastifyOptions {
@@ -22,21 +24,21 @@ export const Toast = {
     toast.success(message, {
       ...defaultOption,
       ...options,
-      icon: <></>,
+      icon: <Check width="24" height="24" className="text-white" />,
     });
   },
   error: (message: React.ReactNode, options: ToastOptions = {}) => {
     toast.error(message, {
       ...defaultOption,
       ...options,
-      icon: <></>,
+      icon: <ExclamationMark className="text-white" />,
     });
   },
   info: (message: React.ReactNode, options: ToastOptions = {}) => {
     toast.info(message, {
       ...defaultOption,
       ...options,
-      icon: <></>,
+      icon: <ExclamationMark className="text-primary" />,
     });
   },
 };
