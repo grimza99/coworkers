@@ -3,9 +3,7 @@
 import { Article } from '@/types/article';
 import Image from 'next/image';
 
-interface CardProps extends Article {}
-
-export default function Card(props: CardProps) {
+export default function Card(props: Article) {
   const { title, image, writer, createdAt, likeCount } = props;
 
   return (
