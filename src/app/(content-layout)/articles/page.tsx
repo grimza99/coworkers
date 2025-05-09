@@ -4,6 +4,7 @@ import Button from '@/components/common/Button';
 import Card from './_articles/components/Card';
 import BestCard from './_articles/components/BestCard';
 import Input from '@/components/common/formField/compound/Input';
+import SortToggle from './_articles/components/SortToggle';
 import { Article } from '@/types/article';
 
 const mockArticles: Article[] = [
@@ -18,7 +19,7 @@ const mockArticles: Article[] = [
     writer: {
       id: 1,
       nickname: '홍길동',
-      image: '', // ✅ 추가된 부분
+      image: '',
     },
   },
   {
@@ -32,7 +33,7 @@ const mockArticles: Article[] = [
     writer: {
       id: 1,
       nickname: '홍길동',
-      image: '', // ✅ 추가된 부분
+      image: '',
     },
   },
   {
@@ -46,7 +47,7 @@ const mockArticles: Article[] = [
     writer: {
       id: 1,
       nickname: '홍길동',
-      image: '', // ✅ 추가된 부분
+      image: '',
     },
   },
   {
@@ -119,7 +120,12 @@ export default function ArticlesPage() {
       <section className="flex flex-col gap-8 pt-10">
         <div className="flex items-start justify-between">
           <h2 className="text-xl-bold">게시글</h2>
-          <p>토글</p>
+          <div className="flex items-center gap-4">
+            <Button className="text-md-md px-2" variant="ghost-white" size="fullWidth">
+              내가 작성한 글
+            </Button>
+            <SortToggle onSelect={() => {}} />
+          </div>
         </div>
         <div className="grid grid-cols-1 gap-6 lg:grid-cols-2">
           {mockArticles.map((article) => (
