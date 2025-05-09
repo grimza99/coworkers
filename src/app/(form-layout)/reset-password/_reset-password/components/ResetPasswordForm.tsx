@@ -5,15 +5,14 @@ import FormField from '@/components/common/formField';
 import axiosClient from '@/lib/axiosClient';
 import usePasswordVisibility from '@/utils/use-password-visibility';
 import { validateConfirmPassword, validatePassword } from '@/utils/validators';
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 
-/**
- * @todo
- * 처음 렌더링 되었을때 인풋이 에러 표시 되어있는 오류 해결
- */
-export default function ResetPasswordForm() {
+interface Props {
+  token: string | string[] | undefined;
+}
+
+export default function ResetPasswordForm({ token }: Props) {
   const { isPasswordVisible, togglePasswordVisibility } = usePasswordVisibility();
-
   const [formData, setFormData] = useState({
     password: '',
     passwordConfirmation: '',
@@ -64,8 +63,8 @@ export default function ResetPasswordForm() {
   };
 
   const handleSubmitResetPassword = async () => {
-    //토큰값이 어떻게 담기는지 봐야함
-    await axiosClient.patch(`/user/reset-password`, { token: 'string', ...formData });
+    if (!token) return;
+    await axiosClient.patch(`/user/reset-password`, { token: token, ...formData });
   };
 
   return (

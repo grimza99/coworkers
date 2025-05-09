@@ -15,7 +15,7 @@ import CalendarSelect from '@/components/calendar/CalendarSelect';
 import { useOutSideClickAutoClose } from '@/utils/use-outside-click-auto-close';
 
 interface Props {
-  params: Promise<{ groupId: string }>;
+  searchParams: Promise<{ [key: string]: string | string[] | undefined }>;
 }
 
 /*
