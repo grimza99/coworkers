@@ -19,7 +19,12 @@ export default function Card(props: Article) {
       <div className="flex items-center justify-between">
         <div className="flex items-center gap-2">
           <div className="g-3 flex h-8 w-[81px] items-center gap-3">
-            <Image width={32} height={32} alt="프로필 이미지" src="/icons/profile-icon.svg" />
+            <Image
+              width={32}
+              height={32}
+              alt="프로필 이미지"
+              src={writer.image ?? '/icons/profile-icon.svg'}
+            />
             <span className="text-md-md">{writer.nickname}</span>
           </div>
           <span className="text-bg100">|</span>

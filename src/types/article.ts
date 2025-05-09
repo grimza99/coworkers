@@ -1,4 +1,9 @@
-import { User } from './user';
+export interface ArticleWriter {
+  id: number;
+  nickname: string;
+  image: string | null;
+}
+
 export interface Article {
   id: number;
   title: string;
@@ -8,7 +13,7 @@ export interface Article {
   updatedAt: string;
   likeCount: number;
   commentCount?: number;
-  writer: Pick<User, 'id' | 'nickname'>;
+  writer: ArticleWriter;
 }
 
 /**
