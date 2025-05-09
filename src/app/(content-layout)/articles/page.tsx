@@ -1,29 +1,57 @@
 'use client';
 
 import Button from '@/components/common/Button';
+import Card from './_articles/components/Card';
+import BestCard from './_articles/components/BestCard';
+import Input from '@/components/common/formField/compound/Input';
+import { Article } from '@/types/article';
+
+const mockArticles: Article[] = [
+  {
+    id: 1,
+    title: '게시글 제목입니다.',
+    content: '게시글 내용입니다.',
+    image: 'https://example.com/sample-thumbnail.jpg',
+    createdAt: '2025-05-09T02:40:12.877Z',
+    updatedAt: '2025-05-09T02:40:12.877Z',
+    likeCount: 123,
+    writer: {
+      id: 1,
+      nickname: '홍길동',
+    },
+  },
+  // 추가 데이터 ...
+];
 
 export default function ArticlesPage() {
   return (
-    <main className="mx-auto max-w-[1200px] px-4 py-8">
-      <section className="mb-8">
-        <h1 className="mb-4 text-2xl font-bold">자유게시판</h1>
+    <main className="">
+      <section className="flex flex-col gap-10 pb-10">
+        <h1 className="text-2xl-bold">자유게시판</h1>
+        <Input />
       </section>
 
-      <section className="mb-8">
-        <div className="mb-4 flex items-center justify-between">
-          <h2 className="text-xl font-semibold">베스트 게시글</h2>
-          <button className="text-sm text-gray-400 hover:text-white">더보기 &gt;</button>
+      <section className="border-bg200 flex flex-col gap-14 border-b pb-10">
+        <div className="flex justify-between">
+          <h2 className="text-xl-bold">베스트 게시글</h2>
+          <button type="button" className="text-md-rg text-gray400">
+            더보기 &gt;
+          </button>
         </div>
         <div className="grid grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-3">
-          {/* 베스트 카드 3개 예시 */}
+          <BestCard />
         </div>
       </section>
-
-      <section className="mb-8">
-        <div className="mb-4 flex items-center justify-between">
-          <h2 className="text-xl font-semibold">게시글</h2>
+      <section className="flex flex-col gap-8 pt-10">
+        <div className="flex items-start justify-between">
+          <h2 className="text-xl-bold">게시글</h2>
+          <p>토글</p>
         </div>
-        <div className="grid grid-cols-1 gap-4 md:grid-cols-2">{/* 일반 카드 예시 */}</div>
+        <div className="grid grid-cols-1 gap-6 md:grid-cols-2">
+          {mockArticles.map((article) => (
+            <Card key={article.id} {...article} />
+          ))}
+        </div>
       </section>
 
       <Button>+ 글쓰기</Button>
