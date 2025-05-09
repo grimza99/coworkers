@@ -1,6 +1,6 @@
 import DropDown from '@/components/common/dropdown';
 
-export default function KebabDropDown() {
+export default function ArticleOptionsDropdown() {
   return (
     <DropDown
       options={['수정하기', '삭제하기']}

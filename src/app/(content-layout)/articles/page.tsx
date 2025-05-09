@@ -6,6 +6,7 @@ import BestCard from './_articles/components/BestCard';
 import Input from '@/components/common/formField/compound/Input';
 import SortToggle from './_articles/components/SortToggle';
 import { Article } from '@/types/article';
+import ArticleSearchBar from './_articles/components/ArticleSearchBar';
 
 const mockArticles: Article[] = [
   {
@@ -101,7 +102,7 @@ export default function ArticlesPage() {
     <main className="">
       <section className="flex flex-col gap-10 pb-10">
         <h1 className="text-2xl-bold">자유게시판</h1>
-        <Input />
+        <ArticleSearchBar />
       </section>
 
       <section className="border-bg200 flex flex-col gap-14 border-b pb-10">

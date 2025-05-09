@@ -1,7 +1,7 @@
 'use client';
 
 import { Article } from '@/types/article';
-import KebabDropDown from './Kebab';
+import ArticleOptionsDropdown from './ArticleOptionsDropdown';
 
 export default function Card(props: Article) {
   const { title, image, writer, createdAt, likeCount } = props;
@@ -14,7 +14,7 @@ export default function Card(props: Article) {
           <div className="h-18 w-18 overflow-hidden rounded-md bg-gray-700">
             <img src={image} alt="썸네일" className="h-full w-full" />
           </div>
-          <KebabDropDown />
+          <ArticleOptionsDropdown />
         </div>
       </div>
 
