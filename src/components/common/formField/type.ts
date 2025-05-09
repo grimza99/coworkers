@@ -30,6 +30,7 @@ export interface FormFieldProps {
   required?: boolean;
   isSuccess?: boolean;
   isFailure?: boolean;
+  isSubmit?: boolean;
   errorMessage?: string;
   gapSize?: '12' | '16' | '24' | '32';
   labelSize?: '16/16' | '14/16' | '16/20';

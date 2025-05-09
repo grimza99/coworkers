@@ -18,7 +18,9 @@ export default function RootLayout({
       <body className="flex min-h-screen flex-col">
         <ModalProvider>
           <Header />
-          <ToastProvider>{children}</ToastProvider>
+          <ToastProvider>
+            <div className="h-full flex-1 overflow-y-auto">{children}</div>
+          </ToastProvider>
           <div id="modal-container"></div>
         </ModalProvider>
       </body>

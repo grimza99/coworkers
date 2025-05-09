@@ -22,12 +22,14 @@ export default function MemberItem({ member }: MemberItemProps) {
           <div className="flex min-w-0 items-center gap-3">
             <MemberProfileImage
               userImage={userImage}
+              userName={userName}
               className="hidden shrink-0 md:block md:size-8"
             />
             <div className="flex min-w-0 flex-col gap-1.5">
               <div className="flex items-center gap-2">
                 <MemberProfileImage
                   userImage={userImage}
+                  userName={userName}
                   className="block size-6 shrink-0 md:hidden"
                 />
                 <div className="text-sm-md truncate">{userName}</div>
@@ -51,14 +53,15 @@ export default function MemberItem({ member }: MemberItemProps) {
 
 type MemberProfileImageProps = {
   userImage: Member['userImage'];
+  userName: Member['userName'];
   className: string;
 };
 
-function MemberProfileImage({ userImage, className }: MemberProfileImageProps) {
+function MemberProfileImage({ userImage, userName, className }: MemberProfileImageProps) {
   return (
     <div className={className}>
       {userImage ? (
-        <img src={userImage} className="rounded-full" />
+        <Image src={userImage} className="rounded-full" alt={`${userName}님의 프로필 이미지`} />
       ) : (
         <Image
           width={24}
