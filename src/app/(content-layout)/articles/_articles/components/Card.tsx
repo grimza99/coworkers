@@ -1,7 +1,6 @@
 'use client';
 
 import { Article } from '@/types/article';
-import Image from 'next/image';
 
 export default function Card(props: Article) {
   const { title, image, writer, createdAt, likeCount } = props;
@@ -19,11 +18,12 @@ export default function Card(props: Article) {
       <div className="flex items-center justify-between">
         <div className="flex items-center gap-2">
           <div className="g-3 flex h-8 w-[81px] items-center gap-3">
-            <Image
+            <img
               width={32}
               height={32}
               alt="프로필 이미지"
-              src={writer.image ?? '/icons/profile-icon.svg'}
+              src={writer.image?.trim() ? writer.image : '/icons/profile-icon.svg'}
+              className="rounded-full"
             />
             <span className="text-md-md">{writer.nickname}</span>
           </div>
@@ -33,7 +33,7 @@ export default function Card(props: Article) {
           </span>
         </div>
         <div className="flex gap-1">
-          <Image width={16} height={16} alt="like" src="/icons/heart.svg" />
+          <img width={16} height={16} alt="like" src="/icons/heart.svg" />
           <span className="text-md-rg text-gray400">{likeCount > 999 ? '999+' : likeCount}</span>
         </div>
       </div>

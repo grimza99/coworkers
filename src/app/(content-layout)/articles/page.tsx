@@ -14,10 +14,11 @@ const mockArticles: Article[] = [
     image: 'https://example.com/sample-thumbnail.jpg',
     createdAt: '2025-05-09T02:40:12.877Z',
     updatedAt: '2025-05-09T02:40:12.877Z',
-    likeCount: 123,
+    likeCount: 200,
     writer: {
       id: 1,
       nickname: '홍길동',
+      image: '', // ✅ 추가된 부분
     },
   },
   {
@@ -27,10 +28,11 @@ const mockArticles: Article[] = [
     image: 'https://example.com/sample-thumbnail.jpg',
     createdAt: '2025-05-09T02:40:12.877Z',
     updatedAt: '2025-05-09T02:40:12.877Z',
-    likeCount: 123,
+    likeCount: 9999,
     writer: {
       id: 1,
       nickname: '홍길동',
+      image: '', // ✅ 추가된 부분
     },
   },
   {
@@ -40,10 +42,11 @@ const mockArticles: Article[] = [
     image: 'https://example.com/sample-thumbnail.jpg',
     createdAt: '2025-05-09T02:40:12.877Z',
     updatedAt: '2025-05-09T02:40:12.877Z',
-    likeCount: 123,
+    likeCount: 300,
     writer: {
       id: 1,
       nickname: '홍길동',
+      image: '', // ✅ 추가된 부분
     },
   },
   {
@@ -57,6 +60,7 @@ const mockArticles: Article[] = [
     writer: {
       id: 1,
       nickname: '홍길동',
+      image: '',
     },
   },
   {
@@ -70,6 +74,7 @@ const mockArticles: Article[] = [
     writer: {
       id: 1,
       nickname: '홍길동',
+      image: '',
     },
   },
   {
@@ -83,12 +88,14 @@ const mockArticles: Article[] = [
     writer: {
       id: 1,
       nickname: '홍길동',
+      image: '',
     },
   },
-  // 추가 데이터 ...
 ];
 
 export default function ArticlesPage() {
+  const bestArticles = [...mockArticles].sort((a, b) => b.likeCount - a.likeCount).slice(0, 3);
+
   return (
     <main className="">
       <section className="flex flex-col gap-10 pb-10">
@@ -103,8 +110,10 @@ export default function ArticlesPage() {
             더보기 &gt;
           </button>
         </div>
-        <div className="grid grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-3">
-          <BestCard />
+        <div className="grid grid-cols-1 gap-4 md:grid-cols-2 lg:grid-cols-3">
+          {bestArticles.map((article) => (
+            <BestCard key={article.id} {...article} />
+          ))}
         </div>
       </section>
       <section className="flex flex-col gap-8 pt-10">
