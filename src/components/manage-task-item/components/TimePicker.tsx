@@ -1,6 +1,6 @@
 import clsx from 'clsx';
-import generateTime from './time-table';
-import { Time } from './ManageTaskModal';
+import generateTime from '../time-table';
+import { Time } from '../type';
 
 interface TimePickerProps {
   selectedTime: Time;
@@ -24,6 +24,7 @@ export default function TimePicker({ selectedTime, onTimeChange }: TimePickerPro
           return (
             <button
               key={t}
+              type="button"
               onClick={() => onTimeChange('period', t)}
               className={clsx(
                 'text-md-md h-10 w-[78px] rounded-xl',
@@ -42,6 +43,7 @@ export default function TimePicker({ selectedTime, onTimeChange }: TimePickerPro
           return (
             <button
               key={t}
+              type="button"
               onClick={() => onTimeChange('time', t)}
               className={clsx(
                 'text-lg-rg flex cursor-pointer items-start pb-3 last:pb-0',
