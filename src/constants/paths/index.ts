@@ -9,6 +9,7 @@ const PATHS = {
   SIGNUP_KAKAO: '/oauth/signup/kakao',
   MYPAGE: '/mypage',
   ADDGROUP: '/addgroup',
+  EDITGROUP: '/editgroup',
   MYHISTORY: '/myhistory',
   BOARDS: '/articles',
   NO_GROUP: '/nogroup',

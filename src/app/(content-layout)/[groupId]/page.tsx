@@ -1,12 +1,12 @@
+import { cache } from 'react';
 import { Metadata } from 'next';
 import Image from 'next/image';
-import gearIcon from '@/../public/icons/gear-icon.svg';
-import groupThumbnailImage from '@/../public/images/group-thumbnail.png';
+import Link from 'next/link';
+import Tasklists from '@/app/(content-layout)/[groupId]/_[groupId]/Tasklists';
+import Report from '@/app/(content-layout)/[groupId]/_[groupId]/Report';
+import Members from '@/app/(content-layout)/[groupId]/_[groupId]/Members';
 import axiosServer from '@/lib/axiosServer';
-import Tasklists from './_[groupId]/Tasklists';
-import Report from './_[groupId]/Report';
-import Members from './_[groupId]/Members';
-import { cache } from 'react';
+import PATHS from '@/constants/paths';
 
 export const getGroup = cache(async (groupId: string) => {
   'use server';
@@ -60,13 +60,21 @@ export default async function Page({ params }: { params: Promise<{ groupId: stri
       <div className="border-gray100/10 bg-gray100/10 relative flex h-16 w-full items-center justify-between rounded-xl border-1 px-6 py-5">
         <h1 className="text-xl-bold text-white">{data.name}</h1>
         <Image
-          src={groupThumbnailImage}
+          src={'/images/group-thumbnail.png'}
           width={543}
           height={192}
           alt="그룹 기본 이미지"
           className="absolute right-1/4 h-16 w-auto object-contain md:right-20"
         />
-        <Image src={gearIcon} width={24} height={24} alt="톱니바퀴" className="size-6" />
+        <Link href={PATHS.EDITGROUP}>
+          <Image
+            src="/icons/gear-icon.svg"
+            width={24}
+            height={24}
+            alt="톱니바퀴 아이콘"
+            className="size-6"
+          />
+        </Link>
       </div>
       <div className="mt-6 mb-50 flex flex-col gap-12 lg:gap-16">
         <Tasklists groupId={data.groupId} tasklists={data.taskLists} />
