@@ -17,7 +17,7 @@ export default function RootLayout({
       <body className="flex min-h-screen flex-col">
         <ModalProvider>
           <Header />
-          <div>{children}</div>
+          <div className="h-full flex-1 overflow-y-auto">{children}</div>
           <div id="modal-container"></div>
         </ModalProvider>
       </body>
