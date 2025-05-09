@@ -7,8 +7,9 @@ import Report from '@/app/(content-layout)/[groupId]/_[groupId]/Report';
 import Members from '@/app/(content-layout)/[groupId]/_[groupId]/Members';
 import axiosServer from '@/lib/axiosServer';
 import PATHS from '@/constants/paths';
+import { Group } from '@/types/group';
 
-export const getGroup = cache(async (groupId: string) => {
+export const getGroup = cache(async (groupId: Group['id']) => {
   'use server';
   const data = await axiosServer.get(`/groups/${groupId}`).then((res) => res.data);
   return data;
@@ -19,7 +20,8 @@ export async function generateMetadata({
 }: {
   params: Promise<{ groupId: string }>;
 }): Promise<Metadata> {
-  const data = await getGroup((await params).groupId);
+  const groupId = Number((await params).groupId);
+  const data = await getGroup(groupId);
   const image = data.image || '/images/group-thumbnail.png';
   const title = `${data.name} | Coworkers`;
   const description = `${data.name} 그룹의 할 일 목록과 활동을 확인하세요.`;
@@ -52,7 +54,7 @@ export async function generateMetadata({
 }
 
 export default async function Page({ params }: { params: Promise<{ groupId: string }> }) {
-  const { groupId } = await params;
+  const groupId = Number((await params).groupId);
   const data = await getGroup(groupId);
 
   return (

@@ -1,9 +1,10 @@
-import { Tasklist } from '@/types/tasklist';
 import CreateTaskListModal from '@/app/(content-layout)/[groupId]/tasklist/_tasklist/components/ModalContents/CreateTaskListModal';
 import TasklistItem from '@/app/(content-layout)/[groupId]/_[groupId]/Tasklists/TasklistItem';
+import { Group } from '@/types/group';
+import { Tasklist } from '@/types/tasklist';
 
 type TasklistsProps = {
-  groupId: number | `${number}`;
+  groupId: Group['id'];
   tasklists: Tasklist[];
 };
 
