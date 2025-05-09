@@ -11,7 +11,9 @@ import { Group } from '@/types/group';
 
 export const getGroup = cache(async (groupId: Group['id']) => {
   'use server';
-  const data = await axiosServer.get(`/groups/${groupId}`).then((res) => res.data);
+  const data = await axiosServer
+    .get(`/groups/${groupId}`, { fetchOptions: { next: { tags: ['group'] } } })
+    .then((res) => res.data);
   return data;
 });
 

@@ -1,6 +1,6 @@
 'use client';
 import Image from 'next/image';
-import dangerIcon from '@/../public/icons/danger.icon.svg';
+import { removeMemberAction } from '@/app/(content-layout)/[groupId]/_[groupId]/Members/actions';
 import Button from '@/components/common/Button';
 import {
   ModalContainer,
@@ -11,7 +11,6 @@ import {
   ModalPortal,
 } from '@/components/common/modal';
 import useModalContext from '@/components/common/modal/core/useModalContext';
-import axiosClient from '@/lib/axiosClient';
 import { Member } from '@/types/user';
 
 type MemberRemovalModalProps = {
@@ -22,9 +21,16 @@ type MemberRemovalModalProps = {
 export default function MemberRemovalModal({ modalId, member }: MemberRemovalModalProps) {
   const { userId, userName, groupId } = member;
   const { closeModal } = useModalContext();
-  const removeMember = () => {
-    // @TODO: 삭제 후 UI 처리
-    axiosClient.delete(`/groups/${groupId}/member/${userId}`);
+  const removeMember = async () => {
+    const result = await removeMemberAction(groupId, userId);
+
+    if (result.success) {
+      closeModal(modalId);
+      // 성공 시 추가적인 UI 처리 (예: 토스트 메시지)
+    } else {
+      console.error(result.message);
+      // 실패 시 추가적인 UI 처리 (예: 에러 메시지 표시)
+    }
   };
 
   return (
@@ -32,7 +38,13 @@ export default function MemberRemovalModal({ modalId, member }: MemberRemovalMod
       <ModalPortal modalId={modalId}>
         <ModalOverlay modalId={modalId}>
           <ModalContainer>
-            <Image src={dangerIcon} alt="경고" width={23} height={22} className="size-6" />
+            <Image
+              src="icons/danger.icon.svg"
+              alt="경고"
+              width={23}
+              height={22}
+              className="size-6"
+            />
             <ModalHeading className="mt-4 mb-2">
               <span className="text-primary">{userName}</span> 님을 그룹에서 내보내시겠어요?
             </ModalHeading>
