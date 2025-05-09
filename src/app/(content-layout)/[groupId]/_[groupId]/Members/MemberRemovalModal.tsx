@@ -34,7 +34,7 @@ export default function MemberRemovalModal({ modalId, member }: MemberRemovalMod
           <ModalContainer>
             <Image src={dangerIcon} alt="경고" width={23} height={22} className="size-6" />
             <ModalHeading className="mt-4 mb-2">
-              {userName}님을 그룹에서 내보내시겠어요?
+              <span className="text-primary">{userName}</span> 님을 그룹에서 내보내시겠어요?
             </ModalHeading>
             <ModalDescription>내보낸 멤버는 다시 초대할 수 있습니다.</ModalDescription>
             <ModalFooter className="mt-6 w-70">
