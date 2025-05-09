@@ -1,5 +1,11 @@
 import { Suspense, use } from 'react';
 import ResetPasswordForm from './_reset-password/components/ResetPasswordForm';
+import { Metadata } from 'next';
+
+export const metadata: Metadata = {
+  title: '비밀번호 재설정 | Coworkers',
+  description: 'Coworkers 비밀번호 재설정 하기',
+};
 
 interface Props {
   searchParams: Promise<{ [token: string]: string | string[] | undefined }>;
