@@ -20,7 +20,7 @@ export default function Members({ groupId, members }: MembersProps) {
           <h2 className="text-lg-md">
             멤버 <span className="text-lg-rg text-gray500">({memberCount}명)</span>
           </h2>
-          <ModalTrigger className="text-primary text-md-rg" modalId={memberInvitationModalId}>
+          <ModalTrigger className="text-primary" modalId={memberInvitationModalId}>
             + 새로운 멤버 초대하기
           </ModalTrigger>
         </div>
