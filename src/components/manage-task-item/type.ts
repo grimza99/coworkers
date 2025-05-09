@@ -1,7 +1,7 @@
 import {
   Frequency,
   Task,
-} from '@/app/(content-layout)/[groupId]/tasklist/_tasklist/types/task-list-page-type';
+} from '@/app/(content-layout)/[groupId]/tasklist/_tasklist/types/task-type';
 
 export interface TaskItem extends Pick<Task, 'name' | 'description'> {
   id?: number;

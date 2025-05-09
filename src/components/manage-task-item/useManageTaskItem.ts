@@ -1,6 +1,6 @@
 import { useState } from 'react';
 import { format, getDate } from 'date-fns';
-import { Frequency } from '@/app/(content-layout)/[groupId]/tasklist/_tasklist/types/task-list-page-type';
+import { Frequency } from '@/app/(content-layout)/[groupId]/tasklist/_tasklist/types/task-type';
 import generateTime from './time-table';
 import { TaskItemProps, TaskItem, Time } from './type';
 import axiosClient from '@/lib/axiosClient';
