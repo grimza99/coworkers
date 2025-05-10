@@ -31,11 +31,12 @@ export default function MemberDetailModal({ modalId, member }: MemberDetailModal
       <ModalOverlay modalId={modalId}>
         <ModalContainer>
           <ModalCloseButton modalId={modalId} />
-          <div className="size-11.5">
+          <div className="relative size-11.5">
             {userImage ? (
               <Image
                 src={userImage}
-                className="rounded-full"
+                fill
+                className="rounded-full object-cover"
                 alt={`${userName}님의 프로필 이미지`}
               />
             ) : (
