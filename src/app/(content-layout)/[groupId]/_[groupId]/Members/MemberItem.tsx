@@ -1,4 +1,5 @@
 import Image from 'next/image';
+import clsx from 'clsx';
 import { ModalTrigger } from '@/components/common/modal';
 import { Member } from '@/types/user';
 
@@ -64,9 +65,14 @@ type MemberProfileImageProps = {
 
 function MemberProfileImage({ userImage, userName, className }: MemberProfileImageProps) {
   return (
-    <div className={className}>
+    <div className={clsx('relative', className)}>
       {userImage ? (
-        <Image src={userImage} className="rounded-full" alt={`${userName}님의 프로필 이미지`} />
+        <Image
+          src={userImage}
+          fill
+          className="rounded-full object-cover"
+          alt={`${userName}님의 프로필 이미지`}
+        />
       ) : (
         <Image
           width={24}

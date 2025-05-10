@@ -11,6 +11,8 @@ import {
   ModalPortal,
 } from '@/components/common/modal';
 import { Member } from '@/types/user';
+import { useEffect } from 'react';
+import { Toast } from '@/components/common/Toastify';
 
 type MemberRemovalModalProps = {
   member: Member;
@@ -29,8 +31,13 @@ export default function MemberRemovalModal({
 }: MemberRemovalModalProps) {
   const { userName } = member;
   const handleClickRemoveButton = async () => {
-    await removeMember(); // 부모의 함수 호출
+    await removeMember();
   };
+
+  useEffect(() => {
+    if (!error) return;
+    Toast.error(error);
+  }, [error]);
 
   return (
     <>
@@ -49,8 +56,6 @@ export default function MemberRemovalModal({
               <span className="text-primary">{userName}</span> 님을 그룹에서 내보내시겠어요?
             </ModalHeading>
             <ModalDescription>내보낸 멤버는 다시 초대할 수 있습니다.</ModalDescription>
-            {/* { 토스트 */}
-            {error && <p className="text-danger mt-2 text-sm">{error}</p>}
             <ModalFooter className="mt-6 w-70">
               <Button
                 variant="danger"
