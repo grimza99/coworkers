@@ -12,25 +12,32 @@ import {
 } from '@/components/common/modal';
 import useModalContext from '@/components/common/modal/core/useModalContext';
 import { Member } from '@/types/user';
+import { startTransition } from 'react';
 
 type MemberRemovalModalProps = {
   modalId: string;
   member: Member;
+  setOptimisticMembers: (action: number) => void;
 };
 
-export default function MemberRemovalModal({ modalId, member }: MemberRemovalModalProps) {
+export default function MemberRemovalModal({
+  modalId,
+  member,
+  setOptimisticMembers,
+}: MemberRemovalModalProps) {
   const { userId, userName, groupId } = member;
   const { closeModal } = useModalContext();
   const removeMember = async () => {
-    const result = await removeMemberAction(groupId, userId);
+    startTransition(async () => {
+      setOptimisticMembers(userId);
+      const result = await removeMemberAction(groupId, userId);
 
-    if (result.success) {
-      closeModal(modalId);
-      // 성공 시 추가적인 UI 처리 (예: 토스트 메시지)
-    } else {
-      console.error(result.message);
-      // 실패 시 추가적인 UI 처리 (예: 에러 메시지 표시)
-    }
+      if (result.success) {
+        closeModal(modalId);
+      } else {
+        console.error(result.message);
+      }
+    });
   };
 
   return (

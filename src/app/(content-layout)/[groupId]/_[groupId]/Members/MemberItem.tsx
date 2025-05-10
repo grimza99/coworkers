@@ -8,9 +8,10 @@ import { Member } from '@/types/user';
 
 type MemberItemProps = {
   member: Member;
+  setOptimisticMembers: (action: number) => void;
 };
 
-export default function MemberItem({ member }: MemberItemProps) {
+export default function MemberItem({ member, setOptimisticMembers }: MemberItemProps) {
   const { userId, userName, userImage, userEmail, role } = member;
   const memberDetailModalId = `${userId}-detail`;
   const memberRemovalModalId = `${userId}-removal`;
@@ -44,7 +45,11 @@ export default function MemberItem({ member }: MemberItemProps) {
       </li>
 
       <MemberDetailModal modalId={memberDetailModalId} member={member} />
-      <MemberRemovalModal modalId={memberRemovalModalId} member={member} />
+      <MemberRemovalModal
+        modalId={memberRemovalModalId}
+        member={member}
+        setOptimisticMembers={setOptimisticMembers}
+      />
     </>
   );
 }

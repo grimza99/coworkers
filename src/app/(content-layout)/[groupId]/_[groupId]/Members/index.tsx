@@ -1,8 +1,10 @@
+'use client';
 import MemberItem from '@/app/(content-layout)/[groupId]/_[groupId]/Members/MemberItem';
 import MemberInvitationModal from '@/app/(content-layout)/[groupId]/_[groupId]/Members/MemberInvitationModal';
 import { ModalTrigger } from '@/components/common/modal';
 import { Member } from '@/types/user';
 import { Group } from '@/types/group';
+import { useOptimistic } from 'react';
 
 type MembersProps = {
   groupId: Group['id'];
@@ -10,7 +12,14 @@ type MembersProps = {
 };
 
 export default function Members({ groupId, members }: MembersProps) {
-  const memberCount = members.length;
+  const [optimisticMembers, setOptimisticMembers] = useOptimistic(
+    members,
+    // @TODO : 롤백 처리
+    function updateOptimistic(currentMembers: Member[], userId: number) {
+      return currentMembers.filter((member) => member.userId !== userId);
+    }
+  );
+  const memberCount = optimisticMembers.length;
   const memberInvitationModalId = `${groupId}-memberInvitation`;
 
   return (
@@ -25,8 +34,12 @@ export default function Members({ groupId, members }: MembersProps) {
           </ModalTrigger>
         </div>
         <ul className="grid grid-cols-2 gap-6 md:grid-cols-3">
-          {members.map((member) => (
-            <MemberItem key={member.userId} member={member} />
+          {optimisticMembers.map((member) => (
+            <MemberItem
+              key={member.userId}
+              member={member}
+              setOptimisticMembers={setOptimisticMembers}
+            />
           ))}
         </ul>
       </section>
