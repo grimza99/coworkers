@@ -12,10 +12,10 @@ import { ko } from 'date-fns/locale';
 import CalendarSelect from '@/components/calendar/CalendarSelect';
 import { useOutSideClickAutoClose } from '@/utils/use-outside-click-auto-close';
 import { ErrorBoundary } from 'next/dist/client/components/error-boundary';
-import Error from './error';
 import ManageTaskItemModal from './_tasklist/components/manage-task-item-modal/MangeTaskItemModal';
 import Button from '@/components/common/Button';
 import Plus from '@/assets/Plus';
+import TaskListPageFallBack from './error';
 
 interface Props {
   params: Promise<{ groupId: string }>;
@@ -75,7 +75,7 @@ export default function Page({ params }: Props) {
         </div>
         <CreateTaskListModal groupId={groupId} />
       </div>
-      <ErrorBoundary errorComponent={Error}>
+      <ErrorBoundary errorComponent={TaskListPageFallBack}>
         <DateWiseTaskList
           groupId={groupId}
           date={currentDate}

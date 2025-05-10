@@ -10,7 +10,7 @@ import { useCallback, useEffect, useState } from 'react';
 import { useTaskActions } from '../../hooks/use-task-actions';
 import { DetailTaskType } from '../../types/task-type';
 import { ErrorBoundary } from 'next/dist/client/components/error-boundary';
-import FallBackComponent from '../../../error';
+import TaskListPageFallBack from '../../../error';
 
 interface Props {
   groupId: string;
@@ -78,7 +78,7 @@ export function DetailTask({
               <Image src="/icons/close.svg" alt="x" width={24} height={24} />
             </button>
             <div className="flex h-full flex-col gap-25 overflow-scroll">
-              <ErrorBoundary errorComponent={FallBackComponent}>
+              <ErrorBoundary errorComponent={TaskListPageFallBack}>
                 <Content isDone={isDone} task={currentTask} />
                 <DetailTaskCommentField taskId={currentTask?.id} />
               </ErrorBoundary>
