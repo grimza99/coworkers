@@ -2,18 +2,27 @@
 import PasswordToggleButton from '@/app/(form-layout)/signup/_signup/PasswordToggleButton';
 import Button from '@/components/common/Button';
 import FormField from '@/components/common/formField';
-import axiosClient from '@/lib/axiosClient';
+import PATHS from '@/constants/paths';
 import usePasswordVisibility from '@/utils/use-password-visibility';
 import { validateConfirmPassword, validatePassword } from '@/utils/validators';
-import { useEffect, useState } from 'react';
+import { useRouter } from 'next/navigation';
+import { useActionState, useRef, useState } from 'react';
+import { submitResetPassword } from '../actions';
+import { PasswordForm } from '../types/form-type';
 
 interface Props {
   token: string | string[] | undefined;
 }
+//todo : 토큰이 없을때, 토스트로 '접근할 수 없는 페이지 입니다.' 등의 문구 띄우고 라우트
+//todo : 벨리데이트와 에러메시지 수정
 
 export default function ResetPasswordForm({ token }: Props) {
+  const router = useRouter();
+  const formRef = useRef<HTMLFormElement>(null);
+  if (!token) router.push(PATHS.HOME);
+
   const { isPasswordVisible, togglePasswordVisibility } = usePasswordVisibility();
-  const [formData, setFormData] = useState({
+  const [formData, setFormData] = useState<PasswordForm>({
     password: '',
     passwordConfirmation: '',
   });
@@ -62,13 +71,13 @@ export default function ResetPasswordForm({ token }: Props) {
     setFormData((prev) => ({ ...prev, [name]: e.target.value.trim() }));
   };
 
-  const handleSubmitResetPassword = async () => {
-    if (!token) return;
-    await axiosClient.patch(`/user/reset-password`, { token: token, ...formData });
-  };
+  const [_, action, pending] = useActionState(
+    async () => submitResetPassword(token, formData, formRef),
+    null
+  );
 
   return (
-    <div className="flex flex-col gap-10">
+    <form action={action} ref={formRef} className="flex flex-col gap-10">
       <div className="flex flex-col gap-6">
         {formFieldArray.map((field) => {
           return (
@@ -90,13 +99,13 @@ export default function ResetPasswordForm({ token }: Props) {
           !(
             validatePassword(formData.password) &&
             validateConfirmPassword(formData.password, formData.passwordConfirmation)
-          )
+          ) || pending
         }
-        onClick={handleSubmitResetPassword}
+        type="submit"
         size="fullWidth"
       >
         재설정
       </Button>
-    </div>
+    </form>
   );
 }
