@@ -7,6 +7,7 @@ import { DetailTask } from './DetailTask';
 import RemoveTaskModal from './ModalContents/RemoveTaskModal';
 import { useTaskActions } from '../hooks/use-task-actions';
 import { useTaskModals } from '../hooks/use-task-modals';
+import ManageTaskItemModal from './manage-task-item-modal/MangeTaskItemModal';
 
 interface Props {
   task: Task;
@@ -20,7 +21,7 @@ export default function TasksWiseTask({ task, groupId, taskListId }: Props) {
   const [isDetailTaskOpen, setIsDetailTaskOpen] = useState(false);
 
   const taskDeleteModalId = `${task.id}-delete`;
-  const taskEditModalId = `${task.id}-edit`;
+  const createOrEditModalId = task ? `${task.id}-edit` : `${taskListId}-create`;
 
   const { popUpDeleteTaskModal, popUpEditTaskModal, popUpDetailTask } = useTaskModals();
   const { deleteTask } = useTaskActions();
@@ -56,7 +57,7 @@ export default function TasksWiseTask({ task, groupId, taskListId }: Props) {
             onCheckStatusChange={() =>
               toggleTaskDone(groupId, taskListId, isDone, toggleTaskStatus)
             }
-            onEdit={() => popUpEditTaskModal(taskEditModalId)}
+            onEdit={() => popUpEditTaskModal(createOrEditModalId)}
             onDelete={() => popUpDeleteTaskModal(taskDeleteModalId)}
             onClick={() => popUpDetailTask(detailTaskOpen)}
             isDone={isDone}
@@ -78,6 +79,13 @@ export default function TasksWiseTask({ task, groupId, taskListId }: Props) {
             taskName={task.name}
             modalId={taskDeleteModalId}
             deleteTask={() => deleteTask(groupId, taskListId, task.id, change)}
+          />
+          <ManageTaskItemModal
+            task={task}
+            groupId={Number(groupId)}
+            taskListId={taskListId}
+            isDone={isDone}
+            createOrEditModalId={createOrEditModalId}
           />
         </>
       )}

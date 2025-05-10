@@ -8,13 +8,20 @@ import TasksWiseTask from './TasksWiseTask';
 interface Props {
   date: Date;
   groupId: string;
+  updateTaskListId: (id: number) => void;
 }
 
-export default function DateWiseTaskLists({ date, groupId }: Props) {
+export default function DateWiseTaskLists({ date, groupId, updateTaskListId }: Props) {
   const [taskLists, setTaskLists] = useState<TaskList[]>([]);
   const [currentTaskList, setCurrentTaskList] = useState<TaskList>();
   const [currentTasks, setCurrentTasks] = useState<Task[]>([]);
   const [unexpectedError, setUnexpectedError] = useState<Error | null>(null);
+
+  useEffect(() => {
+    if (!currentTaskList) return;
+
+    updateTaskListId(currentTaskList.id);
+  }, [updateTaskListId, currentTaskList]);
 
   const handleClickChangeCurrentTaskList = (taskList: TaskList) => {
     setCurrentTaskList(taskList);
@@ -84,7 +91,7 @@ export default function DateWiseTaskLists({ date, groupId }: Props) {
   }, [date, groupId, fetchTaskLists, unexpectedError]);
 
   return (
-    <div className="flex flex-col gap-4">
+    <div className="relative flex h-full flex-col gap-4">
       <div className="flex gap-3">
         {taskLists.map((taskList) => {
           return (
@@ -103,9 +110,9 @@ export default function DateWiseTaskLists({ date, groupId }: Props) {
           );
         })}
       </div>
-      <div className="flex w-full items-center justify-center">
+      <div className="flex h-full flex-col items-center justify-start">
         {currentTasks.length > 0 && currentTaskList ? (
-          <div className="flex w-full flex-col gap-4">
+          <div className="flex h-full w-full flex-col gap-4">
             {currentTasks.map((task) => {
               return (
                 <TasksWiseTask
