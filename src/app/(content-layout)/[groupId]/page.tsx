@@ -9,7 +9,7 @@ import axiosServer from '@/lib/axiosServer';
 import PATHS from '@/constants/paths';
 import { getGroupApiResponse, Group } from '@/types/group';
 
-export const getGroup = cache(async (groupId: Group['id']) => {
+const getGroup = cache(async (groupId: Group['id']) => {
   'use server';
   const data = await axiosServer
     .get<getGroupApiResponse>(`/groups/${groupId}`, { fetchOptions: { next: { tags: ['group'] } } })
