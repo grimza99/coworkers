@@ -1,12 +1,13 @@
 'use client';
 
+import { useState } from 'react';
 import Button from '@/components/common/Button';
 import Card from './_articles/components/Card';
 import BestCard from './_articles/components/BestCard';
 import SortToggle from './_articles/components/SortToggle';
-import { Article } from '@/types/article';
 import ArticleSearchBar from './_articles/components/ArticleSearchBar';
-import { useState } from 'react';
+import { Article } from '@/types/article';
+import { useRouter } from 'next/navigation';
 
 const mockArticles: Article[] = [
   {
@@ -98,6 +99,7 @@ const mockArticles: Article[] = [
 export default function ArticlesPage() {
   const [searchKeyword, setSearchKeyword] = useState('');
   const bestArticles = [...mockArticles].sort((a, b) => b.likeCount - a.likeCount).slice(0, 3);
+  const router = useRouter();
 
   return (
     <main className="">
@@ -136,7 +138,9 @@ export default function ArticlesPage() {
         </div>
       </section>
 
-      <Button>+ 글쓰기</Button>
+      <Button onClick={() => router.push('/addarticle')} className="fixed right-6 bottom-6">
+        {/* 나중에 게시글 생성하기 주소에 맞게 수정 필요 */}+ 글쓰기
+      </Button>
     </main>
   );
 }

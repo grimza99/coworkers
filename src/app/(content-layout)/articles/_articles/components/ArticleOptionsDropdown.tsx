@@ -4,7 +4,7 @@ export default function ArticleOptionsDropdown() {
   return (
     <DropDown
       options={['수정하기', '삭제하기']}
-      size="sm"
+      size="md"
       placement=" right-0"
       onSelect={(e) => {
         const selected = e.currentTarget.textContent;
