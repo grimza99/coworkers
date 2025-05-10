@@ -33,7 +33,11 @@ export default function MemberDetailModal({ modalId, member }: MemberDetailModal
           <ModalCloseButton modalId={modalId} />
           <div className="size-11.5">
             {userImage ? (
-              <img src={userImage} className="rounded-full" />
+              <Image
+                src={userImage}
+                className="rounded-full"
+                alt={`${userName}님의 프로필 이미지`}
+              />
             ) : (
               <Image
                 width={24}

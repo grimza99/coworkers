@@ -1,9 +1,7 @@
 'use client';
 
 import { useState, ChangeEvent } from 'react';
-import { AxiosError } from 'axios';
 import axiosClient from '@/lib/axiosClient';
-import { setClientCookie } from '@/lib/cookie/client';
 import FormField from '@/components/common/formField';
 import Button from '@/components/common/Button';
 import {
@@ -17,6 +15,7 @@ import usePasswordVisibility from '@/utils/use-password-visibility';
 import SignupFailModal from '@/components/signup-alert-modal/SignupFailModal';
 import SignupSuccessModal from '@/components/signup-alert-modal/SignupSuccessModal';
 import useModalContext from '@/components/common/modal/core/useModalContext';
+import { SIGNUP_MESSAGES } from '@/constants/messages/signup';
 
 export default function SignupForm() {
   const { isPasswordVisible, togglePasswordVisibility } = usePasswordVisibility();
@@ -43,33 +42,65 @@ export default function SignupForm() {
     }));
   };
 
+  function getNicknameErrorMessage() {
+    if (formData.nickname.trim() === '') {
+      return SIGNUP_MESSAGES.nickname.required;
+    }
+    if (!validateLengthLimit(formData.nickname)) {
+      return SIGNUP_MESSAGES.nickname.tooLong;
+    }
+    if (duplicateError.nickname) {
+      return SIGNUP_MESSAGES.nickname.duplicated;
+    }
+    return '';
+  }
+
+  function getEmailErrorMessage() {
+    if (formData.email.trim() === '') {
+      return SIGNUP_MESSAGES.email.required;
+    }
+    if (!validateEmail(formData.email)) {
+      return SIGNUP_MESSAGES.email.invalid;
+    }
+    if (duplicateError.email) {
+      return SIGNUP_MESSAGES.email.duplicated;
+    }
+    return '';
+  }
+
+  function getPasswordErrorMessage() {
+    if (formData.password.trim() === '') {
+      return SIGNUP_MESSAGES.password.required;
+    }
+    if (!validatePassword(formData.password)) {
+      return SIGNUP_MESSAGES.password.invalid;
+    }
+    return '';
+  }
+
+  function getPasswordConfirmationErrorMessage() {
+    if (formData.passwordConfirmation.trim() === '') {
+      return SIGNUP_MESSAGES.passwordConfirmation.required;
+    }
+    if (!validateConfirmPassword(formData.password, formData.passwordConfirmation)) {
+      return SIGNUP_MESSAGES.passwordConfirmation.notMatch;
+    }
+    return '';
+  }
+
   const formFields = [
     {
       label: '이름',
       name: 'nickname',
       isFailure: !validateLengthLimit(formData.nickname) || duplicateError.nickname,
-      errorMessage:
-        formData.nickname.trim() === ''
-          ? '이름을 입력해주세요.'
-          : !validateLengthLimit(formData.nickname)
-            ? '이름은 10글자 이하로 작성해주세요.'
-            : duplicateError.nickname
-              ? '이미 사용 중인 이름입니다.'
-              : '',
+      errorMessage: getNicknameErrorMessage(),
       placeholder: '이름을 입력해주세요.',
     },
     {
       label: '이메일',
       name: 'email',
       isFailure: !validateEmail(formData.email) || duplicateError.email,
-      errorMessage:
-        formData.email.trim() === ''
-          ? '이메일을 입력해주세요.'
-          : !validateEmail(formData.email)
-            ? '올바른 이메일 형식이 아닙니다.'
-            : duplicateError.email
-              ? '이미 사용 중인 이메일입니다.'
-              : '',
+      errorMessage: getEmailErrorMessage(),
       placeholder: '이메일을 입력해주세요.',
     },
     {
@@ -77,12 +108,7 @@ export default function SignupForm() {
       name: 'password',
       type: isPasswordVisible.password ? 'text' : 'password',
       isFailure: !validatePassword(formData.password),
-      errorMessage:
-        formData.password.trim() === ''
-          ? '비밀번호를 입력해주세요.'
-          : !validatePassword(formData.password)
-            ? '비밀번호는 8자 이상 20자 이하이며 영문자, 숫자, 특수문자(!@#$%^&*)만 사용할 수 있습니다.'
-            : '',
+      errorMessage: getPasswordErrorMessage(),
       placeholder: '비밀번호를 입력해주세요.',
       rightSlot: (
         <PasswordToggleButton
@@ -96,10 +122,7 @@ export default function SignupForm() {
       name: 'passwordConfirmation',
       type: isPasswordVisible.confirmPassword ? 'text' : 'password',
       isFailure: !validateConfirmPassword(formData.password, formData.passwordConfirmation),
-      errorMessage:
-        formData.passwordConfirmation.trim() === ''
-          ? '비밀번호를 입력해주세요.'
-          : '비밀번호가 일치하지 않습니다.',
+      errorMessage: getPasswordConfirmationErrorMessage(),
       placeholder: '비밀번호를 다시 한 번 입력해주세요.',
       rightSlot: (
         <PasswordToggleButton
@@ -109,31 +132,34 @@ export default function SignupForm() {
       ),
     },
   ];
+  interface ErrorResponse {
+    response?: {
+      data?: {
+        message?: string;
+      };
+    };
+  }
+
   const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     try {
-      const response = await axiosClient.post('/auth/signUp', {
+      await axiosClient.post('/auth/signUp', {
         email: formData.email,
         password: formData.password,
         passwordConfirmation: formData.passwordConfirmation,
         nickname: formData.nickname,
       });
 
-      const { accessToken, refreshToken } = response.data;
-      setClientCookie('accessToken', accessToken);
-      setClientCookie('refreshToken', refreshToken);
       openModal('signup-success');
       setIsSuccess(true);
-    } catch (error) {
-      const axiosError = error as AxiosError<{ message: string }>;
-      const message = axiosError.response?.data?.message;
+    } catch (error: unknown) {
+      const err = error as ErrorResponse;
+      const message = err.response?.data?.message || '';
 
-      if (message) {
-        setDuplicateError({
-          email: message.includes('이메일'),
-          nickname: message.includes('닉네임'),
-        });
-      }
+      setDuplicateError({
+        email: message.includes('이메일'),
+        nickname: message.includes('닉네임'),
+      });
 
       openModal('signup-fail');
     }
