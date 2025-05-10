@@ -123,8 +123,8 @@ export default function ArticlesPage() {
         <div className="flex items-start justify-between">
           <h2 className="text-xl-bold">게시글</h2>
           <div className="flex items-center gap-4">
-            <Button className="text-md-md px-2" variant="ghost-white" size="fullWidth">
-              내가 작성한 글
+            <Button className="text-md-md px-2" variant="ghost-primary" size="fullWidth">
+              내 게시글 보기
             </Button>
             <SortToggle onSelect={() => {}} />
           </div>
