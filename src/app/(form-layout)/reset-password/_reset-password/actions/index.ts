@@ -1,5 +1,5 @@
 import axiosClient from '@/lib/axiosClient';
-import { PasswordForm } from '../types/form-type';
+import { PasswordForm } from '../types/form-data-type';
 
 export const submitResetPassword = async (
   token: string | string[] | undefined,

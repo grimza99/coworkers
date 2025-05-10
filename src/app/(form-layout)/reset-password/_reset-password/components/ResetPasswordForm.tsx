@@ -8,13 +8,12 @@ import { validateConfirmPassword, validatePassword } from '@/utils/validators';
 import { useRouter } from 'next/navigation';
 import { useActionState, useRef, useState } from 'react';
 import { submitResetPassword } from '../actions';
-import { PasswordForm } from '../types/form-type';
+import { PasswordForm } from '../types/form-data-type';
 import { Toast } from '@/components/common/Toastify';
 
 interface Props {
   token: string | string[] | undefined;
 }
-//todo : 벨리데이트와 에러메시지 수정
 
 export default function ResetPasswordForm({ token }: Props) {
   const router = useRouter();
@@ -39,7 +38,10 @@ export default function ResetPasswordForm({ token }: Props) {
       value: formData.password,
       isFailure: !validatePassword(formData.password),
       isSuccess: validatePassword(formData.password),
-      errorMessage: '비밀번호를 입력해주세요.',
+      errorMessage:
+        formData.passwordConfirmation === ''
+          ? '비밀번호를 입력해주세요.'
+          : '비밀번호는 8자 이상 20자 이하이며 영문자, 숫자, 특수문자(!@#$%^&*)만 사용할 수 있습니다.',
       placeholder: '비밀번호 (영문, 숫자 포함, 12자 이내)를 입력해주세요.',
       rightSlot: (
         <PasswordToggleButton
