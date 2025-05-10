@@ -1,6 +1,7 @@
 'use client';
 import Image from 'next/image';
 import Button from '@/components/common/Button';
+import { Toast } from '@/components/common/Toastify';
 import {
   ModalCloseButton,
   ModalContainer,
@@ -12,7 +13,6 @@ import {
 } from '@/components/common/modal';
 import { Member } from '@/types/user';
 import { useEffect } from 'react';
-import { Toast } from '@/components/common/Toastify';
 
 type MemberRemovalModalProps = {
   member: Member;

@@ -1,4 +1,5 @@
 'use client';
+import { useOptimistic, useState, useTransition } from 'react';
 import MemberItem from '@/app/(content-layout)/[groupId]/_[groupId]/Members/MemberItem';
 import MemberInvitationModal from '@/app/(content-layout)/[groupId]/_[groupId]/Members/MemberInvitationModal';
 import MemberRemovalModal from '@/app/(content-layout)/[groupId]/_[groupId]/Members/MemberRemovalModal';
@@ -6,7 +7,6 @@ import MemberDetailModal from '@/app/(content-layout)/[groupId]/_[groupId]/Membe
 import { ModalTrigger } from '@/components/common/modal';
 import { Member } from '@/types/user';
 import { Group } from '@/types/group';
-import { useOptimistic, useState, useTransition } from 'react';
 import { removeMemberAction } from './actions';
 
 type MembersProps = {
