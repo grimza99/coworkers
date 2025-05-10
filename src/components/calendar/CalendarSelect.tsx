@@ -5,9 +5,10 @@ import './style.css';
 interface CalendarSelectProps {
   onDateChange: (date: Date) => void;
   date: Date;
+  disablePast?: boolean;
 }
 
-export default function CalendarSelect({ onDateChange, date }: CalendarSelectProps) {
+export default function CalendarSelect({ onDateChange, date, disablePast }: CalendarSelectProps) {
   return (
     <Calendar
       value={date}
@@ -20,6 +21,7 @@ export default function CalendarSelect({ onDateChange, date }: CalendarSelectPro
       calendarType="gregory"
       prev2Label={null}
       next2Label={null}
+      minDate={disablePast ? new Date() : undefined}
     />
   );
 }

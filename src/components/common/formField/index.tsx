@@ -16,6 +16,7 @@ export default function FormField({
   required,
   isSuccess,
   isFailure,
+  isSubmit,
   errorMessage,
   gapSize = '12',
   labelSize = '16/16',
@@ -26,9 +27,9 @@ export default function FormField({
   const { isFocused, showError, borderClassName, handleFocus, handleBlur } = useFieldStatus({
     isSuccess,
     isFailure,
+    isSubmit,
     onFocus: onFieldFocus,
     onBlur: onFieldBlur,
-    forceShowError: !!errorMessage,
   });
 
   const renderField = () => {
