@@ -24,9 +24,14 @@ export default function ResetPasswordForm({ token }: Props) {
     passwordConfirmation: '',
   });
 
+  const [_unused, action, pending] = useActionState(async () => {
+    await submitResetPassword(token, formData);
+  }, null);
+
   if (!token) {
     Toast.error('잘못된 접근입니다. 다시 시도해주세요');
-    return router.push(PATHS.HOME);
+    router.push(PATHS.HOME);
+    return null;
   }
 
   const formFieldArray = [
@@ -75,10 +80,6 @@ export default function ResetPasswordForm({ token }: Props) {
   const handleChangeFormData = (name: string, e: React.ChangeEvent<HTMLInputElement>) => {
     setFormData((prev) => ({ ...prev, [name]: e.target.value.trim() }));
   };
-
-  const [_, action, pending] = useActionState(async () => {
-    await submitResetPassword(token, formData);
-  }, null);
 
   return (
     <form action={action} ref={formRef} className="flex flex-col gap-10">

@@ -14,7 +14,7 @@ import { useOutSideClickAutoClose } from '@/utils/use-outside-click-auto-close';
 import ManageTaskItemModal from './_tasklist/components/manage-task-item-modal/MangeTaskItemModal';
 
 interface Props {
-  searchParams: Promise<{ [key: string]: string | string[] | undefined }>;
+  params: Promise<{ groupId: string }>;
 }
 
 /*
