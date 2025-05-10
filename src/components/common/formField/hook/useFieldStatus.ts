@@ -6,17 +6,17 @@ import { getBorderClassName } from '../style';
 interface UseFieldStatusProps {
   isSuccess?: boolean;
   isFailure?: boolean;
+  isSubmit?: boolean;
   onFocus?: React.FocusEventHandler<HTMLInputElement>;
   onBlur?: React.FocusEventHandler<HTMLInputElement>;
-  forceShowError?: boolean;
 }
 
 export function useFieldStatus({
   isSuccess,
   isFailure,
+  isSubmit = false,
   onFocus,
   onBlur,
-  forceShowError = false,
 }: UseFieldStatusProps) {
   const [isFocused, setIsFocused] = useState(false);
   const [isTouched, setIsTouched] = useState(false);
@@ -40,8 +40,8 @@ export function useFieldStatus({
     [onBlur]
   );
 
-  const showSuccess = (isTouched || forceShowError) && isSuccess === true;
-  const showError = (isTouched || forceShowError) && isFailure === true;
+  const showSuccess = (isTouched || isSubmit) && isSuccess === true;
+  const showError = (isTouched || isSubmit) && isFailure === true;
 
   const borderClassName = getBorderClassName({ isFocused, showSuccess, showError });
 

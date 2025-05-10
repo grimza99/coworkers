@@ -1,7 +1,7 @@
 import { User } from '@/types/user';
 import { Member } from './member-type';
 
-type Frequency = 'DAILY' | 'WEEKLY' | 'ONCE' | 'MONTHLY';
+export type Frequency = 'DAILY' | 'WEEKLY' | 'ONCE' | 'MONTHLY';
 
 // taskLists[] -> taskList{}-> tasks[]-> task(기준){} -> detailTask
 
@@ -36,6 +36,7 @@ export interface Task {
   displayIndex: number;
   commentCount: number;
   frequency: Frequency;
+  weekDays?: number[];
   doneAt: string;
   date: string;
   description: string;
