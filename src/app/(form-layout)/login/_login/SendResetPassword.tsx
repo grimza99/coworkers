@@ -25,7 +25,7 @@ export default function SendResetPassword() {
 
   const [email, setEmail] = useState('');
   const [isPending, startTransition] = useTransition();
-  const [errorMessage, setErrorMessage] = useState('');
+  const [errorMessage, setErrorMessage] = useState('이메일을 입력해주세요');
 
   const sendResetPasswordLink = () => {
     startTransition(async () => {
@@ -35,8 +35,9 @@ export default function SendResetPassword() {
           redirectUrl: redirectUrl,
         });
         if (res.status === 200) {
-          setEmail('');
           Toast.success('링크를 전송했습니다.');
+          setErrorMessage('이메일을 입력해주세요');
+          setEmail('');
           closeModal(modalId);
         }
       } catch (error) {
@@ -53,13 +54,9 @@ export default function SendResetPassword() {
     const value = e.target.value.trim();
     setEmail(value);
     if (value === ' ') return setErrorMessage('이메일을 입력해주세요');
-    if (value === ' ') return setErrorMessage('이메일 형식을 입력해주세요.');
+    if (!validateEmail(value)) return setErrorMessage('이메일 형식을 입력해주세요.');
   };
 
-  useEffect(() => {
-    setErrorMessage('');
-    setEmail('');
-  }, []);
   return (
     <>
       <ModalTrigger
@@ -83,7 +80,7 @@ export default function SendResetPassword() {
                 value={email}
                 onChange={handleChange}
                 name="email"
-                isFailure={!validateEmail(email) || !errorMessage}
+                isFailure={!validateEmail(email) || !!errorMessage}
                 isSuccess={validateEmail(email)}
                 errorMessage={errorMessage}
               />
@@ -92,14 +89,18 @@ export default function SendResetPassword() {
               <Button
                 size="fullWidth"
                 variant="outline-primary"
-                onClick={() => closeModal(modalId)}
+                onClick={() => {
+                  setErrorMessage('이메일을 입력해주세요');
+                  setEmail('');
+                  closeModal(modalId);
+                }}
               >
                 닫기
               </Button>
               <Button
                 size="fullWidth"
                 variant="solid"
-                disabled={isPending}
+                disabled={isPending || !validateEmail(email)}
                 onClick={sendResetPasswordLink}
               >
                 링크 보내기
