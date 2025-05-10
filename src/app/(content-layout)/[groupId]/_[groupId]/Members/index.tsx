@@ -6,7 +6,8 @@ import MemberDetailModal from '@/app/(content-layout)/[groupId]/_[groupId]/Membe
 import { ModalTrigger } from '@/components/common/modal';
 import { Member } from '@/types/user';
 import { Group } from '@/types/group';
-import { useOptimistic, useState } from 'react';
+import { useOptimistic, useState, useTransition } from 'react';
+import { removeMemberAction } from './actions';
 
 type MembersProps = {
   groupId: Group['id'];
@@ -18,9 +19,32 @@ export default function Members({ groupId, members }: MembersProps) {
   const [memberForRemoval, setMemberForRemoval] = useState<Member | null>(null);
   const [optimisticMembers, setOptimisticMembers] = useOptimistic(
     members,
-    (currentMembers: Member[], userId: number) =>
-      currentMembers.filter((member) => member.userId !== userId)
+    (currentMembers: Member[], action: Member['userId'] | Member[]) => {
+      if (typeof action === 'number') {
+        return currentMembers.filter((member) => member.userId !== action);
+      }
+      return action;
+    }
   );
+  const [isRemoving, startRemovingTransition] = useTransition();
+  const [removalError, setRemovalError] = useState<string | null>(null);
+
+  const removeMember = async (memberToRemove: Member) => {
+    startRemovingTransition(async () => {
+      setRemovalError(null);
+      setOptimisticMembers(memberToRemove.userId);
+
+      const result = await removeMemberAction(groupId, memberToRemove.userId);
+
+      if (result.success) {
+        setMemberForRemoval(null);
+      } else {
+        setOptimisticMembers(members);
+        setRemovalError(result.message);
+      }
+    });
+  };
+
   const memberCount = optimisticMembers.length;
   const memberInvitationModalId = `memberInvitation-${groupId}`;
   const memberDetailModalId = `memberDetail-${memberForDetail}`;
@@ -61,7 +85,9 @@ export default function Members({ groupId, members }: MembersProps) {
         <MemberRemovalModal
           member={memberForRemoval}
           modalId={memberRemovalModalId}
-          setOptimisticMembers={setOptimisticMembers}
+          isRemoving={isRemoving}
+          error={removalError}
+          removeMember={() => removeMember(memberForRemoval)}
         />
       )}
     </>

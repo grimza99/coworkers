@@ -1,9 +1,8 @@
 'use client';
-import { startTransition } from 'react';
 import Image from 'next/image';
-import { removeMemberAction } from '@/app/(content-layout)/[groupId]/_[groupId]/Members/actions';
 import Button from '@/components/common/Button';
 import {
+  ModalCloseButton,
   ModalContainer,
   ModalDescription,
   ModalFooter,
@@ -11,33 +10,26 @@ import {
   ModalOverlay,
   ModalPortal,
 } from '@/components/common/modal';
-import useModalContext from '@/components/common/modal/core/useModalContext';
 import { Member } from '@/types/user';
 
 type MemberRemovalModalProps = {
   member: Member;
   modalId: string;
-  setOptimisticMembers: (action: number) => void;
+  isRemoving: boolean;
+  error: string | null;
+  removeMember: () => Promise<void> | void;
 };
 
 export default function MemberRemovalModal({
   member,
   modalId,
-  setOptimisticMembers,
+  isRemoving,
+  error,
+  removeMember,
 }: MemberRemovalModalProps) {
-  const { userId, userName, groupId } = member;
-  const { closeModal } = useModalContext();
-  const removeMember = async () => {
-    startTransition(async () => {
-      setOptimisticMembers(userId);
-      const result = await removeMemberAction(groupId, userId);
-
-      if (result.success) {
-        closeModal(modalId);
-      } else {
-        console.error(result.message);
-      }
-    });
+  const { userName } = member;
+  const handleClickRemoveButton = async () => {
+    await removeMember(); // 부모의 함수 호출
   };
 
   return (
@@ -45,8 +37,9 @@ export default function MemberRemovalModal({
       <ModalPortal modalId={modalId}>
         <ModalOverlay modalId={modalId}>
           <ModalContainer>
+            <ModalCloseButton modalId={modalId} />
             <Image
-              src="icons/danger.icon.svg"
+              src="/icons/danger.icon.svg"
               alt="경고"
               width={23}
               height={22}
@@ -56,19 +49,16 @@ export default function MemberRemovalModal({
               <span className="text-primary">{userName}</span> 님을 그룹에서 내보내시겠어요?
             </ModalHeading>
             <ModalDescription>내보낸 멤버는 다시 초대할 수 있습니다.</ModalDescription>
+            {/* { 토스트 */}
+            {error && <p className="text-danger mt-2 text-sm">{error}</p>}
             <ModalFooter className="mt-6 w-70">
-              <Button variant="outline-gray" size="fullWidth" onClick={() => closeModal(modalId)}>
-                닫기
-              </Button>
               <Button
                 variant="danger"
                 size="fullWidth"
-                onClick={() => {
-                  removeMember();
-                  closeModal(modalId);
-                }}
+                onClick={handleClickRemoveButton}
+                disabled={isRemoving}
               >
-                내보내기
+                {isRemoving ? '...' : '내보내기'}
               </Button>
             </ModalFooter>
           </ModalContainer>
