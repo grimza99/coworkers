@@ -1,6 +1,4 @@
 import Image from 'next/image';
-import xIcon from '@/../public/icons/x-icon.svg';
-import profileIcon from '@/../public/icons/profile-icon.svg';
 import { ModalTrigger } from '@/components/common/modal';
 import { Member } from '@/types/user';
 
@@ -43,7 +41,13 @@ export default function MemberItem({
       </ModalTrigger>
       {role === 'MEMBER' && (
         <ModalTrigger modalId={memberRemovalModalId} onClick={() => setMemberForRemoval(member)}>
-          <Image width={24} height={24} src={xIcon} alt="멤버 삭제" className="size-4" />
+          <Image
+            width={24}
+            height={24}
+            src="/icons/x-icon.svg"
+            alt="멤버 삭제"
+            className="size-4"
+          />
         </ModalTrigger>
       )}
     </li>
@@ -64,7 +68,7 @@ function MemberProfileImage({ userImage, className }: MemberProfileImageProps) {
         <Image
           width={24}
           height={24}
-          src={profileIcon}
+          src="/icons/profile-icon.svg"
           alt="기본 프로필 이미지"
           className="size-full"
         />

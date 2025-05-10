@@ -7,12 +7,12 @@ import Report from '@/app/(content-layout)/[groupId]/_[groupId]/Report';
 import Members from '@/app/(content-layout)/[groupId]/_[groupId]/Members';
 import axiosServer from '@/lib/axiosServer';
 import PATHS from '@/constants/paths';
-import { Group } from '@/types/group';
+import { getGroupApiResponse, Group } from '@/types/group';
 
 export const getGroup = cache(async (groupId: Group['id']) => {
   'use server';
   const data = await axiosServer
-    .get(`/groups/${groupId}`, { fetchOptions: { next: { tags: ['group'] } } })
+    .get<getGroupApiResponse>(`/groups/${groupId}`, { fetchOptions: { next: { tags: ['group'] } } })
     .then((res) => res.data);
   return data;
 });
