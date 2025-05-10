@@ -18,7 +18,7 @@ type MemberRemovalModalProps = {
   member: Member;
   modalId: string;
   isRemoving: boolean;
-  error: string | null;
+  error: { message: string; id: string } | null;
   removeMember: () => Promise<void> | void;
 };
 
@@ -36,7 +36,7 @@ export default function MemberRemovalModal({
 
   useEffect(() => {
     if (!error) return;
-    Toast.error(error);
+    Toast.error(error.message);
   }, [error]);
 
   return (

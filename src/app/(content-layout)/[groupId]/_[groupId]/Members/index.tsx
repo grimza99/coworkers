@@ -27,7 +27,7 @@ export default function Members({ groupId, members }: MembersProps) {
     }
   );
   const [isRemoving, startRemovingTransition] = useTransition();
-  const [removalError, setRemovalError] = useState<string | null>(null);
+  const [removalError, setRemovalError] = useState<{ message: string; id: string } | null>(null);
 
   const removeMember = async (memberToRemove: Member) => {
     startRemovingTransition(async () => {
@@ -40,7 +40,10 @@ export default function Members({ groupId, members }: MembersProps) {
         setMemberForRemoval(null);
       } else {
         setOptimisticMembers(members);
-        setRemovalError(result.message);
+        setRemovalError({
+          message: result.message,
+          id: Date.now().toString(),
+        });
       }
     });
   };
