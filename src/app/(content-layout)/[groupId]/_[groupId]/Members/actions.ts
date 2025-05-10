@@ -9,8 +9,7 @@ export async function removeMemberAction(groupId: Group['id'], userId: User['id'
     await axiosServer.delete(`/groups/${groupId}/member/${userId}`);
     revalidateTag('group');
     return { success: true, message: '멤버가 성공적으로 삭제되었습니다.' };
-  } catch (error) {
-    console.error('멤버 삭제 실패:', error);
+  } catch {
     return { success: false, message: '멤버 삭제에 실패했습니다.' };
   }
 }

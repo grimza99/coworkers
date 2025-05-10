@@ -20,9 +20,11 @@ export default function Members({ groupId, members }: MembersProps) {
       currentMembers.filter((member) => member.userId !== userId)
   );
   const memberCount = optimisticMembers.length;
-  const memberInvitationModalId = `${groupId}-memberInvitation`;
-  const [selectedMemberToSeeDetail, setSelectedMemberToSeeDetail] = useState<Member | null>(null);
-  const [selectedMemberToBeDeleted, setSelectedMemberToBeDeleted] = useState<Member | null>(null);
+  const memberInvitationModalId = `memberInvitation-${groupId}`;
+  const [memberForDetail, setMemberForDetail] = useState<Member | null>(null);
+  const [memberForRemoval, setMemberForRemoval] = useState<Member | null>(null);
+  const memberDetailModalId = `memberDetail-${memberForDetail}`;
+  const memberRemovalModalId = `memberRemoval-${memberForRemoval}`;
 
   return (
     <>
@@ -40,8 +42,10 @@ export default function Members({ groupId, members }: MembersProps) {
             <MemberItem
               key={member.userId}
               member={member}
-              setSelectedMemberToSeeDetail={setSelectedMemberToSeeDetail}
-              setSelectedMemberToBeDeleted={setSelectedMemberToBeDeleted}
+              memberDetailModalId={memberDetailModalId}
+              memberRemovalModalId={memberRemovalModalId}
+              setMemberForDetail={setMemberForDetail}
+              setMemberForRemoval={setMemberForRemoval}
             />
           ))}
         </ul>
@@ -49,18 +53,15 @@ export default function Members({ groupId, members }: MembersProps) {
 
       <MemberInvitationModal modalId={memberInvitationModalId} groupId={groupId} />
 
-      {selectedMemberToSeeDetail && (
-        <MemberDetailModal
-          modalId={`memberDetail-${selectedMemberToSeeDetail.userId}`}
-          member={selectedMemberToSeeDetail}
-        />
+      {memberForDetail && (
+        <MemberDetailModal modalId={memberDetailModalId} member={memberForDetail} />
       )}
 
-      {selectedMemberToBeDeleted && (
+      {memberForRemoval && (
         <MemberRemovalModal
           setOptimisticMembers={setOptimisticMembers}
-          member={selectedMemberToBeDeleted}
-          modalId={`memberRemoval-${selectedMemberToBeDeleted.userId}`}
+          member={memberForRemoval}
+          modalId={memberRemovalModalId}
         />
       )}
     </>
