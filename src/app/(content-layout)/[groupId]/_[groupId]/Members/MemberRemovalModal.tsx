@@ -1,4 +1,5 @@
 'use client';
+import { useEffect } from 'react';
 import Image from 'next/image';
 import Button from '@/components/common/Button';
 import { Toast } from '@/components/common/Toastify';
@@ -12,7 +13,6 @@ import {
   ModalPortal,
 } from '@/components/common/modal';
 import { Member } from '@/types/user';
-import { useEffect } from 'react';
 
 type MemberRemovalModalProps = {
   member: Member;

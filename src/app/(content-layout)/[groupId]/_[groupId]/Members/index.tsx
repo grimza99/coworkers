@@ -4,10 +4,10 @@ import MemberItem from '@/app/(content-layout)/[groupId]/_[groupId]/Members/Memb
 import MemberInvitationModal from '@/app/(content-layout)/[groupId]/_[groupId]/Members/MemberInvitationModal';
 import MemberRemovalModal from '@/app/(content-layout)/[groupId]/_[groupId]/Members/MemberRemovalModal';
 import MemberDetailModal from '@/app/(content-layout)/[groupId]/_[groupId]/Members/MemberDetailModal';
+import { removeMemberAction } from '@/app/(content-layout)/[groupId]/_[groupId]/Members/actions';
 import { ModalTrigger } from '@/components/common/modal';
 import { Member } from '@/types/user';
 import { Group } from '@/types/group';
-import { removeMemberAction } from './actions';
 
 type MembersProps = {
   groupId: Group['id'];
