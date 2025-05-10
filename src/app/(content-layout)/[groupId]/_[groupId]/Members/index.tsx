@@ -50,8 +50,8 @@ export default function Members({ groupId, members }: MembersProps) {
 
   const memberCount = optimisticMembers.length;
   const memberInvitationModalId = `memberInvitation-${groupId}`;
-  const memberDetailModalId = memberForDetail ? `memberDetail-${memberForDetail}` : '';
-  const memberRemovalModalId = memberForRemoval ? `memberRemoval-${memberForRemoval}` : '';
+  const memberDetailModalId = memberForDetail ? `memberDetail-${memberForDetail.userId}` : '';
+  const memberRemovalModalId = memberForRemoval ? `memberRemoval-${memberForRemoval.userId}` : '';
 
   return (
     <>

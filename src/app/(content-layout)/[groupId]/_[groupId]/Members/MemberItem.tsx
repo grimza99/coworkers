@@ -13,12 +13,12 @@ type MemberItemProps = {
 
 export default function MemberItem({
   member,
-  memberDetailModalId,
-  memberRemovalModalId,
   setMemberForDetail,
   setMemberForRemoval,
 }: MemberItemProps) {
   const { userName, userImage, userEmail, role } = member;
+  const memberDetailModalId = `memberDetail-${member.userId}`;
+  const memberRemovalModalId = `memberRemoval-${member.userId}`;
 
   return (
     <li className="bg-bg200 flex items-center justify-between gap-1.5 rounded-2xl px-4 py-3 md:px-6 md:py-5">
