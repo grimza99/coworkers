@@ -9,7 +9,4 @@ export const submitResetPassword = async (
     token: token,
     ...formData,
   });
-  if (res.status === 200) {
-    //성공, 에러 등 핸들링 예정
-  }
 };

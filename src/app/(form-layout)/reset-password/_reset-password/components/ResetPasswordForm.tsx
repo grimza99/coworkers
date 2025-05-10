@@ -9,23 +9,26 @@ import { useRouter } from 'next/navigation';
 import { useActionState, useRef, useState } from 'react';
 import { submitResetPassword } from '../actions';
 import { PasswordForm } from '../types/form-type';
+import { Toast } from '@/components/common/Toastify';
 
 interface Props {
   token: string | string[] | undefined;
 }
-//todo : 토큰이 없을때, 토스트로 '접근할 수 없는 페이지 입니다.' 등의 문구 띄우고 라우트
 //todo : 벨리데이트와 에러메시지 수정
 
 export default function ResetPasswordForm({ token }: Props) {
   const router = useRouter();
   const formRef = useRef<HTMLFormElement>(null);
-  if (!token) router.push(PATHS.HOME);
-
   const { isPasswordVisible, togglePasswordVisibility } = usePasswordVisibility();
   const [formData, setFormData] = useState<PasswordForm>({
     password: '',
     passwordConfirmation: '',
   });
+
+  if (!token) {
+    Toast.error('잘못된 접근입니다. 다시 시도해주세요');
+    return router.push(PATHS.HOME);
+  }
 
   const formFieldArray = [
     {
@@ -71,10 +74,9 @@ export default function ResetPasswordForm({ token }: Props) {
     setFormData((prev) => ({ ...prev, [name]: e.target.value.trim() }));
   };
 
-  const [_, action, pending] = useActionState(
-    async () => submitResetPassword(token, formData),
-    null
-  );
+  const [_, action, pending] = useActionState(async () => {
+    await submitResetPassword(token, formData);
+  }, null);
 
   return (
     <form action={action} ref={formRef} className="flex flex-col gap-10">
