@@ -1,4 +1,5 @@
 'use client';
+import { startTransition } from 'react';
 import Image from 'next/image';
 import { removeMemberAction } from '@/app/(content-layout)/[groupId]/_[groupId]/Members/actions';
 import Button from '@/components/common/Button';
@@ -12,17 +13,16 @@ import {
 } from '@/components/common/modal';
 import useModalContext from '@/components/common/modal/core/useModalContext';
 import { Member } from '@/types/user';
-import { startTransition } from 'react';
 
 type MemberRemovalModalProps = {
-  modalId: string;
   member: Member;
+  modalId: string;
   setOptimisticMembers: (action: number) => void;
 };
 
 export default function MemberRemovalModal({
-  modalId,
   member,
+  modalId,
   setOptimisticMembers,
 }: MemberRemovalModalProps) {
   const { userId, userName, groupId } = member;

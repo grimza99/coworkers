@@ -14,6 +14,8 @@ type MembersProps = {
 };
 
 export default function Members({ groupId, members }: MembersProps) {
+  const [memberForDetail, setMemberForDetail] = useState<Member | null>(null);
+  const [memberForRemoval, setMemberForRemoval] = useState<Member | null>(null);
   const [optimisticMembers, setOptimisticMembers] = useOptimistic(
     members,
     (currentMembers: Member[], userId: number) =>
@@ -21,8 +23,6 @@ export default function Members({ groupId, members }: MembersProps) {
   );
   const memberCount = optimisticMembers.length;
   const memberInvitationModalId = `memberInvitation-${groupId}`;
-  const [memberForDetail, setMemberForDetail] = useState<Member | null>(null);
-  const [memberForRemoval, setMemberForRemoval] = useState<Member | null>(null);
   const memberDetailModalId = `memberDetail-${memberForDetail}`;
   const memberRemovalModalId = `memberRemoval-${memberForRemoval}`;
 
@@ -59,9 +59,9 @@ export default function Members({ groupId, members }: MembersProps) {
 
       {memberForRemoval && (
         <MemberRemovalModal
-          setOptimisticMembers={setOptimisticMembers}
           member={memberForRemoval}
           modalId={memberRemovalModalId}
+          setOptimisticMembers={setOptimisticMembers}
         />
       )}
     </>
