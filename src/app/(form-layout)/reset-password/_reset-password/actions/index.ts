@@ -1,18 +1,15 @@
 import axiosClient from '@/lib/axiosClient';
 import { PasswordForm } from '../types/form-type';
-import { Ref, RefObject } from 'react';
 
 export const submitResetPassword = async (
   token: string | string[] | undefined,
-  formData: PasswordForm,
-  formRef: RefObject<HTMLFormElement | null>
+  formData: PasswordForm
 ) => {
   const res = await axiosClient.patch(`/user/reset-password`, {
     token: token,
     ...formData,
-    formRef,
   });
   if (res.status === 200) {
-    formRef.current?.reset();
+    //성공, 에러 등 핸들링 예정
   }
 };

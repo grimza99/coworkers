@@ -72,7 +72,7 @@ export default function ResetPasswordForm({ token }: Props) {
   };
 
   const [_, action, pending] = useActionState(
-    async () => submitResetPassword(token, formData, formRef),
+    async () => submitResetPassword(token, formData),
     null
   );
 
