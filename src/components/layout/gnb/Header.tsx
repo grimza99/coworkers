@@ -13,7 +13,8 @@ import { OptionSelector } from '@/components/common/dropdown/OptionSelector';
 import { useOutSideClickAutoClose } from '@/utils/use-outside-click-auto-close';
 import Button from '@/components/common/Button';
 import axiosClient from '@/lib/axiosClient';
-import { User } from '@/types/user';
+import { Group } from '@/types/group';
+import { getUserApiResponse } from '@/types/user';
 import { getClientCookie, deleteClientCookie } from '@/lib/cookie/client';
 import PATHS from '@/constants/paths';
 
@@ -27,36 +28,9 @@ const MINIMAL_HEADER_PATHS = [
   '/joingroup',
 ];
 
-interface Group {
-  id: number;
-  name: string;
-  image: string;
-  createdAt: string;
-  updatedAt: string;
-  teamId: string;
-}
-
-interface Membership {
-  userId: number;
-  groupId: number;
-  userName: string;
-  userEmail: string;
-  userImage: string | null;
-  role: string;
-  group: Group;
-}
-
-export interface UserData extends User {
-  createdAt: string;
-  updatedAt: string;
-  teamId: string;
-  email: string;
-  memberships: Membership[];
-}
-
 export default function Header() {
   const pathname = usePathname();
-  const [userData, setUserData] = useState<UserData | null>(null);
+  const [userData, setUserData] = useState<getUserApiResponse | null>(null);
   const [groups, setGroups] = useState<Group[]>([]);
   const [selectedGroupName, setSelectedGroupName] = useState<string>('');
 
