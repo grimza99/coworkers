@@ -32,7 +32,7 @@ export default function Header() {
   const pathname = usePathname();
   const [userData, setUserData] = useState<getUserApiResponse | null>(null);
   const [groups, setGroups] = useState<Group[]>([]);
-  const [selectedGroupName, setSelectedGroupName] = useState<string>('');
+  const [selectedGroupId, setSelectedGroupId] = useState<number | null>(null);
 
   useEffect(() => {
     const fetchUserData = async () => {
@@ -56,7 +56,7 @@ export default function Header() {
 
         const currentPathId = pathname.split('/')[1];
         const currentGroup = userGroups.find((group: Group) => String(group.id) === currentPathId);
-        setSelectedGroupName(currentGroup?.name || userGroups[0]?.name || '');
+        setSelectedGroupId(currentGroup?.id ?? userGroups[0]?.id ?? null);
       } catch (error) {
         console.error('유저 정보 가져오기 실패', error);
       }
@@ -85,6 +85,7 @@ export default function Header() {
 
   const userName = userData?.nickname ?? '';
   const hasGroup = groups.length > 0;
+  const selectedGroup = groups.find((group) => group.id === selectedGroupId);
 
   return (
     <header className="bg-bg200 border-border sticky top-0 z-200 flex h-15 w-full justify-center border-b-1 py-[14px]">
@@ -108,15 +109,14 @@ export default function Header() {
               <OptionSelector
                 placement=""
                 size="xl"
-                defaultValue={selectedGroupName}
+                defaultValue={selectedGroup?.name}
                 options={groups.map((group) => {
                   return <DropDownGroupsItem key={group.id} group={group} />;
                 })}
                 onSelect={(e) => {
                   const clickedGroupId = (e.currentTarget as HTMLElement).dataset.groupId;
-                  const selectedGroup = groups.find((group) => String(group.id) === clickedGroupId);
-                  if (selectedGroup) {
-                    setSelectedGroupName(selectedGroup.name);
+                  if (clickedGroupId) {
+                    setSelectedGroupId(Number(clickedGroupId));
                   }
                 }}
                 footerBtn={
