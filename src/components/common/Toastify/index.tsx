@@ -14,7 +14,7 @@ interface ToastifyOptions {
 const defaultOption: ToastifyOptions = {
   position: 'top-right',
   closeOnClick: true,
-  hideProgressBar: true,
+  hideProgressBar: false,
   pauseOnHover: true,
   newestOnTop: true,
 };
@@ -31,14 +31,14 @@ export const Toast = {
     toast.error(message, {
       ...defaultOption,
       ...options,
-      icon: <ExclamationMark className="text-white" />,
+      icon: <ExclamationMark width="24" height="24" className="text-white" />,
     });
   },
   info: (message: React.ReactNode, options: ToastOptions = {}) => {
     toast.info(message, {
       ...defaultOption,
       ...options,
-      icon: <ExclamationMark className="text-primary" />,
+      icon: <ExclamationMark width="24" height="24" className="text-gray500 rotate-180" />,
     });
   },
 };

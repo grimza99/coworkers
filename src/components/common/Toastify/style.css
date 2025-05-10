@@ -30,13 +30,22 @@
 
 .Toastify__toast--info {
   background: var(--color-white);
-  color: var(--color-primary);
+  color: var(--color-gray500);
 }
 
 .Toastify__toast--info .Toastify__close-button {
-  color: var(--color-primary);
+  color: var(--color-gray500);
   opacity: 1;
 }
 
-/* .Toastify__progress-bar {
-} */
+.Toastify__toast--success .Toastify__progress-bar {
+  background: var(--color-white);
+}
+
+.Toastify__toast--error .Toastify__progress-bar {
+  background: var(--color-white);
+}
+
+.Toastify__toast--info .Toastify__progress-bar {
+  background: var(--color-gray500);
+}
