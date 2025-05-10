@@ -2,32 +2,28 @@ import { useState } from 'react';
 import { Group } from './ManageGroup';
 import postImageUrl from '@/lib/api/image/postImageUrl';
 import axiosClient from '@/lib/axiosClient';
-import manageGroupValidate, { GROUP_MESSAGE, Validation } from './group-validate';
 import { useRouter } from 'next/navigation';
+import { validateEmptyValue } from '@/utils/validators';
+
+export const GROUP_MESSAGE = {
+  EMPTY_GROUP_IMAGE: '프로필 이미지를 넣어주세요.',
+  EMPTY_GROUP_NAME: '팀 이름을 작성해 주세요.',
+  EQUAL_GROUP_NAME: '이미 존재하는 팀 이름입니다.',
+};
 
 const INITIAL_GROUP_VALUE: Group = {
-  image: '',
+  image: null,
   name: '',
 };
 
 export default function useManageGroup({ groupData }: { groupData?: Group }) {
   const [group, setGroup] = useState<Group>(groupData ?? INITIAL_GROUP_VALUE);
-  const [validationMessages, setValidationMessages] = useState<Validation[]>([]);
+  const [isSubmit, setIsSubmit] = useState(false);
+
+  const isNameEmpty = validateEmptyValue(group.name);
+  const isImageEmpty = group.image === null;
 
   const router = useRouter();
-
-  const getMessage = (field: string) => {
-    return validationMessages.find((m) => m.field === field)?.message ?? '';
-  };
-
-  const handleNameBlur = () => {
-    setValidationMessages((prev) => [
-      ...prev.filter((m) => m.field !== 'name'),
-      ...(!group.name.trim()
-        ? [{ field: 'name' as keyof Group, message: GROUP_MESSAGE.EMPTY_GROUP_NAME }]
-        : []),
-    ]);
-  };
 
   const handleNameChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     setGroup((prev) => ({
@@ -46,29 +42,36 @@ export default function useManageGroup({ groupData }: { groupData?: Group }) {
           ...prev,
           image: result.url,
         }));
-
-        setValidationMessages((prev) => prev.filter((m) => m.field !== 'image'));
       })
       .catch((err) => {
         console.error(err);
       });
   };
 
+  const imageErrorMessage = () => {
+    if (isImageEmpty) return GROUP_MESSAGE.EMPTY_GROUP_IMAGE;
+  };
+
+  const nameErrorMessage = () => {
+    if (isNameEmpty) return GROUP_MESSAGE.EMPTY_GROUP_NAME;
+    // duplicate name logic
+  };
+
+  const isManageTeamFormValid = !isImageEmpty && !isNameEmpty;
+
   const handleAddGroupSubmit = (e: React.FormEvent) => {
     e.preventDefault();
 
-    const validation = manageGroupValidate(group);
+    setIsSubmit(true);
 
-    if (validation.length > 0) {
-      setValidationMessages(validation);
-      return;
-    }
+    if (!isManageTeamFormValid) return;
 
     axiosClient
       .post('/groups', group)
       .then((result) => {
         setGroup(INITIAL_GROUP_VALUE);
-        setValidationMessages([]);
+        setIsSubmit(false);
+
         router.push(`/${result.data.id}`);
       })
       .catch((err) => {
@@ -78,8 +81,11 @@ export default function useManageGroup({ groupData }: { groupData?: Group }) {
 
   return {
     group,
-    getMessage,
-    handleNameBlur,
+    isNameEmpty,
+    isImageEmpty,
+    isSubmit,
+    imageErrorMessage,
+    nameErrorMessage,
     handleNameChange,
     handleImageChange,
     handleAddGroupSubmit,
