@@ -1,6 +1,6 @@
 export default function ExclamationMark({
-  width = '48',
-  height = '48',
+  width = '24',
+  height = '24',
   className,
 }: {
   width?: string;

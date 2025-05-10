@@ -31,14 +31,14 @@ export const Toast = {
     toast.error(message, {
       ...defaultOption,
       ...options,
-      icon: <ExclamationMark width="24" height="24" className="text-white" />,
+      icon: <ExclamationMark className="text-white" />,
     });
   },
   info: (message: React.ReactNode, options: ToastOptions = {}) => {
     toast.info(message, {
       ...defaultOption,
       ...options,
-      icon: <ExclamationMark width="24" height="24" className="text-gray500 rotate-180" />,
+      icon: <ExclamationMark className="text-gray500 rotate-180" />,
     });
   },
 };
