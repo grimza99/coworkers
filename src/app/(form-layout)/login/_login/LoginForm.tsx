@@ -10,7 +10,7 @@ import { setClientCookie } from '@/lib/cookie/client';
 import { validateEmail } from '@/utils/validators';
 import { User } from '@/types/user';
 import PATHS from '@/constants/paths';
-import ResetPasswordModal from './ResetPasswordModal';
+import SendResetPassword from './SendResetPassword';
 
 export interface loginApiResponse {
   accessToken: string;
@@ -115,7 +115,7 @@ export default function LoginForm() {
           disabled={isLoggingIn}
         />
       </div>
-      <ResetPasswordModal />
+      <SendResetPassword />
       <Button
         type="submit"
         variant="solid"

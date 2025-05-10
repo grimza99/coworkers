@@ -1,5 +1,5 @@
 'use client';
-import { useState, useTransition } from 'react';
+import { useEffect, useState, useTransition } from 'react';
 import Button from '@/components/common/Button';
 import {
   ModalContainer,
@@ -12,18 +12,20 @@ import {
 } from '@/components/common/modal';
 import useModalContext from '@/components/common/modal/core/useModalContext';
 import axiosClient from '@/lib/axiosClient';
-import Input from '@/components/common/formField/compound/Input';
+import FormField from '@/components/common/formField';
+import { validateEmail } from '@/utils/validators';
+import { AxiosError } from 'axios';
+import { Toast } from '@/components/common/Toastify';
 
 const redirectUrl = process.env.NEXT_PUBLIC_RESET_PASSWORD;
-//버튼 사이즈 custom하기
 
-export default function ResetPasswordModal() {
+export default function SendResetPassword() {
   const { closeModal } = useModalContext();
   const modalId = `resetPassword`;
 
   const [email, setEmail] = useState('');
-  const [errorMessage, setErrorMessage] = useState();
   const [isPending, startTransition] = useTransition();
+  const [errorMessage, setErrorMessage] = useState('');
 
   const sendResetPasswordLink = () => {
     startTransition(async () => {
@@ -34,18 +36,30 @@ export default function ResetPasswordModal() {
         });
         if (res.status === 200) {
           setEmail('');
+          Toast.success('링크를 전송했습니다.');
           closeModal(modalId);
         }
       } catch (error) {
-        //input 에러처리
+        if (error instanceof AxiosError) {
+          const status = error.response?.status;
+          if (status === 400) return setErrorMessage('존재하지 않는 유저입니다.');
+        }
+        setErrorMessage('예상치 못한 오류가 발생했습니다.');
       }
     });
   };
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    setEmail(e.target.value.trim());
+    const value = e.target.value.trim();
+    setEmail(value);
+    if (value === ' ') return setErrorMessage('이메일을 입력해주세요');
+    if (value === ' ') return setErrorMessage('이메일 형식을 입력해주세요.');
   };
 
+  useEffect(() => {
+    setErrorMessage('');
+    setEmail('');
+  }, []);
   return (
     <>
       <ModalTrigger
@@ -63,14 +77,16 @@ export default function ResetPasswordModal() {
               <ModalDescription className="text-md-md text-gray500 mb-6 w-full">
                 비밀번호 재설정 링크를 보내드립니다.
               </ModalDescription>
-              <Input
+              <FormField
+                field="input"
                 placeholder="가입하신 이메일을 입력하세요"
-                required
                 value={email}
                 onChange={handleChange}
                 name="email"
+                isFailure={!validateEmail(email) || !errorMessage}
+                isSuccess={validateEmail(email)}
+                errorMessage={errorMessage}
               />
-              {errorMessage && <p>{errorMessage}</p>}
             </div>
             <ModalFooter className="flex w-full gap-2">
               <Button
