@@ -7,11 +7,9 @@ import { useEffect, useState } from 'react';
 import Logo from './Logo';
 import SideMenu from './SideMenu';
 import DropDownProfileItemList from '@/components/common/dropdown/ProfileItem';
-import DropDownGroupsItem from '@/components/common/dropdown/GroupsItem';
 import DropDown from '@/components/common/dropdown/index';
-import { OptionSelector } from '@/components/common/dropdown/OptionSelector';
+import GroupDropdownSelector from './GroupDropdownSelector';
 import { useOutSideClickAutoClose } from '@/utils/use-outside-click-auto-close';
-import Button from '@/components/common/Button';
 import axiosClient from '@/lib/axiosClient';
 import { Group } from '@/types/group';
 import { getUserApiResponse } from '@/types/user';
@@ -91,7 +89,6 @@ export default function Header() {
 
   const userName = userData?.nickname ?? '';
   const hasGroup = groups.length > 0;
-  const selectedGroup = groups.find((group) => group.id === selectedGroupId);
 
   return (
     <header className="bg-bg200 border-border sticky top-0 z-200 flex h-15 w-full justify-center border-b-1 py-[14px]">
@@ -112,24 +109,10 @@ export default function Header() {
 
           <div className="text-lg-md relative hidden items-center gap-8 md:flex lg:gap-y-10">
             {hasGroup && (
-              <OptionSelector
-                placement=""
-                size="xl"
-                defaultValue={selectedGroup?.name}
-                options={groups.map((group) => {
-                  return <DropDownGroupsItem key={group.id} group={group} />;
-                })}
-                onSelect={(e) => {
-                  const clickedGroupId = (e.currentTarget as HTMLElement).dataset.groupId;
-                  if (clickedGroupId) {
-                    setSelectedGroupId(Number(clickedGroupId));
-                  }
-                }}
-                footerBtn={
-                  <Button variant="ghost-white" size="fullWidth" fontSize="16">
-                    <Link href={PATHS.ADDGROUP}>+ 팀 추가하기</Link>
-                  </Button>
-                }
+              <GroupDropdownSelector
+                groups={groups}
+                selectedGroupId={selectedGroupId}
+                setSelectedGroupId={setSelectedGroupId}
               />
             )}
             <Link href={`/articles`} className="cursor:pointer mt-0">
