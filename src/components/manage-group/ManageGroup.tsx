@@ -9,7 +9,7 @@ export type ManageGroup = Partial<Pick<Group, 'id'>> & Pick<Group, 'name' | 'ima
 
 interface MangeGroupProps {
   groupData?: ManageGroup;
-  groupNames?: string[];
+  groupNames: string[];
 }
 
 export default function ManageGroup({ groupData, groupNames }: MangeGroupProps) {

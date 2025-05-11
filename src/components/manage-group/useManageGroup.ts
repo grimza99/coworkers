@@ -22,13 +22,13 @@ export default function useManageGroup({
   groupNames,
 }: {
   groupData?: ManageGroup;
-  groupNames?: string[];
+  groupNames: string[];
 }) {
   const [group, setGroup] = useState<ManageGroup>(groupData ?? INITIAL_GROUP_VALUE);
   const [isSubmit, setIsSubmit] = useState(false);
 
   const isNameEmpty = validateEmptyValue(group.name);
-  const isNameDuplicate = groupNames?.includes(group.name);
+  const isNameDuplicate = groupNames.includes(group.name);
   const isImageEmpty = group.image === null;
 
   const router = useRouter();
