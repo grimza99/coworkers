@@ -19,7 +19,7 @@ export default function Loading() {
               <div className="bg-gray200/10 h-4 w-32 rounded"></div>
             </li>
           </ol>
-        </section>{' '}
+        </section>
         <section className="flex flex-col gap-4">
           <div className="bg-gray200/10 h-4 w-16 rounded"></div>
           <div className="bg-bg200 h-56 rounded-xl px-6 py-6 lg:h-[217px]">
