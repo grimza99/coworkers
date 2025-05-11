@@ -6,8 +6,6 @@ import { usePathname } from 'next/navigation';
 import { useEffect, useState } from 'react';
 import Logo from './Logo';
 import SideMenu from './SideMenu';
-import DropDownProfileItemList from '@/components/common/dropdown/ProfileItem';
-import DropDown from '@/components/common/dropdown/index';
 import GroupDropdownSelector from './GroupDropdownSelector';
 import { useOutSideClickAutoClose } from '@/utils/use-outside-click-auto-close';
 import axiosClient from '@/lib/axiosClient';
@@ -15,6 +13,7 @@ import { Group } from '@/types/group';
 import { getUserApiResponse } from '@/types/user';
 import { getClientCookie, deleteClientCookie } from '@/lib/cookie/client';
 import PATHS from '@/constants/paths';
+import ProfileDropdownButton from './ProfileDropdownButton';
 
 const MINIMAL_HEADER_PATHS = [
   PATHS.HOME,
@@ -87,7 +86,6 @@ export default function Header() {
     );
   }
 
-  const userName = userData?.nickname ?? '';
   const hasGroup = groups.length > 0;
 
   return (
@@ -122,29 +120,7 @@ export default function Header() {
         </div>
 
         <div className="ml-auto">
-          <DropDown
-            size="lg"
-            placement="top-8 -right-2"
-            dropDownOpenBtn={
-              <button type="button" className="flex items-center gap-2">
-                {userData?.image ? (
-                  <div className="relative h-6 w-6">
-                    <Image
-                      src={userData.image}
-                      alt="유저 이미지"
-                      fill
-                      className="rounded-full object-cover"
-                    />
-                  </div>
-                ) : (
-                  <Image src="/icons/user.svg" alt="유저 아이콘" width={24} height={24} />
-                )}
-                <span className="text-md-md hidden lg:inline">{userName}</span>
-              </button>
-            }
-            options={DropDownProfileItemList}
-            onSelect={() => {}}
-          />
+          <ProfileDropdownButton userData={userData} />
         </div>
       </div>
 
