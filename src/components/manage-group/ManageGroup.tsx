@@ -3,38 +3,36 @@
 import Button from '@/components/common/Button';
 import FormField from '@/components/common/formField';
 import useManageGroup from './useManageGroup';
+import { Group } from '@/types/group';
 
-export interface Group {
-  image: string | null;
-  name: string;
-}
+export type ManageGroup = Partial<Pick<Group, 'id'>> & Pick<Group, 'name' | 'image'>;
 
 interface MangeGroupProps {
-  isEdit?: boolean;
-  groupData?: Group;
+  groupData?: ManageGroup;
   groupNames?: string[];
 }
 
-export default function ManageGroup({ isEdit, groupData, groupNames }: MangeGroupProps) {
+export default function ManageGroup({ groupData, groupNames }: MangeGroupProps) {
   const {
     group,
     isNameEmpty,
+    isNameDuplicate,
     isImageEmpty,
     isSubmit,
     imageErrorMessage,
     nameErrorMessage,
     handleNameChange,
     handleImageChange,
-    handleAddGroupSubmit,
+    handleManageGroupSubmit,
   } = useManageGroup({
     groupData,
     groupNames,
   });
 
-  const groupButtonText = isEdit ? '수정하기' : '생성하기';
+  const groupButtonText = groupData ? '수정하기' : '생성하기';
 
   return (
-    <form onSubmit={handleAddGroupSubmit} className="flex w-full flex-col gap-10">
+    <form onSubmit={handleManageGroupSubmit} className="flex w-full flex-col gap-10">
       <div className="flex w-full flex-col gap-6">
         <FormField
           field="file-input"
@@ -52,7 +50,7 @@ export default function ManageGroup({ isEdit, groupData, groupNames }: MangeGrou
           name="name"
           label="팀 이름"
           placeholder="팀 이름을 입력해 주세요."
-          isFailure={isNameEmpty}
+          isFailure={isNameEmpty || isNameDuplicate}
           isSubmit={isSubmit}
           errorMessage={nameErrorMessage()}
           value={group.name}

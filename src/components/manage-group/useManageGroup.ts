@@ -1,18 +1,19 @@
 import { useState } from 'react';
-import { Group } from './ManageGroup';
+import { useRouter } from 'next/navigation';
 import postImageUrl from '@/lib/api/image/postImageUrl';
 import axiosClient from '@/lib/axiosClient';
-import { useRouter } from 'next/navigation';
 import { validateEmptyValue } from '@/utils/validators';
+import { Toast } from '../common/Toastify';
+import { ManageGroup } from './ManageGroup';
 
-export const GROUP_MESSAGE = {
+const GROUP_MESSAGE = {
   EMPTY_GROUP_IMAGE: '프로필 이미지를 넣어주세요.',
   EMPTY_GROUP_NAME: '팀 이름을 작성해 주세요.',
   DUPLICATION_GROUP_NAME: '이미 존재하는 팀 이름입니다.',
 };
 
-const INITIAL_GROUP_VALUE: Group = {
-  image: null,
+const INITIAL_GROUP_VALUE: ManageGroup = {
+  image: '',
   name: '',
 };
 
@@ -20,13 +21,14 @@ export default function useManageGroup({
   groupData,
   groupNames,
 }: {
-  groupData?: Group;
+  groupData?: ManageGroup;
   groupNames?: string[];
 }) {
-  const [group, setGroup] = useState<Group>(groupData ?? INITIAL_GROUP_VALUE);
+  const [group, setGroup] = useState<ManageGroup>(groupData ?? INITIAL_GROUP_VALUE);
   const [isSubmit, setIsSubmit] = useState(false);
 
   const isNameEmpty = validateEmptyValue(group.name);
+  const isNameDuplicate = groupNames?.includes(group.name);
   const isImageEmpty = group.image === null;
 
   const router = useRouter();
@@ -61,40 +63,50 @@ export default function useManageGroup({
   const nameErrorMessage = () => {
     if (isNameEmpty) return GROUP_MESSAGE.EMPTY_GROUP_NAME;
 
-    if (groupNames?.includes(group.name)) return GROUP_MESSAGE.DUPLICATION_GROUP_NAME;
+    if (isNameDuplicate) return GROUP_MESSAGE.DUPLICATION_GROUP_NAME;
   };
 
-  const isManageTeamFormValid = !isImageEmpty && !isNameEmpty;
+  const isManageTeamFormValid = !isImageEmpty && !isNameEmpty && !isNameDuplicate;
 
-  const handleAddGroupSubmit = (e: React.FormEvent) => {
+  const handleManageGroupSubmit = (e: React.FormEvent) => {
     e.preventDefault();
 
     setIsSubmit(true);
 
     if (!isManageTeamFormValid) return;
 
+    const isEdit = !!groupData;
+
     axiosClient
-      .post('/groups', group)
+      .request({
+        url: isEdit ? `/groups/${groupData.id}` : '/groups',
+        method: isEdit ? 'patch' : 'post',
+        data: {
+          name: group.name,
+          image: group.image,
+        },
+      })
       .then((result) => {
         setGroup(INITIAL_GROUP_VALUE);
         setIsSubmit(false);
-
         router.push(`/${result.data.id}`);
       })
-      .catch((err) => {
-        console.error(err);
+      .catch(() => {
+        const action = isEdit ? '수정' : '생성';
+        Toast.error(`팀 ${action}에 실패했습니다. 다시 시도해주세요.`);
       });
   };
 
   return {
     group,
     isNameEmpty,
+    isNameDuplicate,
     isImageEmpty,
     isSubmit,
     imageErrorMessage,
     nameErrorMessage,
     handleNameChange,
     handleImageChange,
-    handleAddGroupSubmit,
+    handleManageGroupSubmit,
   };
 }
