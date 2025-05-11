@@ -6,7 +6,7 @@ import Image from 'next/image';
 import clsx from 'clsx';
 import { usePathname } from 'next/navigation';
 import CoworkersLogo from '@/assets/CoworkersLogo';
-import GroupSearchBar from './GroupSearchBar';
+import Input from '@/components/common/formField/compound/Input';
 
 interface Group {
   id: number;
@@ -23,10 +23,18 @@ const SideMenu = forwardRef<HTMLDivElement, SideMenuProps>(({ groups, isOpen, on
   const pathname = usePathname();
   const selectedGroupId = pathname.split('/')[1];
   const [filteredGroups, setFilteredGroups] = useState<Group[]>(groups);
+  const [searchTerm, setSearchTerm] = useState('');
 
   useEffect(() => {
     setFilteredGroups(groups);
   }, [groups]);
+
+  useEffect(() => {
+    const filtered = groups.filter((group) =>
+      group.name.toLowerCase().includes(searchTerm.toLowerCase())
+    );
+    setFilteredGroups(filtered);
+  }, [searchTerm, groups]);
 
   return (
     <>
@@ -47,7 +55,14 @@ const SideMenu = forwardRef<HTMLDivElement, SideMenuProps>(({ groups, isOpen, on
         </div>
 
         <div className="border-border flex flex-col gap-6 border-b pb-6">
-          <GroupSearchBar groups={groups} onFilteredGroupsChange={setFilteredGroups} />
+          <Input
+            placeholder="팀 이름 검색"
+            value={searchTerm}
+            onChange={(e) => setSearchTerm(e.target.value)}
+            leftSlot={<Image src="/icons/search.svg" alt="검색" width={16} height={16} />}
+            className="h-[40px] p-0"
+            borderClassName="border-border"
+          />
           {filteredGroups.map((group) => (
             <Link
               key={group.id}
