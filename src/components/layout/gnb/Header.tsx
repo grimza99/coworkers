@@ -53,9 +53,9 @@ export default function Header() {
 
         const currentPathId = pathname.split('/')[1];
         const currentGroup = userGroups.find((group: Group) => String(group.id) === currentPathId);
-        if (currentGroup?.id !== null) {
+        if (currentGroup && currentGroup.id != null) {
           setSelectedGroupId(currentGroup.id);
-        } else if (userGroups[0]?.id !== null) {
+        } else if (userGroups[0] && userGroups[0].id != null) {
           setSelectedGroupId(userGroups[0].id);
         } else {
           setSelectedGroupId(null);
