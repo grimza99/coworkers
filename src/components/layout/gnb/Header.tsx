@@ -75,6 +75,7 @@ export default function Header() {
   } = useOutSideClickAutoClose(false);
 
   const isMinimalHeader = MINIMAL_HEADER_PATHS.includes(pathname);
+  const hasGroup = groups.length > 0;
 
   if (isMinimalHeader) {
     return (
@@ -85,8 +86,6 @@ export default function Header() {
       </header>
     );
   }
-
-  const hasGroup = groups.length > 0;
 
   return (
     <header className="bg-bg200 border-border sticky top-0 z-200 flex h-15 w-full justify-center border-b-1 py-[14px]">
