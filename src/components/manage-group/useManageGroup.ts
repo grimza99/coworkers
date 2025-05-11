@@ -93,7 +93,6 @@ export default function useManageGroup({
         },
       })
       .then((result) => {
-        setGroup(INITIAL_GROUP_VALUE);
         setIsSubmit(false);
         router.push(`/${result.data.id}`);
       })
