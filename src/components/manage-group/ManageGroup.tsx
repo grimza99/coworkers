@@ -12,9 +12,10 @@ export interface Group {
 interface MangeGroupProps {
   isEdit?: boolean;
   groupData?: Group;
+  groupNames?: string[];
 }
 
-export default function ManageGroup({ isEdit, groupData }: MangeGroupProps) {
+export default function ManageGroup({ isEdit, groupData, groupNames }: MangeGroupProps) {
   const {
     group,
     isNameEmpty,
@@ -27,6 +28,7 @@ export default function ManageGroup({ isEdit, groupData }: MangeGroupProps) {
     handleAddGroupSubmit,
   } = useManageGroup({
     groupData,
+    groupNames,
   });
 
   const groupButtonText = isEdit ? '수정하기' : '생성하기';

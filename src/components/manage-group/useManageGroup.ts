@@ -8,7 +8,7 @@ import { validateEmptyValue } from '@/utils/validators';
 export const GROUP_MESSAGE = {
   EMPTY_GROUP_IMAGE: '프로필 이미지를 넣어주세요.',
   EMPTY_GROUP_NAME: '팀 이름을 작성해 주세요.',
-  EQUAL_GROUP_NAME: '이미 존재하는 팀 이름입니다.',
+  DUPLICATION_GROUP_NAME: '이미 존재하는 팀 이름입니다.',
 };
 
 const INITIAL_GROUP_VALUE: Group = {
@@ -16,7 +16,13 @@ const INITIAL_GROUP_VALUE: Group = {
   name: '',
 };
 
-export default function useManageGroup({ groupData }: { groupData?: Group }) {
+export default function useManageGroup({
+  groupData,
+  groupNames,
+}: {
+  groupData?: Group;
+  groupNames?: string[];
+}) {
   const [group, setGroup] = useState<Group>(groupData ?? INITIAL_GROUP_VALUE);
   const [isSubmit, setIsSubmit] = useState(false);
 
@@ -54,7 +60,8 @@ export default function useManageGroup({ groupData }: { groupData?: Group }) {
 
   const nameErrorMessage = () => {
     if (isNameEmpty) return GROUP_MESSAGE.EMPTY_GROUP_NAME;
-    // duplicate name logic
+
+    if (groupNames?.includes(group.name)) return GROUP_MESSAGE.DUPLICATION_GROUP_NAME;
   };
 
   const isManageTeamFormValid = !isImageEmpty && !isNameEmpty;
