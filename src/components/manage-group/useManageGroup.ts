@@ -31,7 +31,7 @@ export default function useManageGroup({
   const isNameEmpty = validateEmptyValue(group.name);
   const isNameDuplicate = groupNames.includes(group.name);
   const isNameEqual = groupData?.name === group.name;
-  const isImageEmpty = group.image === null;
+  const isImageEmpty = group.image === '';
 
   const router = useRouter();
 
