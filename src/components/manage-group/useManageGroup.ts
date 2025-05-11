@@ -10,6 +10,7 @@ const GROUP_MESSAGE = {
   EMPTY_GROUP_IMAGE: '프로필 이미지를 넣어주세요.',
   EMPTY_GROUP_NAME: '팀 이름을 작성해 주세요.',
   DUPLICATION_GROUP_NAME: '이미 존재하는 팀 이름입니다.',
+  EQUAL_GROUP_NAME: '팀 이름을 수정해 주세요.',
 };
 
 const INITIAL_GROUP_VALUE: ManageGroup = {
@@ -29,6 +30,7 @@ export default function useManageGroup({
 
   const isNameEmpty = validateEmptyValue(group.name);
   const isNameDuplicate = groupNames.includes(group.name);
+  const isNameEqual = groupData?.name === group.name;
   const isImageEmpty = group.image === null;
 
   const router = useRouter();
@@ -64,9 +66,13 @@ export default function useManageGroup({
     if (isNameEmpty) return GROUP_MESSAGE.EMPTY_GROUP_NAME;
 
     if (isNameDuplicate) return GROUP_MESSAGE.DUPLICATION_GROUP_NAME;
+
+    if (isNameEqual) return GROUP_MESSAGE.EQUAL_GROUP_NAME;
   };
 
-  const isManageTeamFormValid = !isImageEmpty && !isNameEmpty && !isNameDuplicate;
+  const isNameFailure = isNameEmpty || isNameDuplicate || isNameEqual;
+
+  const isManageTeamFormValid = !isImageEmpty && !isNameEmpty && !isNameDuplicate && !isNameEqual;
 
   const handleManageGroupSubmit = (e: React.FormEvent) => {
     e.preventDefault();
@@ -99,8 +105,7 @@ export default function useManageGroup({
 
   return {
     group,
-    isNameEmpty,
-    isNameDuplicate,
+    isNameFailure,
     isImageEmpty,
     isSubmit,
     imageErrorMessage,

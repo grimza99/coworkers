@@ -15,8 +15,7 @@ interface MangeGroupProps {
 export default function ManageGroup({ groupData, groupNames }: MangeGroupProps) {
   const {
     group,
-    isNameEmpty,
-    isNameDuplicate,
+    isNameFailure,
     isImageEmpty,
     isSubmit,
     imageErrorMessage,
@@ -50,7 +49,7 @@ export default function ManageGroup({ groupData, groupNames }: MangeGroupProps) 
           name="name"
           label="팀 이름"
           placeholder="팀 이름을 입력해 주세요."
-          isFailure={isNameEmpty || isNameDuplicate}
+          isFailure={isNameFailure}
           isSubmit={isSubmit}
           errorMessage={nameErrorMessage()}
           value={group.name}
