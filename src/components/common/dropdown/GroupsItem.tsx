@@ -35,7 +35,7 @@ export default function DropDownGroupsItem({ group }: GroupOptionProps) {
         />
         <span className="w-[110px] truncate">{name}</span>
       </Link>
-      <Link href={`/${id}/edit`}>
+      <Link href={`/${id}/editgroup`}>
         <Image width={16} height={16} src={kebabIcon} alt=":" />
       </Link>
     </div>
