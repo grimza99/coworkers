@@ -24,7 +24,7 @@ export default function OAuthClient() {
 
   const oauthRequest = useCallback(async () => {
     try {
-      const res = await axiosClient.post<loginApiResponse>(`/auth/sinIn/KAKAO`, {
+      const res = await axiosClient.post<loginApiResponse>(`/auth/signIn/KAKAO`, {
         state: state,
         redirectUri: redirectUri,
         token: code,
