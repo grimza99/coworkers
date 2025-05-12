@@ -7,7 +7,7 @@ import usePasswordVisibility from '@/utils/use-password-visibility';
 import { validateConfirmPassword, validatePassword } from '@/utils/validators';
 import { useRouter } from 'next/navigation';
 import { useActionState, useRef, useState } from 'react';
-import { submitResetPassword } from '../actions';
+import { submitResetPassword } from '../utils/submit-reset-password';
 import { PasswordForm } from '../types/form-data-type';
 import { Toast } from '@/components/common/Toastify';
 
