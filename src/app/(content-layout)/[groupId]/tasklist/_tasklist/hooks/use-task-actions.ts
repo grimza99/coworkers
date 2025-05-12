@@ -10,11 +10,11 @@ export function useTaskActions(task?: Task) {
     groupId: string,
     taskListId: number,
     taskId: number,
-    setIsDelete: () => void
+    setTaskToDeleteState: () => void
   ) => {
     try {
       await axiosClient.delete(`/groups/${groupId}/task-lists/${taskListId}/tass/${taskId}`);
-      setIsDelete();
+      setTaskToDeleteState();
     } catch {
       //toast 예정-선향
     }

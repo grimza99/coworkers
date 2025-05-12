@@ -44,9 +44,10 @@ export default function TasksWiseTask({ task, groupId, taskListId }: Props) {
     setIsDetailTaskOpen((prev) => !prev);
   };
 
-  const change = () => {
+  const setTaskToDeleteState = () => {
     setIsDelete(true);
   };
+
   return (
     <>
       {!isDelete && (
@@ -78,7 +79,7 @@ export default function TasksWiseTask({ task, groupId, taskListId }: Props) {
           <RemoveTaskModal
             taskName={task.name}
             modalId={taskDeleteModalId}
-            deleteTask={() => deleteTask(groupId, taskListId, task.id, change)}
+            deleteTask={() => deleteTask(groupId, taskListId, task.id, setTaskToDeleteState)}
           />
           <ManageTaskItemModal
             task={task}
