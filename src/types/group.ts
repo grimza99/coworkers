@@ -1,5 +1,5 @@
-import { Member } from '@/app/(content-layout)/[groupId]/tasklist/_tasklist/types/member-type';
-import { Tasklist } from './tasklist';
+import { Member } from '@/types/user';
+import { Tasklist } from '@/types/tasklist';
 
 export interface Group {
   id: number;
