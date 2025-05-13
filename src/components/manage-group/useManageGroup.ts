@@ -10,7 +10,7 @@ const GROUP_MESSAGE = {
   EMPTY_GROUP_IMAGE: '프로필 이미지를 넣어주세요.',
   EMPTY_GROUP_NAME: '팀 이름을 작성해 주세요.',
   DUPLICATED_GROUP_NAME: '이미 존재하는 팀 이름입니다.',
-  OVER_LEGNTH_GROUP_NAME: '팀 이름은 10글자까지 가능합니다.',
+  OVER_LENGTH_GROUP_NAME: '팀 이름은 10글자까지 가능합니다.',
 };
 
 const INITIAL_GROUP_VALUE: ManageGroup = {
@@ -71,7 +71,7 @@ export default function useManageGroup({
 
     if (isNameDuplicate) return GROUP_MESSAGE.DUPLICATED_GROUP_NAME;
 
-    if (isNameOverLimit) return GROUP_MESSAGE.OVER_LEGNTH_GROUP_NAME;
+    if (isNameOverLimit) return GROUP_MESSAGE.OVER_LENGTH_GROUP_NAME;
   };
 
   const isNameFailure = isNameEmpty || isNameDuplicate || isNameOverLimit;
