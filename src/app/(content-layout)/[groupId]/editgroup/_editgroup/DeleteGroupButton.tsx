@@ -4,14 +4,18 @@ import TrashCan from '@/assets/TrashCan';
 import { deleteGroup } from '../action';
 import DangerModal from '@/components/DangerModal';
 import useModalContext from '@/components/common/modal/core/useModalContext';
+import { useRouter } from 'next/navigation';
 
 const DELETE_MODAL_ID = 'delete-group';
 
 export default function DeleteGroupButton({ groupId }: { groupId: number }) {
   const { openModal } = useModalContext();
+  const router = useRouter();
 
   const handleDeleteGroup = async () => {
     await deleteGroup(groupId);
+
+    router.push('/');
   };
 
   return (
