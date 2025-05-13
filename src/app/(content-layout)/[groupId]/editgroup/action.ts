@@ -3,9 +3,9 @@
 import axiosServer from '@/lib/axiosServer';
 
 export async function getGroupInfo(groupId: number) {
-  const groupResponse = await axiosServer.get(`/groups/${groupId}`);
+  const response = await axiosServer.get(`/groups/${groupId}`);
 
-  const { id, name, image } = groupResponse.data;
+  const { id, name, image } = response.data;
   const groupData = { id, name, image };
 
   return groupData;
