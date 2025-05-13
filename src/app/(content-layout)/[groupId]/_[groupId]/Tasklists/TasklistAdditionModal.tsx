@@ -25,9 +25,14 @@ export default function TasklistAdditionModal({ modalId, addTasklist }: Props) {
     setName(e.target.value);
   };
 
+  const clearName = () => {
+    setName('');
+  };
+
   const handleClickAddButton = async () => {
     if (isEmptyString(name)) return;
     addTasklist(name);
+    clearName();
     closeModal(modalId);
   };
 
@@ -36,7 +41,7 @@ export default function TasklistAdditionModal({ modalId, addTasklist }: Props) {
       <ModalPortal modalId={modalId}>
         <ModalOverlay modalId={modalId}>
           <ModalContainer className="px-12 md:max-w-96 md:px-13">
-            <ModalCloseButton modalId={modalId} />
+            <ModalCloseButton modalId={modalId} onClick={clearName} />
             <div className="mb-6 w-full">
               <ModalHeading className="mb-2">할 일 목록 추가</ModalHeading>
               <FormField
