@@ -24,10 +24,11 @@ export default function DropDownGroupsItem({ group }: GroupOptionProps) {
         data-group-id={id}
       >
         <Image
-          src={image?.replace(
-            'sprint-fe-project.s3.ap-northeast2.amazonaws.com',
-            'sprint-fe-project.s3.ap-northeast-2.amazonaws.com'
-          )}
+          // src={image?.replace(
+          //   'sprint-fe-project.s3.ap-northeast2.amazonaws.com',
+          //   'sprint-fe-project.s3.ap-northeast-2.amazonaws.com'
+          // )}
+          src={image}
           width={32}
           height={32}
           alt="이미지"
