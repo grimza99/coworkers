@@ -11,8 +11,6 @@ export async function getGroupInfo(groupId: number) {
   return groupData;
 }
 
-export async function deletGroup(formData: FormData) {
-  const groupId = Number(formData.get('groupId'));
-
+export async function deleteGroup(groupId: number) {
   await axiosServer.delete(`/groups/${groupId}`);
 }

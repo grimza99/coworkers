@@ -1,7 +1,7 @@
-import TrashCan from '@/assets/TrashCan';
 import getUserGroup from '@/components/manage-group/action';
 import ManageGroup from '@/components/manage-group/ManageGroup';
-import { deletGroup, getGroupInfo } from './action';
+import { getGroupInfo } from './action';
+import DeleteGroupButton from './_editgroup/DeleteGroupButton';
 
 export default async function EditGroup({ params }: { params: Promise<{ groupId: string }> }) {
   const groupId = Number((await params).groupId);
@@ -17,19 +17,7 @@ export default async function EditGroup({ params }: { params: Promise<{ groupId:
             <h1 className="text-4xl">팀 수정하기</h1>
             <ManageGroup groupData={groupData} groupNames={groupNames} />
           </div>
-          <form
-            action={deletGroup}
-            className="text-danger text-lg-md flex w-fit cursor-pointer items-center justify-start gap-2"
-          >
-            <input type="hidden" name="groupId" value={groupId} />
-            <button
-              type="submit"
-              className="text-danger text-lg-md flex w-fit cursor-pointer items-center justify-start gap-2"
-            >
-              <TrashCan />
-              <span>팀 삭제하기</span>
-            </button>
-          </form>
+          <DeleteGroupButton groupId={groupId} />
         </div>
       </div>
     </div>
