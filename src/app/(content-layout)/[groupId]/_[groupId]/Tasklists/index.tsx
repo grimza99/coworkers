@@ -82,7 +82,12 @@ export default function Tasklists({ groupId, tasklists }: TasklistsProps) {
         </ol>
       </section>
 
-      <TasklistAdditionModal modalId={tasklistAdditionModalId} addTasklist={addTasklist} />
+      <TasklistAdditionModal
+        modalId={tasklistAdditionModalId}
+        addTasklist={addTasklist}
+        isAdding={isAdding}
+        additionError={additionError}
+      />
     </>
   );
 }

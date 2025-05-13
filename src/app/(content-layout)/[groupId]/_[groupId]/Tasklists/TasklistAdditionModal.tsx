@@ -1,5 +1,6 @@
 'use client';
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
+import { Toast } from '@/components/common/Toastify';
 import Button from '@/components/common/Button';
 import FormField from '@/components/common/formField';
 import {
@@ -15,9 +16,16 @@ import { isEmptyString } from '@/utils/validators';
 
 interface Props {
   modalId: string;
+  isAdding: boolean;
+  additionError: { message: string; id: string } | null;
   addTasklist: (name: string) => void;
 }
-export default function TasklistAdditionModal({ modalId, addTasklist }: Props) {
+export default function TasklistAdditionModal({
+  modalId,
+  isAdding,
+  additionError,
+  addTasklist,
+}: Props) {
   const [name, setName] = useState('');
   const { closeModal } = useModalContext();
 
@@ -36,6 +44,11 @@ export default function TasklistAdditionModal({ modalId, addTasklist }: Props) {
     closeModal(modalId);
   };
 
+  useEffect(() => {
+    if (!additionError) return;
+    Toast.error(additionError.message);
+  }, [additionError]);
+
   return (
     <>
       <ModalPortal modalId={modalId}>
@@ -52,11 +65,12 @@ export default function TasklistAdditionModal({ modalId, addTasklist }: Props) {
                 errorMessage="이름을 입력해 주세요."
                 value={name}
                 onChange={handleChangeName}
+                disabled={isAdding}
               />
             </div>
             <ModalFooter className="w-full">
               <Button onClick={handleClickAddButton} fontSize="16" size="fullWidth">
-                만들기
+                {isAdding ? '...' : '만들기'}
               </Button>
             </ModalFooter>
           </ModalContainer>
