@@ -29,7 +29,7 @@ export default function DangerModal({
 }: DangerModalProps) {
   const { closeModal } = useModalContext();
 
-  const clossButton = closeButtonText ? closeButtonText : '닫기';
+  const closeButton = closeButtonText ? closeButtonText : '닫기';
 
   return (
     <>
@@ -48,7 +48,7 @@ export default function DangerModal({
                   variant="outline-gray"
                   size="fullWidth"
                 >
-                  {clossButton}
+                  {closeButton}
                 </Button>
                 <Button onClick={onConfirm} variant="danger" size="fullWidth">
                   {confirmButton}
