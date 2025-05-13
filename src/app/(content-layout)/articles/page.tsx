@@ -1,6 +1,7 @@
 'use client';
 
 import { useState } from 'react';
+import Link from 'next/link';
 import Button from '@/components/common/Button';
 import Card from './_articles/components/Card';
 import BestCard from './_articles/components/BestCard';
@@ -123,7 +124,9 @@ export default function ArticlesPage() {
         </div>
         <div className="grid grid-cols-1 gap-4 md:grid-cols-2 lg:grid-cols-3">
           {bestArticles.map((article) => (
-            <BestCard key={article.id} {...article} />
+            <Link key={article.id} href={`/articles/${article.id}`}>
+              <BestCard {...article} />
+            </Link>
           ))}
         </div>
       </section>
@@ -139,7 +142,9 @@ export default function ArticlesPage() {
         </div>
         <div className="grid grid-cols-1 gap-6 lg:grid-cols-2">
           {mockArticles.map((article) => (
-            <Card key={article.id} {...article} />
+            <Link key={article.id} href={`/articles/${article.id}`}>
+              <Card {...article} />
+            </Link>
           ))}
         </div>
       </section>
