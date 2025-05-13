@@ -79,12 +79,19 @@ export default function useManageGroup({
   const isManageTeamFormValid =
     !isImageEmpty && !isNameEmpty && !isNameDuplicate && !isNameOverLimit;
 
+  const isGroupDataUnchanged = group.image === groupData?.image && group.name === groupData.name;
+
   const handleManageGroupSubmit = (e: React.FormEvent) => {
     e.preventDefault();
 
     setIsSubmit(true);
 
     if (!isManageTeamFormValid) return;
+
+    if (isGroupDataUnchanged) {
+      Toast.info('변경된 내용이 없습니다.');
+      return;
+    }
 
     axiosClient
       .request({
