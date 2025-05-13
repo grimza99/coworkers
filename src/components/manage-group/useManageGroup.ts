@@ -10,7 +10,7 @@ const GROUP_MESSAGE = {
   EMPTY_GROUP_IMAGE: '프로필 이미지를 넣어주세요.',
   EMPTY_GROUP_NAME: '팀 이름을 작성해 주세요.',
   DUPLICATED_GROUP_NAME: '이미 존재하는 팀 이름입니다.',
-  EQUAL_GROUP_NAME: '팀 이름을 수정해 주세요.',
+  OVER_LEGNTH_GROUP_NAME: '팀 이름은 10글자까지 가능합니다.',
 };
 
 const INITIAL_GROUP_VALUE: ManageGroup = {
@@ -19,19 +19,23 @@ const INITIAL_GROUP_VALUE: ManageGroup = {
 };
 
 export default function useManageGroup({
+  isEdit,
   groupData,
   groupNames,
 }: {
+  isEdit: boolean;
   groupData?: ManageGroup;
   groupNames: string[];
 }) {
   const [group, setGroup] = useState<ManageGroup>(groupData ?? INITIAL_GROUP_VALUE);
   const [isSubmit, setIsSubmit] = useState(false);
 
-  const isNameEmpty = validateEmptyValue(group.name);
-  const isNameDuplicate = groupNames.includes(group.name);
-  const isNameEqual = groupData?.name === group.name;
   const isImageEmpty = group.image === '';
+  const isNameEmpty = validateEmptyValue(group.name);
+  const isNameOverLimit = group.name.length > 10;
+  const isNameDuplicate = isEdit
+    ? groupNames.filter((name) => name !== groupData?.name).includes(group.name)
+    : groupNames.includes(group.name);
 
   const router = useRouter();
 
@@ -67,12 +71,13 @@ export default function useManageGroup({
 
     if (isNameDuplicate) return GROUP_MESSAGE.DUPLICATED_GROUP_NAME;
 
-    if (isNameEqual) return GROUP_MESSAGE.EQUAL_GROUP_NAME;
+    if (isNameOverLimit) return GROUP_MESSAGE.OVER_LEGNTH_GROUP_NAME;
   };
 
-  const isNameFailure = isNameEmpty || isNameDuplicate || isNameEqual;
+  const isNameFailure = isNameEmpty || isNameDuplicate || isNameOverLimit;
 
-  const isManageTeamFormValid = !isImageEmpty && !isNameEmpty && !isNameDuplicate && !isNameEqual;
+  const isManageTeamFormValid =
+    !isImageEmpty && !isNameEmpty && !isNameDuplicate && !isNameOverLimit;
 
   const handleManageGroupSubmit = (e: React.FormEvent) => {
     e.preventDefault();
@@ -81,11 +86,9 @@ export default function useManageGroup({
 
     if (!isManageTeamFormValid) return;
 
-    const isEdit = !!groupData;
-
     axiosClient
       .request({
-        url: isEdit ? `/groups/${groupData.id}` : '/groups',
+        url: isEdit ? `/groups/${groupData?.id}` : '/groups',
         method: isEdit ? 'patch' : 'post',
         data: {
           name: group.name,
