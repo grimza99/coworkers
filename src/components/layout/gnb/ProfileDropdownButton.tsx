@@ -6,11 +6,11 @@ import DropDownProfileItemList from '@/components/common/dropdown/ProfileItem';
 import { getUserApiResponse } from '@/types/user';
 
 interface Props {
-  userData: getUserApiResponse | null;
+  userData: getUserApiResponse;
 }
 
 export default function ProfileDropdownButton({ userData }: Props) {
-  const userName = userData?.nickname ?? '';
+  const userName = userData.nickname;
 
   return (
     <DropDown
@@ -18,7 +18,7 @@ export default function ProfileDropdownButton({ userData }: Props) {
       placement="top-8 -right-2"
       dropDownOpenBtn={
         <button type="button" className="flex items-center gap-2">
-          {userData?.image ? (
+          {userData.image ? (
             <div className="relative h-6 w-6">
               <Image
                 src={userData.image}
