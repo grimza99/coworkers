@@ -1,16 +1,16 @@
 'use client';
 import Image from 'next/image';
-import Content from './DetailTaskContentField';
 import Button from '@/components/common/Button';
 import Check from '@/assets/Check';
 import clsx from 'clsx';
-import DetailTaskCommentField from './DetailTaskCommentsField';
 import axiosClient from '@/lib/axiosClient';
 import { useCallback, useEffect, useState } from 'react';
-import { useTaskActions } from '../../hooks/use-task-actions';
-import { DetailTaskType } from '../../types/task-type';
-import TaskListPageFallBack from '../../../error';
 import { ErrorBoundary } from 'react-error-boundary';
+import { useTaskActions } from '../_tasklist/hooks/use-task-actions';
+import { DetailTaskType } from '../_tasklist/types/task-type';
+import DetailTaskCommentField from './_components/DetailTaskCommentsField';
+import Content from './_components/DetailTaskContentField';
+import TaskListPageFallBack from '../error';
 
 interface Props {
   groupId: string;
@@ -22,7 +22,7 @@ interface Props {
   setIsOpen: () => void;
 }
 
-export function DetailTask({
+export default function DetailTask({
   groupId,
   taskId,
   taskListId,

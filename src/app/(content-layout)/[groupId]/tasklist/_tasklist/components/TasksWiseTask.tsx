@@ -3,11 +3,11 @@ import TaskListItem from '@/components/task-list-item/TaskListItem';
 import { format, isValid } from 'date-fns';
 import { useState } from 'react';
 import { Task } from '../types/task-type';
-import { DetailTask } from './DetailTask';
 import RemoveTaskModal from './ModalContents/RemoveTaskModal';
 import { useTaskActions } from '../hooks/use-task-actions';
 import { useTaskModals } from '../hooks/use-task-modals';
 import ManageTaskItemModal from './manage-task-item-modal/MangeTaskItemModal';
+import DetailTask from '../../@detailTask/page';
 
 interface Props {
   task: Task;
