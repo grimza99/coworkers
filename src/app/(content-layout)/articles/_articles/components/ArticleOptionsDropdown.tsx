@@ -1,3 +1,4 @@
+import Image from 'next/image';
 import DropDown from '@/components/common/dropdown';
 
 export default function ArticleOptionsDropdown() {
@@ -15,7 +16,7 @@ export default function ArticleOptionsDropdown() {
         }
       }}
       dropDownOpenBtn={
-        <img
+        <Image
           width={24}
           height={24}
           src="icons/kebab-icon.svg"

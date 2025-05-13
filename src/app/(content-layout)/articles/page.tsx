@@ -14,7 +14,8 @@ const mockArticles: Article[] = [
     id: 1,
     title: '게시글 제목입니다.',
     content: '게시글 내용입니다.',
-    image: 'https://example.com/sample-thumbnail.jpg',
+    image:
+      'https://sprint-fe-project.s3.ap-northeast-2.amazonaws.com/Coworkers/user/1844/이미지 2024. 1. 12. 15.07.jpeg',
     createdAt: '2025-05-09T02:40:12.877Z',
     updatedAt: '2025-05-09T02:40:12.877Z',
     likeCount: 200,
@@ -28,7 +29,8 @@ const mockArticles: Article[] = [
     id: 2,
     title: '게시글 제목입니다.',
     content: '게시글 내용입니다.',
-    image: 'https://example.com/sample-thumbnail.jpg',
+    image:
+      'https://sprint-fe-project.s3.ap-northeast-2.amazonaws.com/Coworkers/user/1844/이미지 2024. 1. 12. 15.07.jpeg',
     createdAt: '2025-05-09T02:40:12.877Z',
     updatedAt: '2025-05-09T02:40:12.877Z',
     likeCount: 9999,
@@ -42,7 +44,8 @@ const mockArticles: Article[] = [
     id: 3,
     title: '게시글 제목입니다.',
     content: '게시글 내용입니다.',
-    image: 'https://example.com/sample-thumbnail.jpg',
+    image:
+      'https://sprint-fe-project.s3.ap-northeast-2.amazonaws.com/Coworkers/user/1844/이미지 2024. 1. 12. 15.07.jpeg',
     createdAt: '2025-05-09T02:40:12.877Z',
     updatedAt: '2025-05-09T02:40:12.877Z',
     likeCount: 300,
@@ -56,7 +59,8 @@ const mockArticles: Article[] = [
     id: 4,
     title: '게시글 제목입니다.',
     content: '게시글 내용입니다.',
-    image: 'https://example.com/sample-thumbnail.jpg',
+    image:
+      'https://sprint-fe-project.s3.ap-northeast-2.amazonaws.com/Coworkers/user/1844/이미지 2024. 1. 12. 15.07.jpeg',
     createdAt: '2025-05-09T02:40:12.877Z',
     updatedAt: '2025-05-09T02:40:12.877Z',
     likeCount: 123,
@@ -70,7 +74,8 @@ const mockArticles: Article[] = [
     id: 5,
     title: '게시글 제목입니다.',
     content: '게시글 내용입니다.',
-    image: 'https://example.com/sample-thumbnail.jpg',
+    image:
+      'https://sprint-fe-project.s3.ap-northeast-2.amazonaws.com/Coworkers/user/1844/이미지 2024. 1. 12. 15.07.jpeg',
     createdAt: '2025-05-09T02:40:12.877Z',
     updatedAt: '2025-05-09T02:40:12.877Z',
     likeCount: 123,
@@ -84,7 +89,8 @@ const mockArticles: Article[] = [
     id: 6,
     title: '게시글 제목입니다.',
     content: '게시글 내용입니다.',
-    image: 'https://example.com/sample-thumbnail.jpg',
+    image:
+      'https://sprint-fe-project.s3.ap-northeast-2.amazonaws.com/Coworkers/user/1844/이미지 2024. 1. 12. 15.07.jpeg',
     createdAt: '2025-05-09T02:40:12.877Z',
     updatedAt: '2025-05-09T02:40:12.877Z',
     likeCount: 123,

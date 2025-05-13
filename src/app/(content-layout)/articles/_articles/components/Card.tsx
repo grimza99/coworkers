@@ -1,5 +1,6 @@
 'use client';
 
+import Image from 'next/image';
 import { Article } from '@/types/article';
 import ArticleOptionsDropdown from './ArticleOptionsDropdown';
 import LikeToggleButton from './LikeToggleButton';
@@ -13,7 +14,7 @@ export default function Card(props: Article) {
         <h3 className="text-2lg-md text-gray300">{title}</h3>
         <div className="flex items-start gap-4">
           <div className="h-18 w-18 overflow-hidden rounded-md bg-gray-700">
-            <img src={image} alt="썸네일" className="h-full w-full" />
+            <Image width={72} height={72} src={image} alt="썸네일" className="h-full w-full" />
           </div>
           <ArticleOptionsDropdown />
         </div>
@@ -22,7 +23,7 @@ export default function Card(props: Article) {
       <div className="flex items-center justify-between">
         <div className="flex items-center gap-2">
           <div className="g-3 flex h-8 w-[81px] items-center gap-3">
-            <img
+            <Image
               width={32}
               height={32}
               alt="프로필 이미지"

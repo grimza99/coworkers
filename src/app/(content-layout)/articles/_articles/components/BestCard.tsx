@@ -1,5 +1,6 @@
 'use client';
 
+import Image from 'next/image';
 import { Article } from '@/types/article';
 import LikeToggleButton from './LikeToggleButton';
 
@@ -9,7 +10,13 @@ export default function BestCard(props: Article) {
   return (
     <div className="relative h-[178px] w-full md:h-[220px]">
       <div className="absolute top-4 left-6 flex items-center gap-1">
-        <img src="/icons/medal.svg" alt="Best" className="h-full w-full object-cover" />
+        <Image
+          src="/icons/medal.svg"
+          alt="Best"
+          className="h-full w-full object-cover"
+          width={16}
+          height={16}
+        />
         <span className="text-lg-semi text-white">Best</span>
       </div>
 
@@ -18,7 +25,13 @@ export default function BestCard(props: Article) {
           <div className="flex justify-between gap-4">
             <h3 className="text-2lg-md text-gray300">{title}</h3>
             <div className="h-[64px] w-[64px] shrink-0 overflow-hidden rounded-md bg-gray-700 md:h-18 md:w-18">
-              <img src={image} alt="썸네일" className="h-full w-full object-cover" />
+              <Image
+                width={72}
+                height={72}
+                src={image}
+                alt="썸네일"
+                className="h-full w-full object-cover"
+              />
             </div>
           </div>
           <div>
@@ -30,7 +43,7 @@ export default function BestCard(props: Article) {
 
         <div className="flex items-center justify-between">
           <div className="g-3 flex h-8 w-[81px] items-center gap-3">
-            <img
+            <Image
               width={32}
               height={32}
               alt="프로필 이미지"

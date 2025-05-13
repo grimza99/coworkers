@@ -1,3 +1,4 @@
+import Image from 'next/image';
 import Input from '@/components/common/formField/compound/Input';
 
 export default function ArticleSearchBar({
@@ -13,7 +14,7 @@ export default function ArticleSearchBar({
       value={value}
       onChange={(e) => onChange(e.target.value)}
       borderClassName="border-bg100"
-      leftSlot={<img src="/icons/search.svg" alt="검색 아이콘" width={24} height={24} />}
+      leftSlot={<Image src="/icons/search.svg" alt="검색 아이콘" width={24} height={24} />}
     />
   );
 }

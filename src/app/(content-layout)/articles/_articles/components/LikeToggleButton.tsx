@@ -1,5 +1,6 @@
 'use client';
 
+import Image from 'next/image';
 import { useState } from 'react';
 
 interface LikeToggleButtonProps {
@@ -26,7 +27,7 @@ export default function LikeToggleButton({
 
   return (
     <button onClick={toggleLike} className="flex items-center gap-1">
-      <img
+      <Image
         width={16}
         height={16}
         src={liked ? '/icons/full-heart.svg' : '/icons/heart.svg'}
