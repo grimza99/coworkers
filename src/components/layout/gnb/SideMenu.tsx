@@ -23,7 +23,7 @@ const SideMenu = forwardRef<HTMLDivElement, SideMenuProps>(({ groups, isOpen, on
   const pathname = usePathname();
   const selectedGroupId = pathname.split('/')[1];
   const [filteredGroups, setFilteredGroups] = useState<Group[]>(groups);
-  const [searchTerm, setSearchTerm] = useState('');
+  const [searchKeyword, setSearchKeyword] = useState('');
 
   useEffect(() => {
     setFilteredGroups(groups);
@@ -31,10 +31,10 @@ const SideMenu = forwardRef<HTMLDivElement, SideMenuProps>(({ groups, isOpen, on
 
   useEffect(() => {
     const filtered = groups.filter((group) =>
-      group.name.toLowerCase().includes(searchTerm.toLowerCase())
+      group.name.toLowerCase().includes(searchKeyword.toLowerCase())
     );
     setFilteredGroups(filtered);
-  }, [searchTerm, groups]);
+  }, [searchKeyword, groups]);
 
   return (
     <>
@@ -57,8 +57,8 @@ const SideMenu = forwardRef<HTMLDivElement, SideMenuProps>(({ groups, isOpen, on
         <div className="border-border flex flex-col gap-6 border-b pb-6">
           <Input
             placeholder="팀 이름 검색"
-            value={searchTerm}
-            onChange={(e) => setSearchTerm(e.target.value)}
+            value={searchKeyword}
+            onChange={(e) => setSearchKeyword(e.target.value)}
             leftSlot={<Image src="/icons/search.svg" alt="검색" width={16} height={16} />}
             className="h-[40px] p-0"
             borderClassName="border-border"
