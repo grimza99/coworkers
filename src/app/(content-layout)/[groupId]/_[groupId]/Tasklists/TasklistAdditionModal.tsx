@@ -5,63 +5,52 @@ import FormField from '@/components/common/formField';
 import {
   ModalCloseButton,
   ModalContainer,
-  ModalDescription,
   ModalFooter,
   ModalHeading,
   ModalOverlay,
   ModalPortal,
-  ModalTrigger,
 } from '@/components/common/modal';
 import useModalContext from '@/components/common/modal/core/useModalContext';
+import { isEmptyString } from '@/utils/validators';
 
 interface Props {
+  modalId: string;
   addTasklist: (name: string) => void;
 }
-export default function TasklistAdditionModal({ addTasklist }: Props) {
-  const [currentValue, setCurrentValue] = useState('');
+export default function TasklistAdditionModal({ modalId, addTasklist }: Props) {
+  const [name, setName] = useState('');
   const { closeModal } = useModalContext();
 
-  const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    setCurrentValue(e.target.value.trim());
+  const handleChangeName = (e: React.ChangeEvent<HTMLInputElement>) => {
+    setName(e.target.value);
   };
 
-  const handleSubmitCreateTaskList = async () => {
-    addTasklist(currentValue);
-    closeModal('createTaskList');
+  const handleClickAddButton = async () => {
+    if (isEmptyString(name)) return;
+    addTasklist(name);
+    closeModal(modalId);
   };
 
   return (
     <>
-      <ModalTrigger className="text-primary w-fit" modalId="createTaskList">
-        + 새로운 목록 추가하기
-      </ModalTrigger>
-      <ModalPortal modalId="createTaskList">
-        <ModalOverlay modalId="createTaskList">
-          <ModalContainer className="md:max-w-96">
-            <ModalCloseButton modalId="createTaskList" />
-            <div className="mb-6 w-full px-6">
-              <ModalHeading className="mb-2">새로운 목록 추가</ModalHeading>
-              <ModalDescription className="text-md-md text-gray500 mb-6 w-full">
-                할 일에 대한 목록을 추가하고
-                <br />
-                목록별 할 일을 만들 수 있습니다.
-              </ModalDescription>
+      <ModalPortal modalId={modalId}>
+        <ModalOverlay modalId={modalId}>
+          <ModalContainer className="px-12 md:max-w-96 md:px-13">
+            <ModalCloseButton modalId={modalId} />
+            <div className="mb-6 w-full">
+              <ModalHeading className="mb-2">할 일 목록 추가</ModalHeading>
               <FormField
-                label="목록 이름"
                 field="input"
                 placeholder="목록 이름을 입력해주세요."
-                required
-                isSuccess={currentValue !== ''}
-                isFailure={currentValue === ''}
+                isSuccess={!isEmptyString(name)}
+                isFailure={isEmptyString(name)}
                 errorMessage="이름을 입력해 주세요."
-                gapSize="32"
-                labelSize="16/20"
-                value={currentValue}
-                onChange={handleChange}
+                value={name}
+                onChange={handleChangeName}
               />
             </div>
             <ModalFooter className="w-full">
-              <Button onClick={handleSubmitCreateTaskList} fontSize="16" size="fullWidth">
+              <Button onClick={handleClickAddButton} fontSize="16" size="fullWidth">
                 만들기
               </Button>
             </ModalFooter>

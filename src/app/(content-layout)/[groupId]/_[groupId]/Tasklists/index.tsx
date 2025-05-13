@@ -1,11 +1,11 @@
 'use client';
-import CreateTaskListModal from '@/app/(content-layout)/[groupId]/tasklist/_tasklist/components/ModalContents/CreateTaskListModal';
+import { useMemo, useOptimistic, useState, useTransition } from 'react';
 import TasklistItem from '@/app/(content-layout)/[groupId]/_[groupId]/Tasklists/TasklistItem';
+import TasklistAdditionModal from '@/app/(content-layout)/[groupId]/_[groupId]/Tasklists/TasklistAdditionModal';
+import { addTasklistAction } from '@/app/(content-layout)/[groupId]/_[groupId]/Tasklists/actions';
 import { Group } from '@/types/group';
 import { Tasklist } from '@/types/tasklist';
-import { useOptimistic, useState, useTransition } from 'react';
-import { addTasklistAction } from './actions';
-import TasklistAdditionModal from './TasklistAdditionModal';
+import { ModalTrigger } from '@/components/common/modal';
 
 type TasklistsProps = {
   groupId: Group['id'];
@@ -61,21 +61,28 @@ export default function Tasklists({ groupId, tasklists }: TasklistsProps) {
     });
   };
 
+  const tasklistAdditionModalId = useMemo(() => `tasklistAddition-${groupId}`, [groupId]);
   const totalTasklistCount = optimisticTasklists.length;
 
   return (
-    <section>
-      <div className="mb-4 flex items-center justify-between">
-        <h2 className="text-lg-md">
-          할 일 목록 <span className="text-lg-rg text-gray500">({totalTasklistCount}개)</span>
-        </h2>
-        <TasklistAdditionModal addTasklist={addTasklist} />
-      </div>
-      <ol className="flex flex-col gap-4">
-        {tasklists.map((tasklist) => (
-          <TasklistItem key={tasklist.id} tasklist={tasklist} />
-        ))}
-      </ol>
-    </section>
+    <>
+      <section>
+        <div className="mb-4 flex items-center justify-between">
+          <h2 className="text-lg-md">
+            할 일 목록 <span className="text-lg-rg text-gray500">({totalTasklistCount}개)</span>
+          </h2>
+          <ModalTrigger className="text-primary w-fit" modalId={tasklistAdditionModalId}>
+            + 새로운 목록 추가하기
+          </ModalTrigger>
+        </div>
+        <ol className="flex flex-col gap-4">
+          {tasklists.map((tasklist) => (
+            <TasklistItem key={tasklist.id} tasklist={tasklist} />
+          ))}
+        </ol>
+      </section>
+
+      <TasklistAdditionModal modalId={tasklistAdditionModalId} addTasklist={addTasklist} />
+    </>
   );
 }
