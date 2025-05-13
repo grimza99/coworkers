@@ -3,43 +3,44 @@
 import Button from '@/components/common/Button';
 import FormField from '@/components/common/formField';
 import useManageGroup from './useManageGroup';
+import { Group } from '@/types/group';
 
-export interface Group {
-  image: string;
-  name: string;
-}
+export type ManageGroup = Partial<Pick<Group, 'id'>> & Pick<Group, 'name' | 'image'>;
 
 interface MangeGroupProps {
-  isEdit?: boolean;
-  groupData?: Group;
+  groupData?: ManageGroup;
+  groupNames: string[];
 }
 
-export default function ManageGroup({ isEdit, groupData }: MangeGroupProps) {
+export default function ManageGroup({ groupData, groupNames }: MangeGroupProps) {
   const {
     group,
-    handleNameBlur,
-    getMessage,
+    isNameFailure,
+    isImageEmpty,
+    isSubmit,
+    imageErrorMessage,
+    nameErrorMessage,
     handleNameChange,
     handleImageChange,
-    handleAddGroupSubmit,
-  } = useManageGroup({ groupData });
+    handleManageGroupSubmit,
+  } = useManageGroup({
+    groupData,
+    groupNames,
+  });
 
-  const groupButtonText = isEdit ? '수정하기' : '생성하기';
-
-  const imageMessage = getMessage('image');
-  const nameMessage = getMessage('name');
+  const groupButtonText = groupData ? '수정하기' : '생성하기';
 
   return (
-    <form onSubmit={handleAddGroupSubmit} className="flex w-full flex-col gap-10">
+    <form onSubmit={handleManageGroupSubmit} className="flex w-full flex-col gap-10">
       <div className="flex w-full flex-col gap-6">
         <FormField
           field="file-input"
           name="image"
           label="팀 프로필"
-          required
           imageUploaderType="team"
-          isFailure={!!imageMessage}
-          errorMessage={imageMessage}
+          isFailure={isImageEmpty}
+          isSubmit={isSubmit}
+          errorMessage={imageErrorMessage()}
           image={group.image}
           onImageChange={handleImageChange}
         />
@@ -47,13 +48,12 @@ export default function ManageGroup({ isEdit, groupData }: MangeGroupProps) {
           field="input"
           name="name"
           label="팀 이름"
-          required
           placeholder="팀 이름을 입력해 주세요."
-          isFailure={!group.name.trim()}
-          errorMessage={nameMessage}
+          isFailure={isNameFailure}
+          isSubmit={isSubmit}
+          errorMessage={nameErrorMessage()}
           value={group.name}
           onChange={handleNameChange}
-          onFieldBlur={handleNameBlur}
         />
       </div>
       <div className="flex flex-col gap-6">
