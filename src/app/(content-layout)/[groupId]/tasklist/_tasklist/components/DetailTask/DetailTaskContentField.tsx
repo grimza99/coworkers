@@ -6,7 +6,7 @@ import Repeat from '@/assets/Repeat';
 import { format } from 'date-fns';
 import clsx from 'clsx';
 import { useTaskModals } from '../../hooks/use-task-modals';
-import { getRepeatDescription } from '../../hooks/format-repeat-schedule';
+import { getRepeatDescription } from '../../utils/format-repeat-schedule';
 
 interface Props {
   task: DetailTaskType;
