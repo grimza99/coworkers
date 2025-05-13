@@ -23,7 +23,7 @@ export default function TasksWiseTask({ task, groupId, taskListId }: Props) {
   const taskDeleteModalId = `${task.id}-delete`;
   const createOrEditModalId = task ? `${task.id}-edit` : `${taskListId}-create`;
 
-  const { popUpDeleteTaskModal, popUpEditTaskModal, popUpDetailTask } = useTaskModals();
+  const { popUpDeleteTaskModal, popUpEditTaskModal } = useTaskModals();
   const { deleteTask } = useTaskActions();
   const { toggleTaskDone } = useTaskActions(task);
 
@@ -40,12 +40,16 @@ export default function TasksWiseTask({ task, groupId, taskListId }: Props) {
     setIsDone((prev) => !prev);
   };
 
-  const detailTaskOpen = () => {
-    setIsDetailTaskOpen((prev) => !prev);
-  };
-
   const setTaskToDeleteState = () => {
     setIsDelete(true);
+  };
+
+  const openDetailTask = () => {
+    setIsDetailTaskOpen(true);
+  };
+
+  const closeDetailTask = () => {
+    setIsDetailTaskOpen(false);
   };
 
   return (
@@ -60,7 +64,7 @@ export default function TasksWiseTask({ task, groupId, taskListId }: Props) {
             }
             onEdit={() => popUpEditTaskModal(createOrEditModalId)}
             onDelete={() => popUpDeleteTaskModal(taskDeleteModalId)}
-            onClick={() => popUpDetailTask(detailTaskOpen)}
+            onClick={() => openDetailTask()}
             isDone={isDone}
             name={task.name}
             commentCount={task.commentCount}
@@ -73,7 +77,7 @@ export default function TasksWiseTask({ task, groupId, taskListId }: Props) {
             taskId={task.id}
             groupId={groupId}
             taskListId={taskListId}
-            setIsOpen={detailTaskOpen}
+            closeDetailTask={closeDetailTask}
             isOpen={isDetailTaskOpen}
           />
           <RemoveTaskModal

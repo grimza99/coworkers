@@ -4,7 +4,7 @@ import Button from '@/components/common/Button';
 import Check from '@/assets/Check';
 import clsx from 'clsx';
 import axiosClient from '@/lib/axiosClient';
-import { useCallback, useEffect, useState } from 'react';
+import { useCallback, useEffect, useRef, useState } from 'react';
 import { ErrorBoundary } from 'react-error-boundary';
 import { useTaskActions } from '../_tasklist/hooks/use-task-actions';
 import { DetailTaskType } from '../_tasklist/types/task-type';
@@ -19,7 +19,7 @@ interface Props {
   isDone: boolean;
   setIsDone: () => void;
   taskId: number;
-  setIsOpen: () => void;
+  closeDetailTask: () => void;
 }
 
 export default function DetailTask({
@@ -27,17 +27,16 @@ export default function DetailTask({
   taskId,
   taskListId,
   isOpen,
-  setIsOpen,
+  closeDetailTask,
   isDone,
   setIsDone,
 }: Props) {
   const [currentTask, setCurrentTask] = useState<DetailTaskType>();
   const { toggleTaskDone } = useTaskActions(currentTask);
   const buttonText = isDone ? '완료 취소하기' : '완료 하기';
-  // const detailTaskRef = useRef<HTMLDivElement>(null);
+  const detailTaskRef = useRef<HTMLDivElement>(null);
 
   //todo : fetchTask 에러 바운더리 안으로 집어넣기
-  //ref 바깥영역 클릭시 닫힘 설정시 모달 팝업후 클릭시, 닫힘 해결하기
 
   const fetchTask = useCallback(async () => {
     if (!isOpen || !taskId) return;
@@ -52,29 +51,43 @@ export default function DetailTask({
     }
   }, [groupId, taskListId, taskId, isOpen]);
 
-  // const closingDetailTaskOutsideClick = (e: MouseEvent) => {
-  //   if (detailTaskRef.current && !detailTaskRef.current.contains(e.target as Node)) {
-  //     setIsOpen();
-  //   }
-  // };
+  const closingDetailTaskOutsideClick = (e: MouseEvent) => {
+    if (!isOpen || !taskId) return;
+
+    const target = e.target as Node;
+
+    const isInsideDetail = detailTaskRef.current?.contains(target);
+
+    const modalPortal = document.querySelector('#modal-container');
+    const isInsidePortal = modalPortal?.contains(target);
+
+    if (!isInsideDetail && !isInsidePortal) {
+      closeDetailTask();
+    }
+  };
 
   useEffect(() => {
     fetchTask();
-    // document.addEventListener('mousedown', closingDetailTaskOutsideClick);
-    // return () => {
-    //   document.removeEventListener('mousedown', closingDetailTaskOutsideClick);
-    // };
   }, [isOpen, fetchTask]);
+
+  useEffect(() => {
+    document.addEventListener('mousedown', closingDetailTaskOutsideClick);
+    return () => {
+      document.removeEventListener('mousedown', closingDetailTaskOutsideClick);
+    };
+  }, [isOpen]);
+
   if (!currentTask) return;
+
   return (
     <>
       {isOpen && (
         <div
-          // ref={detailTaskRef}
+          ref={detailTaskRef}
           className="bg-bg200 animate-detail-task fixed top-15 right-0 z-500 flex h-[calc(100%-60px)] w-full flex-col gap-25 px-4 py-4 md:max-w-[700px] md:gap-45.5 md:px-6 md:py-6 lg:max-w-[779px] lg:px-10 lg:py-10"
         >
           <div className="relative flex h-full flex-col gap-4">
-            <button onClick={() => setIsOpen()}>
+            <button onClick={() => closeDetailTask()}>
               <Image src="/icons/close.svg" alt="x" width={24} height={24} />
             </button>
             <div className="flex h-full flex-col gap-25 overflow-scroll">
