@@ -1,3 +1,4 @@
+import CommentField from './[articleId]/_articleId/CommentField';
 import DetailArticleInfo from './[articleId]/_articleId/DetailArticleInfo';
 
 interface ArticleWriter {
@@ -40,8 +41,9 @@ const data = {
 
 export default function DetailArticle() {
   return (
-    <div className="w-full">
+    <div className="flex w-full flex-col gap-20">
       <DetailArticleInfo detail={data} />
+      <CommentField />
     </div>
   );
 }
