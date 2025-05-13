@@ -26,7 +26,7 @@ export default function LikeToggleButton({
   };
 
   return (
-    <button onClick={toggleLike} className="flex items-center gap-1">
+    <button type="button" onClick={toggleLike} className="flex items-center gap-1">
       <Image
         width={16}
         height={16}
