@@ -3,11 +3,11 @@ import TaskListItem from '@/components/task-list-item/TaskListItem';
 import { format, isValid } from 'date-fns';
 import { useState } from 'react';
 import { Task } from '../types/task-type';
-import { DetailTask } from './DetailTask';
 import RemoveTaskModal from './ModalContents/RemoveTaskModal';
 import { useTaskActions } from '../hooks/use-task-actions';
 import { useTaskModals } from '../hooks/use-task-modals';
 import ManageTaskItemModal from './manage-task-item-modal/MangeTaskItemModal';
+import DetailTask from '../../@detailTask/page';
 
 interface Props {
   task: Task;
@@ -17,12 +17,14 @@ interface Props {
 
 export default function TasksWiseTask({ task, groupId, taskListId }: Props) {
   const [isDone, setIsDone] = useState(!!task.doneAt);
+  const [isDelete, setIsDelete] = useState(false);
   const [isDetailTaskOpen, setIsDetailTaskOpen] = useState(false);
 
   const taskDeleteModalId = `${task.id}-delete`;
   const createOrEditModalId = task ? `${task.id}-edit` : `${taskListId}-create`;
 
-  const { popUpDeleteTaskModal, popUpEditTaskModal, popUpDetailTask } = useTaskModals();
+  const { popUpDeleteTaskModal, popUpEditTaskModal } = useTaskModals();
+  const { deleteTask } = useTaskActions();
   const { toggleTaskDone } = useTaskActions(task);
 
   const safeFormatDate = (dateString: string | undefined | null) => {
@@ -38,47 +40,60 @@ export default function TasksWiseTask({ task, groupId, taskListId }: Props) {
     setIsDone((prev) => !prev);
   };
 
-  const detailTaskOpen = () => {
-    setIsDetailTaskOpen((prev) => !prev);
+  const setTaskToDeleteState = () => {
+    setIsDelete(true);
   };
+
+  const openDetailTask = () => {
+    setIsDetailTaskOpen(true);
+  };
+
+  const closeDetailTask = () => {
+    setIsDetailTaskOpen(false);
+  };
+
   return (
     <>
-      <TaskListItem
-        key={task.id}
-        type="taskList"
-        onCheckStatusChange={() => toggleTaskDone(groupId, taskListId, isDone, toggleTaskStatus)}
-        onEdit={() => popUpEditTaskModal(createOrEditModalId)}
-        onDelete={() => popUpDeleteTaskModal(taskDeleteModalId)}
-        onClick={() => popUpDetailTask(detailTaskOpen)}
-        isDone={isDone}
-        name={task.name}
-        commentCount={task.commentCount}
-        date={safeFormatDate(task.date)}
-        frequency={task.frequency}
-      />
-      <DetailTask
-        isDone={isDone}
-        setIsDone={toggleTaskStatus}
-        taskId={task.id}
-        groupId={groupId}
-        taskListId={taskListId}
-        setIsOpen={detailTaskOpen}
-        isOpen={isDetailTaskOpen}
-      />
-      <RemoveTaskModal
-        taskName={task.name}
-        modalId={taskDeleteModalId}
-        taskId={task.id}
-        groupId={groupId}
-        taskListId={taskListId}
-      />
-      <ManageTaskItemModal
-        task={task}
-        groupId={Number(groupId)}
-        taskListId={taskListId}
-        isDone={isDone}
-        createOrEditModalId={createOrEditModalId}
-      />
+      {!isDelete && (
+        <>
+          <TaskListItem
+            key={task.id}
+            type="taskList"
+            onCheckStatusChange={() =>
+              toggleTaskDone(groupId, taskListId, isDone, toggleTaskStatus)
+            }
+            onEdit={() => popUpEditTaskModal(createOrEditModalId)}
+            onDelete={() => popUpDeleteTaskModal(taskDeleteModalId)}
+            onClick={() => openDetailTask()}
+            isDone={isDone}
+            name={task.name}
+            commentCount={task.commentCount}
+            date={safeFormatDate(task.date)}
+            frequency={task.frequency}
+          />
+          <DetailTask
+            isDone={isDone}
+            setIsDone={toggleTaskStatus}
+            taskId={task.id}
+            groupId={groupId}
+            taskListId={taskListId}
+            closeDetailTask={closeDetailTask}
+            isOpen={isDetailTaskOpen}
+          />
+          <RemoveTaskModal
+            taskName={task.name}
+            modalId={taskDeleteModalId}
+            deleteTask={() => deleteTask(groupId, taskListId, task.id, setTaskToDeleteState)}
+          />
+          <ManageTaskItemModal
+            task={task}
+            groupId={Number(groupId)}
+            taskListId={taskListId}
+            isDone={isDone}
+            createOrEditModalId={createOrEditModalId}
+          />
+        </>
+      )}
     </>
   );
 }
