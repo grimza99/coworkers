@@ -30,7 +30,7 @@ export default function DeleteGroupButton({ groupId }: { groupId: number }) {
       </button>
       <DangerModal
         modalId={DELETE_MODAL_ID}
-        heading="팀 삭제를 진행하시겠아요?"
+        heading="팀 삭제를 진행하시겠어요?"
         description=""
         confirmButton="삭제하기"
         onConfirm={handleDeleteGroup}
