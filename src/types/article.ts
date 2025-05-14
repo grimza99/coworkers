@@ -1,13 +1,13 @@
 export interface ArticleWriter {
   id: number;
   nickname: string;
-  image: string | null;
+  image: string;
 }
 
 export interface Article {
   id: number;
   title: string;
-  content?: string;
+  content: string;
   image: string;
   createdAt: string;
   updatedAt: string;
