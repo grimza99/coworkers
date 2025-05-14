@@ -1,5 +1,7 @@
-import Button from '@/components/common/Button';
 import Image from 'next/image';
+import Link from 'next/link';
+import Button from '@/components/common/Button';
+import PATHS from '@/constants/paths';
 
 export default function Page() {
   return (
@@ -19,12 +21,16 @@ export default function Page() {
         </h1>
       </div>
       <div className="flex w-46.5 flex-col gap-2">
-        <Button variant="solid" size="fullWidth">
-          팀 생성하기
-        </Button>
-        <Button variant="ghost-primary" size="fullWidth">
-          팀 참여하기
-        </Button>
+        <Link href={`${PATHS.ADDGROUP}`}>
+          <Button variant="solid" size="fullWidth">
+            팀 생성하기
+          </Button>
+        </Link>
+        <Link href={`${PATHS.JOINGROUP}`}>
+          <Button variant="ghost-primary" size="fullWidth">
+            팀 참여하기
+          </Button>
+        </Link>
       </div>
     </main>
   );
