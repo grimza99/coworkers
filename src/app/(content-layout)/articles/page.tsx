@@ -1,14 +1,13 @@
 'use client';
 
 import { useState } from 'react';
-import Link from 'next/link';
+import { useRouter } from 'next/navigation';
 import Button from '@/components/common/Button';
 import Card from './_articles/components/Card';
 import BestCard from './_articles/components/BestCard';
 import SortToggle from './_articles/components/SortToggle';
 import ArticleSearchBar from './_articles/components/ArticleSearchBar';
 import { Article } from '@/types/article';
-import { useRouter } from 'next/navigation';
 
 const mockArticles: Article[] = [
   {
@@ -124,9 +123,7 @@ export default function ArticlesPage() {
         </div>
         <div className="grid grid-cols-1 gap-4 md:grid-cols-2 lg:grid-cols-3">
           {bestArticles.map((article) => (
-            <Link key={article.id} href={`/articles/${article.id}`}>
-              <BestCard {...article} />
-            </Link>
+            <BestCard key={article.id} {...article} />
           ))}
         </div>
       </section>
@@ -142,9 +139,7 @@ export default function ArticlesPage() {
         </div>
         <div className="grid grid-cols-1 gap-6 lg:grid-cols-2">
           {mockArticles.map((article) => (
-            <Link key={article.id} href={`/articles/${article.id}`}>
-              <Card {...article} />
-            </Link>
+            <Card key={article.id} {...article} />
           ))}
         </div>
       </section>

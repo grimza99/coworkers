@@ -1,6 +1,5 @@
 'use client';
 
-import Image from 'next/image';
 import { useState } from 'react';
 import HeartIcon from './HeartIcon';
 
@@ -28,12 +27,6 @@ export default function LikeToggleButton({
 
   return (
     <button type="button" onClick={toggleLike} className="flex items-center gap-1">
-      {/* <Image
-        width={16}
-        height={16}
-        src={liked ? '/icons/full-heart.svg' : '/icons/heart.svg'}
-        alt="좋아요"
-      /> */}
       <HeartIcon filled={liked} size={16} />
       <span className="text-md-rg text-gray400">{count > 9999 ? '9999+' : count}</span>
     </button>

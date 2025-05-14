@@ -1,6 +1,7 @@
 'use client';
 
 import Image from 'next/image';
+import Link from 'next/link';
 import { Article } from '@/types/article';
 import LikeToggleButton from './LikeToggleButton';
 
@@ -23,7 +24,9 @@ export default function BestCard(props: Article) {
       <div className="border-bg100 bg-bg200 flex h-full flex-col gap-1 rounded-lg border px-4 pt-10 pb-4 md:gap-5 md:px-6 md:pt-12 md:pb-4">
         <div className="flex flex-col gap-1 md:gap-3">
           <div className="flex justify-between gap-4">
-            <h3 className="text-2lg-md text-gray300">{title}</h3>
+            <Link href={`/articles/${props.id}`}>
+              <h3 className="text-2lg-md text-gray300">{title}</h3>
+            </Link>
             <div className="h-16 w-16 shrink-0 overflow-hidden rounded-md bg-gray-700 md:h-18 md:w-18">
               <Image
                 width={72}
