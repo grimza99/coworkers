@@ -61,7 +61,7 @@ export default function BestCard(props: Article) {
           </div>
 
           <div className="flex gap-1">
-            <LikeToggleButton isLiked={false} initialCount={likeCount} />
+            <LikeToggleButton articleId={props.id} initialCount={likeCount} />
           </div>
         </div>
       </div>
