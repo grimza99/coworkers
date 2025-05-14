@@ -1,8 +1,9 @@
 'use client';
 
 import Image from 'next/image';
-import { Article } from '../../page';
 import DropDown from '@/components/common/dropdown';
+import { formatTimeDistance } from '@/utils/date';
+import { Article } from '../../page';
 
 const ARTICLE_DROPDOWN_OPTIONS = ['수정하기', '삭제하기'];
 
@@ -37,7 +38,7 @@ export default function DetailArticleInfo({ detail }: { detail: Article }) {
               <span className="text-gray100 border-bg100 mr-4 border-r pr-4">
                 {detail.writer.nickname}
               </span>
-              <span>{detail.createdAt}</span>
+              <span>{formatTimeDistance(detail.createdAt)}</span>
             </div>
           </div>
           <div className="flex flex-col items-center gap-2">
