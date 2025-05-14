@@ -1,33 +1,39 @@
 import { useState } from 'react';
-import { Group } from './ManageGroup';
+import { useRouter } from 'next/navigation';
 import postImageUrl from '@/lib/api/image/postImageUrl';
 import axiosClient from '@/lib/axiosClient';
-import manageGroupValidate, { GROUP_MESSAGE, Validation } from './group-validate';
-import { useRouter } from 'next/navigation';
+import { validateEmptyValue } from '@/utils/validators';
+import { Toast } from '../common/Toastify';
+import { ManageGroup } from './ManageGroup';
 
-const INITIAL_GROUP_VALUE: Group = {
+const GROUP_MESSAGE = {
+  EMPTY_GROUP_IMAGE: '프로필 이미지를 넣어주세요.',
+  EMPTY_GROUP_NAME: '팀 이름을 작성해 주세요.',
+  DUPLICATION_GROUP_NAME: '이미 존재하는 팀 이름입니다.',
+  EQUAL_GROUP_NAME: '팀 이름을 수정해 주세요.',
+};
+
+const INITIAL_GROUP_VALUE: ManageGroup = {
   image: '',
   name: '',
 };
 
-export default function useManageGroup({ groupData }: { groupData?: Group }) {
-  const [group, setGroup] = useState<Group>(groupData ?? INITIAL_GROUP_VALUE);
-  const [validationMessages, setValidationMessages] = useState<Validation[]>([]);
+export default function useManageGroup({
+  groupData,
+  groupNames,
+}: {
+  groupData?: ManageGroup;
+  groupNames: string[];
+}) {
+  const [group, setGroup] = useState<ManageGroup>(groupData ?? INITIAL_GROUP_VALUE);
+  const [isSubmit, setIsSubmit] = useState(false);
+
+  const isNameEmpty = validateEmptyValue(group.name);
+  const isNameDuplicate = groupNames.includes(group.name);
+  const isNameEqual = groupData?.name === group.name;
+  const isImageEmpty = group.image === '';
 
   const router = useRouter();
-
-  const getMessage = (field: string) => {
-    return validationMessages.find((m) => m.field === field)?.message ?? '';
-  };
-
-  const handleNameBlur = () => {
-    setValidationMessages((prev) => [
-      ...prev.filter((m) => m.field !== 'name'),
-      ...(!group.name.trim()
-        ? [{ field: 'name' as keyof Group, message: GROUP_MESSAGE.EMPTY_GROUP_NAME }]
-        : []),
-    ]);
-  };
 
   const handleNameChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     setGroup((prev) => ({
@@ -46,42 +52,65 @@ export default function useManageGroup({ groupData }: { groupData?: Group }) {
           ...prev,
           image: result.url,
         }));
-
-        setValidationMessages((prev) => prev.filter((m) => m.field !== 'image'));
       })
       .catch((err) => {
         console.error(err);
       });
   };
 
-  const handleAddGroupSubmit = (e: React.FormEvent) => {
+  const imageErrorMessage = () => {
+    if (isImageEmpty) return GROUP_MESSAGE.EMPTY_GROUP_IMAGE;
+  };
+
+  const nameErrorMessage = () => {
+    if (isNameEmpty) return GROUP_MESSAGE.EMPTY_GROUP_NAME;
+
+    if (isNameDuplicate) return GROUP_MESSAGE.DUPLICATION_GROUP_NAME;
+
+    if (isNameEqual) return GROUP_MESSAGE.EQUAL_GROUP_NAME;
+  };
+
+  const isNameFailure = isNameEmpty || isNameDuplicate || isNameEqual;
+
+  const isManageTeamFormValid = !isImageEmpty && !isNameEmpty && !isNameDuplicate && !isNameEqual;
+
+  const handleManageGroupSubmit = (e: React.FormEvent) => {
     e.preventDefault();
 
-    const validation = manageGroupValidate(group);
+    setIsSubmit(true);
 
-    if (validation.length > 0) {
-      setValidationMessages(validation);
-      return;
-    }
+    if (!isManageTeamFormValid) return;
+
+    const isEdit = !!groupData;
 
     axiosClient
-      .post('/groups', group)
+      .request({
+        url: isEdit ? `/groups/${groupData.id}` : '/groups',
+        method: isEdit ? 'patch' : 'post',
+        data: {
+          name: group.name,
+          image: group.image,
+        },
+      })
       .then((result) => {
-        setGroup(INITIAL_GROUP_VALUE);
-        setValidationMessages([]);
+        setIsSubmit(false);
         router.push(`/${result.data.id}`);
       })
-      .catch((err) => {
-        console.error(err);
+      .catch(() => {
+        const action = isEdit ? '수정' : '생성';
+        Toast.error(`팀 ${action}에 실패했습니다. 다시 시도해주세요.`);
       });
   };
 
   return {
     group,
-    getMessage,
-    handleNameBlur,
+    isNameFailure,
+    isImageEmpty,
+    isSubmit,
+    imageErrorMessage,
+    nameErrorMessage,
     handleNameChange,
     handleImageChange,
-    handleAddGroupSubmit,
+    handleManageGroupSubmit,
   };
 }
