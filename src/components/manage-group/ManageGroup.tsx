@@ -13,6 +13,8 @@ interface MangeGroupProps {
 }
 
 export default function ManageGroup({ groupData, groupNames }: MangeGroupProps) {
+  const isEdit = !!groupData;
+
   const {
     group,
     isNameFailure,
@@ -24,11 +26,12 @@ export default function ManageGroup({ groupData, groupNames }: MangeGroupProps) 
     handleImageChange,
     handleManageGroupSubmit,
   } = useManageGroup({
+    isEdit,
     groupData,
     groupNames,
   });
 
-  const groupButtonText = groupData ? '수정하기' : '생성하기';
+  const groupButtonText = isEdit ? '수정하기' : '생성하기';
 
   return (
     <form onSubmit={handleManageGroupSubmit} className="flex w-full flex-col gap-10">
