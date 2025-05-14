@@ -1,6 +1,6 @@
-import CommentField from './[articleId]/_articleId/CommentField';
-import CommentList from './[articleId]/_articleId/CommentList';
-import DetailArticleInfo from './[articleId]/_articleId/DetailArticleInfo';
+import CommentField from './_articleId/CommentField';
+import CommentList from './_articleId/CommentList';
+import DetailArticleInfo from './_articleId/DetailArticleInfo';
 
 interface ArticleWriter {
   id: number;

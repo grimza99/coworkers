@@ -3,7 +3,7 @@
 import Image from 'next/image';
 import DropDown from '@/components/common/dropdown';
 import { formatTimeDistance } from '@/utils/date';
-import { Article } from '../../page';
+import { Article } from '../page';
 
 const ARTICLE_DROPDOWN_OPTIONS = ['수정하기', '삭제하기'];
 
