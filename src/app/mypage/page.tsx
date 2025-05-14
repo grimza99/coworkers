@@ -10,6 +10,7 @@ import { getUserApiResponse } from '@/types/user';
 import { useEffect, useState } from 'react';
 import useModalContext from '@/components/common/modal/core/useModalContext';
 import FormField from '@/components/common/formField';
+import { Toast } from '@/components/common/Toastify';
 
 async function fetchUserInfo(): Promise<getUserApiResponse | null> {
   try {
@@ -66,7 +67,7 @@ export default function MyPage() {
                   const errorObj = error as { response?: { data?: { message?: string } } };
                   const message = errorObj?.response?.data?.message || '닉네임 변경 실패';
                   setNicknameError(message);
-                  openModal('nickname-fail');
+                  Toast.error('닉네임 변경에 실패했습니다. 다시 시도해주세요.');
                 }
               }}
             />
