@@ -25,7 +25,9 @@ export default function BestCard(props: Article) {
         <div className="flex flex-col gap-1 md:gap-3">
           <div className="flex justify-between gap-4">
             <Link href={`/articles/${props.id}`}>
-              <h3 className="text-2lg-md text-gray300">{title}</h3>
+              <h3 className="text-2lg-md text-gray300">
+                {title.length > 30 ? `${title.slice(0, 30)}...` : title}
+              </h3>
             </Link>
             <div className="h-16 w-16 shrink-0 overflow-hidden rounded-md bg-gray-700 md:h-18 md:w-18">
               <Image
@@ -45,7 +47,7 @@ export default function BestCard(props: Article) {
         </div>
 
         <div className="flex items-center justify-between">
-          <div className="g-3 flex h-8 w-[81px] items-center gap-3">
+          <div className="g-3 flex h-8 max-w-30 items-center gap-3">
             <Image
               width={32}
               height={32}
@@ -53,7 +55,9 @@ export default function BestCard(props: Article) {
               src={writer.image?.trim() ? writer.image : '/icons/profile-icon.svg'}
               className="rounded-full"
             />
-            <span className="text-md-md">{writer.nickname}</span>
+            <span className="text-md-md overflow-hidden text-ellipsis whitespace-nowrap">
+              {writer.nickname}
+            </span>
           </div>
 
           <div className="flex gap-1">
