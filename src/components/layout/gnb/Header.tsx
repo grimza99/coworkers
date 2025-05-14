@@ -14,6 +14,7 @@ import { getUserApiResponse } from '@/types/user';
 import { getClientCookie, deleteClientCookie } from '@/lib/cookie/client';
 import PATHS from '@/constants/paths';
 import ProfileDropdownButton from './ProfileDropdownButton';
+import { Toast } from '@/components/common/Toastify';
 
 const MINIMAL_HEADER_PATHS = [
   PATHS.HOME,
@@ -63,6 +64,7 @@ export default function Header() {
         }
         setSelectedGroupId(null);
       } catch (error) {
+        Toast.error('사용자 정보를 불러오는 데 실패했습니다.');
         console.error('유저 정보 가져오기 실패', error);
       }
     };
