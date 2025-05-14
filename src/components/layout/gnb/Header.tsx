@@ -53,13 +53,15 @@ export default function Header() {
 
         const currentPathId = pathname.split('/')[1];
         const currentGroup = userGroups.find((group: Group) => String(group.id) === currentPathId);
-        if (currentGroup && currentGroup.id !== null) {
+        if (currentGroup?.id != null) {
           setSelectedGroupId(currentGroup.id);
-        } else if (userGroups[0] && userGroups[0].id != null) {
-          setSelectedGroupId(userGroups[0].id);
-        } else {
-          setSelectedGroupId(null);
+          return;
         }
+        if (userGroups[0]?.id != null) {
+          setSelectedGroupId(userGroups[0].id);
+          return;
+        }
+        setSelectedGroupId(null);
       } catch (error) {
         console.error('유저 정보 가져오기 실패', error);
       }
