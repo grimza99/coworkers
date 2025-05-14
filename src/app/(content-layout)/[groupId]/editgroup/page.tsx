@@ -1,14 +1,12 @@
-import TrashCan from '@/assets/TrashCan';
 import getUserGroup from '@/components/manage-group/action';
 import ManageGroup from '@/components/manage-group/ManageGroup';
-import axiosServer from '@/lib/axiosServer';
+import { getGroupInfo } from './action';
+import DeleteGroupButton from './_editgroup/DeleteGroupButton';
 
 export default async function EditGroup({ params }: { params: Promise<{ groupId: string }> }) {
-  const groupId = (await params).groupId;
-  const groupResponse = await axiosServer(`/groups/${groupId}`);
-  const { id, name, image } = groupResponse.data;
-  const groupData = { id, name, image };
+  const groupId = Number((await params).groupId);
 
+  const groupData = await getGroupInfo(groupId);
   const groupNames = await getUserGroup();
 
   return (
@@ -19,10 +17,7 @@ export default async function EditGroup({ params }: { params: Promise<{ groupId:
             <h1 className="text-4xl">팀 수정하기</h1>
             <ManageGroup groupData={groupData} groupNames={groupNames} />
           </div>
-          <div className="text-danger text-lg-md flex w-fit cursor-pointer items-center justify-start gap-2">
-            <TrashCan />
-            <span>팀 삭제하기</span>
-          </div>
+          <DeleteGroupButton groupId={groupId} />
         </div>
       </div>
     </div>
