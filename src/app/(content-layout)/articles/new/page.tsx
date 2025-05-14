@@ -1,8 +1,41 @@
 'use client';
 import Button from '@/components/common/Button';
 import FormField from '@/components/common/formField';
+import { useEffect, useState } from 'react';
 
 export default function Page() {
+  const [title, setTitle] = useState('');
+  const [content, setContent] = useState('');
+  const [image, setImage] = useState<File | null>(null);
+  const [previewImage, setPreviewImage] = useState('');
+
+  const handleImageChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+    if (event.target.files && event.target.files[0]) {
+      const file = event.target.files[0];
+      setImage(file);
+
+      if (previewImage) {
+        URL.revokeObjectURL(previewImage);
+      }
+
+      setPreviewImage(URL.createObjectURL(file));
+    } else {
+      if (previewImage) {
+        URL.revokeObjectURL(previewImage);
+      }
+      setPreviewImage('');
+      setImage(null);
+    }
+  };
+
+  useEffect(() => {
+    return () => {
+      if (previewImage) {
+        URL.revokeObjectURL(previewImage);
+      }
+    };
+  }, [previewImage]);
+
   return (
     <main className="mt-4 mb-8 md:mt-8 md:mb-40">
       <div className="flex items-center justify-between">
@@ -23,8 +56,8 @@ export default function Page() {
           errorMessage="제목을 입력해주세요."
           gapSize="16"
           labelSize="16/16"
-          value={''}
-          onChange={() => 1}
+          value={title}
+          onChange={(e) => setTitle(e.target.value)}
         />
         <FormField
           label="내용"
@@ -37,15 +70,15 @@ export default function Page() {
           errorMessage="내용을 입력해주세요."
           gapSize="16"
           labelSize="16/16"
-          value={''}
-          onChange={() => 1}
+          value={content}
+          onChange={(e) => setContent(e.target.value)}
         />
         <FormField
           label="이미지"
           field="file-input"
           imageUploaderType="board"
-          image=""
-          onImageChange={(e) => 1}
+          image={previewImage} // 미리보기 URL 전달
+          onImageChange={handleImageChange}
         />
       </form>
       <Button className="mt-10 block md:hidden" size="fullWidth">
