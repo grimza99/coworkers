@@ -110,8 +110,7 @@ export default function DateWiseTaskLists({ date, groupId, updateTaskListId }: P
           );
         })}
       </div>
-      <div className="flex h-full flex-col items-center justify-start overflow-auto">
-        {/* md:mb-15 lg:mb-50 */}
+      <div className="mb-20 flex h-full flex-col items-center justify-start overflow-auto lg:mb-30 xl:mb-50">
         {currentTasks.length > 0 && currentTaskList ? (
           <div className="flex h-full w-full flex-col gap-4">
             {currentTasks.map((task) => {
