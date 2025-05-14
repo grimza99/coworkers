@@ -1,7 +1,7 @@
 'use client';
 
 import { useState } from 'react';
-import HeartIcon from './HeartIcon';
+import HeartIcon from '@/assets/HeartIcon';
 
 interface LikeToggleButtonProps {
   isLiked?: boolean;
