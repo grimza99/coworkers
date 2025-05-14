@@ -12,6 +12,7 @@ export default function Page() {
           height={765}
           src="/images/nogroup-main.png"
           alt="협업하는 사람들의 모습이 표현된 메인 일러스트레이션"
+          priority
           className="mb-8 w-[312px] md:mb-12 md:w-[520px] lg:w-[810px]"
         />
         <h1 className="text-sm-md md:text-lg-md text-gray500 text-center">
