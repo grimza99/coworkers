@@ -4,6 +4,7 @@ import Image from 'next/image';
 import DropDown from '@/components/common/dropdown';
 import { formatTimeDistance } from '@/utils/date';
 import { Article } from '../page';
+import LikeToggleButton from '../../_articles/components/LikeToggleButton';
 
 const ARTICLE_DROPDOWN_OPTIONS = ['수정하기', '삭제하기'];
 
@@ -20,7 +21,7 @@ export default function DetailArticleInfo({ detail }: { detail: Article }) {
             onSelect={() => {}}
             dropDownOpenBtn={
               <Image
-                src="icons/kebab-icon.svg"
+                src="/icons/kebab-icon.svg"
                 width={24}
                 height={24}
                 alt="kebab"
@@ -41,12 +42,12 @@ export default function DetailArticleInfo({ detail }: { detail: Article }) {
               <span>{formatTimeDistance(detail.createdAt)}</span>
             </div>
           </div>
-          <div className="flex flex-col items-center gap-2">
+          <div className="flex items-center gap-2">
             <div className="flex items-center gap-1">
               <Image src="/icons/comment.svg" width={16} height={16} alt="comment" />
-              <span>{detail.commentCount}</span>
+              <span className="text-xs-rg sm:text-md-rg">{detail.commentCount}</span>
             </div>
-            {/* like component */}
+            <LikeToggleButton />
           </div>
         </div>
       </div>
