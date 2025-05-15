@@ -32,17 +32,15 @@ export default function BestCard(props: Article) {
               </h3>
             </Link>
             <div className="h-16 w-16 shrink-0 overflow-hidden rounded-md md:h-18 md:w-18">
-              {image &&
-                image.trim() !== '' &&
-                image.trim() !== DEFAULT_IMAGE?.replace(/['"\s]/g, '') && (
-                  <Image
-                    width={72}
-                    height={72}
-                    src={image}
-                    alt="썸네일"
-                    className="h-full w-full object-cover"
-                  />
-                )}
+              {image?.trim() && image !== DEFAULT_IMAGE && (
+                <Image
+                  width={72}
+                  height={72}
+                  src={image}
+                  alt="썸네일"
+                  className="h-full w-full object-cover"
+                />
+              )}
             </div>
           </div>
           <div>
@@ -58,7 +56,7 @@ export default function BestCard(props: Article) {
               width={32}
               height={32}
               alt="프로필 이미지"
-              src={writer.image?.trim() ? writer.image : '/icons/profile-icon.svg'}
+              src="/icons/profile-icon.svg"
               className="rounded-full"
             />
             <span className="text-md-md overflow-hidden text-ellipsis whitespace-nowrap">

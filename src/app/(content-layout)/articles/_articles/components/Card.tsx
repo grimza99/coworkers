@@ -19,17 +19,15 @@ export default function Card(props: Article) {
         </Link>
         <div className="flex items-start gap-4">
           <div className="h-18 w-18 shrink-0 overflow-hidden rounded-md">
-            {image &&
-              image.trim() !== '' &&
-              image.trim() !== DEFAULT_IMAGE?.replace(/['"\s]/g, '') && (
-                <Image
-                  width={72}
-                  height={72}
-                  src={image}
-                  alt="썸네일"
-                  className="h-full w-full object-cover"
-                />
-              )}
+            {image?.trim() && image !== DEFAULT_IMAGE?.replace(/['"]/g, '') && (
+              <img
+                width={72}
+                height={72}
+                src={image}
+                alt="썸네일"
+                className="h-full w-full object-cover"
+              />
+            )}
           </div>
           <ArticleOptionsDropdown />
         </div>
@@ -42,7 +40,7 @@ export default function Card(props: Article) {
               width={32}
               height={32}
               alt="프로필 이미지"
-              src={writer.image?.trim() ? writer.image : '/icons/profile-icon.svg'}
+              src="/icons/profile-icon.svg" // 프로필이미지를 어떻게 가져오지?
               className="rounded-full"
             />
             <span className="text-md-md overflow-hidden text-ellipsis whitespace-nowrap">
