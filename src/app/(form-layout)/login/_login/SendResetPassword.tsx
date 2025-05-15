@@ -24,11 +24,12 @@ export default function SendResetPassword() {
   const modalId = `resetPassword`;
 
   const [email, setEmail] = useState('');
-  const [isPending, startTransition] = useTransition();
+  const [isLoading, setIsLoading] = useState(false);
   const [errorMessage, setErrorMessage] = useState('이메일을 입력해주세요');
 
   const sendResetPasswordLink = () => {
-    startTransition(async () => {
+    setIsLoading(true);
+    async () => {
       try {
         const res = await axiosClient.post(`/user/send-reset-password-email`, {
           email: email,
@@ -46,8 +47,10 @@ export default function SendResetPassword() {
           if (status === 400) return setErrorMessage('존재하지 않는 유저입니다.');
         }
         setErrorMessage('예상치 못한 오류가 발생했습니다.');
+      } finally {
+        setIsLoading(false);
       }
-    });
+    };
   };
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -100,10 +103,10 @@ export default function SendResetPassword() {
               <Button
                 size="fullWidth"
                 variant="solid"
-                disabled={isPending || !validateEmail(email)}
+                disabled={isLoading || !validateEmail(email)}
                 onClick={sendResetPasswordLink}
               >
-                링크 보내기
+                {isLoading ? '...' : '링크 보내기'}
               </Button>
             </ModalFooter>
           </ModalContainer>
