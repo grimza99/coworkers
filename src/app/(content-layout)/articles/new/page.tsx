@@ -3,11 +3,11 @@ import { useRouter } from 'next/navigation';
 import { useState, useEffect } from 'react';
 import Button from '@/components/common/Button';
 import FormField from '@/components/common/formField';
+import { Toast } from '@/components/common/Toastify';
 import axiosClient from '@/lib/axiosClient';
 import postImageUrl from '@/lib/api/image/postImageUrl';
+import { validateEmptyValue } from '@/utils/validators';
 import PATHS from '@/constants/paths';
-
-const isEmptyString = (str: string) => str.trim() === '';
 
 export default function Page() {
   const router = useRouter();
@@ -16,7 +16,8 @@ export default function Page() {
   const [image, setImage] = useState<File | null>(null);
   const [previewImage, setPreviewImage] = useState('');
   const [isSubmitting, setIsSubmitting] = useState(false);
-  const canSubmit = !isEmptyString(title) && !isEmptyString(content);
+
+  const canSubmit = !validateEmptyValue(title) && !validateEmptyValue(content);
 
   const handleImageChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     if (event.target.files && event.target.files[0]) {
@@ -26,7 +27,6 @@ export default function Page() {
       if (previewImage) {
         URL.revokeObjectURL(previewImage);
       }
-
       setPreviewImage(URL.createObjectURL(file));
     } else {
       if (previewImage) {
@@ -39,29 +39,42 @@ export default function Page() {
 
   const submitForm = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
-    setIsSubmitting(true);
-    let data = '';
-    if (image !== null) {
-      const { url } = await postImageUrl(image);
-      data = await axiosClient.post('/articles', {
-        title: title,
-        content: content,
-        image: url,
-      });
-    } else {
-      data = await axiosClient.post('/articles', {
-        title: title,
-        content: content,
-      });
+    if (!canSubmit || isSubmitting) {
+      return;
     }
-    console.log(data);
 
-    setIsSubmitting(false);
-    setTitle('');
-    setContent('');
-    setImage(null);
-    setPreviewImage('');
-    router.push(`${PATHS.ARTICLES}`);
+    setIsSubmitting(true);
+
+    try {
+      let uploadedImageUrl: string | undefined;
+      if (image) {
+        const imageResponse = await postImageUrl(image);
+        uploadedImageUrl = imageResponse.url;
+      }
+
+      const articlePayload = {
+        title,
+        content,
+        ...(uploadedImageUrl && { image: uploadedImageUrl }),
+      };
+
+      await axiosClient.post('/articles', articlePayload);
+      Toast.success('게시글 작성이 완료되었습니다.');
+
+      setTitle('');
+      setContent('');
+      setImage(null);
+      if (previewImage) {
+        URL.revokeObjectURL(previewImage);
+      }
+      setPreviewImage('');
+
+      router.push('/articles');
+    } catch {
+      Toast.error('게시글 작성 중 오류가 발생했습니다.');
+    } finally {
+      setIsSubmitting(false);
+    }
   };
 
   useEffect(() => {
@@ -77,8 +90,13 @@ export default function Page() {
       <div className="flex items-center justify-between">
         <h1 className="text-lg-md md:text-xl-bold">게시글 쓰기</h1>
         <div className="hidden w-46 md:block">
-          <Button type="submit" form="articleForm" size="fullWidth" disabled={!canSubmit}>
-            등록
+          <Button
+            type="submit"
+            form="articleForm"
+            size="fullWidth"
+            disabled={!canSubmit || isSubmitting}
+          >
+            {isSubmitting ? '...' : '등록'}
           </Button>
         </div>
       </div>
@@ -90,7 +108,6 @@ export default function Page() {
           field="input"
           placeholder="제목을 입력해주세요."
           required
-          isFailure={isEmptyString(title)}
           errorMessage="제목을 입력해주세요."
           gapSize="16"
           labelSize="16/16"
@@ -105,7 +122,6 @@ export default function Page() {
           placeholder="내용을 입력해주세요."
           height={240}
           required
-          isFailure={isEmptyString(content)}
           errorMessage="내용을 입력해주세요."
           gapSize="16"
           labelSize="16/16"
@@ -130,7 +146,7 @@ export default function Page() {
         size="fullWidth"
         disabled={!canSubmit || isSubmitting}
       >
-        등록
+        {isSubmitting ? '...' : '등록'}
       </Button>
     </main>
   );
