@@ -59,8 +59,8 @@ export default function Page() {
       };
 
       await axiosClient.post('/articles', articlePayload);
-      Toast.success('게시글 작성이 완료되었습니다.');
 
+      Toast.success('게시글 작성이 완료되었습니다.');
       setTitle('');
       setContent('');
       setImage(null);
@@ -69,7 +69,7 @@ export default function Page() {
       }
       setPreviewImage('');
 
-      router.push('/articles');
+      router.push(`${PATHS.ARTICLES.BASE}`);
     } catch {
       Toast.error('게시글 작성 중 오류가 발생했습니다.');
     } finally {
