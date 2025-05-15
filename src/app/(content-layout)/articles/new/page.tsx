@@ -1,7 +1,7 @@
 'use client';
+import { useEffect, useState } from 'react';
 import Button from '@/components/common/Button';
 import FormField from '@/components/common/formField';
-import { useEffect, useState } from 'react';
 
 const isEmptyString = (str: string) => str.trim() === '';
 
@@ -44,13 +44,13 @@ export default function Page() {
       <div className="flex items-center justify-between">
         <h1 className="text-lg-md md:text-xl-bold">게시글 쓰기</h1>
         <div className="hidden w-46 md:block">
-          <Button size="fullWidth" disabled={!canSubmit}>
+          <Button type="submit" form="articleForm" size="fullWidth" disabled={!canSubmit}>
             등록
           </Button>
         </div>
       </div>
       <div className="bg-border my-6 h-[1px] w-full"></div>
-      <form action="" className="flex flex-col gap-8">
+      <form id="articleForm" className="flex flex-col gap-8">
         <FormField
           label="제목"
           field="input"
@@ -84,7 +84,13 @@ export default function Page() {
           onImageChange={handleImageChange}
         />
       </form>
-      <Button className="mt-10 block md:hidden" size="fullWidth" disabled={!canSubmit}>
+      <Button
+        type="submit"
+        form="articleForm"
+        className="mt-10 block md:hidden"
+        size="fullWidth"
+        disabled={!canSubmit}
+      >
         등록
       </Button>
     </main>
