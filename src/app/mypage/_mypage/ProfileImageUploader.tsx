@@ -37,7 +37,7 @@ export default function ProfileImageUploader({ image, setImage }: ProfileImageUp
 
           setImage(uploadedUrl);
         } catch (error) {
-          console.error('프로필 이미지 저장 실패:', error);
+          console.error('프로필 이미지 저장 실패:', error); // 토스트로 알림
         }
       }}
     />
