@@ -1,10 +1,12 @@
 'use client';
 
-import React, { forwardRef } from 'react';
+import React, { forwardRef, useEffect, useState } from 'react';
 import Link from 'next/link';
 import Image from 'next/image';
 import clsx from 'clsx';
 import { usePathname } from 'next/navigation';
+import CoworkersLogo from '@/assets/CoworkersLogo';
+import Input from '@/components/common/formField/compound/Input';
 
 interface Group {
   id: number;
@@ -20,6 +22,20 @@ interface SideMenuProps {
 const SideMenu = forwardRef<HTMLDivElement, SideMenuProps>(({ groups, isOpen, onClose }, ref) => {
   const pathname = usePathname();
   const selectedGroupId = pathname.split('/')[1];
+  const [filteredGroups, setFilteredGroups] = useState<Group[]>(groups);
+  const [searchKeyword, setSearchKeyword] = useState('');
+
+  useEffect(() => {
+    setFilteredGroups(groups);
+  }, [groups]);
+
+  useEffect(() => {
+    const filtered = groups.filter((group) =>
+      group.name.toLowerCase().includes(searchKeyword.toLowerCase())
+    );
+    setFilteredGroups(filtered);
+  }, [searchKeyword, groups]);
+
   return (
     <>
       {isOpen && <div className="fixed inset-0 z-40 bg-black/40" onClick={onClose} />}
@@ -31,12 +47,23 @@ const SideMenu = forwardRef<HTMLDivElement, SideMenuProps>(({ groups, isOpen, on
           isOpen ? 'translate-x-0' : '-translate-x-full'
         )}
       >
-        <button type="button" onClick={onClose} className="cursor-pointer self-end" title="닫기">
-          <Image src="/icons/close.svg" alt="닫기" width={24} height={24} />
-        </button>
+        <div className="flex items-center justify-between">
+          <CoworkersLogo className="w-25" />
+          <button type="button" onClick={onClose} className="cursor-pointer" title="닫기">
+            <Image src="/icons/close.svg" alt="닫기" width={24} height={24} />
+          </button>
+        </div>
 
         <div className="border-border flex flex-col gap-6 border-b pb-6">
-          {groups.map((group) => (
+          <Input
+            placeholder="팀 이름 검색"
+            value={searchKeyword}
+            onChange={(e) => setSearchKeyword(e.target.value)}
+            leftSlot={<Image src="/icons/search.svg" alt="검색" width={16} height={16} />}
+            className="h-[40px] p-0"
+            borderClassName="border-border"
+          />
+          {filteredGroups.map((group) => (
             <Link
               key={group.id}
               href={`/${group.id}`}

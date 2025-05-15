@@ -70,7 +70,7 @@ export default async function Page({ params }: { params: Promise<{ groupId: stri
           alt="그룹 기본 이미지"
           className="absolute right-1/4 h-16 w-auto object-contain md:right-20"
         />
-        <Link href={PATHS.EDITGROUP}>
+        <Link href={`${groupId}${PATHS.EDITGROUP}`}>
           <Image
             src="/icons/gear-icon.svg"
             width={24}

@@ -15,7 +15,7 @@ import usePasswordVisibility from '@/utils/use-password-visibility';
 import SignupFailModal from '@/components/signup-alert-modal/SignupFailModal';
 import SignupSuccessModal from '@/components/signup-alert-modal/SignupSuccessModal';
 import useModalContext from '@/components/common/modal/core/useModalContext';
-import { SIGNUP_MESSAGES } from '@/constants/messages/signup';
+import { AUTH_ERROR_MESSAGES } from '@/constants/messages/signup';
 
 export default function SignupForm() {
   const { isPasswordVisible, togglePasswordVisibility } = usePasswordVisibility();
@@ -44,46 +44,46 @@ export default function SignupForm() {
 
   function getNicknameErrorMessage() {
     if (formData.nickname.trim() === '') {
-      return SIGNUP_MESSAGES.nickname.required;
+      return AUTH_ERROR_MESSAGES.nickname.required;
     }
     if (!validateLengthLimit(formData.nickname)) {
-      return SIGNUP_MESSAGES.nickname.tooLong;
+      return AUTH_ERROR_MESSAGES.nickname.tooLong;
     }
     if (duplicateError.nickname) {
-      return SIGNUP_MESSAGES.nickname.duplicated;
+      return AUTH_ERROR_MESSAGES.nickname.duplicated;
     }
     return '';
   }
 
   function getEmailErrorMessage() {
     if (formData.email.trim() === '') {
-      return SIGNUP_MESSAGES.email.required;
+      return AUTH_ERROR_MESSAGES.email.required;
     }
     if (!validateEmail(formData.email)) {
-      return SIGNUP_MESSAGES.email.invalid;
+      return AUTH_ERROR_MESSAGES.email.invalid;
     }
     if (duplicateError.email) {
-      return SIGNUP_MESSAGES.email.duplicated;
+      return AUTH_ERROR_MESSAGES.email.duplicated;
     }
     return '';
   }
 
   function getPasswordErrorMessage() {
     if (formData.password.trim() === '') {
-      return SIGNUP_MESSAGES.password.required;
+      return AUTH_ERROR_MESSAGES.password.required;
     }
     if (!validatePassword(formData.password)) {
-      return SIGNUP_MESSAGES.password.invalid;
+      return AUTH_ERROR_MESSAGES.password.invalid;
     }
     return '';
   }
 
   function getPasswordConfirmationErrorMessage() {
     if (formData.passwordConfirmation.trim() === '') {
-      return SIGNUP_MESSAGES.passwordConfirmation.required;
+      return AUTH_ERROR_MESSAGES.passwordConfirmation.required;
     }
     if (!validateConfirmPassword(formData.password, formData.passwordConfirmation)) {
-      return SIGNUP_MESSAGES.passwordConfirmation.notMatch;
+      return AUTH_ERROR_MESSAGES.passwordConfirmation.notMatch;
     }
     return '';
   }
