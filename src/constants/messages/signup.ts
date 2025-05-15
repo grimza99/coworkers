@@ -1,4 +1,4 @@
-export const SIGNUP_MESSAGES = {
+export const AUTH_ERROR_MESSAGES = {
   nickname: {
     required: '이름을 입력해주세요.',
     tooLong: '이름은 10글자 이하로 작성해주세요.',

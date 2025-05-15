@@ -1,6 +1,6 @@
-import axios from 'axios';
-import { getServerCookie } from './cookie/server';
 import { redirect } from 'next/navigation';
+import axios, { InternalAxiosRequestConfig } from 'axios';
+import { getServerCookie } from '@/lib/cookie/server';
 import PATHS from '@/constants/paths';
 
 const BASE_URL = process.env.API_URL;
@@ -12,12 +12,14 @@ const axiosServer = axios.create({
   adapter: 'fetch',
 });
 
-axiosServer.interceptors.request.use(async (config) => {
-  const token = await getServerCookie('accessToken');
-  if (!token) return config;
-  config.headers.set('Authorization', `Bearer ${token}`);
-  return config;
-});
+axiosServer.interceptors.request.use(
+  async (config: InternalAxiosRequestConfig & { _retry?: boolean }) => {
+    const token = await getServerCookie('accessToken');
+    if (!token || config._retry) return config;
+    config.headers.set('Authorization', `Bearer ${token}`);
+    return config;
+  }
+);
 
 axiosServer.interceptors.response.use(
   (response) => response,
@@ -25,7 +27,10 @@ axiosServer.interceptors.response.use(
     const originalRequest = error.config;
 
     if (!error.response || error.response.status !== 401 || originalRequest._retry) {
-      return Promise.reject(error);
+      return Promise.reject({
+        message: error.message,
+        status: error.response?.status,
+      });
     }
 
     originalRequest._retry = true;
@@ -54,7 +59,7 @@ async function refreshAccessToken(refreshToken: string) {
     );
     return res.data?.accessToken;
   } catch {
-    return null;
+    return '';
   }
 }
 
