@@ -15,7 +15,7 @@ import axiosClient from '@/lib/axiosClient';
 import { Toast } from '@/components/common/Toastify';
 
 export default function ConfirmDeleteAccountModal() {
-  const { closeModal, openModal } = useModalContext();
+  const { closeModal } = useModalContext();
 
   return (
     <>
@@ -53,7 +53,7 @@ export default function ConfirmDeleteAccountModal() {
                       setTimeout(() => {
                         window.location.href = '/';
                       }, 2000);
-                    } catch (error) {
+                    } catch {
                       Toast.error('회원 탈퇴에 실패했습니다. 다시 시도해주세요.');
                       closeModal('confirm-delete-account');
                     }

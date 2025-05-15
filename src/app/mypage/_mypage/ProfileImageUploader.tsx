@@ -38,7 +38,7 @@ export default function ProfileImageUploader({ image, setImage }: ProfileImageUp
 
           setImage(`${uploadedUrl}?t=${Date.now()}`);
           Toast.success('프로필 이미지가 변경 성공');
-        } catch (error) {
+        } catch {
           Toast.error('프로필 이미지 저장에 실패했습니다. 다시 시도해주세요.');
         }
       }}
