@@ -1,15 +1,21 @@
 'use client';
-import { useEffect, useState } from 'react';
+import { useRouter } from 'next/navigation';
+import { useState, useEffect } from 'react';
 import Button from '@/components/common/Button';
 import FormField from '@/components/common/formField';
+import axiosClient from '@/lib/axiosClient';
+import postImageUrl from '@/lib/api/image/postImageUrl';
+import PATHS from '@/constants/paths';
 
 const isEmptyString = (str: string) => str.trim() === '';
 
 export default function Page() {
+  const router = useRouter();
   const [title, setTitle] = useState('');
   const [content, setContent] = useState('');
   const [image, setImage] = useState<File | null>(null);
   const [previewImage, setPreviewImage] = useState('');
+  const [isSubmitting, setIsSubmitting] = useState(false);
   const canSubmit = !isEmptyString(title) && !isEmptyString(content);
 
   const handleImageChange = (event: React.ChangeEvent<HTMLInputElement>) => {
@@ -31,6 +37,33 @@ export default function Page() {
     }
   };
 
+  const submitForm = async (e: React.FormEvent<HTMLFormElement>) => {
+    e.preventDefault();
+    setIsSubmitting(true);
+    let data = '';
+    if (image !== null) {
+      const { url } = await postImageUrl(image);
+      data = await axiosClient.post('/articles', {
+        title: title,
+        content: content,
+        image: url,
+      });
+    } else {
+      data = await axiosClient.post('/articles', {
+        title: title,
+        content: content,
+      });
+    }
+    console.log(data);
+
+    setIsSubmitting(false);
+    setTitle('');
+    setContent('');
+    setImage(null);
+    setPreviewImage('');
+    router.push(`${PATHS.ARTICLES}`);
+  };
+
   useEffect(() => {
     return () => {
       if (previewImage) {
@@ -50,9 +83,10 @@ export default function Page() {
         </div>
       </div>
       <div className="bg-border my-6 h-[1px] w-full"></div>
-      <form id="articleForm" className="flex flex-col gap-8">
+      <form onSubmit={submitForm} id="articleForm" className="flex flex-col gap-8">
         <FormField
           label="제목"
+          name="title"
           field="input"
           placeholder="제목을 입력해주세요."
           required
@@ -62,9 +96,11 @@ export default function Page() {
           labelSize="16/16"
           value={title}
           onChange={(e) => setTitle(e.target.value)}
+          disabled={isSubmitting}
         />
         <FormField
           label="내용"
+          name="content"
           field="textarea"
           placeholder="내용을 입력해주세요."
           height={240}
@@ -75,13 +111,16 @@ export default function Page() {
           labelSize="16/16"
           value={content}
           onChange={(e) => setContent(e.target.value)}
+          disabled={isSubmitting}
         />
         <FormField
           label="이미지"
           field="file-input"
+          name="image"
           imageUploaderType="board"
           image={previewImage}
           onImageChange={handleImageChange}
+          disabled={isSubmitting}
         />
       </form>
       <Button
@@ -89,7 +128,7 @@ export default function Page() {
         form="articleForm"
         className="mt-10 block md:hidden"
         size="fullWidth"
-        disabled={!canSubmit}
+        disabled={!canSubmit || isSubmitting}
       >
         등록
       </Button>
