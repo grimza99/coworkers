@@ -3,7 +3,7 @@
 import Button from '@/components/common/Button';
 import FormField from '@/components/common/formField';
 
-export default function JoinTeam() {
+export default function JoinGroup() {
   return (
     <div className="flex w-full flex-col items-center gap-20">
       <h1 className="text-4xl">팀 참여하기</h1>
