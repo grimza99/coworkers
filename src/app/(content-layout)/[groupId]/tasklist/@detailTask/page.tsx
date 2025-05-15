@@ -1,0 +1,113 @@
+'use client';
+import Image from 'next/image';
+import Button from '@/components/common/Button';
+import Check from '@/assets/Check';
+import clsx from 'clsx';
+import axiosClient from '@/lib/axiosClient';
+import { useCallback, useEffect, useRef, useState } from 'react';
+import { ErrorBoundary } from 'react-error-boundary';
+import { useTaskActions } from '../_tasklist/hooks/use-task-actions';
+import { DetailTaskType } from '../_tasklist/types/task-type';
+import DetailTaskCommentField from './_components/DetailTaskCommentsField';
+import Content from './_components/DetailTaskContentField';
+import TaskListPageFallBack from '../error';
+
+interface Props {
+  groupId: string;
+  taskListId: number;
+  isOpen: boolean;
+  isDone: boolean;
+  setIsDone: () => void;
+  taskId: number;
+  closeDetailTask: () => void;
+}
+
+export default function DetailTask({
+  groupId,
+  taskId,
+  taskListId,
+  isOpen,
+  closeDetailTask,
+  isDone,
+  setIsDone,
+}: Props) {
+  const [currentTask, setCurrentTask] = useState<DetailTaskType>();
+  const { toggleTaskDone } = useTaskActions(currentTask);
+  const buttonText = isDone ? '완료 취소하기' : '완료 하기';
+  const detailTaskRef = useRef<HTMLDivElement>(null);
+
+  //todo : fetchTask 에러 바운더리 안으로 집어넣기
+
+  const fetchTask = useCallback(async () => {
+    if (!isOpen || !taskId) return;
+    try {
+      const { data } = await axiosClient(
+        `/groups/${groupId}/task-lists/${taskListId}/tasks/${taskId}`
+      );
+
+      setCurrentTask(data);
+    } catch {
+      throw Error;
+    }
+  }, [groupId, taskListId, taskId, isOpen]);
+
+  const closingDetailTaskOutsideClick = (e: MouseEvent) => {
+    if (!isOpen || !taskId) return;
+
+    const target = e.target as Node;
+
+    const isInsideDetail = detailTaskRef.current?.contains(target);
+
+    const modalPortal = document.querySelector('#modal-container');
+    const isInsidePortal = modalPortal?.contains(target);
+
+    if (!isInsideDetail && !isInsidePortal) {
+      closeDetailTask();
+    }
+  };
+
+  useEffect(() => {
+    fetchTask();
+  }, [isOpen, fetchTask]);
+
+  useEffect(() => {
+    document.addEventListener('mousedown', closingDetailTaskOutsideClick);
+    return () => {
+      document.removeEventListener('mousedown', closingDetailTaskOutsideClick);
+    };
+  }, [isOpen]);
+
+  if (!currentTask) return;
+
+  return (
+    <>
+      {isOpen && (
+        <div
+          ref={detailTaskRef}
+          className="bg-bg200 animate-detail-task fixed top-15 right-0 z-500 flex h-[calc(100%-60px)] w-full flex-col gap-25 px-4 py-4 md:max-w-[700px] md:gap-45.5 md:px-6 md:py-6 lg:max-w-[779px] lg:px-10 lg:py-10"
+        >
+          <div className="relative flex h-full flex-col gap-4">
+            <button onClick={() => closeDetailTask()}>
+              <Image src="/icons/close.svg" alt="x" width={24} height={24} />
+            </button>
+            <div className="flex h-full flex-col gap-25 overflow-scroll">
+              <ErrorBoundary fallbackRender={({ error }) => <TaskListPageFallBack error={error} />}>
+                <Content isDone={isDone} task={currentTask} />
+                <DetailTaskCommentField taskId={currentTask?.id} />
+              </ErrorBoundary>
+            </div>
+          </div>
+          <Button
+            onClick={() => toggleTaskDone(groupId, taskListId, isDone, setIsDone)}
+            className="absolute right-6 bottom-6 lg:right-10 lg:bottom-10"
+            variant={isDone ? 'outline-primary' : 'solid'}
+            size={isDone ? 'lg' : 'sm'}
+          >
+            <Check className={clsx(isDone ? 'text-primary' : 'text-gray100')} />
+            {buttonText}
+          </Button>
+        </div>
+      )}
+    </>
+  );
+}

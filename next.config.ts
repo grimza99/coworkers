@@ -2,7 +2,11 @@ import type { NextConfig } from 'next';
 
 const nextConfig: NextConfig = {
   images: {
-    domains: ['sprint-fe-project.s3.ap-northeast-2.amazonaws.com'],
+    domains: [
+      'sprint-fe-project.s3.ap-northeast-2.amazonaws.com',
+      'sprint-fe-project.s3.ap-northeast2.amazonaws.com',
+      'k.kakaocdn.net',
+    ],
   },
 
   webpack(config) {

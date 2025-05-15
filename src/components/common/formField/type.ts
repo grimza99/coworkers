@@ -26,10 +26,11 @@ export interface FileInputProps extends InputHTMLAttributes<HTMLInputElement> {
 export interface FormFieldProps {
   field: 'input' | 'textarea' | 'file-input';
   imageUploaderType?: ImageUploaderType;
-  label: string;
+  label?: string;
   required?: boolean;
   isSuccess?: boolean;
   isFailure?: boolean;
+  isSubmit?: boolean;
   errorMessage?: string;
   gapSize?: '12' | '16' | '24' | '32';
   labelSize?: '16/16' | '14/16' | '16/20';

@@ -16,6 +16,7 @@ export default function FormField({
   required,
   isSuccess,
   isFailure,
+  isSubmit,
   errorMessage,
   gapSize = '12',
   labelSize = '16/16',
@@ -26,9 +27,9 @@ export default function FormField({
   const { isFocused, showError, borderClassName, handleFocus, handleBlur } = useFieldStatus({
     isSuccess,
     isFailure,
+    isSubmit,
     onFocus: onFieldFocus,
     onBlur: onFieldBlur,
-    forceShowError: !!errorMessage,
   });
 
   const renderField = () => {
@@ -70,7 +71,9 @@ export default function FormField({
         </label>
         {renderField()}
       </div>
-      {(field === 'file-input' ? errorMessage : !isFocused && showError && errorMessage) && (
+      {(field === 'file-input'
+        ? errorMessage && isSubmit
+        : !isFocused && showError && errorMessage) && (
         <span className="text-danger text-md-md text-left">{errorMessage}</span>
       )}
     </div>
