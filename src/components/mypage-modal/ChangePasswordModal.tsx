@@ -13,6 +13,7 @@ import FormField from '../common/formField';
 import { validatePassword, validateConfirmPassword } from '@/utils/validators';
 import { useState } from 'react';
 import axiosClient from '@/lib/axiosClient';
+import { Toast } from '@/components/common/Toastify';
 
 interface PasswordChangeSuccessModalProps {
   onClose: () => void;
@@ -106,11 +107,9 @@ export default function ChangePasswordModal({ onClose }: PasswordChangeSuccessMo
                           passwordConfirmation: formData.confirmPassword,
                         });
                         closeModal('change-password');
-                        openModal('password-success');
+                        Toast.success('비밀번호가 변경 성공');
                       } catch (error) {
-                        console.error('비밀번호 변경 실패:', error);
-                        closeModal('change-password');
-                        openModal('password-fail');
+                        Toast.error('비밀번호 변경에 실패했습니다. 다시 시도해주세요.');
                       }
                     }}
                   >

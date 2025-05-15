@@ -1,5 +1,6 @@
 'use client';
 
+import Image from 'next/image';
 import ProfileImageUploader from './_mypage/ProfileImageUploader';
 import NicknameField from './_mypage/NicknameField';
 import PasswordField from './_mypage/PasswordField';
@@ -62,7 +63,7 @@ export default function MyPage() {
               onClick={async () => {
                 try {
                   await axiosClient.patch('/user', { nickname });
-                  openModal('nickname-change-success');
+                  Toast.success('닉네임 변경 성공');
                 } catch (error: unknown) {
                   const errorObj = error as { response?: { data?: { message?: string } } };
                   const message = errorObj?.response?.data?.message || '닉네임 변경 실패';
@@ -85,7 +86,7 @@ export default function MyPage() {
                 openModal('delete-account');
               }}
             >
-              <img src="/icons/secession.svg" width={24} height={24} alt="회원탈퇴 아이콘" />
+              <Image src="/icons/secession.svg" width={24} height={24} alt="회원탈퇴 아이콘" />
               회원 탈퇴하기
             </button>
           </div>

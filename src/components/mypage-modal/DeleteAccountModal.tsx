@@ -1,5 +1,6 @@
 'use client';
 
+import Image from 'next/image';
 import {
   ModalContainer,
   ModalDescription,
@@ -19,7 +20,7 @@ export default function DeleteAccountModal() {
       <ModalPortal modalId="delete-account">
         <ModalOverlay modalId="delete-account">
           <ModalContainer>
-            <img src="/icons/danger.icon.svg" alt="!" width={24} height={24} className="m-4" />
+            <Image src="/icons/danger.icon.svg" alt="!" width={24} height={24} className="m-4" />
             <ModalHeading className="text-lg-md w-full pb-2 text-white">
               회원 탈퇴를 진행하시겠어요?
             </ModalHeading>

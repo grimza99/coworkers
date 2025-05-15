@@ -2,6 +2,7 @@
 
 import FormField from '@/components/common/formField';
 import axiosClient from '@/lib/axiosClient';
+import { Toast } from '@/components/common/Toastify';
 
 interface ProfileImageUploaderProps {
   image: string;
@@ -35,9 +36,10 @@ export default function ProfileImageUploader({ image, setImage }: ProfileImageUp
             image: uploadedUrl,
           });
 
-          setImage(uploadedUrl);
+          setImage(`${uploadedUrl}?t=${Date.now()}`);
+          Toast.success('프로필 이미지가 변경 성공');
         } catch (error) {
-          console.error('프로필 이미지 저장 실패:', error); // 토스트로 알림
+          Toast.error('프로필 이미지 저장에 실패했습니다. 다시 시도해주세요.');
         }
       }}
     />

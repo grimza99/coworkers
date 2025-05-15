@@ -1,5 +1,6 @@
 'use client';
 
+import Image from 'next/image';
 import {
   ModalContainer,
   ModalDescription,
@@ -11,6 +12,7 @@ import {
 import Button from '../common/Button';
 import useModalContext from '@/components/common/modal/core/useModalContext';
 import axiosClient from '@/lib/axiosClient';
+import { Toast } from '@/components/common/Toastify';
 
 export default function ConfirmDeleteAccountModal() {
   const { closeModal, openModal } = useModalContext();
@@ -20,7 +22,7 @@ export default function ConfirmDeleteAccountModal() {
       <ModalPortal modalId="confirm-delete-account">
         <ModalOverlay modalId="confirm-delete-account">
           <ModalContainer>
-            <img src="/icons/danger.icon.svg" alt="!" width={24} height={24} className="m-4" />
+            <Image src="/icons/danger.icon.svg" alt="!" width={24} height={24} className="m-4" />
             <ModalHeading className="text-lg-md w-full pb-2 text-white">
               정말 탈퇴 하시겠어요?
             </ModalHeading>
@@ -47,11 +49,11 @@ export default function ConfirmDeleteAccountModal() {
                     try {
                       await axiosClient.delete('/user');
                       closeModal('confirm-delete-account');
+                      Toast.success('회원 탈퇴가 완료되었습니다.');
                       window.location.href = '/'; // Redirect to home after deletion
                     } catch (error) {
-                      console.error('회원 탈퇴 실패:', error);
+                      Toast.error('회원 탈퇴에 실패했습니다. 다시 시도해주세요.');
                       closeModal('confirm-delete-account');
-                      openModal('delete-account-fail');
                     }
                   }}
                 >
