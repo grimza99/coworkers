@@ -32,7 +32,7 @@ export default function JoinGroup() {
     const userEmail = 'test@example.com'; // @TODO: 대체필요
 
     if (!groupId || !token) {
-      alert('올바른 링크를 입력해주세요.'); // @TODO: 모달로 대체
+      alert('올바른 링크를 입력해주세요.'); // @TODO: 토스트로 대체
       return;
     }
 

@@ -21,7 +21,7 @@ export default function JoinSuccessModal({ groupName }: Props) {
 
   useEffect(() => {
     const timer = setTimeout(() => {
-      router.push('/teams'); // Replace with your actual redirect path
+      router.push('/'); // Replace with your actual redirect path
     }, 5000);
 
     return () => clearTimeout(timer);
