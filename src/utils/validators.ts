@@ -16,3 +16,7 @@ export const validateLengthLimit = (name: string) => {
   const trimmedName = name.trim();
   return trimmedName.length >= 1 && trimmedName.length <= 10;
 };
+
+export const validateEmptyValue = (value: string) => {
+  return value.trim() === '';
+};

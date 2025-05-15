@@ -17,25 +17,26 @@ export default function DropDownGroupsItem({ group }: GroupOptionProps) {
   const { name, image, id } = group;
 
   return (
-    <div className="hover:bg-bg100 flex w-[186px] cursor-pointer items-center justify-between rounded-lg px-2 py-[7px]">
+    <div className="hover:bg-bg100 flex h-[46px] w-[186px] cursor-pointer items-center justify-between rounded-lg px-2">
       <Link
         href={`/${id}`}
         className="text-lg-md text-gray400 flex items-center gap-3"
         data-group-id={id}
       >
         <Image
-          src={image?.replace(
-            'sprint-fe-project.s3.ap-northeast2.amazonaws.com',
-            'sprint-fe-project.s3.ap-northeast-2.amazonaws.com'
-          )}
+          // src={image?.replace(
+          //   'sprint-fe-project.s3.ap-northeast2.amazonaws.com',
+          //   'sprint-fe-project.s3.ap-northeast-2.amazonaws.com'
+          // )}
+          src={image}
           width={32}
           height={32}
           alt="이미지"
           className="rounded-md"
         />
-        <p className="w-[110px] truncate">{name}</p>
+        <span className="w-[110px] truncate">{name}</span>
       </Link>
-      <Link href={`/${id}/edit`}>
+      <Link href={`/${id}/editgroup`}>
         <Image width={16} height={16} src={kebabIcon} alt=":" />
       </Link>
     </div>
