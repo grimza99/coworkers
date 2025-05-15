@@ -50,7 +50,7 @@ export default function ConfirmDeleteAccountModal() {
                       await axiosClient.delete('/user');
                       closeModal('confirm-delete-account');
                       Toast.success('회원 탈퇴가 완료되었습니다.');
-                      window.location.href = '/'; // Redirect to home after deletion
+                      window.location.href = '/';
                     } catch (error) {
                       Toast.error('회원 탈퇴에 실패했습니다. 다시 시도해주세요.');
                       closeModal('confirm-delete-account');
