@@ -1,14 +1,16 @@
 'use client';
 
 import Image from 'next/image';
+import { useEffect, useState } from 'react';
 import ProfileImageUploader from './_mypage/ProfileImageUploader';
 import NicknameField from './_mypage/NicknameField';
 import PasswordField from './_mypage/PasswordField';
-import AccountModals from './_mypage/AccountModals';
+import ChangePasswordModal from '@/components/mypage-modal/ChangePasswordModal';
+import DeleteAccountModal from '@/components/mypage-modal/DeleteAccountModal';
+import ConfirmDeleteAccountModal from '@/components/mypage-modal/ConfirmDeleteAccountModal';
 import axiosClient from '@/lib/axiosClient';
 import { getClientCookie, deleteClientCookie } from '@/lib/cookie/client';
 import { getUserApiResponse } from '@/types/user';
-import { useEffect, useState } from 'react';
 import useModalContext from '@/components/common/modal/core/useModalContext';
 import FormField from '@/components/common/formField';
 import { Toast } from '@/components/common/Toastify';
@@ -26,6 +28,7 @@ async function fetchUserInfo(): Promise<getUserApiResponse | null> {
     return response.data;
   } catch (error) {
     console.error('계정 정보 가져오기 실패', error);
+    Toast.error('계정 정보를 불러오지 못했습니다. 다시 시도해주세요.');
     return null;
   }
 }
@@ -92,7 +95,9 @@ export default function MyPage() {
           </div>
         </div>
       </div>
-      <AccountModals nickname={nickname} />
+      <ChangePasswordModal onClose={() => {}} />
+      <DeleteAccountModal />
+      <ConfirmDeleteAccountModal />
     </div>
   );
 }

@@ -1,5 +1,6 @@
 'use client';
 
+import { useState } from 'react';
 import {
   ModalContainer,
   ModalFooter,
@@ -11,22 +12,22 @@ import Button from '../common/Button';
 import useModalContext from '@/components/common/modal/core/useModalContext';
 import FormField from '../common/formField';
 import { validatePassword, validateConfirmPassword } from '@/utils/validators';
-import { useState } from 'react';
 import axiosClient from '@/lib/axiosClient';
 import { Toast } from '@/components/common/Toastify';
+import PasswordToggleButton from '@/app/(form-layout)/signup/_signup/PasswordToggleButton';
 
 interface PasswordChangeSuccessModalProps {
   onClose: () => void;
 }
 
 export default function ChangePasswordModal({ onClose }: PasswordChangeSuccessModalProps) {
-  const { closeModal, openModal } = useModalContext();
-
+  const { closeModal } = useModalContext();
+  const [showPassword, setShowPassword] = useState(false);
+  const [showConfirmPassword, setShowConfirmPassword] = useState(false);
   const [formData, setFormData] = useState({
     newPassword: '',
     confirmPassword: '',
   });
-
   const setFieldValue = (key: keyof typeof formData, value: string) => {
     setFormData((prev) => ({
       ...prev,
@@ -46,7 +47,7 @@ export default function ChangePasswordModal({ onClose }: PasswordChangeSuccessMo
                   field="input"
                   label="새 비밀번호"
                   placeholder="새 비밀번호를 입력해주세요."
-                  type="password"
+                  type={showPassword ? 'text' : 'password'}
                   isFailure={!validatePassword(formData.newPassword)}
                   errorMessage={
                     formData.newPassword.trim() === ''
@@ -55,12 +56,15 @@ export default function ChangePasswordModal({ onClose }: PasswordChangeSuccessMo
                   }
                   value={formData.newPassword}
                   onChange={(e) => setFieldValue('newPassword', e.target.value)}
+                  rightSlot={
+                    <PasswordToggleButton onToggle={setShowPassword} isVisible={showPassword} />
+                  }
                 />
                 <FormField
                   field="input"
                   label="새 비밀번호 확인"
                   placeholder="새 비밀번호를 다시 한 번 입력해주세요."
-                  type="password"
+                  type={showConfirmPassword ? 'text' : 'password'}
                   isFailure={
                     !validateConfirmPassword(formData.newPassword, formData.confirmPassword)
                   }
@@ -71,6 +75,12 @@ export default function ChangePasswordModal({ onClose }: PasswordChangeSuccessMo
                   }
                   value={formData.confirmPassword}
                   onChange={(e) => setFieldValue('confirmPassword', e.target.value)}
+                  rightSlot={
+                    <PasswordToggleButton
+                      onToggle={setShowConfirmPassword}
+                      isVisible={showConfirmPassword}
+                    />
+                  }
                 />
               </div>
               <ModalFooter className="mt-6 w-full">
@@ -92,7 +102,6 @@ export default function ChangePasswordModal({ onClose }: PasswordChangeSuccessMo
                     size="fullWidth"
                     className="w-full"
                     onClick={async () => {
-                      // 비밀번호 유효성 검사
                       const isPasswordValid = validatePassword(formData.newPassword);
                       const isConfirmValid = validateConfirmPassword(
                         formData.newPassword,
