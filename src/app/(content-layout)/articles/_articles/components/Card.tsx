@@ -17,7 +17,14 @@ export default function Card(props: Article) {
         </Link>
         <div className="flex items-start gap-4">
           <div className="h-18 w-18 shrink-0 overflow-hidden rounded-md bg-gray-700">
-            <Image width={72} height={72} src={image} alt="썸네일" className="h-full w-full" />
+            <Image
+              width={72}
+              height={72}
+              src={image}
+              alt="썸네일"
+              className="h-full w-full object-cover"
+              //  어떤 이미지를 default 이미지로 지정해서 숨겨야할지
+            />
           </div>
           <ArticleOptionsDropdown />
         </div>

@@ -30,6 +30,7 @@ export default function ArticlesPage() {
             page: currentPage,
             pageSize,
             orderBy,
+            searchKeyword,
           },
         });
 
@@ -38,23 +39,32 @@ export default function ArticlesPage() {
         const storedUserId = localStorage.getItem('userId');
         const userId = storedUserId ? parseInt(storedUserId, 10) : null;
 
-        const filtered =
-          myArticlesOnly && userId
-            ? allArticles.filter((article: Article) => article.writer.id === userId)
-            : allArticles;
+        // Always show full list for best articles
+        const sortedByLike = [...allArticles].sort((a, b) => b.likeCount - a.likeCount);
+        setBestArticles(sortedByLike.slice(0, 3));
+
+        let filtered = allArticles;
+
+        if (myArticlesOnly && userId) {
+          filtered = filtered.filter((article: Article) => article.writer.id === userId);
+        }
+
+        if (searchKeyword.trim()) {
+          const lowerKeyword = searchKeyword.toLowerCase();
+          filtered = filtered.filter((article: Article) =>
+            article.title.toLowerCase().includes(lowerKeyword)
+          );
+        }
 
         setArticles(filtered);
         setTotalCount(res.data.totalCount);
-
-        const sortedByLike = [...filtered].sort((a, b) => b.likeCount - a.likeCount);
-        setBestArticles(sortedByLike.slice(0, 3));
       } catch (error) {
         console.error('Error fetching articles:', error);
       }
     };
 
     fetchArticles();
-  }, [currentPage, orderBy, myArticlesOnly]);
+  }, [currentPage, orderBy, myArticlesOnly, searchKeyword]);
 
   return (
     <main className="">

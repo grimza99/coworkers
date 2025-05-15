@@ -36,6 +36,7 @@ export default function BestCard(props: Article) {
                 src={image}
                 alt="썸네일"
                 className="h-full w-full object-cover"
+                // 어떤 이미지를 default 이미지로 지정해서 숨겨야할지
               />
             </div>
           </div>
