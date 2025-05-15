@@ -6,6 +6,8 @@ import ArticleOptionsDropdown from './ArticleOptionsDropdown';
 import LikeToggleButton from './LikeToggleButton';
 import Link from 'next/link';
 
+const DEFAULT_IMAGE = process.env.NEXT_PUBLIC_DEFAULT_IMAGE;
+
 export default function Card(props: Article) {
   const { title, image, writer, createdAt, likeCount } = props;
 
@@ -16,15 +18,18 @@ export default function Card(props: Article) {
           <h3 className="text-2lg-md text-gray300 max-w-75 truncate">{title}</h3>
         </Link>
         <div className="flex items-start gap-4">
-          <div className="h-18 w-18 shrink-0 overflow-hidden rounded-md bg-gray-700">
-            <Image
-              width={72}
-              height={72}
-              src={image}
-              alt="썸네일"
-              className="h-full w-full object-cover"
-              //  어떤 이미지를 default 이미지로 지정해서 숨겨야할지
-            />
+          <div className="h-18 w-18 shrink-0 overflow-hidden rounded-md">
+            {image &&
+              image.trim() !== '' &&
+              image.trim() !== DEFAULT_IMAGE?.replace(/['"\s]/g, '') && (
+                <Image
+                  width={72}
+                  height={72}
+                  src={image}
+                  alt="썸네일"
+                  className="h-full w-full object-cover"
+                />
+              )}
           </div>
           <ArticleOptionsDropdown />
         </div>

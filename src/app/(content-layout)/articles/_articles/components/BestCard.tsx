@@ -5,6 +5,8 @@ import Link from 'next/link';
 import { Article } from '@/types/article';
 import LikeToggleButton from './LikeToggleButton';
 
+const DEFAULT_IMAGE = process.env.NEXT_PUBLIC_DEFAULT_IMAGE;
+
 export default function BestCard(props: Article) {
   const { title, image, writer, createdAt, likeCount } = props;
 
@@ -29,15 +31,18 @@ export default function BestCard(props: Article) {
                 {title.length > 30 ? `${title.slice(0, 30)}...` : title}
               </h3>
             </Link>
-            <div className="h-16 w-16 shrink-0 overflow-hidden rounded-md bg-gray-700 md:h-18 md:w-18">
-              <Image
-                width={72}
-                height={72}
-                src={image}
-                alt="썸네일"
-                className="h-full w-full object-cover"
-                // 어떤 이미지를 default 이미지로 지정해서 숨겨야할지
-              />
+            <div className="h-16 w-16 shrink-0 overflow-hidden rounded-md md:h-18 md:w-18">
+              {image &&
+                image.trim() !== '' &&
+                image.trim() !== DEFAULT_IMAGE?.replace(/['"\s]/g, '') && (
+                  <Image
+                    width={72}
+                    height={72}
+                    src={image}
+                    alt="썸네일"
+                    className="h-full w-full object-cover"
+                  />
+                )}
             </div>
           </div>
           <div>

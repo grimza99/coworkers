@@ -8,7 +8,7 @@ import BestCard from './_articles/components/BestCard';
 import SortToggle from './_articles/components/SortToggle';
 import ArticleSearchBar from './_articles/components/ArticleSearchBar';
 import Pagination from './_articles/components/Pagination';
-import { Article } from '@/types/article';
+import { Article, GetArticlesResponse } from '@/types/article';
 import axiosClient from '@/lib/axiosClient';
 
 export default function ArticlesPage() {
@@ -21,6 +21,25 @@ export default function ArticlesPage() {
   const [myArticlesOnly, setMyArticlesOnly] = useState(false);
   const pageSize = 10;
   const router = useRouter();
+
+  useEffect(() => {
+    const fetchBestArticles = async () => {
+      try {
+        const res = await axiosClient.get<GetArticlesResponse>('/articles', {
+          params: {
+            page: 1,
+            pageSize: 1000,
+            orderBy: 'like',
+          },
+        });
+        const sortedByLike = res.data.list.sort((a, b) => b.likeCount - a.likeCount);
+        setBestArticles(sortedByLike.slice(0, 3));
+      } catch (error) {
+        console.error('Error fetching best articles:', error);
+      }
+    };
+    fetchBestArticles();
+  }, []);
 
   useEffect(() => {
     const fetchArticles = async () => {
@@ -38,10 +57,6 @@ export default function ArticlesPage() {
 
         const storedUserId = localStorage.getItem('userId');
         const userId = storedUserId ? parseInt(storedUserId, 10) : null;
-
-        // Always show full list for best articles
-        const sortedByLike = [...allArticles].sort((a, b) => b.likeCount - a.likeCount);
-        setBestArticles(sortedByLike.slice(0, 3));
 
         let filtered = allArticles;
 
