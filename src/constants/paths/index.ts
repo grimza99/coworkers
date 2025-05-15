@@ -11,6 +11,7 @@ const PATHS = {
   EDITGROUP: '/editgroup',
   NOGROUP: '/nogroup',
   ADDGROUP: '/addgroup',
+  JOINGROUP: '/joingroup',
   MYHISTORY: '/myhistory',
   BOARDS: '/articles',
 
