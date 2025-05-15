@@ -12,7 +12,7 @@ import {
   ModalPortal,
 } from '@/components/common/modal';
 import useModalContext from '@/components/common/modal/core/useModalContext';
-import { isEmptyString } from '@/utils/validators';
+import { validateEmptyValue } from '@/utils/validators';
 
 interface Props {
   modalId: string;
@@ -38,7 +38,7 @@ export default function TasklistAdditionModal({
   };
 
   const handleClickAddButton = async () => {
-    if (isEmptyString(name)) return;
+    if (validateEmptyValue(name)) return;
     addTasklist(name);
     clearName();
     closeModal(modalId);
@@ -60,8 +60,8 @@ export default function TasklistAdditionModal({
               <FormField
                 field="input"
                 placeholder="목록 이름을 입력해주세요."
-                isSuccess={!isEmptyString(name)}
-                isFailure={isEmptyString(name)}
+                isSuccess={!validateEmptyValue(name)}
+                isFailure={validateEmptyValue(name)}
                 errorMessage="이름을 입력해 주세요."
                 value={name}
                 onChange={handleChangeName}
