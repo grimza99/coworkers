@@ -1,11 +1,8 @@
 import axiosClient from '@/lib/axiosClient';
 import { Task } from '../types/task-type';
+import { Toast } from '@/components/common/Toastify';
 
 export function useTaskActions(task?: Task) {
-  const editTask = () => {
-    //수정 리퀘스트
-  };
-
   const deleteTask = async (
     groupId: string,
     taskListId: number,
@@ -15,8 +12,9 @@ export function useTaskActions(task?: Task) {
     try {
       await axiosClient.delete(`/groups/${groupId}/task-lists/${taskListId}/tass/${taskId}`);
       setTaskToDeleteState();
+      Toast.success('할 일을 삭제 했습니다.');
     } catch {
-      //toast 예정-선향
+      Toast.error('할 일 삭제 실패');
     }
   };
 
@@ -34,14 +32,17 @@ export function useTaskActions(task?: Task) {
         done: !doneState,
       });
       toggleDoneState();
+
+      if (doneState) return Toast.success('할 일 완료 취소 성공');
+      if (!doneState) return Toast.success('할 일 완료 성공');
     } catch {
-      //toast 예정-선향
+      if (doneState) return Toast.error('할 일 완료 취소 실패');
+      if (!doneState) return Toast.error('할 일 완료 실패');
     }
   };
 
   return {
     deleteTask,
-    editTask,
     toggleTaskDone,
   };
 }
