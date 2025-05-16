@@ -23,7 +23,6 @@ const MINIMAL_HEADER_PATHS = [
   PATHS.SIGNUP_KAKAO,
   '/reset-password',
   PATHS.ADDGROUP,
-  '/joingroup',
 ];
 
 export default function Header() {
