@@ -13,6 +13,7 @@ import Button from '../common/Button';
 import useModalContext from '@/components/common/modal/core/useModalContext';
 import axiosClient from '@/lib/axiosClient';
 import { Toast } from '@/components/common/Toastify';
+import { deleteClientCookie } from '@/lib/cookie/client';
 
 export default function ConfirmDeleteAccountModal() {
   const { closeModal } = useModalContext();
@@ -48,11 +49,13 @@ export default function ConfirmDeleteAccountModal() {
                   onClick={async () => {
                     try {
                       await axiosClient.delete('/user');
-                      closeModal('confirm-delete-account');
+                      deleteClientCookie('accessToken');
+                      deleteClientCookie('refreshToken');
                       Toast.success('회원 탈퇴가 완료되었습니다. 잠시 후 페이지가 이동합니다.');
                       setTimeout(() => {
+                        closeModal('confirm-delete-account');
                         window.location.href = '/';
-                      }, 2000);
+                      }, 3000);
                     } catch {
                       Toast.error('회원 탈퇴에 실패했습니다. 다시 시도해주세요.');
                       closeModal('confirm-delete-account');
