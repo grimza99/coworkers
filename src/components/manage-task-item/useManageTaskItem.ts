@@ -41,7 +41,8 @@ export default function useManageTaskItem({
   const [isCalendarOpen, setIsCalendarOpen] = useState(false);
   const [taskItem, setTaskItem] = useState<TaskItem>(() => ({
     ...INITIAL_TASK_ITEM,
-    ...task,
+    name: task?.name ?? '',
+    description: task?.description ?? '',
   }));
   const [isTimeOpen, setIsTimeOpen] = useState(false);
   const [selectedFrequency, setSelectedFrequency] = useState('');
@@ -50,6 +51,7 @@ export default function useManageTaskItem({
     period: '오전',
     time: am[0],
   });
+  const [isFrequencyDelete, setIsFrequencyDelete] = useState(false);
 
   const select = [
     {
@@ -132,6 +134,10 @@ export default function useManageTaskItem({
     monthDay: getDate(item.startDate),
   });
 
+  const markFrequencyForDelete = () => {
+    setIsFrequencyDelete(true);
+  };
+
   const handleCreateTaskItemSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
 
@@ -158,11 +164,23 @@ export default function useManageTaskItem({
     e.preventDefault();
 
     try {
-      await axiosClient.patch(`/groups/${groupId}/task-lists/${taskListId}/tasks/${taskItem.id}`, {
+      await axiosClient.patch(`/groups/${groupId}/task-lists/${taskListId}/tasks/${task?.id}`, {
         done: isDone,
         name: taskItem.name,
         description: taskItem.description,
       });
+
+      // const promises = [updateTaskPromise];
+
+      // if (isFrequencyDelete) {
+      //   const deleteRecurringPromise = axiosClient.delete(
+      //     `/groups/${groupId}/task-lists/${taskListId}/tasks/${task?.id}/recurring/${task?.recurringId}`
+      //   );
+
+      //   promises.push(deleteRecurringPromise);
+      // }
+
+      // await Promise.all(promises);
 
       closeTaskItemModal();
     } catch (err) {
@@ -186,6 +204,7 @@ export default function useManageTaskItem({
     handleInputChange,
     handleCalendarDateChange,
     handleFrequencyChange,
+    markFrequencyForDelete,
     createOrEditSubmit,
     toggleDay,
     updateTime,
