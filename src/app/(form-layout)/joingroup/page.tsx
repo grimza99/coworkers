@@ -1,6 +1,7 @@
 'use client';
 
 import { useState } from 'react';
+import { useRouter } from 'next/navigation';
 import axiosClient from '@/lib/axiosClient';
 import Button from '@/components/common/Button';
 import FormField from '@/components/common/formField';
@@ -8,6 +9,7 @@ import { Toast } from '@/components/common/Toastify';
 
 export default function JoinGroup() {
   const [inviteLink, setInviteLink] = useState('');
+  const router = useRouter();
 
   const handleJoin = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -24,6 +26,10 @@ export default function JoinGroup() {
         token,
       });
       Toast.success('팀 참여 성공!');
+      const groupId = response.data.groupId;
+      setTimeout(() => {
+        router.push(`/${groupId}`);
+      }, 1000);
     } catch (error) {
       Toast.error('팀 참여에 실패했습니다. 링크를 다시 확인해주세요.');
       console.error('팀 참여 실패:', error);
