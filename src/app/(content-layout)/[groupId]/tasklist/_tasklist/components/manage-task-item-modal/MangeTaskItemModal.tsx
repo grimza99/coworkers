@@ -12,22 +12,16 @@ export default function ManageTaskItemModal({
 }: TaskItemProps) {
   const modalId = createOrEditModalId ?? '';
 
-  const isTask = () => {
-    return task ? (
-      <></>
-    ) : (
-      <ModalTrigger
-        modalId={modalId}
-        className="text-lg-semi bg-primary absolute right-6 bottom-40 flex h-12 w-[125px] items-center justify-center rounded-[40px] text-white"
-      >
-        <Plus width="16" height="16" /> 할 일 추가
-      </ModalTrigger>
-    );
-  };
-
   return (
     <>
-      {isTask()}
+      {!task && (
+        <ModalTrigger
+          modalId={modalId}
+          className="text-lg-semi bg-primary absolute right-6 bottom-40 flex h-12 w-[125px] items-center justify-center rounded-[40px] text-white"
+        >
+          <Plus width="16" height="16" /> 할 일 추가
+        </ModalTrigger>
+      )}
       <ModalPortal modalId={modalId}>
         <ModalOverlay modalId={modalId}>
           <ModalContainer>
