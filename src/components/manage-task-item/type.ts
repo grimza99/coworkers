@@ -3,7 +3,7 @@ import { Task } from '@/app/(content-layout)/[groupId]/tasklist/_tasklist/types/
 export type TaskItem = Pick<Task, 'name' | 'description' | 'monthDay' | 'weekDays'> & {
   id?: Task['id'];
   recurringId?: Task['recurringId'];
-  startDate: Date | string;
+  startDate: Date;
   frequencyType: Task['frequency'];
 };
 
