@@ -5,6 +5,8 @@ import axiosClient from '@/lib/axiosClient';
 import { useCallback, useEffect, useState } from 'react';
 import CommentField from './CommentField';
 import CommentSubmit from '@/assets/CommentSubmit';
+import { Toast } from '@/components/common/Toastify';
+import clsx from 'clsx';
 
 interface Props {
   taskId: number | undefined;
@@ -13,6 +15,7 @@ interface Props {
 export default function DetailTaskCommentField({ taskId }: Props) {
   const [commentValue, setCommentValue] = useState('');
   const [currentComments, setCurrentComments] = useState<Comment[]>([]);
+  const [canSubmit, setCanSubmit] = useState(false);
 
   const fetchComments = useCallback(async () => {
     if (!taskId) return;
@@ -29,16 +32,27 @@ export default function DetailTaskCommentField({ taskId }: Props) {
   }, [taskId, fetchComments]);
 
   const handleChangeComment = (e: React.ChangeEvent<HTMLTextAreaElement>) => {
-    setCommentValue(e.currentTarget.value);
-    //toast로 에러 핸들링
+    const value = e.currentTarget.value;
+    setCommentValue(value);
+    setCanSubmit(value.trim() !== '');
   };
 
   const handleSubmitComment = async () => {
-    const { data } = await axiosClient.post(`/tasks/${taskId}/comments`, { content: commentValue });
-    setCurrentComments((prev) => [...prev, data]);
-    setCommentValue('');
-    //toast로 에러 핸들링
+    setCanSubmit(false);
+    try {
+      const { data } = await axiosClient.post(`/tasks/${taskId}/comments`, {
+        content: commentValue,
+      });
+      setCurrentComments((prev) => [...prev, data]);
+      setCommentValue('');
+    } catch {
+      Toast.error('댓글 생성에 실패 했습니다.');
+      setCommentValue('');
+    } finally {
+      setCanSubmit(true);
+    }
   };
+
   if (!taskId) return;
 
   return (
@@ -47,9 +61,12 @@ export default function DetailTaskCommentField({ taskId }: Props) {
         <Textarea
           rightSlot={
             <CommentSubmit
-              className="text-primary mt-1.5 mr-1.5 cursor-pointer"
+              className={clsx(
+                'mt-1.5 mr-1.5 cursor-pointer',
+                canSubmit ? 'text-primary' : 'text-gray500'
+              )}
               onClick={handleSubmitComment}
-              color="#10b981"
+              disabled={!canSubmit}
             />
           }
           className="text-md-rg h-fit min-h-8 pr-8"
