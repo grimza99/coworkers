@@ -36,6 +36,26 @@ export default function ChangePasswordModal({ onClose }: PasswordChangeSuccessMo
     }));
   };
 
+  const handleChangePassword = async () => {
+    const isPasswordValid = validatePassword(formData.newPassword);
+    const isConfirmValid = validateConfirmPassword(formData.newPassword, formData.confirmPassword);
+
+    if (!isPasswordValid || !isConfirmValid) {
+      return;
+    }
+
+    try {
+      await axiosClient.patch('/user/password', {
+        password: formData.newPassword,
+        passwordConfirmation: formData.confirmPassword,
+      });
+      closeModal('change-password');
+      Toast.success('비밀번호가 변경 성공');
+    } catch {
+      Toast.error('비밀번호 변경에 실패했습니다. 다시 시도해 주세요.');
+    }
+  };
+
   return (
     <>
       <ModalPortal modalId="change-password">
@@ -102,26 +122,7 @@ export default function ChangePasswordModal({ onClose }: PasswordChangeSuccessMo
                     variant="solid"
                     size="fullWidth"
                     className="w-full"
-                    onClick={async () => {
-                      const isPasswordValid = validatePassword(formData.newPassword);
-                      const isConfirmValid = validateConfirmPassword(
-                        formData.newPassword,
-                        formData.confirmPassword
-                      );
-                      if (!isPasswordValid || !isConfirmValid) {
-                        return;
-                      }
-                      try {
-                        await axiosClient.patch('/user/password', {
-                          password: formData.newPassword,
-                          passwordConfirmation: formData.confirmPassword,
-                        });
-                        closeModal('change-password');
-                        Toast.success('비밀번호가 변경 성공');
-                      } catch {
-                        Toast.error('비밀번호 변경에 실패했습니다. 다시 시도해 주세요.');
-                      }
-                    }}
+                    onClick={handleChangePassword}
                   >
                     변경하기
                   </Button>
