@@ -10,8 +10,12 @@ import useManageTaskItem from '../useManageTaskItem';
 import { TaskItemProps } from '../type';
 import Button from '@/components/common/Button';
 import { ModalFooter } from '@/components/common/modal';
+import useModalContext from '@/components/common/modal/core/useModalContext';
+import DangerModal from '@/components/danger-modal';
 
 const FREQUENCY_LIST = ['한 번', '매일', '주 반복', '월 반복'];
+
+const DELETE_FREQUENCY_MODAL_ID = 'delete-frequency';
 
 export default function ManageTaskItem({
   task,
@@ -32,16 +36,19 @@ export default function ManageTaskItem({
     handleInputChange,
     handleCalendarDateChange,
     handleFrequencyChange,
+    markFrequencyForDelete,
     createOrEditSubmit,
     toggleDay,
     updateTime,
     closeModal,
   } = useManageTaskItem({ task, groupId, taskListId, isDone, createOrEditModalId });
 
+  const { openModal } = useModalContext();
+
   const createOrEdit = task ? '수정하기' : '만들기';
 
   return (
-    <div className="bg-bg200 w-[384px] pb-8">
+    <div className="bg-bg200 w-[384px]">
       <div className="flex flex-col gap-6">
         <div className="flex flex-col items-center gap-4">
           <h1 className="text-lg-md">할 일 {createOrEdit}</h1>
@@ -93,7 +100,13 @@ export default function ManageTaskItem({
           <div className="flex flex-col gap-4">
             <label className="text-lg-md">반복 설정</label>
             {task ? (
-              <Button type="button" variant="danger" size="custom" className="h-10 w-40 rounded-xl">
+              <Button
+                onClick={() => openModal(DELETE_FREQUENCY_MODAL_ID)}
+                type="button"
+                variant="danger"
+                size="custom"
+                className="h-10 w-40 rounded-xl"
+              >
                 반복 설정 삭제하기
               </Button>
             ) : (
@@ -130,6 +143,19 @@ export default function ManageTaskItem({
           </ModalFooter>
         </form>
       </div>
+      <DangerModal
+        modalId={DELETE_FREQUENCY_MODAL_ID}
+        heading="반복 일정을 삭제하시겠어요?"
+        description={
+          <span>
+            삭제된 반복 일정은 복구할 수 없고,
+            <br />
+            반복 일정은 다시 설정할 수 없습니다.
+          </span>
+        }
+        confirmButton="삭제하기"
+        onConfirm={markFrequencyForDelete}
+      />
     </div>
   );
 }
