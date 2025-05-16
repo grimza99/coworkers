@@ -1,3 +1,5 @@
+export const dynamic = 'force-dynamic';
+
 import getUserGroup from '@/components/manage-group/action';
 import ManageGroup from '@/components/manage-group/ManageGroup';
 
