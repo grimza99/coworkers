@@ -15,6 +15,7 @@ import { validatePassword, validateConfirmPassword } from '@/utils/validators';
 import axiosClient from '@/lib/axiosClient';
 import { Toast } from '@/components/common/Toastify';
 import PasswordToggleButton from '@/app/(form-layout)/signup/_signup/PasswordToggleButton';
+import { AUTH_ERROR_MESSAGES } from '@/constants/messages/signup';
 
 interface PasswordChangeSuccessModalProps {
   onClose: () => void;
@@ -51,8 +52,8 @@ export default function ChangePasswordModal({ onClose }: PasswordChangeSuccessMo
                   isFailure={!validatePassword(formData.newPassword)}
                   errorMessage={
                     formData.newPassword.trim() === ''
-                      ? '비밀번호를 입력해 주세요.'
-                      : '비밀번호는 8자 이상 20자 이하이며 영문자, 숫자, 특수문자(!@#$%^&*)만 사용할 수 있습니다.'
+                      ? AUTH_ERROR_MESSAGES.password.required
+                      : AUTH_ERROR_MESSAGES.password.invalid
                   }
                   value={formData.newPassword}
                   onChange={(e) => setFieldValue('newPassword', e.target.value)}
@@ -70,8 +71,8 @@ export default function ChangePasswordModal({ onClose }: PasswordChangeSuccessMo
                   }
                   errorMessage={
                     formData.confirmPassword.trim() === ''
-                      ? '비밀번호를 입력해 주세요.'
-                      : '비밀번호가 일치하지 않습니다.'
+                      ? AUTH_ERROR_MESSAGES.passwordConfirmation.required
+                      : AUTH_ERROR_MESSAGES.passwordConfirmation.notMatch
                   }
                   value={formData.confirmPassword}
                   onChange={(e) => setFieldValue('confirmPassword', e.target.value)}
