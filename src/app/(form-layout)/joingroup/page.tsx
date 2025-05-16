@@ -14,8 +14,7 @@ export default function JoinGroup() {
   const handleJoin = async (e: React.FormEvent) => {
     e.preventDefault();
     const token = inviteLink.trim();
-    const userEmail =
-      typeof window !== 'undefined' ? (localStorage.getItem('userEmail') ?? '') : '';
+    const userEmail = localStorage.getItem('userEmail') ?? '';
     if (!token) {
       Toast.error('올바른 링크를 입력해주세요.');
       return;
