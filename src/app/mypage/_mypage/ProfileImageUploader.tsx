@@ -2,6 +2,7 @@
 
 import FormField from '@/components/common/formField';
 import axiosClient from '@/lib/axiosClient';
+import postImageUrl from '@/lib/api/image/postImageUrl';
 import { Toast } from '@/components/common/Toastify';
 
 interface ProfileImageUploaderProps {
@@ -20,17 +21,9 @@ export default function ProfileImageUploader({ image, setImage }: ProfileImageUp
         const file = e.target.files?.[0];
         if (!file) return;
 
-        const formData = new FormData();
-        formData.append('image', file);
-
         try {
-          const uploadRes = await axiosClient.post<{ url: string }>('/images/upload', formData, {
-            headers: {
-              'Content-Type': 'multipart/form-data',
-            },
-          });
-
-          const uploadedUrl = uploadRes.data.url;
+          const uploaded = await postImageUrl(file);
+          const uploadedUrl = uploaded.url;
 
           await axiosClient.patch('/user', {
             image: uploadedUrl,

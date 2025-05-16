@@ -35,18 +35,18 @@ async function fetchUserInfo(): Promise<getUserApiResponse | null> {
 
 export default function MyPage() {
   const [userData, setUserData] = useState<getUserApiResponse | null>(null);
-  const [nickname, setNickname] = useState('');
-  const [password, setPassword] = useState('');
   const [image, setImage] = useState('');
+  const [nickname, setNickname] = useState('');
   const [nicknameError, setNicknameError] = useState('');
+  const [password, setPassword] = useState('');
   const { openModal, closeModal } = useModalContext();
 
   useEffect(() => {
     fetchUserInfo().then((data) => {
       if (data) {
         setUserData(data);
-        setNickname(data.nickname || '');
         setImage(data.image || '');
+        setNickname(data.nickname || '');
       }
     });
   }, []);
