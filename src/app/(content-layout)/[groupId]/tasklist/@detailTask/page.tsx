@@ -1,16 +1,8 @@
 'use client';
 import Image from 'next/image';
-import Button from '@/components/common/Button';
-import Check from '@/assets/Check';
-import clsx from 'clsx';
-import axiosClient from '@/lib/axiosClient';
-import { useCallback, useEffect, useRef, useState } from 'react';
+import { useCallback, useEffect, useRef } from 'react';
 import { ErrorBoundary } from 'react-error-boundary';
-import { useTaskActions } from '../_tasklist/hooks/use-task-actions';
-import { DetailTaskType } from '../_tasklist/types/task-type';
-import DetailTaskCommentField from './_components/DetailTaskCommentsField';
-import Content from './_components/DetailTaskContentField';
-import TaskListPageFallBack from '../error';
+import DetailTask from './_components/DetailTask';
 
 interface Props {
   groupId: string;
@@ -22,62 +14,32 @@ interface Props {
   closeDetailTask: () => void;
 }
 
-export default function DetailTask({
-  groupId,
-  taskId,
-  taskListId,
-  isOpen,
-  closeDetailTask,
-  isDone,
-  setIsDone,
-}: Props) {
-  const [currentTask, setCurrentTask] = useState<DetailTaskType>();
-  const { toggleTaskDone } = useTaskActions(currentTask);
-  const buttonText = isDone ? '완료 취소하기' : '완료 하기';
+export default function DetailTaskContainer({ taskId, isOpen, closeDetailTask, ...props }: Props) {
   const detailTaskRef = useRef<HTMLDivElement>(null);
 
-  //todo : fetchTask 에러 바운더리 안으로 집어넣기
+  const closingDetailTaskOutsideClick = useCallback(
+    (e: MouseEvent) => {
+      if (!isOpen || !taskId) return;
 
-  const fetchTask = useCallback(async () => {
-    if (!isOpen || !taskId) return;
-    try {
-      const { data } = await axiosClient(
-        `/groups/${groupId}/task-lists/${taskListId}/tasks/${taskId}`
-      );
+      const target = e.target as Node;
 
-      setCurrentTask(data);
-    } catch {
-      throw Error;
-    }
-  }, [groupId, taskListId, taskId, isOpen]);
+      const isInsideDetail = detailTaskRef.current?.contains(target);
+      const modalPortal = document.querySelector('#modal-container');
+      const isInsidePortal = modalPortal?.contains(target);
 
-  const closingDetailTaskOutsideClick = (e: MouseEvent) => {
-    if (!isOpen || !taskId) return;
-
-    const target = e.target as Node;
-
-    const isInsideDetail = detailTaskRef.current?.contains(target);
-
-    const modalPortal = document.querySelector('#modal-container');
-    const isInsidePortal = modalPortal?.contains(target);
-
-    if (!isInsideDetail && !isInsidePortal) {
-      closeDetailTask();
-    }
-  };
-
-  useEffect(() => {
-    fetchTask();
-  }, [isOpen, fetchTask]);
+      if (!isInsideDetail && !isInsidePortal) {
+        closeDetailTask();
+      }
+    },
+    [isOpen, taskId, closeDetailTask]
+  );
 
   useEffect(() => {
     document.addEventListener('mousedown', closingDetailTaskOutsideClick);
     return () => {
       document.removeEventListener('mousedown', closingDetailTaskOutsideClick);
     };
-  }, [isOpen]);
-
-  if (!currentTask) return;
+  }, [isOpen, closingDetailTaskOutsideClick]);
 
   return (
     <>
@@ -90,22 +52,10 @@ export default function DetailTask({
             <button onClick={() => closeDetailTask()}>
               <Image src="/icons/close.svg" alt="x" width={24} height={24} />
             </button>
-            <div className="flex h-full flex-col gap-25 overflow-scroll">
-              <ErrorBoundary fallbackRender={({ error }) => <TaskListPageFallBack error={error} />}>
-                <Content isDone={isDone} task={currentTask} />
-                <DetailTaskCommentField taskId={currentTask?.id} />
-              </ErrorBoundary>
-            </div>
+            <ErrorBoundary fallback={<div>해당 태스크를 불러올 수 없습니다.</div>}>
+              <DetailTask taskId={taskId} {...props} />
+            </ErrorBoundary>
           </div>
-          <Button
-            onClick={() => toggleTaskDone(groupId, taskListId, isDone, setIsDone)}
-            className="absolute right-6 bottom-6 lg:right-10 lg:bottom-10"
-            variant={isDone ? 'outline-primary' : 'solid'}
-            size={isDone ? 'lg' : 'sm'}
-          >
-            <Check className={clsx(isDone ? 'text-primary' : 'text-gray100')} />
-            {buttonText}
-          </Button>
         </div>
       )}
     </>
