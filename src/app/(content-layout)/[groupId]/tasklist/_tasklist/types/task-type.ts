@@ -50,7 +50,7 @@ export interface Task {
   displayIndex: number;
   commentCount: number;
   frequency: Frequency;
-  monthDay?: 0;
+  monthDay?: number;
   weekDays?: number[];
   doneAt: string;
   date: string;

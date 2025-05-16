@@ -1,15 +1,11 @@
-import {
-  Frequency,
-  Task,
-} from '@/app/(content-layout)/[groupId]/tasklist/_tasklist/types/task-type';
+import { Task } from '@/app/(content-layout)/[groupId]/tasklist/_tasklist/types/task-type';
 
-export interface TaskItem extends Pick<Task, 'name' | 'description'> {
-  id?: number;
-  weekDays?: number[];
-  monthDay?: number;
+export type TaskItem = Pick<Task, 'name' | 'description' | 'monthDay' | 'weekDays'> & {
+  id?: Task['id'];
+  recurringId?: Task['recurringId'];
   startDate: Date | string;
-  frequencyType: Frequency;
-}
+  frequencyType: Task['frequency'];
+};
 
 export interface Time {
   period: '오전' | '오후';
