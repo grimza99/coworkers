@@ -15,10 +15,6 @@ export default function JoinGroup() {
     e.preventDefault();
     const token = inviteLink.trim();
     const userEmail = localStorage.getItem('userEmail') ?? '';
-    if (!token) {
-      Toast.error('올바른 링크를 입력해주세요.');
-      return;
-    }
     try {
       const response = await axiosClient.post('/groups/accept-invitation', {
         userEmail,
@@ -46,10 +42,17 @@ export default function JoinGroup() {
             placeholder="팀 링크를 입력해주세요."
             value={inviteLink}
             onChange={(e: React.ChangeEvent<HTMLInputElement>) => setInviteLink(e.target.value)}
+            isFailure={inviteLink.trim() === ''}
+            errorMessage={inviteLink.trim() === '' ? '팀 링크를 입력해주세요.' : ''}
           />
         </div>
         <div className="flex flex-col gap-6">
-          <Button type="submit" variant="solid" size="fullWidth">
+          <Button
+            type="submit"
+            variant="solid"
+            size="fullWidth"
+            disabled={inviteLink.trim() === ''}
+          >
             참여하기
           </Button>
           <p className="text-lg-rg text-gray500 text-center">
