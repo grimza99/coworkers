@@ -1,30 +1,26 @@
-const AM_START_TIME = 0;
-const PM_START_TIME = 12 * 60;
-const AM_END_TIME = 11 * 60 + 30;
-const PM_END_TIME = 23 * 60 + 30;
+import { addMinutes, format, isBefore } from 'date-fns';
+
 const INTERVAL = 30;
 
 const generateTime = () => {
-  const formatTime = (hour: number, minute: number) => {
-    const paddedHour = hour.toString().padStart(2, '0');
-    const paddedMinute = minute.toString().padStart(2, '0');
-    return `${paddedHour}:${paddedMinute}`;
+  const times = (startHour: number, endHour: number) => {
+    const times = [];
+    let current = new Date();
+    current.setHours(startHour, 0, 0, 0);
+
+    const end = new Date();
+    end.setHours(endHour, 30, 0, 0);
+
+    while (isBefore(current, addMinutes(end, 1))) {
+      times.push(format(current, 'HH:mm'));
+      current = addMinutes(current, INTERVAL);
+    }
+
+    return times;
   };
 
-  const am = [];
-  const pm = [];
-
-  for (let min = AM_START_TIME; min <= AM_END_TIME; min += INTERVAL) {
-    const hour = Math.floor(min / 60);
-    const minute = min % 60;
-    am.push(formatTime(hour, minute));
-  }
-
-  for (let min = PM_START_TIME; min <= PM_END_TIME; min += INTERVAL) {
-    const hour = Math.floor(min / 60);
-    const minute = min % 60;
-    pm.push(formatTime(hour, minute));
-  }
+  const am = times(0, 11);
+  const pm = times(12, 23);
 
   return { am, pm };
 };
