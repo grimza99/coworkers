@@ -92,14 +92,14 @@ export default function DateWiseTaskLists({ date, groupId, updateTaskListId }: P
 
   return (
     <div className="relative flex h-full flex-col gap-4">
-      <div className="flex gap-3">
+      <div className="flex h-fit max-w-full gap-3 overflow-x-auto overflow-y-hidden">
         {taskLists.map((taskList) => {
           return (
             <p
               key={taskList.id}
               onClick={() => handleClickChangeCurrentTaskList(taskList)}
               className={clsx(
-                'text-md-md cursor-pointer',
+                'text-md-md mb-1 w-fit cursor-pointer whitespace-nowrap',
                 taskList === currentTaskList
                   ? 'text-gray200 underline underline-offset-6'
                   : 'text-gray500'
@@ -110,7 +110,7 @@ export default function DateWiseTaskLists({ date, groupId, updateTaskListId }: P
           );
         })}
       </div>
-      <div className="flex h-full flex-col items-center justify-start">
+      <div className="mb-20 flex h-full flex-col items-center justify-start overflow-auto lg:mb-30 xl:mb-50">
         {currentTasks.length > 0 && currentTaskList ? (
           <div className="flex h-full w-full flex-col gap-4">
             {currentTasks.map((task) => {
