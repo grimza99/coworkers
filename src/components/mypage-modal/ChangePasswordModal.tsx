@@ -46,12 +46,12 @@ export default function ChangePasswordModal({ onClose }: PasswordChangeSuccessMo
                 <FormField
                   field="input"
                   label="새 비밀번호"
-                  placeholder="새 비밀번호를 입력해주세요."
+                  placeholder="새 비밀번호를 입력해 주세요."
                   type={showPassword ? 'text' : 'password'}
                   isFailure={!validatePassword(formData.newPassword)}
                   errorMessage={
                     formData.newPassword.trim() === ''
-                      ? '비밀번호를 입력해주세요.'
+                      ? '비밀번호를 입력해 주세요.'
                       : '비밀번호는 8자 이상 20자 이하이며 영문자, 숫자, 특수문자(!@#$%^&*)만 사용할 수 있습니다.'
                   }
                   value={formData.newPassword}
@@ -63,14 +63,14 @@ export default function ChangePasswordModal({ onClose }: PasswordChangeSuccessMo
                 <FormField
                   field="input"
                   label="새 비밀번호 확인"
-                  placeholder="새 비밀번호를 다시 한 번 입력해주세요."
+                  placeholder="새 비밀번호를 다시 한 번 입력해 주세요."
                   type={showConfirmPassword ? 'text' : 'password'}
                   isFailure={
                     !validateConfirmPassword(formData.newPassword, formData.confirmPassword)
                   }
                   errorMessage={
                     formData.confirmPassword.trim() === ''
-                      ? '비밀번호를 입력해주세요.'
+                      ? '비밀번호를 입력해 주세요.'
                       : '비밀번호가 일치하지 않습니다.'
                   }
                   value={formData.confirmPassword}
@@ -118,7 +118,7 @@ export default function ChangePasswordModal({ onClose }: PasswordChangeSuccessMo
                         closeModal('change-password');
                         Toast.success('비밀번호가 변경 성공');
                       } catch {
-                        Toast.error('비밀번호 변경에 실패했습니다. 다시 시도해주세요.');
+                        Toast.error('비밀번호 변경에 실패했습니다. 다시 시도해 주세요.');
                       }
                     }}
                   >
