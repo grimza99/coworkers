@@ -1,60 +1,34 @@
 'use client';
 
 import { useState } from 'react';
-import axios from 'axios';
+import axiosClient from '@/lib/axiosClient';
 import Button from '@/components/common/Button';
 import FormField from '@/components/common/formField';
-import useModalContext from '@/components/common/modal/core/useModalContext';
-import JoinSuccessModal from '@/components/join-group-modal/JoinSuccessModal';
+import { Toast } from '@/components/common/Toastify';
 
 export default function JoinGroup() {
   const [inviteLink, setInviteLink] = useState('');
-  const { openModal } = useModalContext();
-  const [groupName, setGroupName] = useState('');
-
-  function parseInviteLink(link: string) {
-    try {
-      const hasProtocol = link.startsWith('http://') || link.startsWith('https://');
-      const url = new URL(hasProtocol ? link.trim() : `https://dummy.com?${link.trim()}`);
-      const groupId = url.searchParams.get('groupId');
-      const token = url.searchParams.get('token');
-      return { groupId, token };
-    } catch (e) {
-      console.error('링크 분석 중 오류:', e);
-      return { groupId: null, token: null };
-    }
-  }
 
   const handleJoin = async (e: React.FormEvent) => {
-    // 폼 제출 시 실행되는 비동기 함수
-    e.preventDefault(); // 기본 form 제출 동작(페이지 새로고침)을 막음
-    const { groupId, token } = parseInviteLink(inviteLink);
-    const userEmail = 'test@example.com'; // @TODO: 대체필요
-
-    if (!groupId || !token) {
-      alert('올바른 링크를 입력해주세요.'); // @TODO: 토스트로 대체
+    e.preventDefault();
+    const token = inviteLink.trim();
+    const userEmail =
+      typeof window !== 'undefined' ? (localStorage.getItem('userEmail') ?? '') : '';
+    if (!token) {
+      Toast.error('올바른 링크를 입력해주세요.');
       return;
     }
-
     try {
-      const response = await axios.post(`/groups/accept-invitation`, {
+      const response = await axiosClient.post('/groups/accept-invitation', {
         userEmail,
         token,
       });
-      const { groupId: acceptedGroupId } = response.data;
-
-      // Fetch group info to get the group name
-      const groupRes = await axios.get(`/groups/${acceptedGroupId}`);
-      setGroupName(groupRes.data.name);
-      openModal('join-success');
-    } catch (err) {
-      alert('참여에 실패했습니다. 링크를 다시 확인해주세요.'); // @TODO: 모달로 대체
-      console.error(err);
+      Toast.success('팀 참여 성공!');
+    } catch (error) {
+      Toast.error('팀 참여에 실패했습니다. 링크를 다시 확인해주세요.');
+      console.error('팀 참여 실패:', error);
     }
   };
-
-  console.log('링크 원본:', inviteLink);
-  console.log('파싱 결과:', parseInviteLink(inviteLink));
 
   return (
     <div className="flex w-full flex-col items-center gap-20">
@@ -78,7 +52,6 @@ export default function JoinGroup() {
           </p>
         </div>
       </form>
-      <JoinSuccessModal groupName={groupName} />
     </div>
   );
 }

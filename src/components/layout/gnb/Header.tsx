@@ -45,6 +45,9 @@ export default function Header() {
         }
         const { data } = await axiosClient.get('/user');
         setUserData(data);
+        if (data.email) {
+          localStorage.setItem('userEmail', data.email);
+        }
 
         const userGroups = Array.isArray(data.memberships)
           ? data.memberships.map((m: { group: Group }) => m.group)
