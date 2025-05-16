@@ -1,6 +1,6 @@
 'use client';
 import Image from 'next/image';
-import { useEffect, useRef } from 'react';
+import { useCallback, useEffect, useRef } from 'react';
 import { ErrorBoundary } from 'react-error-boundary';
 import DetailTask from './_components/DetailTask';
 
@@ -17,26 +17,29 @@ interface Props {
 export default function DetailTaskContainer({ taskId, isOpen, closeDetailTask, ...props }: Props) {
   const detailTaskRef = useRef<HTMLDivElement>(null);
 
-  const closingDetailTaskOutsideClick = (e: MouseEvent) => {
-    if (!isOpen || !taskId) return;
+  const closingDetailTaskOutsideClick = useCallback(
+    (e: MouseEvent) => {
+      if (!isOpen || !taskId) return;
 
-    const target = e.target as Node;
+      const target = e.target as Node;
 
-    const isInsideDetail = detailTaskRef.current?.contains(target);
-    const modalPortal = document.querySelector('#modal-container');
-    const isInsidePortal = modalPortal?.contains(target);
+      const isInsideDetail = detailTaskRef.current?.contains(target);
+      const modalPortal = document.querySelector('#modal-container');
+      const isInsidePortal = modalPortal?.contains(target);
 
-    if (!isInsideDetail && !isInsidePortal) {
-      closeDetailTask();
-    }
-  };
+      if (!isInsideDetail && !isInsidePortal) {
+        closeDetailTask();
+      }
+    },
+    [isOpen, taskId, closeDetailTask]
+  );
 
   useEffect(() => {
     document.addEventListener('mousedown', closingDetailTaskOutsideClick);
     return () => {
       document.removeEventListener('mousedown', closingDetailTaskOutsideClick);
     };
-  }, [isOpen]);
+  }, [isOpen, closingDetailTaskOutsideClick]);
 
   return (
     <>
