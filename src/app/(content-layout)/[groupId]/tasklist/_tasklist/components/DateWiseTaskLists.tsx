@@ -4,8 +4,17 @@ import clsx from 'clsx';
 import axiosClient from '@/lib/axiosClient';
 import { Task, TaskList } from '../types/task-type';
 import TasksWiseTask from './TasksWiseTask';
-import { SortableContext, verticalListSortingStrategy } from '@dnd-kit/sortable';
-import { DndContext } from '@dnd-kit/core';
+import { arrayMove, SortableContext, verticalListSortingStrategy } from '@dnd-kit/sortable';
+import {
+  closestCenter,
+  DndContext,
+  DragEndEvent,
+  MouseSensor,
+  TouchSensor,
+  useSensor,
+  useSensors,
+} from '@dnd-kit/core';
+import { useTaskActions } from '../hooks/use-task-actions';
 
 interface Props {
   date: Date;
@@ -19,6 +28,20 @@ export default function DateWiseTaskLists({ date, groupId, updateTaskListId }: P
   const [currentTasks, setCurrentTasks] = useState<Task[]>([]);
   const [error, setError] = useState<Error | null>(null);
 
+  const { saveNewTaskOrder } = useTaskActions();
+  const sensors = useSensors(
+    useSensor(MouseSensor, {
+      activationConstraint: {
+        distance: 10,
+      },
+    }),
+    useSensor(TouchSensor, {
+      activationConstraint: {
+        delay: 250,
+        tolerance: 5,
+      },
+    })
+  );
   useEffect(() => {
     if (!currentTaskList) return;
 
@@ -92,6 +115,18 @@ export default function DateWiseTaskLists({ date, groupId, updateTaskListId }: P
     fetchTaskLists();
   }, [date, groupId, fetchTaskLists, error]);
 
+  const handleDragEnd = async (event: DragEndEvent) => {
+    const { active, over } = event;
+    if (active.id !== over?.id) {
+      const oldIndex = currentTasks.findIndex((task) => task.id === active.id);
+      const newIndex = currentTasks.findIndex((task) => task.id === over?.id);
+      if (oldIndex !== -1 && newIndex !== -1) {
+        setCurrentTasks(arrayMove(currentTasks, oldIndex, newIndex));
+        await saveNewTaskOrder(currentTaskList!.id, Number(active.id), newIndex);
+      }
+    }
+  };
+
   return (
     <div className="relative flex h-full flex-col gap-4">
       <div className="flex h-fit max-w-full gap-3 overflow-x-auto overflow-y-hidden">
@@ -114,7 +149,11 @@ export default function DateWiseTaskLists({ date, groupId, updateTaskListId }: P
       </div>
       <div className="mb-20 flex h-full flex-col items-center justify-start overflow-auto lg:mb-30 xl:mb-50">
         {currentTasks.length > 0 && currentTaskList ? (
-          <DndContext>
+          <DndContext
+            sensors={sensors}
+            onDragEnd={(e: DragEndEvent) => handleDragEnd(e)}
+            collisionDetection={closestCenter}
+          >
             <SortableContext strategy={verticalListSortingStrategy} items={currentTasks}>
               <div className="flex h-full w-full flex-col gap-4">
                 {currentTasks.map((task) => {
