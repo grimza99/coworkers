@@ -10,9 +10,11 @@ export function useTaskActions(task?: Task) {
     setTaskToDeleteState: () => void
   ) => {
     try {
-      await axiosClient.delete(`/groups/${groupId}/task-lists/${taskListId}/tass/${taskId}`);
+      const res = await axiosClient.delete(
+        `/groups/${groupId}/task-lists/${taskListId}/tasks/${taskId}`
+      );
       setTaskToDeleteState();
-      Toast.success('할 일을 삭제 했습니다.');
+      Toast.success('할 일 삭제 성공');
     } catch {
       Toast.error('할 일 삭제 실패');
     }
