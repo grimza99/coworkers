@@ -35,7 +35,6 @@ export default function useManageTaskItem({
   createOrEditModalId,
 }: TaskItemProps) {
   const { am, pm } = generateTime();
-
   const { closeModal } = useModalContext();
 
   const [isCalendarOpen, setIsCalendarOpen] = useState(false);
@@ -53,6 +52,20 @@ export default function useManageTaskItem({
   });
   const [isFrequencyDelete, setIsFrequencyDelete] = useState(false);
 
+  const { period, time } = selectedTime;
+
+  const createStartDate = (date: Date, time: string) => {
+    const [hourStr, minuteStr] = time.split(':');
+    const hour = parseInt(hourStr, 10);
+    const minute = parseInt(minuteStr, 10);
+
+    return new Date(date.getFullYear(), date.getMonth(), date.getDate(), hour, minute, 0);
+  };
+
+  const updateStartDate = (date: Date) => {
+    setTaskItem((prev) => ({ ...prev, startDate: date }));
+  };
+
   const select = [
     {
       id: 'date',
@@ -68,7 +81,7 @@ export default function useManageTaskItem({
     },
     {
       id: 'time',
-      value: `${selectedTime.period} ${selectedTime.time}`,
+      value: `${period} ${time}`,
       onClick: task
         ? undefined
         : () => {
@@ -89,10 +102,7 @@ export default function useManageTaskItem({
   };
 
   const handleCalendarDateChange = (selectedDate: Date) => {
-    setTaskItem((prev) => ({
-      ...prev,
-      startDate: selectedDate,
-    }));
+    updateStartDate(createStartDate(selectedDate, time));
     setIsCalendarOpen(false);
   };
 
@@ -111,28 +121,28 @@ export default function useManageTaskItem({
 
   const updateTime = (key: 'period' | 'time', value: string) => {
     setSelectedTime((prev) => {
+      let period = prev.period;
+      let time = prev.time;
+
       if (key === 'period') {
-        const newTime = value === '오전' ? am[0] : pm[0];
-        return { period: value as '오전' | '오후', time: newTime };
+        period = value as '오전' | '오후';
+        const list = period === '오전' ? am : pm;
+        if (!list.includes(time)) {
+          time = list[0];
+        }
+      } else if (key === 'time') {
+        time = value;
       }
 
-      setIsTimeOpen(false);
+      updateStartDate(createStartDate(taskItem.startDate, time));
 
-      return { ...prev, [key]: value };
+      return { period, time };
     });
+
+    if (key === 'time') setIsTimeOpen(false);
   };
 
   const closeTaskItemModal = () => closeModal(createOrEditModalId ?? '');
-
-  const withWeekDaysTaskItem = (item: TaskItem): TaskItem => ({
-    ...item,
-    weekDays,
-  });
-
-  const withMonthDayTaskItem = (item: TaskItem): TaskItem => ({
-    ...item,
-    monthDay: getDate(item.startDate),
-  });
 
   const markFrequencyForDelete = () => {
     setIsFrequencyDelete(true);
@@ -142,14 +152,25 @@ export default function useManageTaskItem({
     e.preventDefault();
 
     try {
-      let finalTaskItem = { ...taskItem };
+      const updatedStartDate = createStartDate(taskItem.startDate, time);
 
-      if (taskItem.frequencyType === 'WEEKLY') {
-        finalTaskItem = withWeekDaysTaskItem(finalTaskItem);
+      let finalTaskItem: TaskItem = {
+        ...taskItem,
+        startDate: updatedStartDate,
+      };
+
+      if (finalTaskItem.frequencyType === 'WEEKLY') {
+        finalTaskItem = {
+          ...finalTaskItem,
+          weekDays,
+        };
       }
 
-      if (taskItem.frequencyType === 'MONTHLY') {
-        finalTaskItem = withMonthDayTaskItem(finalTaskItem);
+      if (finalTaskItem.frequencyType === 'MONTHLY') {
+        finalTaskItem = {
+          ...finalTaskItem,
+          monthDay: getDate(finalTaskItem.startDate),
+        };
       }
 
       await axiosClient.post(`/groups/${groupId}/task-lists/${taskListId}/tasks`, finalTaskItem);
@@ -189,6 +210,7 @@ export default function useManageTaskItem({
   };
 
   const isWeekly = selectedFrequency === '주 반복';
+  const isMonthly = selectedFrequency === '월 반복';
 
   const createOrEditSubmit = task ? handleEditTaskItemSubmit : handleCreateTaskItemSubmit;
 
@@ -197,6 +219,7 @@ export default function useManageTaskItem({
     selectedTime,
     weekDays,
     isWeekly,
+    isMonthly,
     isCalendarOpen,
     isTimeOpen,
     select,
