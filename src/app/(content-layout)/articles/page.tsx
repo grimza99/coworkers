@@ -10,25 +10,27 @@ import ArticleSearchBar from './_articles/components/ArticleSearchBar';
 import Pagination from './_articles/components/Pagination';
 import { Article, GetArticlesResponse } from '@/types/article';
 import axiosClient from '@/lib/axiosClient';
+import PATHS from '@/constants/paths';
 
 export default function ArticlesPage() {
   const [articles, setArticles] = useState<Article[]>([]);
   const [bestArticles, setBestArticles] = useState<Article[]>([]);
-  const [totalCount, setTotalCount] = useState(0);
-  const [searchKeyword, setSearchKeyword] = useState('');
+  const [totalCount, setTotalCount] = useState(0); // 총 몇 페이지를 만들지 계산할 때 사용
   const [currentPage, setCurrentPage] = useState(1);
   const [orderBy, setOrderBy] = useState<'recent' | 'like'>('recent');
   const [myArticlesOnly, setMyArticlesOnly] = useState(false);
+  const [searchKeyword, setSearchKeyword] = useState('');
   const pageSize = 10;
   const router = useRouter();
 
   useEffect(() => {
+    // 베스트 게시글 불러오기
     const fetchBestArticles = async () => {
       try {
         const res = await axiosClient.get<GetArticlesResponse>('/articles', {
           params: {
             page: 1,
-            pageSize: 1000,
+            pageSize: 100,
             orderBy: 'like',
           },
         });
@@ -42,6 +44,7 @@ export default function ArticlesPage() {
   }, []);
 
   useEffect(() => {
+    // 조건에 따른 일반 게시글 불러오기
     const fetchArticles = async () => {
       try {
         const res = await axiosClient.get('/articles', {
@@ -54,30 +57,26 @@ export default function ArticlesPage() {
         });
 
         const allArticles = res.data.list;
-
         const storedUserId = localStorage.getItem('userId');
         const userId = storedUserId ? parseInt(storedUserId, 10) : null;
-
         let filtered = allArticles;
-
         if (myArticlesOnly && userId) {
+          // 내 게시글만 보기
           filtered = filtered.filter((article: Article) => article.writer.id === userId);
         }
-
         if (searchKeyword.trim()) {
+          // 키워드로 검색한 게시글 보기
           const lowerKeyword = searchKeyword.toLowerCase();
           filtered = filtered.filter((article: Article) =>
             article.title.toLowerCase().includes(lowerKeyword)
           );
         }
-
         setArticles(filtered);
         setTotalCount(res.data.totalCount);
       } catch (error) {
         console.error('Error fetching articles:', error);
       }
     };
-
     fetchArticles();
   }, [currentPage, orderBy, myArticlesOnly, searchKeyword]);
 
@@ -93,8 +92,14 @@ export default function ArticlesPage() {
           <h2 className="text-xl-bold">베스트 게시글</h2>
         </div>
         <div className="grid grid-cols-1 gap-4 md:grid-cols-2 lg:grid-cols-3">
-          {bestArticles.map((article) => (
-            <BestCard key={article.id} {...article} />
+          {bestArticles.slice(0, 1).map((article) => (
+            <BestCard key={`sm-${article.id}`} {...article} className="block md:hidden" />
+          ))}
+          {bestArticles.slice(0, 2).map((article) => (
+            <BestCard key={`md-${article.id}`} {...article} className="hidden md:block lg:hidden" />
+          ))}
+          {bestArticles.slice(0, 3).map((article) => (
+            <BestCard key={`lg-${article.id}`} {...article} className="hidden lg:block" />
           ))}
         </div>
       </section>
@@ -108,7 +113,7 @@ export default function ArticlesPage() {
               size="fullWidth"
               onClick={() => {
                 setMyArticlesOnly((prev) => !prev);
-                setCurrentPage(1); // reset to first page when toggled
+                setCurrentPage(1);
               }}
             >
               {myArticlesOnly ? '전체 게시글 보기' : '내 게시글 보기'}
@@ -117,7 +122,7 @@ export default function ArticlesPage() {
               onSelect={(selected) => {
                 const apiValue = selected === '최신순' ? 'recent' : 'like';
                 setOrderBy(apiValue);
-                setCurrentPage(1); // reset to first page when sort changes
+                setCurrentPage(1); // 조건이 바뀔 때마다 현재 페이지를 1페이지로 리셋
               }}
             />
           </div>
@@ -138,8 +143,11 @@ export default function ArticlesPage() {
         />
       </section>
 
-      <Button onClick={() => router.push('/addarticle')} className="fixed right-6 bottom-6">
-        {/* 나중에 게시글 생성하기 주소에 맞게 수정 필요 */}+ 글쓰기
+      <Button
+        onClick={() => router.push(`${PATHS.ARTICLES.NEW}`)}
+        className="fixed right-6 bottom-6"
+      >
+        + 글쓰기
       </Button>
     </main>
   );

@@ -1,9 +1,10 @@
 'use client';
 
+import Link from 'next/link';
+import Image from 'next/image';
 import { Article } from '@/types/article';
 import ArticleOptionsDropdown from './ArticleOptionsDropdown';
 import LikeToggleButton from './LikeToggleButton';
-import Link from 'next/link';
 
 const DEFAULT_IMAGE = process.env.NEXT_PUBLIC_DEFAULT_IMAGE;
 
@@ -18,8 +19,8 @@ export default function Card(props: Article) {
         </Link>
         <div className="flex items-start gap-4">
           <div className="h-18 w-18 shrink-0 overflow-hidden rounded-md">
-            {image?.trim() && image !== DEFAULT_IMAGE?.replace(/['"]/g, '') && (
-              <img
+            {image?.trim() && image !== DEFAULT_IMAGE && (
+              <Image
                 width={72}
                 height={72}
                 src={image}
@@ -34,18 +35,9 @@ export default function Card(props: Article) {
 
       <div className="flex items-center justify-between">
         <div className="flex items-center gap-2">
-          <div className="g-3 flex h-8 max-w-30 items-center gap-3">
-            {/* <Image
-              width={32}
-              height={32}
-              alt="프로필 이미지"
-              src="/icons/profile-icon.svg"
-              className="rounded-full"
-            /> */}
-            <span className="text-md-md overflow-hidden text-ellipsis whitespace-nowrap">
-              {writer.nickname}
-            </span>
-          </div>
+          <span className="text-md-md overflow-hidden text-ellipsis whitespace-nowrap">
+            {writer.nickname}
+          </span>
           <span className="text-bg100">|</span>
           <span className="text-md-md text-gray400">
             {new Date(createdAt).toLocaleDateString()}

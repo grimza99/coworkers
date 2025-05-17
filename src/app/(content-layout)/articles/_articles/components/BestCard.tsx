@@ -7,11 +7,17 @@ import LikeToggleButton from './LikeToggleButton';
 
 const DEFAULT_IMAGE = process.env.NEXT_PUBLIC_DEFAULT_IMAGE;
 
-export default function BestCard(props: Article) {
-  const { title, image, writer, createdAt, likeCount } = props;
-
+export default function BestCard({
+  title,
+  image,
+  writer,
+  createdAt,
+  likeCount,
+  id,
+  className = '',
+}: Article & { className?: string }) {
   return (
-    <div className="relative h-[178px] w-full md:h-55">
+    <div className={`relative h-[178px] w-full md:h-55 ${className}`}>
       <div className="absolute top-4 left-6 flex items-center gap-1">
         <Image
           src="/icons/medal.svg"
@@ -26,7 +32,7 @@ export default function BestCard(props: Article) {
       <div className="border-bg100 bg-bg200 flex h-full flex-col gap-1 rounded-lg border px-4 pt-10 pb-4 md:gap-5 md:px-6 md:pt-12 md:pb-4">
         <div className="flex flex-col gap-1 md:gap-3">
           <div className="flex justify-between gap-4">
-            <Link href={`/articles/${props.id}`}>
+            <Link href={`/articles/${id}`}>
               <h3 className="text-2lg-md text-gray300">
                 {title.length > 30 ? `${title.slice(0, 30)}...` : title}
               </h3>
@@ -51,21 +57,11 @@ export default function BestCard(props: Article) {
         </div>
 
         <div className="flex items-center justify-between">
-          <div className="g-3 flex h-8 max-w-30 items-center gap-3">
-            {/* <Image
-              width={32}
-              height={32}
-              alt="프로필 이미지"
-              src="/icons/profile-icon.svg"
-              className="rounded-full"
-            /> */}
-            <span className="text-md-md overflow-hidden text-ellipsis whitespace-nowrap">
-              {writer.nickname}
-            </span>
-          </div>
-
+          <span className="text-md-md overflow-hidden text-ellipsis whitespace-nowrap">
+            {writer.nickname}
+          </span>
           <div className="flex gap-1">
-            <LikeToggleButton articleId={props.id} initialCount={likeCount} />
+            <LikeToggleButton articleId={id} initialCount={likeCount} />
           </div>
         </div>
       </div>
