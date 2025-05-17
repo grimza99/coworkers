@@ -60,7 +60,7 @@ export default function Page({ params }: Props) {
             <Image src={calendar} width={24} height={24} alt=">" />
           </button>
           {isCalendarOpen && (
-            <div ref={ref} className="absolute top-0 -right-90">
+            <div ref={ref} className="absolute top-10 z-100 w-80 md:top-0 md:-right-90 md:w-100">
               <CalendarSelect
                 date={currentDate}
                 onDateChange={(value) => {
