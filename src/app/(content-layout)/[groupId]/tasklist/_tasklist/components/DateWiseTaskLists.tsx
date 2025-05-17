@@ -4,6 +4,8 @@ import clsx from 'clsx';
 import axiosClient from '@/lib/axiosClient';
 import { Task, TaskList } from '../types/task-type';
 import TasksWiseTask from './TasksWiseTask';
+import { SortableContext, verticalListSortingStrategy } from '@dnd-kit/sortable';
+import { DndContext } from '@dnd-kit/core';
 
 interface Props {
   date: Date;
@@ -112,18 +114,22 @@ export default function DateWiseTaskLists({ date, groupId, updateTaskListId }: P
       </div>
       <div className="mb-20 flex h-full flex-col items-center justify-start overflow-auto lg:mb-30 xl:mb-50">
         {currentTasks.length > 0 && currentTaskList ? (
-          <div className="flex h-full w-full flex-col gap-4">
-            {currentTasks.map((task) => {
-              return (
-                <TasksWiseTask
-                  taskListId={currentTaskList.id}
-                  task={task}
-                  key={task.id}
-                  groupId={groupId}
-                />
-              );
-            })}
-          </div>
+          <DndContext>
+            <SortableContext strategy={verticalListSortingStrategy} items={currentTasks}>
+              <div className="flex h-full w-full flex-col gap-4">
+                {currentTasks.map((task) => {
+                  return (
+                    <TasksWiseTask
+                      taskListId={currentTaskList.id}
+                      task={task}
+                      key={task.id}
+                      groupId={groupId}
+                    />
+                  );
+                })}
+              </div>
+            </SortableContext>
+          </DndContext>
         ) : (
           <p className="text-md-md text-gray500">
             아직 할 일이 없습니다.
