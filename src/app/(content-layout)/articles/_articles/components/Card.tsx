@@ -36,13 +36,13 @@ export default function Card(props: Article) {
       <div className="flex items-center justify-between">
         <div className="flex items-center gap-2">
           <div className="g-3 flex h-8 max-w-30 items-center gap-3">
-            <Image
+            {/* <Image
               width={32}
               height={32}
               alt="프로필 이미지"
-              src="/icons/profile-icon.svg" // 프로필이미지를 어떻게 가져오지?
+              src="/icons/profile-icon.svg"
               className="rounded-full"
-            />
+            /> */}
             <span className="text-md-md overflow-hidden text-ellipsis whitespace-nowrap">
               {writer.nickname}
             </span>
