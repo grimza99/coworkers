@@ -92,7 +92,7 @@ export default function DateWiseTaskLists({ date, groupId, updateTaskListId }: P
 
   return (
     <div className="relative flex h-full flex-col gap-4">
-      <div className="flex h-fit max-w-full gap-3 overflow-x-auto overflow-y-hidden">
+      <div className="scrollbar-hidden flex h-fit max-w-full gap-3 overflow-x-auto overflow-y-hidden">
         {taskLists.map((taskList) => {
           return (
             <p
