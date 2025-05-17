@@ -21,7 +21,7 @@ export default function GroupDropdownSelector({
 
   return (
     <OptionSelector
-      placement=""
+      placement="mt-6 right-0"
       size="xl"
       defaultValue={selectedGroup?.name}
       options={groups.map((group) => (
