@@ -12,21 +12,46 @@ import {
 import Button from '../common/Button';
 import { useEffect } from 'react';
 import { useRouter } from 'next/navigation';
+import { getUserApiResponse } from '@/types/user';
+import axiosClient from '@/lib/axiosClient';
+import { setClientCookie } from '@/lib/cookie/client';
+import { Toast } from '../common/Toastify';
 
 interface Props {
   nickname: string;
+  email: string;
+  password: string;
 }
 
-export default function SignupSuccessModal({ nickname }: Props) {
+export default function SignupSuccessModal({ nickname, email, password }: Props) {
   const router = useRouter();
 
   useEffect(() => {
-    const timer = setTimeout(() => {
-      router.push('/teams');
+    const timer = setTimeout(async () => {
+      try {
+        const loginRes = await axiosClient.post(`/auth/signIn`, {
+          email,
+          password,
+        });
+
+        const { accessToken, refreshToken } = loginRes.data;
+
+        setClientCookie('accessToken', accessToken);
+        setClientCookie('refreshToken', refreshToken);
+
+        const userRes = await axiosClient.get(`/user`);
+        const user: getUserApiResponse = userRes.data;
+        console.log('로그인된 유저의 groupId:', user.memberships?.[0]?.groupId);
+
+        router.push('/nogroup');
+      } catch {
+        Toast.error('자동 로그인에 실패했습니다. 로그인 페이지로 이동합니다.');
+        router.push('/login');
+      }
     }, 5000);
 
     return () => clearTimeout(timer);
-  }, [router]);
+  }, [router, email, password]);
 
   return (
     <ModalPortal modalId="signup-success">

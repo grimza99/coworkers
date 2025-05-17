@@ -4,43 +4,47 @@ import { useState, ChangeEvent } from 'react';
 import axiosClient from '@/lib/axiosClient';
 import FormField from '@/components/common/formField';
 import Button from '@/components/common/Button';
+import PasswordToggleButton from './PasswordToggleButton';
+import usePasswordVisibility from '@/utils/use-password-visibility';
+import useModalContext from '@/components/common/modal/core/useModalContext';
+import SignupSuccessModal from '@/components/signup-alert-modal/SignupSuccessModal';
 import {
   validateEmail,
   validatePassword,
   validateConfirmPassword,
   validateLengthLimit,
 } from '@/utils/validators';
-import PasswordToggleButton from './PasswordToggleButton';
-import usePasswordVisibility from '@/utils/use-password-visibility';
-import SignupFailModal from '@/components/signup-alert-modal/SignupFailModal';
-import SignupSuccessModal from '@/components/signup-alert-modal/SignupSuccessModal';
-import useModalContext from '@/components/common/modal/core/useModalContext';
 import { AUTH_ERROR_MESSAGES } from '@/constants/messages/signup';
+import { Toast } from '@/components/common/Toastify';
+
+interface ErrorResponse {
+  response?: {
+    data: {
+      message: string;
+    };
+  };
+}
 
 export default function SignupForm() {
-  const { isPasswordVisible, togglePasswordVisibility } = usePasswordVisibility();
   const { openModal } = useModalContext();
-
+  const { isPasswordVisible, togglePasswordVisibility } = usePasswordVisibility();
   const [formData, setFormData] = useState({
     nickname: '',
     email: '',
     password: '',
     passwordConfirmation: '',
   });
-
-  const [duplicateError, setDuplicateError] = useState({
-    nickname: false,
-    email: false,
-  });
-
-  const [isSuccess, setIsSuccess] = useState(false);
-
   const setFieldValue = (key: keyof typeof formData, value: string) => {
     setFormData((prev) => ({
       ...prev,
       [key]: value.trim(),
     }));
   };
+  const [isSuccess, setIsSuccess] = useState(false);
+  const [duplicateError, setDuplicateError] = useState({
+    nickname: false,
+    email: false,
+  });
 
   function getNicknameErrorMessage() {
     if (formData.nickname.trim() === '') {
@@ -132,13 +136,6 @@ export default function SignupForm() {
       ),
     },
   ];
-  interface ErrorResponse {
-    response?: {
-      data?: {
-        message?: string;
-      };
-    };
-  }
 
   const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
@@ -161,7 +158,7 @@ export default function SignupForm() {
         nickname: message.includes('닉네임'),
       });
 
-      openModal('signup-fail');
+      Toast.error('회원가입에 실패했습니다. 입력 정보를 다시 확인해주세요.');
     }
   };
 
@@ -194,8 +191,13 @@ export default function SignupForm() {
       <Button type="submit" variant="solid" size="fullWidth" fontSize="16" disabled={isFormInvalid}>
         회원가입
       </Button>
-      <SignupFailModal />
-      {isSuccess && <SignupSuccessModal nickname={formData.nickname} />}
+      {isSuccess && (
+        <SignupSuccessModal
+          nickname={formData.nickname}
+          email={formData.email}
+          password={formData.password}
+        />
+      )}
     </form>
   );
 }
