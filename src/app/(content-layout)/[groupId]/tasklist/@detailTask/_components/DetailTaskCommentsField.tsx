@@ -15,7 +15,8 @@ interface Props {
 export default function DetailTaskCommentField({ taskId }: Props) {
   const [commentValue, setCommentValue] = useState('');
   const [currentComments, setCurrentComments] = useState<Comment[]>([]);
-  const [canSubmit, setCanSubmit] = useState(false);
+
+  const canSubmit = commentValue.trim() !== '';
 
   const fetchComments = useCallback(async () => {
     if (!taskId) return;
@@ -34,22 +35,18 @@ export default function DetailTaskCommentField({ taskId }: Props) {
   const handleChangeComment = (e: React.ChangeEvent<HTMLTextAreaElement>) => {
     const value = e.currentTarget.value;
     setCommentValue(value);
-    setCanSubmit(value.trim() !== '');
   };
 
   const handleSubmitComment = async () => {
-    setCanSubmit(false);
     try {
       const { data } = await axiosClient.post(`/tasks/${taskId}/comments`, {
         content: commentValue,
       });
       setCurrentComments((prev) => [...prev, data]);
-      setCommentValue('');
     } catch {
       Toast.error('댓글 생성에 실패 했습니다.');
-      setCommentValue('');
     } finally {
-      setCanSubmit(true);
+      setCommentValue('');
     }
   };
 
