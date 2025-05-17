@@ -60,12 +60,17 @@ export default function CreateTaskListModal({ groupId }: Props) {
                 value={currentValue}
                 onChange={handleChange}
               />
+              <ModalFooter className="mt-6 w-full">
+                <Button
+                  onClick={handleSubmitCreateTaskList}
+                  fontSize="16"
+                  size="fullWidth"
+                  disabled={currentValue === ''}
+                >
+                  만들기
+                </Button>
+              </ModalFooter>
             </div>
-            <ModalFooter className="w-full">
-              <Button onClick={handleSubmitCreateTaskList} fontSize="16" size="fullWidth">
-                만들기
-              </Button>
-            </ModalFooter>
           </ModalContainer>
         </ModalOverlay>
       </ModalPortal>
