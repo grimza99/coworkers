@@ -3,11 +3,11 @@ import TaskListItem from '@/components/task-list-item/TaskListItem';
 import { format, isValid } from 'date-fns';
 import { useState } from 'react';
 import { Task } from '../types/task-type';
-import { DetailTask } from './DetailTask';
 import RemoveTaskModal from './ModalContents/RemoveTaskModal';
 import { useTaskActions } from '../hooks/use-task-actions';
 import { useTaskModals } from '../hooks/use-task-modals';
 import ManageTaskItemModal from './manage-task-item-modal/MangeTaskItemModal';
+import DetailTaskContainer from '../../@detailTask/page';
 
 interface Props {
   task: Task;
@@ -23,7 +23,7 @@ export default function TasksWiseTask({ task, groupId, taskListId }: Props) {
   const taskDeleteModalId = `${task.id}-delete`;
   const createOrEditModalId = task ? `${task.id}-edit` : `${taskListId}-create`;
 
-  const { popUpDeleteTaskModal, popUpEditTaskModal, popUpDetailTask } = useTaskModals();
+  const { popUpDeleteTaskModal, popUpEditTaskModal } = useTaskModals();
   const { deleteTask } = useTaskActions();
   const { toggleTaskDone } = useTaskActions(task);
 
@@ -40,12 +40,16 @@ export default function TasksWiseTask({ task, groupId, taskListId }: Props) {
     setIsDone((prev) => !prev);
   };
 
-  const detailTaskOpen = () => {
-    setIsDetailTaskOpen((prev) => !prev);
-  };
-
   const setTaskToDeleteState = () => {
     setIsDelete(true);
+  };
+
+  const openDetailTask = () => {
+    setIsDetailTaskOpen(true);
+  };
+
+  const closeDetailTask = () => {
+    setIsDetailTaskOpen(false);
   };
 
   return (
@@ -60,20 +64,20 @@ export default function TasksWiseTask({ task, groupId, taskListId }: Props) {
             }
             onEdit={() => popUpEditTaskModal(createOrEditModalId)}
             onDelete={() => popUpDeleteTaskModal(taskDeleteModalId)}
-            onClick={() => popUpDetailTask(detailTaskOpen)}
+            onClick={() => openDetailTask()}
             isDone={isDone}
             name={task.name}
             commentCount={task.commentCount}
             date={safeFormatDate(task.date)}
             frequency={task.frequency}
           />
-          <DetailTask
+          <DetailTaskContainer
             isDone={isDone}
             setIsDone={toggleTaskStatus}
             taskId={task.id}
             groupId={groupId}
             taskListId={taskListId}
-            setIsOpen={detailTaskOpen}
+            closeDetailTask={closeDetailTask}
             isOpen={isDetailTaskOpen}
           />
           <RemoveTaskModal

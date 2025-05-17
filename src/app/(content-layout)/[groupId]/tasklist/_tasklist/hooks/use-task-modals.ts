@@ -1,11 +1,12 @@
+type TaskModals = {
+  popUpDeleteTaskModal: (modalId: string) => void;
+  popUpEditTaskModal: (modalId: string) => void;
+};
+
 import useModalContext from '@/components/common/modal/core/useModalContext';
 
-export function useTaskModals() {
+export function useTaskModals(): TaskModals {
   const { openModal } = useModalContext();
-
-  const popUpDetailTask = (setIsOpen: () => void) => {
-    setIsOpen();
-  };
 
   const popUpEditTaskModal = (modalId: string) => {
     openModal(modalId);
@@ -16,7 +17,6 @@ export function useTaskModals() {
   };
 
   return {
-    popUpDetailTask,
     popUpEditTaskModal,
     popUpDeleteTaskModal,
   };
