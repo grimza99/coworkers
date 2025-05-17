@@ -65,7 +65,7 @@ export default function DateWiseTaskLists({ date, groupId, updateTaskListId }: P
             <p className="text-md-md text-gray500">
               아직 할 일 목록이 없습니다.
               <br />
-              새로운 목록을 추가해주세요.
+              새로운 목록을 추가 해주세요.
             </p>
           </div>
         );
@@ -127,7 +127,7 @@ export default function DateWiseTaskLists({ date, groupId, updateTaskListId }: P
         ) : (
           <p className="text-md-md text-gray500">
             아직 할 일이 없습니다.
-            <br />할 일을 추가해보세요.
+            <br />할 일을 추가 해보세요.
           </p>
         )}
       </div>
