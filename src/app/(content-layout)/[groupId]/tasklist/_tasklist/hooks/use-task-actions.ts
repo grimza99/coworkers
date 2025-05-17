@@ -1,33 +1,48 @@
 import axiosClient from '@/lib/axiosClient';
 import { Task } from '../types/task-type';
+import { Toast } from '@/components/common/Toastify';
 
 export function useTaskActions(task?: Task) {
-  const editTask = () => {
-    //수정 리퀘스트
-  };
-
-  const deleteTask = async (groupId: string, taskListId: number, taskId: number) => {
-    await axiosClient.delete(`/groups/${groupId}/task-lists/${taskListId}/tasks/${taskId}`);
+  const deleteTask = async (
+    groupId: string,
+    taskListId: number,
+    taskId: number,
+    setTaskToDeleteState: () => void
+  ) => {
+    try {
+      await axiosClient.delete(`/groups/${groupId}/task-lists/${taskListId}/tass/${taskId}`);
+      setTaskToDeleteState();
+      Toast.success('할 일을 삭제 했습니다.');
+    } catch {
+      Toast.error('할 일 삭제 실패');
+    }
   };
 
   const toggleTaskDone = async (
     groupId: string,
     taskListId: number,
-    isDone: boolean,
-    setIsDone: () => void
+    doneState: boolean,
+    toggleDoneState: () => void
   ) => {
     if (!task) return;
-    await axiosClient.patch(`/groups/${groupId}/task-lists/${taskListId}/tasks/${task.id}`, {
-      name: task.name,
-      description: task.description,
-      done: !isDone,
-    });
-    setIsDone();
+    try {
+      await axiosClient.patch(`/groups/${groupId}/task-lists/${taskListId}/tasks/${task.id}`, {
+        name: task.name,
+        description: task.description,
+        done: !doneState,
+      });
+      toggleDoneState();
+
+      if (doneState) return Toast.success('할 일 완료 취소 성공');
+      if (!doneState) return Toast.success('할 일 완료 성공');
+    } catch {
+      if (doneState) return Toast.error('할 일 완료 취소 실패');
+      if (!doneState) return Toast.error('할 일 완료 실패');
+    }
   };
 
   return {
     deleteTask,
-    editTask,
     toggleTaskDone,
   };
 }

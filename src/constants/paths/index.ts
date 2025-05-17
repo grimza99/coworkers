@@ -8,10 +8,12 @@ const PATHS = {
   SIGNUP: '/signup',
   SIGNUP_KAKAO: '/oauth/signup/kakao',
   MYPAGE: '/mypage',
+  EDITGROUP: '/editgroup',
+  NOGROUP: '/nogroup',
   ADDGROUP: '/addgroup',
+  JOINGROUP: '/joingroup',
   MYHISTORY: '/myhistory',
   BOARDS: '/articles',
-  NO_GROUP: '/nogroup',
 
   getGroupPath: (groupId: groupId) => `${groupId}`,
   getGroupTaskListPath: (groupId: groupId) => `${groupId}/tasklist`,

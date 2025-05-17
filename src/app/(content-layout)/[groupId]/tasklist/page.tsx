@@ -12,16 +12,13 @@ import { ko } from 'date-fns/locale';
 import CalendarSelect from '@/components/calendar/CalendarSelect';
 import { useOutSideClickAutoClose } from '@/utils/use-outside-click-auto-close';
 import ManageTaskItemModal from './_tasklist/components/manage-task-item-modal/MangeTaskItemModal';
+import TaskListPageFallBack from './error';
+import { ErrorBoundary } from 'react-error-boundary';
 
 interface Props {
   params: Promise<{ groupId: string }>;
 }
 
-/*
- * @Todo
- * 1. 할일추가 버튼으로 할일 생성 모달 띄우기 -> 할일 생성 리퀘스트
- * 2. repeat, 매일반복부분 팀미팅 후 수정
- */
 export default function Page({ params }: Props) {
   const { groupId } = use(params);
   const [currentDate, setCurrentDate] = useState(new Date());
@@ -46,7 +43,7 @@ export default function Page({ params }: Props) {
   };
 
   return (
-    <div className="relative flex h-[calc(100vh-84px)] w-full flex-col gap-6">
+    <div className="flex w-full flex-col gap-6 pb-25">
       <p className="text-lg-bold md:text-xl-bold">할 일</p>
       <div className="flex justify-between">
         <div className="relative flex items-center gap-3">
@@ -76,8 +73,14 @@ export default function Page({ params }: Props) {
         </div>
         <CreateTaskListModal groupId={groupId} />
       </div>
-      <DateWiseTaskList groupId={groupId} date={currentDate} updateTaskListId={updateTaskListId} />
-      <ManageTaskItemModal groupId={Number(groupId)} taskListId={taskListId} />
+      <ErrorBoundary fallbackRender={({ error }) => <TaskListPageFallBack error={error} />}>
+        <DateWiseTaskList
+          groupId={groupId}
+          date={currentDate}
+          updateTaskListId={updateTaskListId}
+        />
+        <ManageTaskItemModal groupId={Number(groupId)} taskListId={taskListId} />
+      </ErrorBoundary>
     </div>
   );
 }
