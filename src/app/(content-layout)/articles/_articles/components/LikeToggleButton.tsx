@@ -3,6 +3,7 @@
 import { useState } from 'react';
 import HeartIcon from '@/assets/HeartIcon';
 import axiosClient from '@/lib/axiosClient';
+import { Toast } from '@/components/common/Toastify';
 
 interface LikeToggleButtonProps {
   articleId: number;
@@ -26,7 +27,8 @@ export default function LikeToggleButton({
       setLiked(res.data.isLiked);
       setCount(res.data.likeCount);
     } catch (error) {
-      console.error('Error toggling like:', error);
+      Toast.error('좋아요 처리 중 문제가 발생했습니다.');
+      console.error('좋아요 처리 실패:', error);
     }
   };
 

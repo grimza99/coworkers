@@ -11,6 +11,7 @@ import Pagination from './_articles/components/Pagination';
 import { Article, GetArticlesResponse } from '@/types/article';
 import axiosClient from '@/lib/axiosClient';
 import PATHS from '@/constants/paths';
+import { Toast } from '@/components/common/Toastify';
 
 export default function ArticlesPage() {
   const [articles, setArticles] = useState<Article[]>([]);
@@ -37,7 +38,8 @@ export default function ArticlesPage() {
         const sortedByLike = res.data.list.sort((a, b) => b.likeCount - a.likeCount);
         setBestArticles(sortedByLike.slice(0, 3));
       } catch (error) {
-        console.error('Error fetching best articles:', error);
+        Toast.error('베스트 게시글을 불러오는 데 실패했습니다.');
+        console.error('베스트 게시글을 불러오기 실패', error);
       }
     };
     fetchBestArticles();
@@ -74,7 +76,8 @@ export default function ArticlesPage() {
         setArticles(filtered);
         setTotalCount(res.data.totalCount);
       } catch (error) {
-        console.error('Error fetching articles:', error);
+        console.error('게시글 불러오기 실패:', error);
+        Toast.error('게시글을 불러오는 데 실패했습니다.');
       }
     };
     fetchArticles();
