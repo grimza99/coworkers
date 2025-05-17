@@ -43,7 +43,7 @@ export default function Card(props: Article) {
             {new Date(createdAt).toLocaleDateString()}
           </span>
         </div>
-        <LikeToggleButton articleId={props.id} initialCount={likeCount} />
+        <LikeToggleButton articleId={props.id} likeCount={likeCount} />
       </div>
     </div>
   );

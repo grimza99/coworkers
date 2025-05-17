@@ -61,7 +61,7 @@ export default function BestCard({
             {writer.nickname}
           </span>
           <div className="flex gap-1">
-            <LikeToggleButton articleId={id} initialCount={likeCount} />
+            <LikeToggleButton articleId={id} likeCount={likeCount} />
           </div>
         </div>
       </div>

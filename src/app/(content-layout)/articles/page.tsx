@@ -113,7 +113,7 @@ export default function ArticlesPage() {
               size="fullWidth"
               onClick={() => {
                 setMyArticlesOnly((prev) => !prev);
-                setCurrentPage(1);
+                setCurrentPage(1); // 조건이 바뀔 때마다 현재 페이지를 1페이지로 리셋
               }}
             >
               {myArticlesOnly ? '전체 게시글 보기' : '내 게시글 보기'}

@@ -7,16 +7,16 @@ import axiosClient from '@/lib/axiosClient';
 interface LikeToggleButtonProps {
   articleId: number;
   isLiked?: boolean;
-  initialCount?: number;
+  likeCount: number;
 }
 
 export default function LikeToggleButton({
   articleId,
   isLiked = false,
-  initialCount = 0,
+  likeCount = 0,
 }: LikeToggleButtonProps) {
   const [liked, setLiked] = useState(isLiked);
-  const [count, setCount] = useState(initialCount);
+  const [count, setCount] = useState(likeCount);
 
   const toggleLike = async () => {
     try {

@@ -1,6 +1,5 @@
 import NextArrowIcon from '@/assets/NextArrow';
 import PrevArrowIcon from '@/assets/PrevArrow';
-import React from 'react';
 
 interface Props {
   currentPage: number;
