@@ -1,6 +1,5 @@
 'use client';
 
-import Image from 'next/image';
 import { Article } from '@/types/article';
 import ArticleOptionsDropdown from './ArticleOptionsDropdown';
 import LikeToggleButton from './LikeToggleButton';
