@@ -1,5 +1,5 @@
 import axios from 'axios';
-import { getClientCookie, setClientCookie } from './cookie/client';
+import { getClientCookie, setClientCookie } from '@/lib/cookie/client';
 import PATHS from '@/constants/paths';
 
 const BASE_URL = process.env.NEXT_PUBLIC_API_URL;
