@@ -26,8 +26,8 @@ export default function useManageTaskItem({
 
   const [isCalendarOpen, setIsCalendarOpen] = useState(false);
   const [taskItem, setTaskItem] = useState<TaskItem>(() => ({
-    name: task?.name ?? '',
-    description: task?.description ?? '',
+    name: detailTask?.name ?? '',
+    description: detailTask?.description ?? '',
     startDate: task?.startDate ?? startOfDay(new Date()),
     frequencyType: task?.frequencyType ?? 'ONCE',
   }));
@@ -36,9 +36,7 @@ export default function useManageTaskItem({
   const [weekDays, setWeekDays] = useState<number[]>([]);
 
   const initialSelectedTime = (): Time => {
-    if (!task?.startDate) {
-      return { period: '오전', time: am[0] };
-    }
+    if (!task?.startDate) return { period: '오전', time: am[0] };
 
     const date = new Date(task?.startDate);
     const hours = date.getHours();
@@ -183,11 +181,14 @@ export default function useManageTaskItem({
     e.preventDefault();
 
     try {
-      await axiosClient.patch(`/groups/${groupId}/task-lists/${taskListId}/tasks/${task?.id}`, {
-        done: isDone,
-        name: taskItem.name,
-        description: taskItem.description,
-      });
+      await axiosClient.patch(
+        `/groups/${groupId}/task-lists/${taskListId}/tasks/${detailTask?.id}`,
+        {
+          done: isDone,
+          name: taskItem.name,
+          description: taskItem.description,
+        }
+      );
 
       // const promises = [updateTaskPromise];
 
