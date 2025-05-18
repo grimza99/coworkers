@@ -26,6 +26,8 @@ export default function ManageTaskItem({
     isOnce,
     isCalendarOpen,
     isTimeOpen,
+    isPending,
+    isTaskItemValid,
     select,
     handleInputChange,
     handleCalendarDateChange,
@@ -33,7 +35,7 @@ export default function ManageTaskItem({
     createOrEditSubmit,
     toggleDay,
     updateTime,
-    closeModal,
+    closeTaskItemModal,
   } = useManageTaskItem({ detailTask, groupId, taskListId, isDone, createOrEditModalId });
 
   const createOrEdit = detailTask ? '수정하기' : '만들기';
@@ -116,11 +118,16 @@ export default function ManageTaskItem({
             height={75}
           />
           <ModalFooter className="w-full">
-            <Button onClick={closeModal} variant="outline-primary" size="fullWidth">
+            <Button onClick={closeTaskItemModal} variant="outline-primary" size="fullWidth">
               취소
             </Button>
-            <Button type="submit" variant="solid" size="fullWidth">
-              {createOrEdit}
+            <Button
+              type="submit"
+              variant="solid"
+              size="fullWidth"
+              disabled={!detailTask && (!isTaskItemValid || isPending)}
+            >
+              {isPending ? '...' : createOrEdit}
             </Button>
           </ModalFooter>
         </form>

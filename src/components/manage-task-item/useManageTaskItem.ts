@@ -5,6 +5,8 @@ import generateTime from './time-table';
 import { TaskItemProps, TaskItem, Time } from './type';
 import axiosClient from '@/lib/axiosClient';
 import useModalContext from '../common/modal/core/useModalContext';
+import { validateEmptyValue } from '@/utils/validators';
+import { Toast } from '../common/Toastify';
 
 const REVERSE_FREQUENCY_MAP: Record<string, Frequency> = {
   '한 번': 'ONCE',
@@ -34,6 +36,7 @@ export default function useManageTaskItem({
   const [isTimeOpen, setIsTimeOpen] = useState(false);
   const [selectedFrequency, setSelectedFrequency] = useState('');
   const [weekDays, setWeekDays] = useState<number[]>([]);
+  const [isPending, setIsPending] = useState(false);
 
   const initialSelectedTime = (): Time => {
     if (!task?.startDate) return { period: '오전', time: am[0] };
@@ -144,8 +147,16 @@ export default function useManageTaskItem({
     setIsFrequencyDelete(true);
   };
 
+  const isTaskItemValid =
+    !validateEmptyValue(taskItem.name) && !validateEmptyValue(taskItem.description);
+
+  const isEqualTaskItem =
+    taskItem.name === detailTask?.name && taskItem.description === detailTask?.description;
+
   const handleCreateTaskItemSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
+
+    if (!isTaskItemValid) return;
 
     try {
       const updatedStartDate = createStartDate(taskItem.startDate, time);
@@ -168,19 +179,28 @@ export default function useManageTaskItem({
           monthDay: getDate(finalTaskItem.startDate),
         };
       }
-
+      setIsPending(true);
       await axiosClient.post(`/groups/${groupId}/task-lists/${taskListId}/tasks`, finalTaskItem);
 
       closeTaskItemModal();
-    } catch (err) {
-      console.error(err);
+    } catch {
+      Toast.error('할 일 생성 실패');
+    } finally {
+      setIsPending(false);
     }
   };
 
   const handleEditTaskItemSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
 
+    if (isEqualTaskItem) {
+      Toast.info('변경된 내용이 없습니다.');
+      return;
+    }
+
     try {
+      setIsPending(true);
+
       await axiosClient.patch(
         `/groups/${groupId}/task-lists/${taskListId}/tasks/${detailTask?.id}`,
         {
@@ -203,8 +223,10 @@ export default function useManageTaskItem({
       // await Promise.all(promises);
 
       closeTaskItemModal();
-    } catch (err) {
-      console.error(err);
+    } catch {
+      Toast.error('할 일 수정 실패');
+    } finally {
+      setIsPending(false);
     }
   };
 
@@ -221,6 +243,8 @@ export default function useManageTaskItem({
     isOnce,
     isCalendarOpen,
     isTimeOpen,
+    isPending,
+    isTaskItemValid,
     select,
     handleInputChange,
     handleCalendarDateChange,
@@ -229,6 +253,6 @@ export default function useManageTaskItem({
     createOrEditSubmit,
     toggleDay,
     updateTime,
-    closeModal: closeTaskItemModal,
+    closeTaskItemModal,
   };
 }
