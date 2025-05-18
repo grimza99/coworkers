@@ -17,7 +17,7 @@ export default function ManageTaskItemModal({
       {!detailTask && (
         <ModalTrigger
           modalId={modalId}
-          className="text-lg-semi bg-primary absolute right-7 bottom-35 flex h-12 w-[125px] items-center justify-center rounded-[40px] text-white"
+          className="text-lg-semi bg-primary fixed right-1/20 bottom-5.5 flex h-12 w-[125px] items-center justify-center rounded-[40px] text-white md:bottom-6 lg:right-1/10 lg:bottom-15"
         >
           <Plus width="16" height="16" /> 할 일 추가
         </ModalTrigger>

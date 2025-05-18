@@ -6,6 +6,7 @@ import EditCommentInput from './EditCommentInput';
 import axiosClient from '@/lib/axiosClient';
 import useModalContext from '@/components/common/modal/core/useModalContext';
 import RemoveCommentModal from '../../_tasklist/components/ModalContents/RemoveCommentModal';
+import { Toast } from '@/components/common/Toastify';
 
 interface Props {
   comment: Comment;
@@ -32,8 +33,9 @@ export default function CommentField({ comment, taskId }: Props) {
     try {
       await axiosClient.delete(`/tasks/${taskId}/comments/${comment.id}`);
       setIsDelete(true);
+      Toast.success('댓글을 삭제했습니다.');
     } catch {
-      //toast 예정-선향
+      Toast.error('댓글 삭제에 실패 했습니다.');
     }
   };
 
@@ -52,8 +54,9 @@ export default function CommentField({ comment, taskId }: Props) {
       });
       setCurrentComment((prev) => ({ ...prev, content: currentContent }));
       onEditCancel();
-    } catch {
-      //toast 예정-선향
+    } catch (err) {
+      console.error(err);
+      Toast.error('댓글 수정에 실패 했습니다.');
     }
   };
 

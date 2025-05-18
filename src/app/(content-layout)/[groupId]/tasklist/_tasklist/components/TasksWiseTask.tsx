@@ -7,8 +7,8 @@ import RemoveTaskModal from './ModalContents/RemoveTaskModal';
 import { useTaskActions } from '../hooks/use-task-actions';
 import { useTaskModals } from '../hooks/use-task-modals';
 import ManageTaskItemModal from './manage-task-item-modal/MangeTaskItemModal';
-import DetailTask from '../../@detailTask/page';
 import getDetailTaskItem from '@/lib/api/detail-task-item';
+import DetailTaskContainer from '../../@detailTask/page';
 
 interface Props {
   task: Task;
@@ -91,7 +91,7 @@ export default function TasksWiseTask({ task, groupId, taskListId }: Props) {
             date={safeFormatDate(task.date)}
             frequency={task.frequency}
           />
-          <DetailTask
+          <DetailTaskContainer
             isDone={isDone}
             setIsDone={toggleTaskStatus}
             taskId={task.id}
