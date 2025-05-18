@@ -21,10 +21,11 @@ export default function TasksWiseTask({ task, groupId, taskListId }: Props) {
   const [isDelete, setIsDelete] = useState(false);
   const [isDetailTaskOpen, setIsDetailTaskOpen] = useState(false);
   const [detailTask, setDetailTask] = useState<DetailTaskType>();
+  const [isDropdownOpen, setIsDropdownOpen] = useState(false);
 
   useEffect(() => {
     const fetchDetailItem = async () => {
-      if (!task) return;
+      if (!task || !isDropdownOpen) return;
       const taskId = task.id;
       const numberGroupId = Number(groupId);
 
@@ -32,7 +33,11 @@ export default function TasksWiseTask({ task, groupId, taskListId }: Props) {
       setDetailTask(data);
     };
     fetchDetailItem();
-  }, [groupId, taskListId, task]);
+  }, [isDropdownOpen, groupId, taskListId, task]);
+
+  const checkDropdownOpen = () => {
+    setIsDropdownOpen((prev) => !prev);
+  };
 
   const taskDeleteModalId = `${task.id}-delete`;
   const createOrEditModalId = task ? `${task.id}-edit` : `${taskListId}-create`;
@@ -73,6 +78,7 @@ export default function TasksWiseTask({ task, groupId, taskListId }: Props) {
           <TaskListItem
             key={task.id}
             type="taskList"
+            checkDropdownOpen={checkDropdownOpen}
             onCheckStatusChange={() =>
               toggleTaskDone(groupId, taskListId, isDone, toggleTaskStatus)
             }
