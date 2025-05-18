@@ -23,10 +23,10 @@ export default function ManageTaskItem({
     selectedTime,
     weekDays,
     isWeekly,
+    isOnce,
     isCalendarOpen,
     isTimeOpen,
     select,
-    frequencyDefaultValue,
     handleInputChange,
     handleCalendarDateChange,
     handleFrequencyChange,
@@ -37,6 +37,8 @@ export default function ManageTaskItem({
   } = useManageTaskItem({ task, groupId, taskListId, isDone, createOrEditModalId });
 
   const createOrEdit = task ? '수정하기' : '만들기';
+
+  const isEdit = !!task;
 
   return (
     <div className="bg-bg200 w-[384px]">
@@ -68,7 +70,8 @@ export default function ManageTaskItem({
                     key={item.id}
                     onClick={item.onClick}
                     className={clsx(
-                      'text-gray500 text-md-rg sm:text-lg-rg bg-bg200 flex h-11 w-full cursor-pointer items-center gap-3 rounded-xl border px-4 py-2.5 sm:h-12',
+                      !isEdit && 'cursor-pointer',
+                      'text-gray500 text-md-rg sm:text-lg-rg bg-bg200 flex h-11 w-full items-center gap-3 rounded-xl border px-4 py-2.5 sm:h-12',
                       item.isOpen ? 'border-primary' : 'border-border',
                       item.flex
                     )}
@@ -81,21 +84,23 @@ export default function ManageTaskItem({
             {isCalendarOpen && (
               <CalendarSelect
                 onDateChange={handleCalendarDateChange}
-                date={taskItem.startDate as Date}
+                date={taskItem.startDate}
                 disablePast
               />
             )}
             {isTimeOpen && <TimePicker selectedTime={selectedTime} onTimeChange={updateTime} />}
           </div>
 
-          <div className="flex flex-col gap-4">
-            <label className="text-lg-md">반복 설정</label>
-            <Frequency
-              isEdit={!!task}
-              frequencyDefaultValue={frequencyDefaultValue}
-              handleFrequencyChange={handleFrequencyChange}
-            />
-          </div>
+          {!isOnce && (
+            <div className="flex flex-col gap-4">
+              <label className="text-lg-md">반복 설정</label>
+              <Frequency
+                isEdit={isEdit}
+                isOnce={isOnce}
+                handleFrequencyChange={handleFrequencyChange}
+              />
+            </div>
+          )}
 
           {isWeekly && (
             <WeeklySelect selectedDays={weekDays} toggleDay={(idx: number) => toggleDay(idx)} />

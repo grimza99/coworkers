@@ -210,9 +210,7 @@ export default function useManageTaskItem({
   };
 
   const isWeekly = selectedFrequency === '주 반복';
-  const isMonthly = selectedFrequency === '월 반복';
-
-  const frequencyDefaultValue = FREQUENCY_MAP[taskItem.frequencyType];
+  const isOnce = task?.frequency === 'ONCE';
 
   const createOrEditSubmit = task ? handleEditTaskItemSubmit : handleCreateTaskItemSubmit;
 
@@ -221,11 +219,10 @@ export default function useManageTaskItem({
     selectedTime,
     weekDays,
     isWeekly,
-    isMonthly,
+    isOnce,
     isCalendarOpen,
     isTimeOpen,
     select,
-    frequencyDefaultValue,
     handleInputChange,
     handleCalendarDateChange,
     handleFrequencyChange,

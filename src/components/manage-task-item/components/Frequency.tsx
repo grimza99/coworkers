@@ -5,7 +5,7 @@ import DangerModal from '@/components/danger-modal';
 
 interface Frequency {
   isEdit: boolean;
-  frequencyDefaultValue: string;
+  isOnce: boolean;
   handleFrequencyChange: (e: React.MouseEvent<HTMLDivElement>) => void;
 }
 
@@ -13,16 +13,12 @@ const DELETE_FREQUENCY_MODAL_ID = 'delete-frequency';
 
 const FREQUENCY_LIST = ['한 번', '매일', '주 반복', '월 반복'];
 
-export default function Frequency({
-  isEdit,
-  frequencyDefaultValue,
-  handleFrequencyChange,
-}: Frequency) {
+export default function Frequency({ isEdit, isOnce, handleFrequencyChange }: Frequency) {
   const { openModal } = useModalContext();
 
-  return (
+  return isEdit ? (
     <>
-      {isEdit ? (
+      {!isOnce && (
         <Button
           onClick={() => openModal(DELETE_FREQUENCY_MODAL_ID)}
           type="button"
@@ -32,14 +28,6 @@ export default function Frequency({
         >
           반복 설정 삭제하기
         </Button>
-      ) : (
-        <OptionSelector
-          options={FREQUENCY_LIST}
-          defaultValue={frequencyDefaultValue}
-          size="sm"
-          placement="top-12"
-          onSelect={handleFrequencyChange}
-        />
       )}
       <DangerModal
         modalId={DELETE_FREQUENCY_MODAL_ID}
@@ -55,5 +43,14 @@ export default function Frequency({
         onConfirm={() => {}}
       />
     </>
+  ) : (
+    <div className="flex items-center gap-4">
+      <OptionSelector
+        options={FREQUENCY_LIST}
+        size="sm"
+        placement="top-12"
+        onSelect={handleFrequencyChange}
+      />
+    </div>
   );
 }
