@@ -4,7 +4,7 @@ import Plus from '@/assets/Plus';
 import { TaskItemProps } from '@/components/manage-task-item/type';
 
 export default function ManageTaskItemModal({
-  task,
+  detailTask,
   groupId,
   taskListId,
   isDone,
@@ -14,7 +14,7 @@ export default function ManageTaskItemModal({
 
   return (
     <>
-      {!task && (
+      {!detailTask && (
         <ModalTrigger
           modalId={modalId}
           className="text-lg-semi bg-primary absolute right-6 bottom-40 flex h-12 w-[125px] items-center justify-center rounded-[40px] text-white"
@@ -26,7 +26,7 @@ export default function ManageTaskItemModal({
         <ModalOverlay modalId={modalId}>
           <ModalContainer>
             <ManageTaskItem
-              task={task}
+              detailTask={detailTask}
               groupId={groupId}
               taskListId={taskListId}
               isDone={isDone}

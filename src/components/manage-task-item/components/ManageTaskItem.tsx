@@ -12,7 +12,7 @@ import { ModalFooter } from '@/components/common/modal';
 import Frequency from './Frequency';
 
 export default function ManageTaskItem({
-  task,
+  detailTask,
   groupId,
   taskListId,
   isDone,
@@ -34,11 +34,11 @@ export default function ManageTaskItem({
     toggleDay,
     updateTime,
     closeModal,
-  } = useManageTaskItem({ task, groupId, taskListId, isDone, createOrEditModalId });
+  } = useManageTaskItem({ detailTask, groupId, taskListId, isDone, createOrEditModalId });
 
-  const createOrEdit = task ? '수정하기' : '만들기';
+  const createOrEdit = detailTask ? '수정하기' : '만들기';
 
-  const isEdit = !!task;
+  const isEdit = !!detailTask;
 
   return (
     <div className="bg-bg200 w-[384px]">
@@ -84,7 +84,7 @@ export default function ManageTaskItem({
             {isCalendarOpen && (
               <CalendarSelect
                 onDateChange={handleCalendarDateChange}
-                date={taskItem.startDate}
+                date={taskItem.startDate as Date}
                 disablePast
               />
             )}

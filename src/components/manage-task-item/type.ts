@@ -1,10 +1,13 @@
-import { Task } from '@/app/(content-layout)/[groupId]/tasklist/_tasklist/types/task-type';
+import {
+  Recurring,
+  DetailTaskType,
+} from '@/app/(content-layout)/[groupId]/tasklist/_tasklist/types/task-type';
 
-export type TaskItem = Pick<Task, 'name' | 'description' | 'monthDay' | 'weekDays'> & {
-  id?: Task['id'];
-  recurringId?: Task['recurringId'];
-  startDate: Date;
-  frequencyType: Task['frequency'];
+export type TaskItem = Pick<
+  Recurring,
+  'name' | 'description' | 'frequencyType' | 'weekDays' | 'monthDay'
+> & {
+  startDate: Date | string;
 };
 
 export interface Time {
@@ -13,7 +16,7 @@ export interface Time {
 }
 
 export interface TaskItemProps {
-  task?: Task;
+  detailTask?: DetailTaskType;
   groupId: number;
   taskListId: number;
   isDone?: boolean;
