@@ -23,7 +23,6 @@ const MINIMAL_HEADER_PATHS = [
   PATHS.SIGNUP_KAKAO,
   '/reset-password',
   PATHS.ADDGROUP,
-  '/joingroup',
 ];
 
 export default function Header() {
@@ -46,6 +45,7 @@ export default function Header() {
         const { data } = await axiosClient.get('/user');
         setUserData(data);
         localStorage.setItem('userId', String(data.id));
+        localStorage.setItem('userEmail', data.email);
 
         const userGroups = Array.isArray(data.memberships)
           ? data.memberships.map((m: { group: Group }) => m.group)

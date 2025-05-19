@@ -34,7 +34,7 @@ export default function LikeToggleButton({
 
   return (
     <button type="button" onClick={toggleLike} className="flex items-center gap-1">
-      <HeartIcon filled={liked} />
+      <HeartIcon filled={liked} size={16} />
       <span className="text-xs-rg sm:text-md-rg text-gray400">
         {count > 9999 ? '9999+' : count}
       </span>
