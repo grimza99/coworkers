@@ -4,7 +4,7 @@ import Image from 'next/image';
 import { GetArticleDetailResponse } from '@/types/article';
 import DropDown from '@/components/common/dropdown';
 import { formatTimeDistance } from '@/utils/date';
-import LikeToggleButton from '@/components/like-toggle-button/LikeToggleButton';
+import LikeToggleButton from '../../../_articles/components/LikeToggleButton';
 
 const ARTICLE_DROPDOWN_OPTIONS = ['수정하기', '삭제하기'];
 
