@@ -20,7 +20,7 @@ interface TasklistUpdateModalProps {
   tasklist: Tasklist;
   isUpdateLoading: boolean;
   errorOnUpdate: { message: string; id: string } | null;
-  createTasklist: (name: string) => void;
+  updateTasklist: (tasklist: Tasklist, newName: string) => void;
 }
 
 export default function TasklistUpdateModal({
@@ -28,7 +28,7 @@ export default function TasklistUpdateModal({
   tasklist,
   isUpdateLoading,
   errorOnUpdate,
-  createTasklist,
+  updateTasklist,
 }: TasklistUpdateModalProps) {
   const { name: prevName } = tasklist;
   const [name, setName] = useState(prevName);
@@ -44,7 +44,7 @@ export default function TasklistUpdateModal({
 
   const handleClickAddButton = async () => {
     if (validateEmptyValue(name)) return;
-    createTasklist(name);
+    updateTasklist(tasklist, name);
     clearName();
     closeModal(modalId);
   };

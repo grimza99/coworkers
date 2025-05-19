@@ -19,7 +19,7 @@ interface TasklistDeleteModalProps {
   tasklist: Tasklist;
   isDeletionLoading: boolean;
   errorOnDelete: { message: string; id: string } | null;
-  deleteTasklist: () => void;
+  deleteTasklist: (tasklist: Tasklist) => void;
 }
 
 export default function TasklistDeleteModal({
@@ -33,7 +33,7 @@ export default function TasklistDeleteModal({
   const { closeModal } = useModalContext();
 
   const handleClickAddButton = async () => {
-    deleteTasklist();
+    deleteTasklist(tasklist);
     closeModal(modalId);
   };
 
