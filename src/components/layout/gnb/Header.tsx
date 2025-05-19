@@ -84,8 +84,8 @@ export default function Header() {
 
   if (isMinimalHeader) {
     return (
-      <header className="bg-bg200 border-border sticky top-0 z-200 flex h-15 w-full justify-center border-b-1 py-[14px]">
-        <div className="flex w-full max-w-300 items-center justify-between p-4">
+      <header className="bg-bg200 border-border sticky top-0 z-200 flex h-15 w-full justify-center border-b-1">
+        <div className="flex w-full max-w-300 items-center justify-between p-4 lg:p-0">
           <Logo />
         </div>
       </header>
@@ -93,8 +93,8 @@ export default function Header() {
   }
 
   return (
-    <header className="bg-bg200 border-border sticky top-0 z-200 flex h-15 w-full justify-center border-b-1 py-[14px]">
-      <div className="flex w-full max-w-300 items-center justify-between p-4">
+    <header className="bg-bg200 border-border sticky top-0 z-200 flex h-15 w-full justify-center border-b-1">
+      <div className="flex w-full max-w-300 items-center justify-between p-4 lg:p-0">
         <div className="flex items-center gap-8 lg:gap-10">
           <div className="flex items-center gap-4">
             <button

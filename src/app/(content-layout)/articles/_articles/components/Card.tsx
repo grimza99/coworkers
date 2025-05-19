@@ -29,9 +29,18 @@ export default function Card(props: Article) {
 
       <div className="flex items-center justify-between">
         <div className="flex items-center gap-2">
-          <span className="text-md-md overflow-hidden text-ellipsis whitespace-nowrap">
-            {writer.nickname}
-          </span>
+          <div className="g-3 flex h-8 w-30 items-center gap-3">
+            <Image
+              width={32}
+              height={32}
+              alt="프로필 이미지"
+              src={writer.image?.trim() ? writer.image : '/icons/profile-icon.svg'}
+              className="rounded-full"
+            />
+            <span className="text-md-md overflow-hidden text-ellipsis whitespace-nowrap">
+              {writer.nickname}
+            </span>
+          </div>
           <span className="text-bg100">|</span>
           <span className="text-md-md text-gray400">
             {new Date(createdAt).toLocaleDateString()}
