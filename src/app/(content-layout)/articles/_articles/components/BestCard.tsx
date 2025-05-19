@@ -38,7 +38,7 @@ export default function BestCard({
               </h3>
             </Link>
             <div className="h-16 w-16 shrink-0 overflow-hidden rounded-md md:h-18 md:w-18">
-              {image?.trim() && image !== DEFAULT_IMAGE && (
+              {image && image !== DEFAULT_IMAGE && (
                 <Image
                   width={72}
                   height={72}

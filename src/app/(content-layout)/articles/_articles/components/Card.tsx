@@ -19,7 +19,7 @@ export default function Card(props: Article) {
         </Link>
         <div className="flex items-start gap-4">
           <div className="h-18 w-18 shrink-0 overflow-hidden rounded-md">
-            {image?.trim() && image !== DEFAULT_IMAGE && (
+            {image && image !== DEFAULT_IMAGE && (
               <Image
                 width={72}
                 height={72}
