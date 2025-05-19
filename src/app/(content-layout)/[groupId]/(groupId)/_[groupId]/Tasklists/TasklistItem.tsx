@@ -8,9 +8,10 @@ import { Tasklist } from '@/types/tasklist';
 
 type TasklistItemProps = {
   tasklist: Tasklist;
+  onDropdownTriggerClick: () => void;
 };
 
-export default function TasklistItem({ tasklist }: TasklistItemProps) {
+export default function TasklistItem({ tasklist, onDropdownTriggerClick }: TasklistItemProps) {
   const { name, groupId, displayIndex, tasks } = tasklist;
   const totalTaskCount = tasks.length;
   const doneTaskCount = countDoneTasks(tasks);
@@ -26,7 +27,7 @@ export default function TasklistItem({ tasklist }: TasklistItemProps) {
       </Link>
       <div className="mr-2 flex items-center gap-1">
         <TasklistProgressBadge total={totalTaskCount} done={doneTaskCount} />
-        <TasklistItemDropdown />
+        <TasklistItemDropdown onTriggerClick={onDropdownTriggerClick} tasklist={tasklist} />
       </div>
     </li>
   );

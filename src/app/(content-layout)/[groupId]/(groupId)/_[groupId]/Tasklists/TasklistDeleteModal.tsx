@@ -55,12 +55,14 @@ export default function TasklistDeleteModal({
               className="size-6"
             />
             <ModalHeading className="mt-4 mb-2">
-              <span className="text-primary">{name}</span>할 일 목록을 정말 삭제하시겠어요?
+              <div className="text-primary mb-1">{name} </div>할 일 목록을 정말 삭제하시겠어요?
             </ModalHeading>
             <ModalDescription>
-              목록의 할 일도 모두 삭제되며, 삭제 후에는 되돌릴 수 없습니다.
+              목록의 할 일도 모두 삭제되며,
+              <br />
+              삭제 후에는 되돌릴 수 없습니다.
             </ModalDescription>
-            <ModalFooter className="w-full">
+            <ModalFooter className="mt-6 w-70">
               <Button onClick={() => closeModal(modalId)} variant="outline-gray" size="fullWidth">
                 닫기
               </Button>

@@ -30,8 +30,8 @@ export default function TasklistUpdateModal({
   errorOnUpdate,
   updateTasklist,
 }: TasklistUpdateModalProps) {
-  const { name: prevName } = tasklist;
-  const [name, setName] = useState(prevName);
+  console.log(tasklist);
+  const [name, setName] = useState(tasklist.name);
   const { closeModal } = useModalContext();
 
   const handleChangeName = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -50,6 +50,10 @@ export default function TasklistUpdateModal({
   };
 
   useEffect(() => {
+    setName(tasklist.name);
+  }, [tasklist]);
+
+  useEffect(() => {
     if (!errorOnUpdate) return;
     Toast.error(errorOnUpdate.message);
   }, [errorOnUpdate]);
@@ -65,8 +69,8 @@ export default function TasklistUpdateModal({
               <FormField
                 field="input"
                 placeholder="목록 이름을 입력해주세요."
-                isSuccess={!validateEmptyValue(name) || name.trim() !== prevName}
-                isFailure={validateEmptyValue(name) || name.trim() === prevName}
+                isSuccess={!validateEmptyValue(name) || name.trim() !== tasklist.name}
+                isFailure={validateEmptyValue(name) || name.trim() === tasklist.name}
                 errorMessage="수정할 이름을 올바르게 입력해 주세요."
                 value={name}
                 onChange={handleChangeName}

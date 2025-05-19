@@ -12,6 +12,7 @@ import {
 import { ModalTrigger } from '@/components/common/modal';
 import { Group } from '@/types/group';
 import { Tasklist } from '@/types/tasklist';
+import useModalContext from '@/components/common/modal/core/useModalContext';
 
 type TasklistsProps = {
   groupId: Group['id'];
@@ -131,7 +132,11 @@ export default function Tasklists({ groupId, tasklists }: TasklistsProps) {
         </div>
         <ol className="flex flex-col gap-4">
           {tasklists.map((tasklist) => (
-            <TasklistItem key={tasklist.id} tasklist={tasklist} />
+            <TasklistItem
+              key={tasklist.id}
+              tasklist={tasklist}
+              onDropdownTriggerClick={() => setSelectedTasklist(tasklist)}
+            />
           ))}
         </ol>
       </section>
