@@ -33,9 +33,7 @@ export default function BestCard({
         <div className="flex flex-col gap-1 md:gap-3">
           <div className="flex justify-between gap-4">
             <Link href={`/articles/${id}`}>
-              <h3 className="text-2lg-md text-gray300">
-                {title.length > 30 ? `${title.slice(0, 30)}...` : title}
-              </h3>
+              <h3 className="text-2lg-md text-gray300 truncate">{title}</h3>
             </Link>
             <div className="relative h-16 w-16 shrink-0 overflow-hidden rounded-md md:h-18 md:w-18">
               {image && image !== DEFAULT_IMAGE && (

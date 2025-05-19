@@ -27,7 +27,6 @@ export default function ArticlesPage() {
   const searchKeyword = searchParams.get('keyword') || '';
 
   useEffect(() => {
-    // 베스트 게시글 불러오기
     const fetchBestArticles = async () => {
       try {
         const res = await axiosClient.get<GetArticlesResponse>('/articles', {
@@ -48,7 +47,6 @@ export default function ArticlesPage() {
   }, []);
 
   useEffect(() => {
-    // 조건에 따른 일반 게시글 불러오기
     const fetchArticles = async () => {
       try {
         const res = await axiosClient.get('/articles', {
@@ -131,18 +129,14 @@ export default function ArticlesPage() {
               onSelect={(selected) => {
                 const apiValue = selected === '최신순' ? 'recent' : 'like';
                 setOrderBy(apiValue);
-                setCurrentPage(1); // 조건이 바뀔 때마다 현재 페이지를 1페이지로 리셋
+                setCurrentPage(1);
               }}
             />
           </div>
         </div>
         <div className="grid grid-cols-1 gap-6 lg:grid-cols-2">
           {articles.map((article) => (
-            <Card
-              key={article.id}
-              {...article}
-              title={article.title.length > 30 ? article.title.slice(0, 30) + '...' : article.title}
-            />
+            <Card key={article.id} {...article} />
           ))}
         </div>
         <Pagination
