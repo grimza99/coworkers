@@ -46,7 +46,7 @@ export default function TasklistDeleteModal({
     <>
       <ModalPortal modalId={modalId}>
         <ModalOverlay modalId={modalId}>
-          <ModalContainer className="px-12 md:max-w-96 md:px-13">
+          <ModalContainer className="px-12 md:max-w-96 md:px-8">
             <Image
               src="/icons/danger.icon.svg"
               alt="경고"
@@ -55,10 +55,10 @@ export default function TasklistDeleteModal({
               className="size-6"
             />
             <ModalHeading className="mt-4 mb-2">
-              <div className="text-primary mb-1">{name} </div>할 일 목록을 정말 삭제하시겠어요?
+              <span className="text-primary">{name}</span> 목록을 정말 삭제하시겠어요?
             </ModalHeading>
             <ModalDescription>
-              목록의 할 일도 모두 삭제되며,
+              <span className="text-primary">{name}</span>의 할 일도 모두 삭제되며,
               <br />
               삭제 후에는 되돌릴 수 없습니다.
             </ModalDescription>
