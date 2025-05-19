@@ -25,6 +25,12 @@ export default function ArticlesPageClient() {
   const searchParams = useSearchParams();
   const searchKeyword = searchParams.get('keyword') || '';
 
+  const [searchInput, setSearchInput] = useState(searchKeyword);
+
+  useEffect(() => {
+    setSearchInput(searchKeyword);
+  }, [searchKeyword]);
+
   useEffect(() => {
     // 베스트 게시글 불러오기
     const fetchBestArticles = async () => {
@@ -81,8 +87,9 @@ export default function ArticlesPageClient() {
       <section className="flex flex-col gap-10 pb-10">
         <h1 className="text-2xl-bold">자유게시판</h1>
         <ArticleSearchBar
-          value={searchKeyword}
+          value={searchInput}
           onChange={(value) => {
+            setSearchInput(value);
             const params = new URLSearchParams(searchParams.toString());
             if (value) {
               params.set('keyword', value);
