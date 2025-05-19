@@ -37,7 +37,7 @@ export default function DropDown({
   return (
     <div className="relative h-fit w-fit" ref={ref}>
       <div
-        className="cursor-pointer"
+        className="flex cursor-pointer items-center"
         onClick={(e: React.MouseEvent) => {
           e.stopPropagation();
           setIsOpen((prev) => !prev);
