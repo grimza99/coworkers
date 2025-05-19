@@ -8,9 +8,15 @@ interface CommentItemProps {
   comment: Comment | ArticleComment;
   onEdit: () => void;
   onDelete: () => void;
+  checkDropdownOpen?: () => void;
 }
 
-export default function CommentItem({ comment, onEdit, onDelete }: CommentItemProps) {
+export default function CommentItem({
+  comment,
+  onEdit,
+  onDelete,
+  checkDropdownOpen,
+}: CommentItemProps) {
   if (!comment) return;
   const { content, updatedAt } = comment;
 
@@ -23,7 +29,11 @@ export default function CommentItem({ comment, onEdit, onDelete }: CommentItemPr
       <div className="flex items-start justify-between">
         <div className="text-md-rg break-words whitespace-pre-wrap">{content}</div>
         <div className="shrink-0">
-          <CommentItemDropdown onDelete={onDelete} onEdit={onEdit} />
+          <CommentItemDropdown
+            onDelete={onDelete}
+            onEdit={onEdit}
+            checkDropdownOpen={checkDropdownOpen}
+          />
         </div>
       </div>
       <div className={COMMENT_STYLES.metaContainer[variant]}>
