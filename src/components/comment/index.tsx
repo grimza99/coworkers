@@ -21,7 +21,7 @@ export default function CommentItem({ comment, onEdit, onDelete }: CommentItemPr
   return (
     <div className={COMMENT_STYLES.container[variant]}>
       <div className="flex items-start justify-between">
-        <div className="text-md-rg break-keep whitespace-pre-wrap">{content}</div>
+        <div className="text-md-rg break-words whitespace-pre-wrap">{content}</div>
         <div className="shrink-0">
           <CommentItemDropdown onDelete={onDelete} onEdit={onEdit} />
         </div>
