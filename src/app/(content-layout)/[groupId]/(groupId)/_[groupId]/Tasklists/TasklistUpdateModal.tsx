@@ -18,16 +18,16 @@ import { Tasklist } from '@/types/tasklist';
 interface TasklistUpdateModalProps {
   modalId: string;
   tasklist: Tasklist;
-  isUpdateLoading: boolean;
-  errorOnUpdate: { message: string; id: string } | null;
+  isLoading: boolean;
+  error: { message: string; id: string } | null;
   updateTasklist: (tasklist: Tasklist, newName: string) => void;
 }
 
 export default function TasklistUpdateModal({
   modalId,
   tasklist,
-  isUpdateLoading,
-  errorOnUpdate,
+  isLoading,
+  error,
   updateTasklist,
 }: TasklistUpdateModalProps) {
   console.log(tasklist);
@@ -54,9 +54,9 @@ export default function TasklistUpdateModal({
   }, [tasklist]);
 
   useEffect(() => {
-    if (!errorOnUpdate) return;
-    Toast.error(errorOnUpdate.message);
-  }, [errorOnUpdate]);
+    if (!error) return;
+    Toast.error(error.message);
+  }, [error]);
 
   return (
     <>
@@ -74,12 +74,12 @@ export default function TasklistUpdateModal({
                 errorMessage="수정할 이름을 올바르게 입력해 주세요."
                 value={name}
                 onChange={handleChangeName}
-                disabled={isUpdateLoading}
+                disabled={isLoading}
               />
             </div>
             <ModalFooter className="w-full">
               <Button onClick={handleClickAddButton} fontSize="16" size="fullWidth">
-                {isUpdateLoading ? '...' : '수정하기'}
+                {isLoading ? '...' : '수정하기'}
               </Button>
             </ModalFooter>
           </ModalContainer>

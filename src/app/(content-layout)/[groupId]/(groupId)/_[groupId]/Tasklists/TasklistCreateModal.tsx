@@ -16,15 +16,15 @@ import { validateEmptyValue } from '@/utils/validators';
 
 interface TasklistCreateModalProps {
   modalId: string;
-  isCreationLoading: boolean;
-  errorOnCreate: { message: string; id: string } | null;
+  isLoading: boolean;
+  error: { message: string; id: string } | null;
   createTasklist: (name: string) => void;
 }
 
 export default function TasklistCreateModal({
   modalId,
-  isCreationLoading,
-  errorOnCreate,
+  isLoading,
+  error,
   createTasklist,
 }: TasklistCreateModalProps) {
   const [name, setName] = useState('');
@@ -46,9 +46,9 @@ export default function TasklistCreateModal({
   };
 
   useEffect(() => {
-    if (!errorOnCreate) return;
-    Toast.error(errorOnCreate.message);
-  }, [errorOnCreate]);
+    if (!error) return;
+    Toast.error(error.message);
+  }, [error]);
 
   return (
     <>
@@ -66,12 +66,12 @@ export default function TasklistCreateModal({
                 errorMessage="이름을 입력해 주세요."
                 value={name}
                 onChange={handleChangeName}
-                disabled={isCreationLoading}
+                disabled={isLoading}
               />
             </div>
             <ModalFooter className="w-full">
               <Button onClick={handleClickAddButton} fontSize="16" size="fullWidth">
-                {isCreationLoading ? '...' : '만들기'}
+                {isLoading ? '...' : '만들기'}
               </Button>
             </ModalFooter>
           </ModalContainer>

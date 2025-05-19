@@ -17,16 +17,16 @@ import { Tasklist } from '@/types/tasklist';
 interface TasklistDeleteModalProps {
   modalId: string;
   tasklist: Tasklist;
-  isDeletionLoading: boolean;
-  errorOnDelete: { message: string; id: string } | null;
+  isLoading: boolean;
+  error: { message: string; id: string } | null;
   deleteTasklist: (tasklist: Tasklist) => void;
 }
 
 export default function TasklistDeleteModal({
   modalId,
   tasklist,
-  isDeletionLoading,
-  errorOnDelete,
+  isLoading,
+  error,
   deleteTasklist,
 }: TasklistDeleteModalProps) {
   const { name } = tasklist;
@@ -38,9 +38,9 @@ export default function TasklistDeleteModal({
   };
 
   useEffect(() => {
-    if (!errorOnDelete) return;
-    Toast.error(errorOnDelete.message);
-  }, [errorOnDelete]);
+    if (!error) return;
+    Toast.error(error.message);
+  }, [error]);
 
   return (
     <>
@@ -70,9 +70,9 @@ export default function TasklistDeleteModal({
                 onClick={handleClickAddButton}
                 variant="danger"
                 size="fullWidth"
-                disabled={isDeletionLoading}
+                disabled={isLoading}
               >
-                {isDeletionLoading ? '...' : '삭제하기'}
+                {isLoading ? '...' : '삭제하기'}
               </Button>
             </ModalFooter>
           </ModalContainer>
