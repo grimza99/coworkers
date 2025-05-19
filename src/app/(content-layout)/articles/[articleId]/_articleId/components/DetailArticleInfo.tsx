@@ -1,14 +1,14 @@
 'use client';
 
 import Image from 'next/image';
-import { Article } from '@/types/article';
+import { GetArticleDetailResponse } from '@/types/article';
 import DropDown from '@/components/common/dropdown';
 import { formatTimeDistance } from '@/utils/date';
-import LikeToggleButton from '../../../_articles/components/LikeToggleButton';
+import LikeToggleButton from '@/components/like-toggle-button/LikeToggleButton';
 
 const ARTICLE_DROPDOWN_OPTIONS = ['수정하기', '삭제하기'];
 
-export default function DetailArticleInfo({ detail }: { detail: Article }) {
+export default function DetailArticleInfo({ detail }: { detail: GetArticleDetailResponse }) {
   return (
     <div className="flex flex-col gap-12">
       <div>
@@ -45,7 +45,11 @@ export default function DetailArticleInfo({ detail }: { detail: Article }) {
               <Image src="/icons/comment.svg" width={16} height={16} alt="comment" />
               <span className="text-xs-rg sm:text-md-rg">{detail.commentCount}</span>
             </div>
-            <LikeToggleButton />
+            <LikeToggleButton
+              isLiked={detail.isLiked}
+              initialCount={detail.likeCount}
+              articleId={detail.id}
+            />
           </div>
         </div>
       </div>
