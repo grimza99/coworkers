@@ -2,6 +2,7 @@
 
 import { useEffect, useState } from 'react';
 import { useRouter } from 'next/navigation';
+import { useSearchParams } from 'next/navigation';
 import Button from '@/components/common/Button';
 import Card from './_articles/components/Card';
 import BestCard from './_articles/components/BestCard';
@@ -20,9 +21,10 @@ export default function ArticlesPage() {
   const [currentPage, setCurrentPage] = useState(1);
   const [orderBy, setOrderBy] = useState<'recent' | 'like'>('recent');
   const [myArticlesOnly, setMyArticlesOnly] = useState(false);
-  const [searchKeyword, setSearchKeyword] = useState('');
   const pageSize = 10;
   const router = useRouter();
+  const searchParams = useSearchParams();
+  const searchKeyword = searchParams.get('keyword') || '';
 
   useEffect(() => {
     // 베스트 게시글 불러오기
@@ -54,7 +56,7 @@ export default function ArticlesPage() {
             page: currentPage,
             pageSize,
             orderBy,
-            searchKeyword,
+            keyword: searchKeyword,
           },
         });
 
@@ -65,13 +67,6 @@ export default function ArticlesPage() {
         if (myArticlesOnly && userId) {
           // 내 게시글만 보기
           filtered = filtered.filter((article: Article) => article.writer.id === userId);
-        }
-        if (searchKeyword.trim()) {
-          // 키워드로 검색한 게시글 보기
-          const lowerKeyword = searchKeyword.toLowerCase();
-          filtered = filtered.filter((article: Article) =>
-            article.title.toLowerCase().includes(lowerKeyword)
-          );
         }
         setArticles(filtered);
         setTotalCount(res.data.totalCount);
@@ -87,7 +82,18 @@ export default function ArticlesPage() {
     <main className="">
       <section className="flex flex-col gap-10 pb-10">
         <h1 className="text-2xl-bold">자유게시판</h1>
-        <ArticleSearchBar value={searchKeyword} onChange={setSearchKeyword} />
+        <ArticleSearchBar
+          value={searchKeyword}
+          onChange={(value) => {
+            const params = new URLSearchParams(searchParams.toString());
+            if (value) {
+              params.set('keyword', value);
+            } else {
+              params.delete('keyword');
+            }
+            router.replace(`?${params.toString()}`);
+          }}
+        />
       </section>
 
       <section className="border-bg200 flex flex-col gap-14 border-b pb-10">
