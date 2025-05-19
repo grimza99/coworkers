@@ -1,9 +1,9 @@
 'use client';
 
 import Image from 'next/image';
+import { Article } from '@/types/article';
 import DropDown from '@/components/common/dropdown';
 import { formatTimeDistance } from '@/utils/date';
-import { Article } from '../../page';
 import LikeToggleButton from '../../../_articles/components/LikeToggleButton';
 
 const ARTICLE_DROPDOWN_OPTIONS = ['수정하기', '삭제하기'];
@@ -31,10 +31,8 @@ export default function DetailArticleInfo({ detail }: { detail: Article }) {
           />
         </div>
         <div className="text-gray400 text-xs-md flex items-center justify-between">
-          <div className="flex items-center gap-1.5">
-            <div className="border-border relative h-8 w-8 rounded-full border">
-              <Image fill src={detail.writer.image} alt="profile" className="rounded-full" />
-            </div>
+          <div className="flex items-center gap-3">
+            <Image src="/icons/profile-icon.svg" width={32} height={32} alt="profile" />
             <div>
               <span className="text-gray100 border-bg100 mr-4 border-r pr-4">
                 {detail.writer.nickname}
