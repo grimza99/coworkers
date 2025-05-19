@@ -17,12 +17,13 @@ export default function TasklistItem({ tasklist }: TasklistItemProps) {
 
   return (
     <li className="bg-bg200 flex h-10 items-center justify-between rounded-xl">
-      <div className="flex h-full items-center gap-3">
+      <Link
+        href={`${PATHS.getGroupTaskListPath(groupId)}`}
+        className="flex h-full flex-1 items-center gap-3"
+      >
         <div className={clsx('h-full w-3 rounded-l-xl', getTasklistItemColor(displayIndex))}></div>
-        <Link href={`${PATHS.getGroupTaskListPath(groupId)}`} className="text-md-md">
-          {name}
-        </Link>
-      </div>
+        <div className="text-md-md flex-1">{name}</div>
+      </Link>
       <div className="mr-2 flex items-center gap-1">
         <TasklistProgressBadge total={totalTaskCount} done={doneTaskCount} />
         <TasklistItemDropdown />
