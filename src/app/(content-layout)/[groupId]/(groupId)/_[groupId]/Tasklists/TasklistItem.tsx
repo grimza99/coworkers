@@ -1,8 +1,8 @@
 import Link from 'next/link';
 import clsx from 'clsx';
-import TasklistProgressBadge from '@/app/(content-layout)/[groupId]/_[groupId]/Tasklists/TasklistProgressBadge';
-import TasklistItemDropdown from '@/app/(content-layout)/[groupId]/_[groupId]/Tasklists/TasklistItemDropdown';
-import { countDoneTasks } from '@/app/(content-layout)/[groupId]/_[groupId]/taskUtils';
+import TasklistProgressBadge from '@/app/(content-layout)/[groupId]/(groupId)/_[groupId]/Tasklists/TasklistProgressBadge';
+import TasklistItemDropdown from '@/app/(content-layout)/[groupId]/(groupId)/_[groupId]/Tasklists/TasklistItemDropdown';
+import { countDoneTasks } from '@/app/(content-layout)/[groupId]/(groupId)/_[groupId]/taskUtils';
 import PATHS from '@/constants/paths';
 import { Tasklist } from '@/types/tasklist';
 
