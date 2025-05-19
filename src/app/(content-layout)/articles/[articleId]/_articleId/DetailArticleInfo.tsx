@@ -47,7 +47,11 @@ export default function DetailArticleInfo({ detail }: { detail: Article }) {
               <Image src="/icons/comment.svg" width={16} height={16} alt="comment" />
               <span className="text-xs-rg sm:text-md-rg">{detail.commentCount}</span>
             </div>
-            <LikeToggleButton />
+            <LikeToggleButton
+              articleId={detail.id}
+              likeCount={detail.likeCount}
+              isLiked={detail.isLiked}
+            />
           </div>
         </div>
       </div>

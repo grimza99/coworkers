@@ -1,6 +1,9 @@
 'use client';
+import dynamic from 'next/dynamic';
 
-import ArticlesPageClient from './ArticlesPageClient';
+const ArticlesPageClient = dynamic(() => import('./ArticlesPageClient'), {
+  ssr: false,
+});
 
 export default function ArticlesPage() {
   return <ArticlesPageClient />;
