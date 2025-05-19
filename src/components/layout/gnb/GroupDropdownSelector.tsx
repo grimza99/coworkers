@@ -17,7 +17,7 @@ export default function GroupDropdownSelector({
   selectedGroupId,
   setSelectedGroupId,
 }: GroupDropdownSelectorProps) {
-  const sortedGroups = [...groups].sort(
+  const sortedGroups = groups.toSorted(
     (a, b) => new Date(b.createdAt).getTime() - new Date(a.createdAt).getTime()
   );
   const selectedGroup = sortedGroups.find((group) => group.id === selectedGroupId);
