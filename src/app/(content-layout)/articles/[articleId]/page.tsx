@@ -16,7 +16,7 @@ export default async function DetailArticle({
     <div className="flex h-full w-full flex-col gap-20">
       <DetailArticleInfo detail={detail} />
       <div className="flex flex-col gap-8 sm:gap-10">
-        <CommentField />
+        <CommentField articleId={articleId} />
         <div className="border-border border" />
         <CommentList comments={comments} />
       </div>
