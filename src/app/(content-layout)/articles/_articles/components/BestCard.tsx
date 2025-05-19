@@ -37,15 +37,9 @@ export default function BestCard({
                 {title.length > 30 ? `${title.slice(0, 30)}...` : title}
               </h3>
             </Link>
-            <div className="h-16 w-16 shrink-0 overflow-hidden rounded-md md:h-18 md:w-18">
+            <div className="relative h-16 w-16 shrink-0 overflow-hidden rounded-md md:h-18 md:w-18">
               {image && image !== DEFAULT_IMAGE && (
-                <Image
-                  width={72}
-                  height={72}
-                  src={image}
-                  alt="썸네일"
-                  className="h-full w-full object-cover"
-                />
+                <Image src={image} alt="썸네일" fill className="object-cover" />
               )}
             </div>
           </div>

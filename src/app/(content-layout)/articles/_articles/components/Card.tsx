@@ -18,15 +18,9 @@ export default function Card(props: Article) {
           <h3 className="text-2lg-md text-gray300 max-w-75 truncate">{title}</h3>
         </Link>
         <div className="flex items-start gap-4">
-          <div className="h-18 w-18 shrink-0 overflow-hidden rounded-md">
+          <div className="relative h-16 w-16 shrink-0 overflow-hidden rounded-md md:h-18 md:w-18">
             {image && image !== DEFAULT_IMAGE && (
-              <Image
-                width={72}
-                height={72}
-                src={image}
-                alt="썸네일"
-                className="h-full w-full object-cover"
-              />
+              <Image src={image} alt="썸네일" fill className="object-cover" />
             )}
           </div>
           <ArticleOptionsDropdown />

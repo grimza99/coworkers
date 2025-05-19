@@ -1,5 +1,4 @@
-import NextArrowIcon from '@/assets/NextArrow';
-import PrevArrowIcon from '@/assets/PrevArrow';
+import Image from 'next/image';
 
 interface Props {
   currentPage: number;
@@ -19,7 +18,7 @@ export default function Pagination({ currentPage, totalPages, onPageChange }: Pr
         onClick={() => onPageChange(currentPage - 1)}
         className="bg-bg100 h-8 w-8 rounded-full disabled:opacity-30"
       >
-        <PrevArrowIcon />
+        <Image src="/icons/prev-arrow-icon.svg" alt="이전" width={32} height={32} />
       </button>
 
       {pages.map((page) => (
@@ -42,7 +41,7 @@ export default function Pagination({ currentPage, totalPages, onPageChange }: Pr
         onClick={() => onPageChange(currentPage + 1)}
         className="bg-bg100 h-8 w-8 rounded-full disabled:opacity-30"
       >
-        <NextArrowIcon />
+        <Image src="/icons/next-arrow-icon.svg" alt="다음" width={32} height={32} />
       </button>
     </div>
   );
