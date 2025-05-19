@@ -1,7 +1,6 @@
 import axiosClient from '@/lib/axiosClient';
 import { Task } from '../types/task-type';
 import { Toast } from '@/components/common/Toastify';
-import { toast } from 'react-toastify';
 
 export function useTaskActions(task?: Task) {
   const deleteTask = async (
