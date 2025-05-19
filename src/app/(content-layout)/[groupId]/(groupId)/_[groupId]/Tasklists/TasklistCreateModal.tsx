@@ -14,18 +14,19 @@ import {
 import useModalContext from '@/components/common/modal/core/useModalContext';
 import { validateEmptyValue } from '@/utils/validators';
 
-interface Props {
+interface TasklistCreateModalProps {
   modalId: string;
-  isAdding: boolean;
-  additionError: { message: string; id: string } | null;
-  addTasklist: (name: string) => void;
+  isCreationLoading: boolean;
+  errorOnCreate: { message: string; id: string } | null;
+  createTasklist: (name: string) => void;
 }
-export default function TasklistAdditionModal({
+
+export default function TasklistCreateModal({
   modalId,
-  isAdding,
-  additionError,
-  addTasklist,
-}: Props) {
+  isCreationLoading,
+  errorOnCreate,
+  createTasklist,
+}: TasklistCreateModalProps) {
   const [name, setName] = useState('');
   const { closeModal } = useModalContext();
 
@@ -39,15 +40,15 @@ export default function TasklistAdditionModal({
 
   const handleClickAddButton = async () => {
     if (validateEmptyValue(name)) return;
-    addTasklist(name);
+    createTasklist(name);
     clearName();
     closeModal(modalId);
   };
 
   useEffect(() => {
-    if (!additionError) return;
-    Toast.error(additionError.message);
-  }, [additionError]);
+    if (!errorOnCreate) return;
+    Toast.error(errorOnCreate.message);
+  }, [errorOnCreate]);
 
   return (
     <>
@@ -65,12 +66,12 @@ export default function TasklistAdditionModal({
                 errorMessage="이름을 입력해 주세요."
                 value={name}
                 onChange={handleChangeName}
-                disabled={isAdding}
+                disabled={isCreationLoading}
               />
             </div>
             <ModalFooter className="w-full">
               <Button onClick={handleClickAddButton} fontSize="16" size="fullWidth">
-                {isAdding ? '...' : '만들기'}
+                {isCreationLoading ? '...' : '만들기'}
               </Button>
             </ModalFooter>
           </ModalContainer>

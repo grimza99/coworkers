@@ -3,7 +3,7 @@ import { revalidateTag } from 'next/cache';
 import axiosServer from '@/lib/axiosServer';
 import { Group } from '@/types/group';
 
-export async function addTasklistAction(groupId: Group['id'], name: string) {
+export async function createTasklistAction(groupId: Group['id'], name: string) {
   try {
     await axiosServer.post(`/groups/${groupId}/task-lists`, { name });
     revalidateTag('group');

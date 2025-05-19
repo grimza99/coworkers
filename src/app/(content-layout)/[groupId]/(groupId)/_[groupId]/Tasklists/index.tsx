@@ -1,8 +1,8 @@
 'use client';
 import { useState, useOptimistic, useTransition } from 'react';
 import TasklistItem from '@/app/(content-layout)/[groupId]/(groupId)/_[groupId]/Tasklists/TasklistItem';
-import TasklistAdditionModal from '@/app/(content-layout)/[groupId]/(groupId)/_[groupId]/Tasklists/TasklistAdditionModal';
-import { addTasklistAction } from '@/app/(content-layout)/[groupId]/(groupId)/_[groupId]/Tasklists/actions';
+import TasklistCreateModal from '@/app/(content-layout)/[groupId]/(groupId)/_[groupId]/Tasklists/TasklistCreateModal';
+import { createTasklistAction } from '@/app/(content-layout)/[groupId]/(groupId)/_[groupId]/Tasklists/actions';
 import { Group } from '@/types/group';
 import { Tasklist } from '@/types/tasklist';
 import { ModalTrigger } from '@/components/common/modal';
@@ -18,11 +18,11 @@ export default function Tasklists({ groupId, tasklists }: TasklistsProps) {
     (
       currentTasklists: Tasklist[],
       action:
-        | { type: 'add'; newTasklist: Tasklist }
+        | { type: 'create'; newTasklist: Tasklist }
         | { type: 'delete'; tasklistId: Tasklist['id'] }
         | { type: 'rollback' }
     ) => {
-      if (action.type === 'add') {
+      if (action.type === 'create') {
         return [...currentTasklists, action.newTasklist];
       } else if (action.type === 'delete') {
         return currentTasklists.filter((tasklist) => tasklist.id !== action.tasklistId);
@@ -32,11 +32,13 @@ export default function Tasklists({ groupId, tasklists }: TasklistsProps) {
       return currentTasklists;
     }
   );
-  const [isAdding, startAddingTransition] = useTransition();
-  const [additionError, setAdditionError] = useState<{ message: string; id: string } | null>(null);
+  const [isCreationLoading, startCreatingTransition] = useTransition();
+  const [transitionError, setTransitionError] = useState<{ message: string; id: string } | null>(
+    null
+  );
 
-  const addTasklist = async (name: string) => {
-    startAddingTransition(async () => {
+  const createTasklist = async (name: string) => {
+    startCreatingTransition(async () => {
       const newTasklist = {
         id: -1,
         name: name,
@@ -46,14 +48,14 @@ export default function Tasklists({ groupId, tasklists }: TasklistsProps) {
         displayIndex: tasklists[tasklists.length - 1].displayIndex + 1,
         tasks: [],
       };
-      setAdditionError(null);
-      setOptimisticTasklists({ type: 'add', newTasklist });
+      setTransitionError(null);
+      setOptimisticTasklists({ type: 'create', newTasklist });
 
-      const result = await addTasklistAction(groupId, name);
+      const result = await createTasklistAction(groupId, name);
 
       if (!result.success) {
         setOptimisticTasklists({ type: 'rollback' });
-        setAdditionError({
+        setTransitionError({
           message: result.message,
           id: Date.now().toString(),
         });
@@ -61,7 +63,7 @@ export default function Tasklists({ groupId, tasklists }: TasklistsProps) {
     });
   };
 
-  const tasklistAdditionModalId = `tasklistAddition-${groupId}`;
+  const tasklistCreateModalId = `tasklistCreate-${groupId}`;
   const totalTasklistCount = optimisticTasklists.length;
 
   return (
@@ -71,7 +73,7 @@ export default function Tasklists({ groupId, tasklists }: TasklistsProps) {
           <h2 className="text-lg-md">
             할 일 목록 <span className="text-lg-rg text-gray500">({totalTasklistCount}개)</span>
           </h2>
-          <ModalTrigger className="text-primary w-fit" modalId={tasklistAdditionModalId}>
+          <ModalTrigger className="text-primary w-fit" modalId={tasklistCreateModalId}>
             + 새로운 목록 추가하기
           </ModalTrigger>
         </div>
@@ -82,11 +84,11 @@ export default function Tasklists({ groupId, tasklists }: TasklistsProps) {
         </ol>
       </section>
 
-      <TasklistAdditionModal
-        modalId={tasklistAdditionModalId}
-        addTasklist={addTasklist}
-        isAdding={isAdding}
-        additionError={additionError}
+      <TasklistCreateModal
+        modalId={tasklistCreateModalId}
+        createTasklist={createTasklist}
+        isCreationLoading={isCreationLoading}
+        errorOnCreate={transitionError}
       />
     </>
   );
