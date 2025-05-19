@@ -60,7 +60,7 @@ export default async function Page({ params }: { params: Promise<{ groupId: stri
   const data = await getGroup(groupId);
 
   return (
-    <main>
+    <main className="pb-16 md:pb-24">
       <div className="border-gray100/10 bg-gray100/10 relative flex h-16 w-full items-center justify-between rounded-xl border-1 px-6 py-5">
         <h1 className="text-xl-bold text-white">{data.name}</h1>
         <Image
@@ -80,7 +80,7 @@ export default async function Page({ params }: { params: Promise<{ groupId: stri
           />
         </Link>
       </div>
-      <div className="mt-6 mb-50 flex flex-col gap-12 lg:gap-16">
+      <div className="my-6 flex flex-col gap-12 lg:gap-16">
         <Tasklists groupId={groupId} tasklists={data.taskLists} />
         <Report tasklists={data.taskLists} />
         <Members groupId={groupId} members={data.members} />
