@@ -1,5 +1,5 @@
 'use client';
-import { useMemo, useOptimistic, useState, useTransition } from 'react';
+import { useState, useOptimistic, useTransition } from 'react';
 import TasklistItem from '@/app/(content-layout)/[groupId]/(groupId)/_[groupId]/Tasklists/TasklistItem';
 import TasklistAdditionModal from '@/app/(content-layout)/[groupId]/(groupId)/_[groupId]/Tasklists/TasklistAdditionModal';
 import { addTasklistAction } from '@/app/(content-layout)/[groupId]/(groupId)/_[groupId]/Tasklists/actions';
@@ -61,7 +61,7 @@ export default function Tasklists({ groupId, tasklists }: TasklistsProps) {
     });
   };
 
-  const tasklistAdditionModalId = useMemo(() => `tasklistAddition-${groupId}`, [groupId]);
+  const tasklistAdditionModalId = `tasklistAddition-${groupId}`;
   const totalTasklistCount = optimisticTasklists.length;
 
   return (
