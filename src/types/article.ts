@@ -12,8 +12,9 @@ export interface Article {
   createdAt: string;
   updatedAt: string;
   likeCount: number;
-  commentCount?: number;
+  commentCount: number;
   writer: ArticleWriter;
+  isLiked: boolean;
 }
 
 /**

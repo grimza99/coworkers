@@ -46,9 +46,9 @@ export default function DetailArticleInfo({ detail }: { detail: GetArticleDetail
               <span className="text-xs-rg sm:text-md-rg">{detail.commentCount}</span>
             </div>
             <LikeToggleButton
-              isLiked={detail.isLiked}
-              initialCount={detail.likeCount}
               articleId={detail.id}
+              likeCount={detail.likeCount}
+              isLiked={detail.isLiked}
             />
           </div>
         </div>
