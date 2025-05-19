@@ -4,17 +4,9 @@ import clsx from 'clsx';
 import axiosClient from '@/lib/axiosClient';
 import { Task, TaskList } from '../types/task-type';
 import TasksWiseTask from './TasksWiseTask';
-import { arrayMove, SortableContext, verticalListSortingStrategy } from '@dnd-kit/sortable';
-import {
-  closestCenter,
-  DndContext,
-  DragEndEvent,
-  MouseSensor,
-  TouchSensor,
-  useSensor,
-  useSensors,
-} from '@dnd-kit/core';
-import { useTaskActions } from '../hooks/use-task-actions';
+import { SortableContext, verticalListSortingStrategy } from '@dnd-kit/sortable';
+import { closestCenter, DndContext, DragEndEvent } from '@dnd-kit/core';
+import useDndKit from '../hooks/use-dnd-kit';
 
 interface Props {
   date: Date;
@@ -28,20 +20,12 @@ export default function DateWiseTaskLists({ date, groupId, updateTaskListId }: P
   const [currentTasks, setCurrentTasks] = useState<Task[]>([]);
   const [error, setError] = useState<Error | null>(null);
 
-  const { saveNewTaskOrder } = useTaskActions();
-  const sensors = useSensors(
-    useSensor(MouseSensor, {
-      activationConstraint: {
-        distance: 10,
-      },
-    }),
-    useSensor(TouchSensor, {
-      activationConstraint: {
-        delay: 250,
-        tolerance: 5,
-      },
-    })
-  );
+  const orderCurrentTasks = (orderedCurrentTasks: Task[]) => {
+    setCurrentTasks(orderedCurrentTasks);
+  };
+
+  const { sensors, handleDragEnd } = useDndKit(currentTasks, currentTaskList!, orderCurrentTasks);
+
   useEffect(() => {
     if (!currentTaskList) return;
 
@@ -114,18 +98,6 @@ export default function DateWiseTaskLists({ date, groupId, updateTaskListId }: P
     }
     fetchTaskLists();
   }, [date, groupId, fetchTaskLists, error]);
-
-  const handleDragEnd = async (event: DragEndEvent) => {
-    const { active, over } = event;
-    if (active.id !== over?.id) {
-      const oldIndex = currentTasks.findIndex((task) => task.id === active.id);
-      const newIndex = currentTasks.findIndex((task) => task.id === over?.id);
-      if (oldIndex !== -1 && newIndex !== -1) {
-        setCurrentTasks(arrayMove(currentTasks, oldIndex, newIndex));
-        await saveNewTaskOrder(currentTaskList!.id, Number(active.id), newIndex);
-      }
-    }
-  };
 
   return (
     <div className="relative flex h-full flex-col gap-4">
