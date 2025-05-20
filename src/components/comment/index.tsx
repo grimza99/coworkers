@@ -1,8 +1,11 @@
+'use client';
+
 import { ArticleComment, Comment } from './types';
 import { formatTimeDistance } from '@/utils/date';
 import ProfileBadge from '@/components/profile-badge';
 import CommentItemDropdown from './CommentItemDropdown';
 import { User } from '@/types/user';
+import { useEffect, useState } from 'react';
 
 interface CommentItemProps {
   comment: Comment | ArticleComment;
@@ -17,6 +20,15 @@ export default function CommentItem({
   onDelete,
   checkDropdownOpen,
 }: CommentItemProps) {
+  const [userId, setUserId] = useState<number | null>(null);
+
+  useEffect(() => {
+    const localStorageUserId = localStorage.getItem('userId');
+    if (localStorageUserId) {
+      setUserId(Number(localStorageUserId));
+    }
+  }, []);
+
   if (!comment) return;
   const { content, updatedAt } = comment;
 
@@ -24,7 +36,6 @@ export default function CommentItem({
     'user' in comment ? comment.user : 'writer' in comment ? comment.writer : ({} as User);
   const variant = 'user' in comment ? 'default' : 'article';
 
-  const userId = Number(localStorage.getItem('userId'));
   const isAuthor = userId === userObject.id;
 
   return (
