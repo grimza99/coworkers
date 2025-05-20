@@ -48,10 +48,19 @@ export default function BestCard({
           </div>
 
           <div className="flex items-center justify-between">
-            <span className="text-md-md overflow-hidden text-ellipsis whitespace-nowrap">
-              {writer.nickname}
-            </span>
-            <div className="flex gap-1">
+            <div className="flex items-center gap-2">
+              <Image
+                width={32}
+                height={32}
+                alt="프로필 이미지"
+                src={writer.image?.trim() ? writer.image : '/icons/profile-icon.svg'}
+                className="rounded-full"
+              />
+              <span className="text-md-md overflow-hidden text-ellipsis whitespace-nowrap">
+                {writer.nickname}
+              </span>
+            </div>
+            <div className="flex">
               <LikeToggleButton articleId={id} likeCount={likeCount} readOnly={true} />
             </div>
           </div>

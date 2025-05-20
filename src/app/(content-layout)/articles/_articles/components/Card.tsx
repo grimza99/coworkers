@@ -24,7 +24,14 @@ export default function Card(props: Article) {
         </div>
 
         <div className="flex items-center justify-between pt-8">
-          <div className="flex items-center gap-2">
+          <div className="g-3 flex h-8 w-50 items-center gap-2">
+            <Image
+              width={32}
+              height={32}
+              alt="프로필 이미지"
+              src={writer.image?.trim() ? writer.image : '/icons/profile-icon.svg'}
+              className="rounded-full"
+            />
             <span className="text-md-md overflow-hidden text-ellipsis whitespace-nowrap">
               {writer.nickname}
             </span>
