@@ -4,13 +4,13 @@ import { useRouter } from 'next/navigation';
 import axios, { CancelTokenSource, isAxiosError } from 'axios';
 import FormField from '@/components/common/formField';
 import Button from '@/components/common/Button';
+import SendResetPassword from '@/app/(form-layout)/login/_login/SendResetPassword';
 import PasswordToggleButton from '@/app/(form-layout)/signup/_signup/PasswordToggleButton';
 import axiosClient from '@/lib/axiosClient';
 import { setClientCookie } from '@/lib/cookie/client';
 import { validateEmail } from '@/utils/validators';
 import { User } from '@/types/user';
 import PATHS from '@/constants/paths';
-import SendResetPassword from './SendResetPassword';
 
 export interface loginApiResponse {
   accessToken: string;

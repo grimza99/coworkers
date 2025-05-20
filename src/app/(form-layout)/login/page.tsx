@@ -1,5 +1,5 @@
 import Link from 'next/link';
-import LoginForm from './_login/LoginForm';
+import LoginForm from '@/app/(form-layout)/login/_login/LoginForm';
 import OAuth from '@/components/oauth';
 import PATHS from '@/constants/paths';
 
