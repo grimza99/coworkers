@@ -32,14 +32,20 @@ export default function CommentList({
     setIsPending(true);
 
     deleteArticleComment(articleId, commentIdToDelete)
+      .then(() => setCommentIdToDelete(null))
       .catch(() => Toast.error('댓글 삭제 실패'))
       .finally(() => setIsPending(false));
   };
 
-  const editComment = (commentId: number, comment: string) => {
+  const editComment = (commentId: number, comment: string, editComment: string) => {
+    if (comment === editComment) {
+      Toast.info('변경 사항이 없습니다');
+      return;
+    }
+
     setIsPending(true);
 
-    patchArticleComment(articleId, commentId, comment)
+    patchArticleComment(articleId, commentId, editComment)
       .then(() => setCommentToEdit(null))
       .catch(() => Toast.error('댓글 수정 실패'))
       .finally(() => setIsPending(false));
@@ -76,7 +82,7 @@ export default function CommentList({
                     취소
                   </button>
                   <Button
-                    onClick={() => editComment(comment.id, commentToEdit.content)}
+                    onClick={() => editComment(comment.id, comment.content, commentToEdit.content)}
                     disabled={isPending || validateEmptyValue(commentToEdit?.content)}
                     size="xs"
                     variant="ghost-primary"
