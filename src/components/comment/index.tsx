@@ -24,6 +24,9 @@ export default function CommentItem({
     'user' in comment ? comment.user : 'writer' in comment ? comment.writer : ({} as User);
   const variant = 'user' in comment ? 'default' : 'article';
 
+  const userId = Number(localStorage.getItem('userId'));
+  const isAuthor = userId === userObject.id;
+
   return (
     <div className={COMMENT_STYLES.container[variant]}>
       <div className="flex items-start justify-between">
@@ -33,6 +36,7 @@ export default function CommentItem({
             onDelete={onDelete}
             onEdit={onEdit}
             checkDropdownOpen={checkDropdownOpen}
+            isAuthor={isAuthor}
           />
         </div>
       </div>
