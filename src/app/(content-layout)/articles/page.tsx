@@ -1,5 +1,6 @@
 import { Metadata } from 'next';
 import ArticlesPageClient from './ArticlesPageClient';
+import { Suspense } from 'react';
 
 export async function generateMetadata(): Promise<Metadata> {
   return {
@@ -13,5 +14,9 @@ export async function generateMetadata(): Promise<Metadata> {
 }
 
 export default function Page() {
-  return <ArticlesPageClient />;
+  return (
+    <Suspense>
+      <ArticlesPageClient />
+    </Suspense>
+  );
 }

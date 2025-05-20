@@ -1,18 +1,19 @@
 'use client';
 
-import { useEffect, useState } from 'react';
-import { useRouter } from 'next/navigation';
-import Button from '@/components/common/Button';
-import Card from './_articles/components/Card';
-import SortToggle from './_articles/components/SortToggle';
-import ArticleSearchBar from './_articles/components/ArticleSearchBar';
-import Pagination from './_articles/components/Pagination';
-import { Article, GetArticlesResponse } from '@/types/article';
+import { useEffect, useState, useMemo } from 'react';
+import { useRouter, useSearchParams } from 'next/navigation';
+import debounce from 'lodash.debounce';
 import axiosClient from '@/lib/axiosClient';
 import PATHS from '@/constants/paths';
+import { Article, GetArticlesResponse } from '@/types/article';
+import ArticleSearchBar from './_articles/components/ArticleSearchBar';
+import Button from '@/components/common/Button';
+import BestCard from './_articles/components/BestCard';
+import Card from './_articles/components/Card';
+import SortToggle from './_articles/components/SortToggle';
+import Pagination from './_articles/components/Pagination';
 import { Toast } from '@/components/common/Toastify';
 import { BestCardSkeleton, CardSkeleton } from './_articles/components/Skeleton';
-import BestCard from './_articles/components/BestCard';
 
 export const dynamic = 'force-dynamic';
 
@@ -25,8 +26,23 @@ export default function ArticlesPageClient() {
   const [myArticlesOnly, setMyArticlesOnly] = useState(false);
   const pageSize = 10;
   const router = useRouter();
-  const [searchInput, setSearchInput] = useState('');
+  const searchParams = useSearchParams();
+  const searchInput = searchParams.get('keyword') ?? '';
   const [isLoadingBest, setIsLoadingBest] = useState(true);
+
+  const updateKeyword = useMemo(
+    () =>
+      debounce((v: string) => {
+        const params = new URLSearchParams(window.location.search);
+        if (v) {
+          params.set('keyword', v);
+        } else {
+          params.delete('keyword');
+        }
+        router.push(`/articles?${params.toString()}`);
+      }, 300),
+    [router]
+  );
 
   useEffect(() => {
     // 베스트 게시글 불러오기
@@ -86,7 +102,7 @@ export default function ArticlesPageClient() {
     <main className="">
       <section className="flex flex-col gap-10 pb-10">
         <h1 className="text-2xl-bold">자유게시판</h1>
-        <ArticleSearchBar value={searchInput} onChange={setSearchInput} />
+        <ArticleSearchBar value={searchInput} onChange={updateKeyword} />
       </section>
 
       <section className="border-bg200 flex flex-col gap-14 border-b pb-10">
