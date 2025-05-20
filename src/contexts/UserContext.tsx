@@ -45,15 +45,15 @@ export const UserProvider = ({ children }: { children: ReactNode }) => {
     }
   }, [setUser, setEmail]);
 
-  useEffect(() => {
-    fetchUser();
-  }, [fetchUser]);
-
   const logoutUser = useCallback(async () => {
     setUser(null);
     setEmail(null);
     setMemberships(null);
   }, [setUser, setEmail, setMemberships]);
+
+  useEffect(() => {
+    fetchUser();
+  }, [fetchUser]);
 
   return (
     <UserContext.Provider value={{ user, email, memberships, logoutUser, fetchUser }}>
