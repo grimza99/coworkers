@@ -7,7 +7,6 @@ import React, {
   ReactNode,
   useCallback,
 } from 'react';
-import { getClientCookie, deleteClientCookie } from '@/lib/cookie/client';
 import { Membership, User } from '@/types/user';
 import { getUser } from '@/api/user';
 
@@ -27,36 +26,28 @@ export const UserProvider = ({ children }: { children: ReactNode }) => {
   const [memberships, setMemberships] = useState<Membership[] | null>(null);
 
   const fetchUser = useCallback(async () => {
-    const accessToken = getClientCookie('accessToken');
-
-    if (accessToken) {
-      try {
-        const response = await getUser();
-        const { id, nickname, image, email, memberships } = response.data;
-        setUser({ id, nickname, image });
-        setEmail(email);
-        setMemberships(memberships);
-      } catch {
-        setUser(null);
-        setEmail(null);
-        setMemberships(null);
-        deleteClientCookie('accessToken');
-        deleteClientCookie('refreshToken');
-      }
-    } else {
+    try {
+      const response = await getUser();
+      const { id, nickname, image, email, memberships } = response.data;
+      setUser({ id, nickname, image });
+      setEmail(email);
+      setMemberships(memberships);
+    } catch {
       setUser(null);
+      setEmail(null);
+      setMemberships(null);
     }
-  }, []);
+  }, [setUser, setEmail, setMemberships]);
 
   useEffect(() => {
     fetchUser();
   }, [fetchUser]);
 
   const logoutUser = useCallback(async () => {
-    deleteClientCookie('accessToken');
-    deleteClientCookie('refreshToken');
-    window.location.href = '/login';
-  }, []);
+    setUser(null);
+    setEmail(null);
+    setMemberships(null);
+  }, [setUser, setEmail, setMemberships]);
 
   return (
     <UserContext.Provider value={{ user, email, memberships, logoutUser, fetchUser }}>
