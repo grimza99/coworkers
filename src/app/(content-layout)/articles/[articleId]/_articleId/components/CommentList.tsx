@@ -52,6 +52,14 @@ export default function CommentList({
 
   const deleteCommentModalId = `delete-comment-${commentIdToDelete}`;
 
+  if (comments.length === 0) {
+    return (
+      <div className="flex h-full w-full justify-center pt-37 sm:pt-[126px]">
+        <span className="text-lg-md text-gray500">아직 작성된 댓글이 없습니다.</span>
+      </div>
+    );
+  }
+
   return (
     <div className="mb-10 flex flex-col gap-4">
       {comments.map((comment) => {
