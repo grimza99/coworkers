@@ -1,34 +1,48 @@
 'use client';
 
 import Image from 'next/image';
-import { GetArticleDetailResponse } from '@/types/article';
+import { useEffect, useState } from 'react';
 import DropDown from '@/components/common/dropdown';
+import { GetArticleDetailResponse } from '@/types/article';
 import { formatTimeDistance } from '@/utils/date';
 import LikeToggleButton from '../../../_articles/components/LikeToggleButton';
 
 const ARTICLE_DROPDOWN_OPTIONS = ['수정하기', '삭제하기'];
 
 export default function DetailArticleInfo({ detail }: { detail: GetArticleDetailResponse }) {
+  const [userId, setUserId] = useState<number | null>(null);
+
+  useEffect(() => {
+    const localStorageUserId = localStorage.getItem('userId');
+    if (localStorageUserId) {
+      setUserId(Number(localStorageUserId));
+    }
+  }, []);
+
+  const isAuthor = userId === detail.writer.id;
+
   return (
     <div className="flex flex-col gap-12">
       <div>
         <div className="border-border mb-4 flex items-center justify-between border-b pb-4">
           <h1 className="text-lg-md sm:text-2lg-md text-gray300">{detail.title}</h1>
-          <DropDown
-            size="md"
-            placement="right-0"
-            options={ARTICLE_DROPDOWN_OPTIONS}
-            onSelect={() => {}}
-            dropDownOpenBtn={
-              <Image
-                src="/icons/kebab-icon.svg"
-                width={24}
-                height={24}
-                alt="kebab"
-                className="cursor-pointer"
-              />
-            }
-          />
+          {isAuthor && (
+            <DropDown
+              size="md"
+              placement="right-0"
+              options={ARTICLE_DROPDOWN_OPTIONS}
+              onSelect={() => {}}
+              dropDownOpenBtn={
+                <Image
+                  src="/icons/kebab-icon.svg"
+                  width={24}
+                  height={24}
+                  alt="kebab"
+                  className="cursor-pointer"
+                />
+              }
+            />
+          )}
         </div>
         <div className="text-gray400 text-xs-md flex items-center justify-between">
           <div className="flex items-center gap-3">
