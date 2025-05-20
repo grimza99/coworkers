@@ -3,12 +3,11 @@
 import { useState } from 'react';
 import Textarea from '@/components/common/formField/compound/Textarea';
 import Button from '@/components/common/Button';
-import DangerModal from '@/components/DangerModal';
+import DangerModal from '@/components/danger-modal';
 import { Toast } from '@/components/common/Toastify';
 import CommentItem from '@/components/comment';
 import { ArticleComment } from '@/components/comment/types';
 import useModalContext from '@/components/common/modal/core/useModalContext';
-
 import { deleteArticleComment, patchArticleComment } from '../action';
 import { validateEmptyValue } from '@/utils/validators';
 
