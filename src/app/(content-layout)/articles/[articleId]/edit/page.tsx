@@ -8,12 +8,11 @@ import axiosClient from '@/lib/axiosClient';
 import postImageUrl from '@/lib/api/image/postImageUrl';
 import { validateEmptyValue } from '@/utils/validators';
 import PATHS from '@/constants/paths';
-import { Article, GetArticleDetailResponse } from '@/types/article';
+import { GetArticleDetailResponse } from '@/types/article';
 
 export default function Page() {
   const router = useRouter();
   const { articleId } = useParams();
-  const [originalArticle, setOriginalArticle] = useState<Article | null>(null);
   const [title, setTitle] = useState('');
   const [content, setContent] = useState('');
   const [image, setImage] = useState<File | null>(null);
@@ -55,7 +54,7 @@ export default function Page() {
         ...(uploadedImageUrl && { image: uploadedImageUrl }),
       };
 
-      await axiosClient.patch('/articles', articlePayload);
+      await axiosClient.patch(`/articles/${articleId}`, articlePayload);
 
       Toast.success('게시글 수정이 완료되었습니다.');
       setTitle('');
@@ -68,7 +67,7 @@ export default function Page() {
 
       router.push(`${PATHS.ARTICLES.BASE}`);
     } catch {
-      Toast.error('게시글 작성 중 오류가 발생했습니다.');
+      Toast.error('게시글 수정 중 오류가 발생했습니다.');
     } finally {
       setIsSubmitting(false);
     }
@@ -84,11 +83,16 @@ export default function Page() {
 
   useEffect(() => {
     const fetchArticle = async () => {
-      const { data } = await axiosClient.get<GetArticleDetailResponse>(`/articles/${articleId}`);
-      setTitle(data.title);
-      setContent(data.content);
-      setPreviewImage(data.image);
-      setOriginalArticle(data);
+      try {
+        const response = await axiosClient.get<GetArticleDetailResponse>(`/articles/${articleId}`);
+        const { title, content, image } = response.data;
+        setTitle(title);
+        setContent(content);
+        setPreviewImage(image);
+      } catch (error) {
+        Toast.error('게시글 불러오기 실패');
+        throw error;
+      }
     };
 
     fetchArticle();
