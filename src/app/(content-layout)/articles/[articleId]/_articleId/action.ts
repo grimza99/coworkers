@@ -21,3 +21,8 @@ export async function postArticleCommentsAction(articleId: number, comment: stri
   await axiosServer.post(`/articles/${articleId}/comments`, { content: comment });
   revalidateTag(`article-comments-${articleId}`);
 }
+
+export async function deleteArticleComment(articleId: number, commentId: number) {
+  await axiosServer.delete(`/comments/${commentId}`);
+  revalidateTag(`article-comments-${articleId}`);
+}
