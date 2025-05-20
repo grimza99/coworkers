@@ -78,7 +78,7 @@ export default function LoginForm() {
   }, []);
 
   return (
-    <form onSubmit={handleSubmit} className="flex w-full flex-col">
+    <form onSubmit={handleSubmit} className="flex w-full flex-col md:max-w-115">
       <div className="flex w-full flex-col gap-6">
         <FormField
           name="email"
