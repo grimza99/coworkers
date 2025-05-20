@@ -28,12 +28,6 @@ export default function Page() {
         URL.revokeObjectURL(previewImage);
       }
       setPreviewImage(URL.createObjectURL(file));
-    } else {
-      if (previewImage) {
-        URL.revokeObjectURL(previewImage);
-      }
-      setPreviewImage('');
-      setImage(null);
     }
   };
 

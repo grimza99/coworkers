@@ -13,7 +13,7 @@ import { Article, GetArticleDetailResponse } from '@/types/article';
 export default function Page() {
   const router = useRouter();
   const { articleId } = useParams();
-  const [article, setArticle] = useState<Article | null>(null);
+  const [originalArticle, setOriginalArticle] = useState<Article | null>(null);
   const [title, setTitle] = useState('');
   const [content, setContent] = useState('');
   const [image, setImage] = useState<File | null>(null);
@@ -31,12 +31,6 @@ export default function Page() {
         URL.revokeObjectURL(previewImage);
       }
       setPreviewImage(URL.createObjectURL(file));
-    } else {
-      if (previewImage) {
-        URL.revokeObjectURL(previewImage);
-      }
-      setPreviewImage('');
-      setImage(null);
     }
   };
 
@@ -61,9 +55,9 @@ export default function Page() {
         ...(uploadedImageUrl && { image: uploadedImageUrl }),
       };
 
-      await axiosClient.post('/articles', articlePayload);
+      await axiosClient.patch('/articles', articlePayload);
 
-      Toast.success('게시글 작성이 완료되었습니다.');
+      Toast.success('게시글 수정이 완료되었습니다.');
       setTitle('');
       setContent('');
       setImage(null);
@@ -94,7 +88,7 @@ export default function Page() {
       setTitle(data.title);
       setContent(data.content);
       setPreviewImage(data.image);
-      setArticle(data);
+      setOriginalArticle(data);
     };
 
     fetchArticle();
