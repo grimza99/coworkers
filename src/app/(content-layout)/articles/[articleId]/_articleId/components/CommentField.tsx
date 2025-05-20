@@ -10,7 +10,7 @@ export default function CommentField({ articleId }: { articleId: number }) {
   const [comment, setComment] = useState('');
   const [isPending, startTransition] = useTransition();
 
-  const postComment = async () => {
+  const postComment = () => {
     startTransition(() => {
       postArticleCommentsAction(articleId, comment)
         .then(() => {

@@ -24,8 +24,6 @@ export default function CommentList({
   const [isPending, setIsPending] = useState(false);
   const { openModal } = useModalContext();
 
-  const deleteCommentModalId = `delete-comment-${commentIdToDelete}`;
-
   const deleteComment = () => {
     if (commentIdToDelete === null) return;
 
@@ -38,6 +36,8 @@ export default function CommentList({
   };
 
   const editComment = (commentId: number, comment: string, editComment: string) => {
+    if (commentToEdit === null) return;
+
     if (comment === editComment) {
       Toast.info('변경 사항이 없습니다');
       return;
@@ -51,9 +51,7 @@ export default function CommentList({
       .finally(() => setIsPending(false));
   };
 
-  const checkDropdownOpen = (commentId: number) => {
-    setCommentIdToDelete(commentId);
-  };
+  const deleteCommentModalId = `delete-comment-${commentIdToDelete}`;
 
   return (
     <div className="mb-10 flex flex-col gap-4">
@@ -98,7 +96,7 @@ export default function CommentList({
                 comment={comment}
                 onEdit={() => setCommentToEdit({ id: comment.id, content: comment.content })}
                 onDelete={() => openModal(deleteCommentModalId)}
-                checkDropdownOpen={() => checkDropdownOpen(comment.id)}
+                checkDropdownOpen={() => setCommentIdToDelete(comment.id)}
               />
             )}
           </div>
