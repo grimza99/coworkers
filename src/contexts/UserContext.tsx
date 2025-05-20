@@ -7,6 +7,7 @@ import React, {
   ReactNode,
   useCallback,
 } from 'react';
+import { getClientCookie, deleteClientCookie } from '@/lib/cookie/client';
 import { Membership, User } from '@/types/user';
 import { getUser } from '@/api/user';
 
@@ -26,6 +27,9 @@ export const UserProvider = ({ children }: { children: ReactNode }) => {
   const [memberships, setMemberships] = useState<Membership[] | null>(null);
 
   const fetchUser = useCallback(async () => {
+    const accessToken = getClientCookie('accessToken');
+    if (!accessToken) return;
+
     try {
       const response = await getUser();
       const { id, nickname, image, email, memberships } = response.data;
@@ -36,8 +40,10 @@ export const UserProvider = ({ children }: { children: ReactNode }) => {
       setUser(null);
       setEmail(null);
       setMemberships(null);
+      deleteClientCookie('accessToken');
+      deleteClientCookie('refreshToken');
     }
-  }, [setUser, setEmail, setMemberships]);
+  }, [setUser, setEmail]);
 
   useEffect(() => {
     fetchUser();
