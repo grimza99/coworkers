@@ -2,16 +2,19 @@
 
 import { useEffect, useState } from 'react';
 import { useRouter } from 'next/navigation';
+import Button from '@/components/common/Button';
+import Card from './_articles/components/Card';
+import SortToggle from './_articles/components/SortToggle';
+import ArticleSearchBar from './_articles/components/ArticleSearchBar';
+import Pagination from './_articles/components/Pagination';
 import { Article, GetArticlesResponse } from '@/types/article';
 import axiosClient from '@/lib/axiosClient';
-import Button from '@/components/common/Button';
 import PATHS from '@/constants/paths';
 import { Toast } from '@/components/common/Toastify';
-import ArticleSearchBar from './_articles/components/ArticleSearchBar';
+import { BestCardSkeleton, CardSkeleton } from './_articles/components/Skeleton';
 import BestCard from './_articles/components/BestCard';
-import SortToggle from './_articles/components/SortToggle';
-import Card from './_articles/components/Card';
-import Pagination from './_articles/components/Pagination';
+
+export const dynamic = 'force-dynamic';
 
 export default function ArticlesPageClient() {
   const [articles, setArticles] = useState<Article[]>([]);
@@ -23,10 +26,12 @@ export default function ArticlesPageClient() {
   const pageSize = 10;
   const router = useRouter();
   const [searchInput, setSearchInput] = useState('');
+  const [isLoadingBest, setIsLoadingBest] = useState(true);
 
   useEffect(() => {
     // 베스트 게시글 불러오기
     const fetchBestArticles = async () => {
+      setIsLoadingBest(true);
       try {
         const res = await axiosClient.get<GetArticlesResponse>('/articles', {
           params: {
@@ -40,6 +45,8 @@ export default function ArticlesPageClient() {
       } catch (error) {
         Toast.error('베스트 게시글을 불러오는 데 실패했습니다.');
         console.error('베스트 게시글을 불러오기 실패', error);
+      } finally {
+        setIsLoadingBest(false);
       }
     };
     fetchBestArticles();
@@ -86,17 +93,25 @@ export default function ArticlesPageClient() {
         <div className="flex justify-between">
           <h2 className="text-xl-bold">베스트 게시글</h2>
         </div>
-        <div className="grid grid-cols-1 gap-4 md:grid-cols-2 lg:grid-cols-3">
-          {bestArticles.slice(0, 1).map((article) => (
-            <BestCard key={`sm-${article.id}`} {...article} className="block md:hidden" />
-          ))}
-          {bestArticles.slice(0, 2).map((article) => (
-            <BestCard key={`md-${article.id}`} {...article} className="hidden md:block lg:hidden" />
-          ))}
-          {bestArticles.slice(0, 3).map((article) => (
-            <BestCard key={`lg-${article.id}`} {...article} className="hidden lg:block" />
-          ))}
-        </div>
+        {isLoadingBest ? (
+          <BestCardSkeleton />
+        ) : (
+          <div className="grid grid-cols-1 gap-4 md:grid-cols-2 lg:grid-cols-3">
+            {bestArticles.slice(0, 1).map((article) => (
+              <BestCard key={`sm-${article.id}`} {...article} className="block md:hidden" />
+            ))}
+            {bestArticles.slice(0, 2).map((article) => (
+              <BestCard
+                key={`md-${article.id}`}
+                {...article}
+                className="hidden md:block lg:hidden"
+              />
+            ))}
+            {bestArticles.slice(0, 3).map((article) => (
+              <BestCard key={`lg-${article.id}`} {...article} className="hidden lg:block" />
+            ))}
+          </div>
+        )}
       </section>
       <section className="flex flex-col gap-8 pt-10">
         <div className="flex items-start justify-between">
@@ -122,15 +137,21 @@ export default function ArticlesPageClient() {
             />
           </div>
         </div>
-        <div className="grid grid-cols-1 gap-6 lg:grid-cols-2">
-          {articles.map((article) => (
-            <Card
-              key={article.id}
-              {...article}
-              title={article.title.length > 30 ? article.title.slice(0, 30) + '...' : article.title}
-            />
-          ))}
-        </div>
+        {isLoadingBest ? (
+          <CardSkeleton />
+        ) : (
+          <div className="grid grid-cols-1 gap-6 lg:grid-cols-2">
+            {articles.map((article) => (
+              <Card
+                key={article.id}
+                {...article}
+                title={
+                  article.title.length > 30 ? article.title.slice(0, 30) + '...' : article.title
+                }
+              />
+            ))}
+          </div>
+        )}
         <Pagination
           currentPage={currentPage}
           totalPages={Math.ceil(totalCount / pageSize)}
