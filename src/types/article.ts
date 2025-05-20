@@ -1,6 +1,7 @@
 export interface ArticleWriter {
   id: number;
   nickname: string;
+  image: string;
 }
 
 export interface Article {
