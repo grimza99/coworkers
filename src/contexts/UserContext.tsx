@@ -15,8 +15,9 @@ interface UserContextType {
   user: User | null;
   email: string | null;
   memberships: Membership[] | null;
-  logoutUser: () => Promise<void>;
   fetchUser: () => Promise<void>;
+  logoutUser: () => Promise<void>;
+  isLoading: boolean;
 }
 
 const UserContext = createContext<UserContextType | null>(null);
@@ -25,10 +26,16 @@ export const UserProvider = ({ children }: { children: ReactNode }) => {
   const [user, setUser] = useState<User | null>(null);
   const [email, setEmail] = useState<string | null>(null);
   const [memberships, setMemberships] = useState<Membership[] | null>(null);
+  const [isLoading, setIsLoading] = useState(false);
 
   const fetchUser = useCallback(async () => {
+    setIsLoading(true);
     const accessToken = getClientCookie('accessToken');
-    if (!accessToken) return;
+
+    if (!accessToken) {
+      setIsLoading(false);
+      return;
+    }
 
     try {
       const response = await getUser();
@@ -43,12 +50,15 @@ export const UserProvider = ({ children }: { children: ReactNode }) => {
       deleteClientCookie('accessToken');
       deleteClientCookie('refreshToken');
     }
+    setIsLoading(false);
   }, [setUser, setEmail]);
 
   const logoutUser = useCallback(async () => {
+    setIsLoading(true);
     setUser(null);
     setEmail(null);
     setMemberships(null);
+    setIsLoading(false);
   }, [setUser, setEmail, setMemberships]);
 
   useEffect(() => {
@@ -56,7 +66,7 @@ export const UserProvider = ({ children }: { children: ReactNode }) => {
   }, [fetchUser]);
 
   return (
-    <UserContext.Provider value={{ user, email, memberships, logoutUser, fetchUser }}>
+    <UserContext.Provider value={{ user, email, memberships, fetchUser, logoutUser, isLoading }}>
       {children}
     </UserContext.Provider>
   );
