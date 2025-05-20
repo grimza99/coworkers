@@ -26,3 +26,8 @@ export async function deleteArticleComment(articleId: number, commentId: number)
   await axiosServer.delete(`/comments/${commentId}`);
   revalidateTag(`article-comments-${articleId}`);
 }
+
+export async function patchArticleComment(articleId: number, commentId: number, comment: string) {
+  await axiosServer.patch(`/comments/${commentId}`, { content: comment });
+  revalidateTag(`article-comments-${articleId}`);
+}
