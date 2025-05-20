@@ -1,6 +1,6 @@
 'use client';
 
-import { useEffect, useState, useMemo } from 'react';
+import { useEffect, useState, useMemo, Suspense, lazy } from 'react';
 import { useRouter, useSearchParams } from 'next/navigation';
 import debounce from 'lodash.debounce';
 import axiosClient from '@/lib/axiosClient';
@@ -9,13 +9,13 @@ import { Article, GetArticlesResponse } from '@/types/article';
 import ArticleSearchBar from './_articles/components/ArticleSearchBar';
 import Button from '@/components/common/Button';
 import BestCard from './_articles/components/BestCard';
-import Card from './_articles/components/Card';
 import SortToggle from './_articles/components/SortToggle';
 import Pagination from './_articles/components/Pagination';
 import { Toast } from '@/components/common/Toastify';
 import { BestCardSkeleton, CardSkeleton } from './_articles/components/Skeleton';
 
 export const dynamic = 'force-dynamic';
+const Card = lazy(() => import('./_articles/components/Card'));
 
 export default function ArticlesPageClient() {
   const [articles, setArticles] = useState<Article[]>([]);
@@ -27,25 +27,28 @@ export default function ArticlesPageClient() {
   const pageSize = 10;
   const router = useRouter();
   const searchParams = useSearchParams();
-  const searchInput = searchParams.get('keyword') ?? '';
+  const [searchInput, setSearchInput] = useState(searchParams.get('keyword') ?? '');
   const [isLoadingBest, setIsLoadingBest] = useState(true);
 
   const updateKeyword = useMemo(
     () =>
       debounce((v: string) => {
-        const params = new URLSearchParams(window.location.search);
+        const params = new URLSearchParams(searchParams.toString());
         if (v) {
           params.set('keyword', v);
         } else {
           params.delete('keyword');
         }
-        router.push(`/articles?${params.toString()}`);
+        router.replace(`/articles?${params.toString()}`);
       }, 300),
-    [router]
+    [router, searchParams]
   );
 
   useEffect(() => {
-    // 베스트 게시글 불러오기
+    updateKeyword(searchInput);
+  }, [searchInput, updateKeyword]);
+
+  useEffect(() => {
     const fetchBestArticles = async () => {
       setIsLoadingBest(true);
       try {
@@ -102,7 +105,7 @@ export default function ArticlesPageClient() {
     <main className="">
       <section className="flex flex-col gap-10 pb-10">
         <h1 className="text-2xl-bold">자유게시판</h1>
-        <ArticleSearchBar value={searchInput} onChange={updateKeyword} />
+        <ArticleSearchBar value={searchInput} onChange={setSearchInput} />
       </section>
 
       <section className="border-bg200 flex flex-col gap-14 border-b pb-10">
@@ -153,9 +156,7 @@ export default function ArticlesPageClient() {
             />
           </div>
         </div>
-        {isLoadingBest ? (
-          <CardSkeleton />
-        ) : (
+        <Suspense fallback={<CardSkeleton />}>
           <div className="grid grid-cols-1 gap-6 lg:grid-cols-2">
             {articles.map((article) => (
               <Card
@@ -167,7 +168,7 @@ export default function ArticlesPageClient() {
               />
             ))}
           </div>
-        )}
+        </Suspense>
         <Pagination
           currentPage={currentPage}
           totalPages={Math.ceil(totalCount / pageSize)}
