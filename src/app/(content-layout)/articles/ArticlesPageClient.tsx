@@ -14,6 +14,7 @@ import Pagination from './_articles/components/Pagination';
 import { Toast } from '@/components/common/Toastify';
 import { BestCardSkeleton, CardSkeleton } from './_articles/components/Skeleton';
 import Image from 'next/image';
+import { useUser } from '@/contexts/UserContext';
 
 const Card = lazy(() => import('./_articles/components/Card'));
 
@@ -30,6 +31,7 @@ export default function ArticlesPageClient() {
   const [currentPage, setCurrentPage] = useState(1);
   const pageSize = 10;
   const router = useRouter();
+  const { user } = useUser();
 
   const updateKeyword = useMemo(
     () =>
@@ -85,8 +87,7 @@ export default function ArticlesPageClient() {
         });
 
         const allArticles = res.data.list;
-        const storedUserId = localStorage.getItem('userId'); // @TODO: 전역상태 이용하기
-        const userId = storedUserId ? parseInt(storedUserId, 10) : null;
+        const userId = user?.id ?? null;
         const filtered =
           myArticlesOnly && userId
             ? allArticles.filter((article: Article) => article.writer.id === userId)
@@ -99,7 +100,7 @@ export default function ArticlesPageClient() {
       }
     };
     fetchArticles();
-  }, [currentPage, orderBy, myArticlesOnly, searchInput]);
+  }, [currentPage, orderBy, myArticlesOnly, searchInput, user]);
 
   return (
     <main className="">
