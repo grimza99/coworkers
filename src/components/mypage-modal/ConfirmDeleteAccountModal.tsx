@@ -1,6 +1,7 @@
 'use client';
 
 import Image from 'next/image';
+import { useUser } from '@/contexts/UserContext';
 import {
   ModalContainer,
   ModalDescription,
@@ -17,6 +18,7 @@ import { deleteClientCookie } from '@/lib/cookie/client';
 
 export default function ConfirmDeleteAccountModal() {
   const { closeModal } = useModalContext();
+  const { logoutUser } = useUser();
 
   return (
     <>
@@ -49,6 +51,7 @@ export default function ConfirmDeleteAccountModal() {
                   onClick={async () => {
                     try {
                       await axiosClient.delete('/user');
+                      logoutUser();
                       deleteClientCookie('accessToken');
                       deleteClientCookie('refreshToken');
                       Toast.success('회원 탈퇴가 완료되었습니다. 잠시 후 페이지가 이동합니다.');
