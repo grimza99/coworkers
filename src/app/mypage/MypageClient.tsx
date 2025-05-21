@@ -50,7 +50,7 @@ export default function MyPage() {
   const [image, setImage] = useState('');
   const [nickname, setNickname] = useState('');
   const [optimisticNickname, setOptimisticNickname] = useOptimistic(nickname);
-  const [isPending, startTransition] = useTransition();
+  const [, startTransition] = useTransition();
   const [nicknameError, setNicknameError] = useState('');
   const [password, setPassword] = useState('');
   const { openModal, closeModal } = useModalContext();
@@ -96,7 +96,7 @@ export default function MyPage() {
                   const errorObj = error as { response?: { data?: { message?: string } } };
                   const message = errorObj?.response?.data?.message || '닉네임 변경 실패';
                   setNicknameError(message);
-                  Toast.error('닉네임 변경에 실패했습니다. 다시 시도해주세요.');
+                  Toast.error('닉네임 변경에 실패했습니다.');
                 }
               }}
             />

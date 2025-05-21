@@ -1,6 +1,6 @@
 'use client';
 
-import { useState } from 'react';
+import { useState, useTransition } from 'react';
 import {
   ModalContainer,
   ModalFooter,
@@ -23,6 +23,7 @@ interface PasswordChangeSuccessModalProps {
 
 export default function ChangePasswordModal({ onClose }: PasswordChangeSuccessModalProps) {
   const { closeModal } = useModalContext();
+  const [isPending, startTransition] = useTransition();
   const [showPassword, setShowPassword] = useState(false);
   const [showConfirmPassword, setShowConfirmPassword] = useState(false);
   const [formData, setFormData] = useState({
@@ -36,27 +37,33 @@ export default function ChangePasswordModal({ onClose }: PasswordChangeSuccessMo
     }));
   };
 
-  const handleChangePassword = async () => {
-    const isPasswordValid = validatePassword(formData.newPassword);
-    const isConfirmValid = validateConfirmPassword(formData.newPassword, formData.confirmPassword);
+  const handleChangePassword = () => {
+    startTransition(async () => {
+      const isPasswordValid = validatePassword(formData.newPassword);
+      const isConfirmValid = validateConfirmPassword(
+        formData.newPassword,
+        formData.confirmPassword
+      );
 
-    if (!isPasswordValid || !isConfirmValid) {
-      return;
-    }
+      if (!isPasswordValid || !isConfirmValid) {
+        return;
+      }
 
-    try {
-      await axiosClient.patch('/user/password', {
-        password: formData.newPassword,
-        passwordConfirmation: formData.confirmPassword,
-      });
+      try {
+        await axiosClient.patch('/user/password', {
+          password: formData.newPassword,
+          passwordConfirmation: formData.confirmPassword,
+        });
 
-      setFormData({ newPassword: '', confirmPassword: '' });
+        setFormData({ newPassword: '', confirmPassword: '' });
 
-      closeModal('change-password');
-      Toast.success('비밀번호가 변경 성공');
-    } catch {
-      Toast.error('비밀번호 변경에 실패했습니다.');
-    }
+        closeModal('change-password');
+        Toast.success('비밀번호가 변경 성공');
+        onClose();
+      } catch {
+        Toast.error('비밀번호 변경에 실패했습니다.');
+      }
+    });
   };
 
   return (
@@ -87,7 +94,7 @@ export default function ChangePasswordModal({ onClose }: PasswordChangeSuccessMo
                 <FormField
                   field="input"
                   label="새 비밀번호 확인"
-                  placeholder="새 비밀번호를 다시 한 번 입력해 주세요."
+                  placeholder="새 비밀번호를 다시 입력해 주세요."
                   type={showConfirmPassword ? 'text' : 'password'}
                   isFailure={
                     !validateConfirmPassword(formData.newPassword, formData.confirmPassword)
@@ -126,8 +133,9 @@ export default function ChangePasswordModal({ onClose }: PasswordChangeSuccessMo
                     size="fullWidth"
                     className="w-full"
                     onClick={handleChangePassword}
+                    disabled={isPending}
                   >
-                    변경하기
+                    {isPending ? '변경 중...' : '변경하기'}
                   </Button>
                 </div>
               </ModalFooter>
