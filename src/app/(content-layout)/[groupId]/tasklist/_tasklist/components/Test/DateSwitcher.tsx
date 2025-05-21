@@ -10,30 +10,45 @@ import prevIcon from '@/../public/icons/prev-arrow-icon.svg';
 import nextIcon from '@/../public/icons/next-arrow-icon.svg';
 import calendar from '@/../public/icons/calendar.svg';
 import { revalidateTasks } from '../../actions/task-api';
+import { useRouter, useSearchParams } from 'next/navigation';
 
 interface Props {
   groupId: string;
-  taskListId: number;
+  date: string;
 }
-export default function DateSwitcher({ groupId, taskListId }: Props) {
-  const [currentDate, setCurrentDate] = useState(new Date());
+export default function DateSwitcher({ groupId, date }: Props) {
+  const searchParams = useSearchParams();
+  const router = useRouter();
+
+  const [currentDate, setCurrentDate] = useState(date);
   const {
     isOpen: isCalendarOpen,
     setIsOpen: setIsCalendarOpen,
     ref,
   } = useOutSideClickAutoClose(false);
 
-  const handleClickChangeDayIcon = async (value: string) => {
-    if (value === 'prev') {
-      const newDate = subDays(currentDate, 1);
-      setCurrentDate((prev) => subDays(prev, 1));
-      await revalidateTasks(groupId, taskListId, newDate);
-    } else {
-      const newDate = addDays(currentDate, 1);
-      setCurrentDate((prev) => addDays(prev, 1));
-      await revalidateTasks(groupId, taskListId, newDate);
-    }
+  const handleClickChangeDayIcon = (direction: 'prev' | 'next') => {
+    const params = new URLSearchParams(searchParams.toString());
+    const newDate = direction === 'prev' ? subDays(currentDate, 1) : addDays(currentDate, 1);
+
+    setCurrentDate(String(newDate));
+    revalidateTasks();
+
+    params.set('date', String(newDate));
+    router.push(`?${params.toString()}`);
   };
+
+  const selectDateOnCalendar = (value: Date) => {
+    const params = new URLSearchParams(searchParams.toString());
+
+    setIsCalendarOpen(false);
+    setCurrentDate(String(value));
+    revalidateTasks();
+
+    params.set('date', String(value));
+    router.push(`?${params.toString()}`);
+  };
+
   return (
     <div className="flex justify-between">
       <div className="relative flex items-center gap-3">
@@ -52,10 +67,9 @@ export default function DateSwitcher({ groupId, taskListId }: Props) {
         {isCalendarOpen && (
           <div ref={ref} className="absolute top-10 z-100 w-80 md:top-0 md:-right-90 md:w-100">
             <CalendarSelect
-              date={currentDate}
+              date={new Date(currentDate)}
               onDateChange={(value) => {
-                setCurrentDate(value);
-                setIsCalendarOpen(false);
+                selectDateOnCalendar(value);
               }}
             />
           </div>

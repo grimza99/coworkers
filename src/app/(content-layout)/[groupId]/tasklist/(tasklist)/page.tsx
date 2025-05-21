@@ -1,51 +1,38 @@
-'use client';
-
-import prevIcon from '@/../public/icons/prev-arrow-icon.svg';
-import nextIcon from '@/../public/icons/next-arrow-icon.svg';
-import calendar from '@/../public/icons/calendar.svg';
-import Image from 'next/image';
-import { addDays, format, subDays } from 'date-fns';
-import { use, useState } from 'react';
-import DateWiseTaskList from '../_tasklist/components/DateWiseTaskLists';
-import CreateTaskListModal from '../_tasklist/components/ModalContents/CreateTaskListModal';
-import { ko } from 'date-fns/locale';
-import CalendarSelect from '@/components/calendar/CalendarSelect';
-import { useOutSideClickAutoClose } from '@/utils/use-outside-click-auto-close';
+import DateSwitcher from '../_tasklist/components/Test/DateSwitcher';
+import TaskLists from '../_tasklist/components/Test/TaskLists';
+import Tasks from '../_tasklist/components/Test/Tasks';
+import { getTaskLists, getTasks } from '../_tasklist/actions/task-api';
 import ManageTaskItemModal from '../_tasklist/components/manage-task-item-modal/MangeTaskItemModal';
-import TaskListPageFallBack from '../error';
 import { ErrorBoundary } from 'react-error-boundary';
+import TaskListPageFallBack from '../error';
 
 interface Props {
   params: Promise<{ groupId: string }>;
+
+  searchParams: Promise<{ [key: string]: string }>;
 }
 
-export default function Page({ params }: Props) {
-  const { groupId } = use(params);
-  const [currentDate, setCurrentDate] = useState(new Date());
-  const {
-    isOpen: isCalendarOpen,
-    setIsOpen: setIsCalendarOpen,
-    ref,
-  } = useOutSideClickAutoClose(false);
+export default async function Page({ params, searchParams }: Props) {
+  const { date: searchParamsDate } = await searchParams;
+  const { taskListId: searchParamsTaskListId } = await searchParams;
 
-  const handleClickChangeDayIcon = (value: string) => {
-    if (value === 'prev') {
-      setCurrentDate((prev) => subDays(prev, 1));
-    } else {
-      setCurrentDate((prev) => addDays(prev, 1));
-    }
-  };
+  const { groupId } = await params;
+  const dateStr = searchParamsDate
+    ? String(searchParamsDate)
+    : new Date().toISOString().substring(0, 10);
+  const date = new Date(dateStr);
 
-  const [taskListId, setTaskListId] = useState(0);
+  const taskLists = await getTaskLists(groupId);
+  if (!taskLists) throw Error;
 
-  const updateTaskListId = (id: number) => {
-    setTaskListId(id);
-  };
+  const taskListId = searchParamsTaskListId ? Number(searchParamsTaskListId) : taskLists[0].id;
+
+  const tasks = await getTasks(groupId, taskListId, String(date));
 
   return (
     <div className="flex w-full flex-col gap-6 pb-25">
       <p className="text-lg-bold md:text-xl-bold">할 일</p>
-      <div className="flex justify-between">
+      {/* <div className="flex justify-between">
         <div className="relative flex items-center gap-3">
           <p className="text-lg-md">{format(currentDate, 'M월 dd일 (eee)', { locale: ko })}</p>
           <div className="flex gap-1">
@@ -72,15 +59,19 @@ export default function Page({ params }: Props) {
           )}
         </div>
         <CreateTaskListModal groupId={groupId} />
-      </div>
-      <ErrorBoundary fallbackRender={({ error }) => <TaskListPageFallBack error={error} />}>
+      </div> */}
+      {/* <ErrorBoundary fallbackRender={({ error }) => <TaskListPageFallBack error={error} />}>
         <DateWiseTaskList
           groupId={groupId}
           date={currentDate}
           updateTaskListId={updateTaskListId}
         />
         <ManageTaskItemModal groupId={Number(groupId)} taskListId={taskListId} />
-      </ErrorBoundary>
+      </ErrorBoundary> */}
+      <DateSwitcher groupId={groupId} date={String(date)} />
+      <TaskLists taskLists={taskLists} date={String(date)} />
+      <Tasks groupId={groupId} tasks={tasks} currentTaskList={taskLists[0]} />
+      <ManageTaskItemModal groupId={Number(groupId)} taskListId={taskListId} />
     </div>
   );
 }

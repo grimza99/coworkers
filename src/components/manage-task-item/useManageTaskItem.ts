@@ -7,6 +7,8 @@ import axiosClient from '@/lib/axiosClient';
 import useModalContext from '../common/modal/core/useModalContext';
 import { validateEmptyValue } from '@/utils/validators';
 import { Toast } from '../common/Toastify';
+import { revalidateTasks } from '@/app/(content-layout)/[groupId]/tasklist/_tasklist/actions/task-api';
+import { useRouter } from 'next/navigation';
 
 const REVERSE_FREQUENCY_MAP: Record<string, Frequency> = {
   '한 번': 'ONCE',
@@ -25,6 +27,7 @@ export default function useManageTaskItem({
   const { am, pm } = generateTime();
   const { closeModal } = useModalContext();
   const task = detailTask?.recurring;
+  const router = useRouter();
 
   const [isCalendarOpen, setIsCalendarOpen] = useState(false);
   const [taskItem, setTaskItem] = useState<TaskItem>(() => ({
@@ -182,6 +185,8 @@ export default function useManageTaskItem({
       setIsPending(true);
       await axiosClient.post(`/groups/${groupId}/task-lists/${taskListId}/tasks`, finalTaskItem);
 
+      revalidateTasks();
+      router.refresh();
       closeTaskItemModal();
     } catch {
       Toast.error('할 일 생성 실패');
@@ -221,7 +226,8 @@ export default function useManageTaskItem({
       // }
 
       // await Promise.all(promises);
-
+      revalidateTasks();
+      router.refresh();
       closeTaskItemModal();
     } catch {
       Toast.error('할 일 수정 실패');

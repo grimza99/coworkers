@@ -5,6 +5,8 @@ import { SortableContext, verticalListSortingStrategy } from '@dnd-kit/sortable'
 import useDndKit from '../../hooks/use-dnd-kit';
 import { useEffect, useState } from 'react';
 import TasksWiseTask from '../TasksWiseTask';
+import { ErrorBoundary } from 'react-error-boundary';
+import TaskListPageFallBack from '../../../error';
 
 interface Props {
   groupId: string;
@@ -14,19 +16,17 @@ interface Props {
 export default function Tasks({ groupId, tasks, currentTaskList }: Props) {
   const [currentTasks, setCurrentTasks] = useState<Task[]>(tasks);
   const [isClient, setIsClient] = useState(false);
-
   const orderCurrentTasks = (orderedCurrentTasks: Task[]) => {
     setCurrentTasks(orderedCurrentTasks);
   };
   const { sensors, handleDragEnd } = useDndKit(currentTasks, currentTaskList!, orderCurrentTasks);
-
   useEffect(() => {
+    setCurrentTasks(tasks);
     setIsClient(true);
-  }, []);
+  }, [tasks]);
   if (!isClient) return null; // or a loading skeleton
-
   return (
-    <div>
+    <ErrorBoundary fallbackRender={({ error }) => <TaskListPageFallBack error={error} />}>
       {currentTasks.length > 0 ? (
         <DndContext
           sensors={sensors}
@@ -54,6 +54,6 @@ export default function Tasks({ groupId, tasks, currentTaskList }: Props) {
           <br />할 일을 추가 해보세요.
         </p>
       )}
-    </div>
+    </ErrorBoundary>
   );
 }

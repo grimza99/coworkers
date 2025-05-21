@@ -7,6 +7,7 @@ import TasksWiseTask from './TasksWiseTask';
 import { SortableContext, verticalListSortingStrategy } from '@dnd-kit/sortable';
 import { closestCenter, DndContext, DragEndEvent } from '@dnd-kit/core';
 import useDndKit from '../hooks/use-dnd-kit';
+import { getTaskLists, getTasks, revalidateTasks } from '../actions/task-api';
 
 interface Props {
   date: Date;
@@ -37,18 +38,38 @@ export default function DateWiseTaskLists({ date, groupId, updateTaskListId }: P
     fetchTaskListWiseTasks(taskList);
   };
 
+  // const fetchTaskListWiseTasks = useCallback(
+  //   async (currentTaskList: TaskList) => {
+  //     if (!currentTaskList) return;
+
+  //     try {
+  //       const { data: tasksData } = await axiosClient(
+  //         `groups/${groupId}/task-lists/${currentTaskList.id}/tasks`,
+  //         {
+  //           params: { date },
+  //         }
+  //       );
+
+  //       setCurrentTasks(tasksData);
+  //     } catch (error: unknown) {
+  //       if (error instanceof Error) {
+  //         setError(error);
+  //       } else {
+  //         setError(new Error('Unknown error occurred'));
+  //       }
+  //     }
+  //   },
+
+  //   [groupId, date]
+  // );
+
   const fetchTaskListWiseTasks = useCallback(
     async (currentTaskList: TaskList) => {
       if (!currentTaskList) return;
 
       try {
-        const { data: tasksData } = await axiosClient(
-          `groups/${groupId}/task-lists/${currentTaskList.id}/tasks`,
-          {
-            params: { date },
-          }
-        );
-
+        const tasksData = await getTasks(groupId, currentTaskList.id, date);
+        console.log(tasksData);
         setCurrentTasks(tasksData);
       } catch (error: unknown) {
         if (error instanceof Error) {
@@ -62,10 +83,40 @@ export default function DateWiseTaskLists({ date, groupId, updateTaskListId }: P
     [groupId, date]
   );
 
+  // const fetchTaskLists = useCallback(async () => {
+  //   if (!date || !groupId) return;
+  //   try {
+  //     const { data: taskListsData } = await axiosClient(`/groups/${groupId}`);
+  //     const fetchedTaskLists: TaskList[] = taskListsData.taskLists;
+
+  //     if (taskListsData && fetchedTaskLists.length < 1) {
+  //       return (
+  //         <div className="flex h-200 items-center justify-center">
+  //           <p className="text-md-md text-gray500">
+  //             아직 할 일 목록이 없습니다.
+  //             <br />
+  //             새로운 목록을 추가 해주세요.
+  //           </p>
+  //         </div>
+  //       );
+  //     }
+
+  //     setTaskLists(fetchedTaskLists);
+  //     setCurrentTaskList(fetchedTaskLists[0]);
+  //     fetchTaskListWiseTasks(fetchedTaskLists[0]);
+  //   } catch (error) {
+  //     if (error instanceof Error) {
+  //       setError(error);
+  //     } else {
+  //       setError(new Error('Unknown error occurred'));
+  //     }
+  //   }
+  // }, [groupId, fetchTaskListWiseTasks, date]);
+
   const fetchTaskLists = useCallback(async () => {
     if (!date || !groupId) return;
     try {
-      const { data: taskListsData } = await axiosClient(`/groups/${groupId}`);
+      const taskListsData = await getTaskLists(groupId);
       const fetchedTaskLists: TaskList[] = taskListsData.taskLists;
 
       if (taskListsData && fetchedTaskLists.length < 1) {
