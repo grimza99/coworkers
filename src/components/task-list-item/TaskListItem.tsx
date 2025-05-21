@@ -8,6 +8,7 @@ type ScheduleType = 'DAILY' | 'WEEKLY' | 'MONTHLY' | 'ONCE';
 
 interface TaskListItemProps {
   type: 'history' | 'taskList';
+  checkDropdownOpen?: () => void;
   onCheckStatusChange?: () => void;
   onEdit?: () => void;
   onDelete?: () => void;
@@ -21,6 +22,7 @@ interface TaskListItemProps {
 
 export default function TaskListItem({
   type = 'taskList',
+  checkDropdownOpen,
   onCheckStatusChange,
   onEdit,
   onDelete,
@@ -89,7 +91,9 @@ export default function TaskListItem({
                 options={DROPDOWN_OPTION_LIST}
                 size="md"
                 dropDownOpenBtn={
-                  <Image src="/icons/kebab-icon.svg" width={16} height={16} alt="kebab" />
+                  <button onClick={checkDropdownOpen}>
+                    <Image src="/icons/kebab-icon.svg" width={16} height={16} alt="kebab" />
+                  </button>
                 }
                 placement="top-4 -right-[14px]"
               />
