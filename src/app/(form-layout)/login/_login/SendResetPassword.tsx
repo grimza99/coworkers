@@ -1,6 +1,9 @@
 'use client';
 import { useState } from 'react';
+import { AxiosError } from 'axios';
+import { Toast } from '@/components/common/Toastify';
 import Button from '@/components/common/Button';
+import FormField from '@/components/common/formField';
 import {
   ModalContainer,
   ModalDescription,
@@ -12,10 +15,7 @@ import {
 } from '@/components/common/modal';
 import useModalContext from '@/components/common/modal/core/useModalContext';
 import axiosClient from '@/lib/axiosClient';
-import FormField from '@/components/common/formField';
 import { validateEmail } from '@/utils/validators';
-import { AxiosError } from 'axios';
-import { Toast } from '@/components/common/Toastify';
 import { AUTH_ERROR_MESSAGES } from '@/constants/messages/signup';
 
 const redirectUrl = process.env.NEXT_PUBLIC_RESET_PASSWORD;
