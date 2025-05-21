@@ -42,7 +42,6 @@
 }
 
 .Toastify__toast--info .Toastify__close-button {
-  margin-left: 10px;
   color: var(--color-gray500);
   opacity: 1;
 }
