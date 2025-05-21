@@ -1,6 +1,6 @@
+import { Suspense } from 'react';
 import { Metadata } from 'next';
 import ArticlesPageClient from './ArticlesPageClient';
-import { Suspense } from 'react';
 
 export async function generateMetadata(): Promise<Metadata> {
   return {

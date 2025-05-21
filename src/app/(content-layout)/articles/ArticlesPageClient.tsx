@@ -2,7 +2,7 @@
 
 import { useEffect, useState, useMemo, Suspense, lazy } from 'react';
 import { useRouter, useSearchParams } from 'next/navigation';
-import debounce from 'lodash.debounce';
+import debounce from 'lodash.debounce'; // 입력 값이 바뀌었을 때, 일정 시간 멈췄을 때만 실행되도록 만드는 함수.
 import axiosClient from '@/lib/axiosClient';
 import PATHS from '@/constants/paths';
 import { Article, GetArticlesResponse } from '@/types/article';
@@ -14,21 +14,22 @@ import Pagination from './_articles/components/Pagination';
 import { Toast } from '@/components/common/Toastify';
 import { BestCardSkeleton, CardSkeleton } from './_articles/components/Skeleton';
 
-export const dynamic = 'force-dynamic';
-const Card = lazy(() => import('./_articles/components/Card'));
+// export const dynamic = 'force-dynamic'; // 매번 동적 렌더링 되도록(캐싱하지 않음) 이거 필요한가?
+const Card = lazy(() => import('./_articles/components/Card')); // 카드 컴포넌트를 lazy load하여 초기 번들 사이즈를 줄이고 필요할 때만 로딩 되도록 ?
 
 export default function ArticlesPageClient() {
   const [articles, setArticles] = useState<Article[]>([]);
   const [bestArticles, setBestArticles] = useState<Article[]>([]);
-  const [totalCount, setTotalCount] = useState(0); // 총 몇 페이지를 만들지 계산할 때 사용
-  const [currentPage, setCurrentPage] = useState(1);
+  const [isLoadingBest, setIsLoadingBest] = useState(true);
   const [orderBy, setOrderBy] = useState<'recent' | 'like'>('recent');
   const [myArticlesOnly, setMyArticlesOnly] = useState(false);
-  const pageSize = 10;
-  const router = useRouter();
+
   const searchParams = useSearchParams();
   const [searchInput, setSearchInput] = useState(searchParams.get('keyword') ?? '');
-  const [isLoadingBest, setIsLoadingBest] = useState(true);
+  const [totalCount, setTotalCount] = useState(0); // 총 몇 페이지를 만들지 계산할 때 사용
+  const [currentPage, setCurrentPage] = useState(1); // 현재 페이지 번호
+  const pageSize = 10;
+  const router = useRouter();
 
   const updateKeyword = useMemo(
     () =>
