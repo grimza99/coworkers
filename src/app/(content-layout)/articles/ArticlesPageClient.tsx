@@ -2,7 +2,7 @@
 
 import { useEffect, useState, useMemo, Suspense, lazy } from 'react';
 import { useRouter, useSearchParams } from 'next/navigation';
-import debounce from 'lodash.debounce'; // 입력 값이 바뀌었을 때, 일정 시간 멈췄을 때만 실행되도록 만드는 함수.
+import debounce from 'lodash.debounce';
 import axiosClient from '@/lib/axiosClient';
 import PATHS from '@/constants/paths';
 import { Article, GetArticlesResponse } from '@/types/article';
@@ -15,8 +15,7 @@ import { Toast } from '@/components/common/Toastify';
 import { BestCardSkeleton, CardSkeleton } from './_articles/components/Skeleton';
 import Image from 'next/image';
 
-// export const dynamic = 'force-dynamic'; // 매번 동적 렌더링 되도록(캐싱하지 않음) 이거 필요한가?
-const Card = lazy(() => import('./_articles/components/Card')); // 카드 컴포넌트를 lazy load하여 초기 번들 사이즈를 줄이고 필요할 때만 로딩 되도록 ?
+const Card = lazy(() => import('./_articles/components/Card'));
 
 export default function ArticlesPageClient() {
   const [articles, setArticles] = useState<Article[]>([]);
@@ -27,8 +26,8 @@ export default function ArticlesPageClient() {
 
   const searchParams = useSearchParams();
   const [searchInput, setSearchInput] = useState(searchParams.get('keyword') ?? '');
-  const [totalCount, setTotalCount] = useState(0); // 총 몇 페이지를 만들지 계산할 때 사용
-  const [currentPage, setCurrentPage] = useState(1); // 현재 페이지 번호
+  const [totalCount, setTotalCount] = useState(0);
+  const [currentPage, setCurrentPage] = useState(1);
   const pageSize = 10;
   const router = useRouter();
 
@@ -86,7 +85,7 @@ export default function ArticlesPageClient() {
         });
 
         const allArticles = res.data.list;
-        const storedUserId = localStorage.getItem('userId');
+        const storedUserId = localStorage.getItem('userId'); // @TODO: 전역상태 이용하기
         const userId = storedUserId ? parseInt(storedUserId, 10) : null;
         const filtered =
           myArticlesOnly && userId
@@ -143,7 +142,7 @@ export default function ArticlesPageClient() {
               size="fullWidth"
               onClick={() => {
                 setMyArticlesOnly((prev) => !prev);
-                setCurrentPage(1); // 조건이 바뀔 때마다 현재 페이지를 1페이지로 리셋
+                setCurrentPage(1);
               }}
             >
               {myArticlesOnly ? '전체 게시글 보기' : '내 게시글 보기'}
