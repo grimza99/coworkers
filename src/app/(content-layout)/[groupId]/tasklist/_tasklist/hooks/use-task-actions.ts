@@ -43,8 +43,19 @@ export function useTaskActions(task?: Task) {
     }
   };
 
+  const saveNewTaskOrder = async (taskListId: number, id: number, index: number) => {
+    try {
+      await axiosClient.patch(`/groups/{groupId}/task-lists/${taskListId}/tasks/${id}/order`, {
+        displayIndex: index,
+      });
+      Toast.success('할일 순서 변경 성공');
+    } catch {
+      Toast.error('할일 순서 변경 실패');
+    }
+  };
   return {
     deleteTask,
     toggleTaskDone,
+    saveNewTaskOrder,
   };
 }

@@ -3,7 +3,7 @@ import { Member } from './member-type';
 
 export type Frequency = 'DAILY' | 'WEEKLY' | 'ONCE' | 'MONTHLY';
 
-interface Recurring {
+export interface Recurring {
   id: number;
   name: string;
   description: string;
@@ -50,7 +50,7 @@ export interface Task {
   displayIndex: number;
   commentCount: number;
   frequency: Frequency;
-  monthDay?: 0;
+  monthDay?: number;
   weekDays?: number[];
   doneAt: string;
   date: string;

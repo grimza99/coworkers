@@ -2,6 +2,7 @@
 import { useRef, useState, useEffect } from 'react';
 import { useRouter } from 'next/navigation';
 import axios, { CancelTokenSource, isAxiosError } from 'axios';
+import { useUser } from '@/contexts/UserContext';
 import FormField from '@/components/common/formField';
 import Button from '@/components/common/Button';
 import PasswordToggleButton from '@/app/(form-layout)/signup/_signup/PasswordToggleButton';
@@ -22,6 +23,7 @@ export default function LoginForm() {
   const router = useRouter();
   const cancelTokenRef = useRef<CancelTokenSource | null>(null);
 
+  const { fetchUser } = useUser();
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [isPasswordVisible, setIsPasswordVisible] = useState(false);
@@ -54,6 +56,7 @@ export default function LoginForm() {
       const data = res.data;
       setClientCookie('accessToken', data.accessToken);
       setClientCookie('refreshToken', data.refreshToken);
+      fetchUser();
       router.push(PATHS.HOME);
       setIsLoggingIn(false);
     } catch (error) {
