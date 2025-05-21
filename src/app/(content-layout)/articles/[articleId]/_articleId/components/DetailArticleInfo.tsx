@@ -8,6 +8,7 @@ import LikeToggleButton from '../../../_articles/components/LikeToggleButton';
 import { useUser } from '@/contexts/UserContext';
 
 const ARTICLE_DROPDOWN_OPTIONS = ['수정하기', '삭제하기'];
+const DEFAULT_IMAGE = process.env.NEXT_PUBLIC_DEFAULT_IMAGE;
 
 export default function DetailArticleInfo({ detail }: { detail: GetArticleDetailResponse }) {
   const { user } = useUser();
@@ -16,9 +17,11 @@ export default function DetailArticleInfo({ detail }: { detail: GetArticleDetail
 
   return (
     <div className="flex w-full flex-col items-center gap-6 md:flex-row md:items-start">
-      <div className="relative aspect-[1/1] w-full max-w-125 items-center overflow-hidden rounded-2xl md:h-100 md:w-100">
-        <Image fill src={detail.image} alt="article-image" />
-      </div>
+      {detail.image && detail.image !== DEFAULT_IMAGE && (
+        <div className="relative aspect-[1/1] w-full max-w-125 items-center overflow-hidden rounded-2xl md:h-100 md:w-100">
+          <Image fill src={detail.image} alt="article-image" />
+        </div>
+      )}
       <div className="flex w-full flex-1 flex-col gap-12">
         <div>
           <div className="border-border mb-4 flex items-center justify-between border-b pb-4">
