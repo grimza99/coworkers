@@ -1,25 +1,18 @@
 'use client';
 
 import Image from 'next/image';
-import { useEffect, useState } from 'react';
 import DropDown from '@/components/common/dropdown';
 import { GetArticleDetailResponse } from '@/types/article';
 import { formatTimeDistance } from '@/utils/date';
 import LikeToggleButton from '../../../_articles/components/LikeToggleButton';
+import { useUser } from '@/contexts/UserContext';
 
 const ARTICLE_DROPDOWN_OPTIONS = ['수정하기', '삭제하기'];
 
 export default function DetailArticleInfo({ detail }: { detail: GetArticleDetailResponse }) {
-  const [userId, setUserId] = useState<number | null>(null);
+  const { user } = useUser();
 
-  useEffect(() => {
-    const localStorageUserId = localStorage.getItem('userId');
-    if (localStorageUserId) {
-      setUserId(Number(localStorageUserId));
-    }
-  }, []);
-
-  const isAuthor = userId === detail.writer.id;
+  const isAuthor = user?.id === detail.writer.id;
 
   return (
     <div className="flex w-full flex-col items-center gap-6 md:flex-row md:items-start">
