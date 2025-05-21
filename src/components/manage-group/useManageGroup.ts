@@ -103,13 +103,13 @@ export default function useManageGroup({
         },
       })
       .then((result) => {
-        setIsSubmit(false);
         router.push(`/${result.data.id}`);
       })
       .catch(() => {
         const action = isEdit ? '수정' : '생성';
         Toast.error(`팀 ${action}에 실패했습니다. 다시 시도해 주세요.`);
-      });
+      })
+      .finally(() => setIsSubmit(false));
   };
 
   return {
