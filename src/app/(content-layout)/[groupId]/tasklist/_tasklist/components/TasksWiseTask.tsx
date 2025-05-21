@@ -9,6 +9,8 @@ import { useTaskModals } from '../hooks/use-task-modals';
 import ManageTaskItemModal from './manage-task-item-modal/MangeTaskItemModal';
 import getDetailTaskItem from '@/lib/api/detail-task-item';
 import DetailTaskContainer from '../../@detailTask/page';
+import { useSortable } from '@dnd-kit/sortable';
+import { CSS } from '@dnd-kit/utilities';
 
 interface Props {
   task: Task;
@@ -45,7 +47,9 @@ export default function TasksWiseTask({ task, groupId, taskListId }: Props) {
   const { popUpDeleteTaskModal, popUpEditTaskModal } = useTaskModals();
   const { deleteTask } = useTaskActions();
   const { toggleTaskDone } = useTaskActions(task);
-
+  const { attributes, listeners, setNodeRef, transform, transition, isDragging } = useSortable({
+    id: task.id,
+  });
   const safeFormatDate = (dateString: string | undefined | null) => {
     if (!dateString) return '';
 
@@ -74,7 +78,16 @@ export default function TasksWiseTask({ task, groupId, taskListId }: Props) {
   return (
     <>
       {!isDelete && (
-        <>
+        <div
+          ref={setNodeRef}
+          {...attributes}
+          {...listeners}
+          style={{
+            transform: CSS.Transform.toString(transform),
+            transition: transition ?? undefined,
+            opacity: isDragging ? 0.5 : 1,
+          }}
+        >
           <TaskListItem
             key={task.id}
             type="taskList"
@@ -112,7 +125,7 @@ export default function TasksWiseTask({ task, groupId, taskListId }: Props) {
             isDone={isDone}
             createOrEditModalId={createOrEditModalId}
           />
-        </>
+        </div>
       )}
     </>
   );
