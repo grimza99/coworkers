@@ -2,7 +2,7 @@
 
 import { Metadata } from 'next';
 import Image from 'next/image';
-import { useEffect, useState } from 'react';
+import { useEffect, useState, useOptimistic, useTransition } from 'react';
 import ProfileImageUploader from './_mypage/ProfileImageUploader';
 import NicknameField from './_mypage/NicknameField';
 import PasswordField from './_mypage/PasswordField';
@@ -49,6 +49,8 @@ export default function MyPage() {
   const [userData, setUserData] = useState<getUserApiResponse | null>(null);
   const [image, setImage] = useState('');
   const [nickname, setNickname] = useState('');
+  const [optimisticNickname, setOptimisticNickname] = useOptimistic(nickname);
+  const [isPending, startTransition] = useTransition();
   const [nicknameError, setNicknameError] = useState('');
   const [password, setPassword] = useState('');
   const { openModal, closeModal } = useModalContext();
@@ -59,6 +61,9 @@ export default function MyPage() {
         setUserData(data);
         setImage(data.image || '');
         setNickname(data.nickname || '');
+        startTransition(() => {
+          setOptimisticNickname(data.nickname || '');
+        });
       }
     });
   }, []);
@@ -71,13 +76,21 @@ export default function MyPage() {
           <div className="flex w-full flex-col gap-6">
             <ProfileImageUploader image={image} setImage={setImage} />
             <NicknameField
-              nickname={nickname}
+              nickname={optimisticNickname}
               nicknameError={nicknameError}
-              setNickname={setNickname}
+              setNickname={(value: string) => {
+                startTransition(() => {
+                  setOptimisticNickname(value);
+                });
+                setNickname(value);
+              }}
               setNicknameError={setNicknameError}
               onClick={async () => {
                 try {
                   await axiosClient.patch('/user', { nickname });
+                  startTransition(() => {
+                    setOptimisticNickname(nickname);
+                  });
                   Toast.success('닉네임 변경 성공');
                 } catch (error: unknown) {
                   const errorObj = error as { response?: { data?: { message?: string } } };
