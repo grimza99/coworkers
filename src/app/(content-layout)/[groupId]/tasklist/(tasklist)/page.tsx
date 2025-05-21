@@ -1,7 +1,7 @@
 import DateSwitcher from '../_tasklist/components/Test/DateSwitcher';
 import TaskLists from '../_tasklist/components/Test/TaskLists';
 import Tasks from '../_tasklist/components/Test/Tasks';
-import { getTaskLists, getTasks } from '../_tasklist/actions/task-api';
+import { getTaskLists, getTasks } from '../_tasklist/actions/task-actions';
 import ManageTaskItemModal from '../_tasklist/components/manage-task-item-modal/MangeTaskItemModal';
 import { ErrorBoundary } from 'react-error-boundary';
 import TaskListPageFallBack from '../error';

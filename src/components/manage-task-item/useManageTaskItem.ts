@@ -7,7 +7,7 @@ import axiosClient from '@/lib/axiosClient';
 import useModalContext from '../common/modal/core/useModalContext';
 import { validateEmptyValue } from '@/utils/validators';
 import { Toast } from '../common/Toastify';
-import { revalidateTasks } from '@/app/(content-layout)/[groupId]/tasklist/_tasklist/actions/task-api';
+import { revalidateTasks } from '@/app/(content-layout)/[groupId]/tasklist/_tasklist/actions/task-actions';
 import { useRouter } from 'next/navigation';
 
 const REVERSE_FREQUENCY_MAP: Record<string, Frequency> = {

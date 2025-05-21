@@ -9,7 +9,7 @@ import { useOutSideClickAutoClose } from '@/utils/use-outside-click-auto-close';
 import prevIcon from '@/../public/icons/prev-arrow-icon.svg';
 import nextIcon from '@/../public/icons/next-arrow-icon.svg';
 import calendar from '@/../public/icons/calendar.svg';
-import { revalidateTasks } from '../../actions/task-api';
+import { revalidateTasks } from '../../actions/task-actions';
 import { useRouter, useSearchParams } from 'next/navigation';
 
 interface Props {

@@ -3,20 +3,19 @@
 import axiosServer from '@/lib/axiosServer';
 import { Task, TaskList } from '../types/task-type';
 import { revalidateTag } from 'next/cache';
-import { TaskItem } from '@/components/manage-task-item/type';
 
 export const revalidateTasks = async () => {
   revalidateTag(`getTasks`);
 };
 
-export const revalidateTaskLists = async (groupId: string) => {
-  revalidateTag(`getTaskList-${groupId}`);
+export const revalidateTaskLists = async () => {
+  revalidateTag(`getTaskList`);
 };
 
 export const getTaskLists = async (groupId: string) => {
   try {
     const { data: taskListsData } = await axiosServer(`/groups/${groupId}`, {
-      fetchOptions: { next: { tags: [`getTaskList-${groupId}`] } },
+      fetchOptions: { next: { tags: [`getTaskList`] } },
     });
     const fetchedTaskLists: TaskList[] = taskListsData.taskLists;
 
@@ -24,7 +23,7 @@ export const getTaskLists = async (groupId: string) => {
   } catch (error) {
     if (error instanceof Error) {
       console.error(error);
-      throw Error;
+      throw error;
     } else {
       throw new Error('Unknown error occurred');
     }

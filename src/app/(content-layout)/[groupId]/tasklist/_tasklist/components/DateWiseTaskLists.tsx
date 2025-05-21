@@ -7,7 +7,7 @@ import TasksWiseTask from './TasksWiseTask';
 import { SortableContext, verticalListSortingStrategy } from '@dnd-kit/sortable';
 import { closestCenter, DndContext, DragEndEvent } from '@dnd-kit/core';
 import useDndKit from '../hooks/use-dnd-kit';
-import { getTaskLists, getTasks, revalidateTasks } from '../actions/task-api';
+import { getTaskLists, getTasks, revalidateTasks } from '../actions/task-actions';
 
 interface Props {
   date: Date;
