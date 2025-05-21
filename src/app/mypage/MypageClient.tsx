@@ -1,5 +1,6 @@
 'use client';
 
+import { Metadata } from 'next';
 import Image from 'next/image';
 import { useEffect, useState } from 'react';
 import ProfileImageUploader from './_mypage/ProfileImageUploader';
@@ -14,6 +15,17 @@ import { getUserApiResponse } from '@/types/user';
 import useModalContext from '@/components/common/modal/core/useModalContext';
 import FormField from '@/components/common/formField';
 import { Toast } from '@/components/common/Toastify';
+
+export async function generateMetadata(): Promise<Metadata> {
+  return {
+    title: '계정관리 | Coworkers',
+    openGraph: {
+      title: '계정관리 | Coworkers',
+      description: '자유롭게 게시글을 작성하고 소통할 수 있는 공간입니다.',
+      siteName: 'Coworkers',
+    },
+  };
+}
 
 async function fetchUserInfo(): Promise<getUserApiResponse | null> {
   try {
@@ -33,7 +45,7 @@ async function fetchUserInfo(): Promise<getUserApiResponse | null> {
   }
 }
 
-export default function MyPageClient() {
+export default function MyPage() {
   const [userData, setUserData] = useState<getUserApiResponse | null>(null);
   const [image, setImage] = useState('');
   const [nickname, setNickname] = useState('');
