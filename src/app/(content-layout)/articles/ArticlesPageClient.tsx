@@ -13,6 +13,7 @@ import SortToggle from './_articles/components/SortToggle';
 import Pagination from './_articles/components/Pagination';
 import { Toast } from '@/components/common/Toastify';
 import { BestCardSkeleton, CardSkeleton } from './_articles/components/Skeleton';
+import Image from 'next/image';
 
 // export const dynamic = 'force-dynamic'; // 매번 동적 렌더링 되도록(캐싱하지 않음) 이거 필요한가?
 const Card = lazy(() => import('./_articles/components/Card')); // 카드 컴포넌트를 lazy load하여 초기 번들 사이즈를 줄이고 필요할 때만 로딩 되도록 ?
@@ -60,7 +61,7 @@ export default function ArticlesPageClient() {
             orderBy: 'like',
           },
         });
-        const sortedByLike = res.data.list.sort((a, b) => b.likeCount - a.likeCount);
+        const sortedByLike = res.data.list.toSorted((a, b) => b.likeCount - a.likeCount);
         setBestArticles(sortedByLike.slice(0, 3));
       } catch (error) {
         Toast.error('베스트 게시글을 불러오는 데 실패했습니다.');
@@ -87,11 +88,10 @@ export default function ArticlesPageClient() {
         const allArticles = res.data.list;
         const storedUserId = localStorage.getItem('userId');
         const userId = storedUserId ? parseInt(storedUserId, 10) : null;
-        let filtered = allArticles;
-        if (myArticlesOnly && userId) {
-          // 내 게시글만 보기
-          filtered = filtered.filter((article: Article) => article.writer.id === userId);
-        }
+        const filtered =
+          myArticlesOnly && userId
+            ? allArticles.filter((article: Article) => article.writer.id === userId)
+            : allArticles;
         setArticles(filtered);
         setTotalCount(res.data.totalCount);
       } catch (error) {
@@ -179,9 +179,9 @@ export default function ArticlesPageClient() {
 
       <Button
         onClick={() => router.push(`${PATHS.ARTICLES.NEW}`)}
-        className="fixed right-6 bottom-6"
+        className="fixed right-6 bottom-6 gap-1"
       >
-        + 글쓰기
+        <Image width={16} height={16} alt="게시글 추가버튼" src="/icons/plus.svg" /> 글쓰기
       </Button>
     </main>
   );
