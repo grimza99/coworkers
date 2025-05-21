@@ -1,31 +1,33 @@
 import Link from 'next/link';
 import clsx from 'clsx';
-import TasklistProgressBadge from '@/app/(content-layout)/[groupId]/_[groupId]/Tasklists/TasklistProgressBadge';
-import TasklistItemDropdown from '@/app/(content-layout)/[groupId]/_[groupId]/Tasklists/TasklistItemDropdown';
-import { countDoneTasks } from '@/app/(content-layout)/[groupId]/_[groupId]/taskUtils';
+import TasklistProgressBadge from '@/app/(content-layout)/[groupId]/(groupId)/_[groupId]/Tasklists/TasklistProgressBadge';
+import TasklistItemDropdown from '@/app/(content-layout)/[groupId]/(groupId)/_[groupId]/Tasklists/TasklistItemDropdown';
+import { countDoneTasks } from '@/app/(content-layout)/[groupId]/(groupId)/_[groupId]/taskUtils';
 import PATHS from '@/constants/paths';
 import { Tasklist } from '@/types/tasklist';
 
 type TasklistItemProps = {
   tasklist: Tasklist;
+  onDropdownTriggerClick: () => void;
 };
 
-export default function TasklistItem({ tasklist }: TasklistItemProps) {
+export default function TasklistItem({ tasklist, onDropdownTriggerClick }: TasklistItemProps) {
   const { name, groupId, displayIndex, tasks } = tasklist;
   const totalTaskCount = tasks.length;
   const doneTaskCount = countDoneTasks(tasks);
 
   return (
     <li className="bg-bg200 flex h-10 items-center justify-between rounded-xl">
-      <div className="flex h-full items-center gap-3">
+      <Link
+        href={`${PATHS.getGroupTaskListPath(groupId)}`}
+        className="flex h-full flex-1 items-center gap-3"
+      >
         <div className={clsx('h-full w-3 rounded-l-xl', getTasklistItemColor(displayIndex))}></div>
-        <Link href={`${PATHS.getGroupTaskListPath(groupId)}`} className="text-md-md">
-          {name}
-        </Link>
-      </div>
+        <div className="text-md-md flex-1">{name}</div>
+      </Link>
       <div className="mr-2 flex items-center gap-1">
         <TasklistProgressBadge total={totalTaskCount} done={doneTaskCount} />
-        <TasklistItemDropdown />
+        <TasklistItemDropdown onTriggerClick={onDropdownTriggerClick} tasklist={tasklist} />
       </div>
     </li>
   );
