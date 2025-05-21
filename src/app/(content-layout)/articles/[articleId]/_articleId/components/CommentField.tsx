@@ -4,6 +4,7 @@ import { useTransition, useState } from 'react';
 import Button from '@/components/common/Button';
 import FormField from '@/components/common/formField';
 import { Toast } from '@/components/common/Toastify';
+import BouncingDots from '@/components/common/loading/BouncingDots';
 import { postArticleCommentsAction } from '../action';
 
 export default function CommentField({ articleId }: { articleId: number }) {
@@ -38,7 +39,7 @@ export default function CommentField({ articleId }: { articleId: number }) {
         size="xs"
         className="sm:h-12 sm:w-46"
       >
-        {isPending ? '...' : '등록'}
+        {isPending ? <BouncingDots /> : '등록'}
       </Button>
     </div>
   );

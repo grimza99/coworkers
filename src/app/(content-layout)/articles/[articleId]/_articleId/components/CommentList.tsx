@@ -7,6 +7,7 @@ import DangerModal from '@/components/danger-modal';
 import { Toast } from '@/components/common/Toastify';
 import CommentItem from '@/components/comment';
 import { ArticleComment } from '@/components/comment/types';
+import BouncingDots from '@/components/common/loading/BouncingDots';
 import useModalContext from '@/components/common/modal/core/useModalContext';
 import { deleteArticleComment, patchArticleComment } from '../action';
 import { validateEmptyValue } from '@/utils/validators';
@@ -93,7 +94,7 @@ export default function CommentList({
                     variant="ghost-primary"
                     fontSize="14"
                   >
-                    {isPending ? '...' : '수정하기'}
+                    {isPending ? <BouncingDots size={5} /> : '수정하기'}
                   </Button>
                 </div>
               </div>
