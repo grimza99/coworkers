@@ -1,6 +1,6 @@
-import ReportProgress from '@/app/(content-layout)/[groupId]/_[groupId]/Report/GroupProgress';
-import TaskCount from '@/app/(content-layout)/[groupId]/_[groupId]/Report/TaskCount';
-import { calculateTaskProgress } from '@/app/(content-layout)/[groupId]/_[groupId]/taskUtils';
+import ReportProgress from '@/app/(content-layout)/[groupId]/(groupId)/_[groupId]/Report/GroupProgress';
+import TaskCount from '@/app/(content-layout)/[groupId]/(groupId)/_[groupId]/Report/TaskCount';
+import { calculateTaskProgress } from '@/app/(content-layout)/[groupId]/(groupId)/_[groupId]/taskUtils';
 import { Tasklist } from '@/types/tasklist';
 
 interface Props {

@@ -13,8 +13,8 @@ import useModalContext from '@/components/common/modal/core/useModalContext';
 
 interface DangerModalProps {
   modalId: string;
-  heading: string;
-  description?: string;
+  heading: React.ReactNode;
+  description?: React.ReactNode;
   closeButtonText?: string;
   confirmButton: string;
   onConfirm: () => void;
@@ -38,8 +38,10 @@ export default function DangerModal({
           <ModalContainer className="flex gap-4 md:w-full md:max-w-96">
             <Image src="/icons/danger.icon.svg" alt="!" width={24} height={24} />
             <ModalHeading className="text-lg-md text-gray100">{heading}</ModalHeading>
-            <ModalDescription className="text-md-md text-gray400">{description}</ModalDescription>
-            <ModalFooter className="w-full">
+            <ModalDescription className="text-md-md text-gray300 -mt-1.5">
+              {description}
+            </ModalDescription>
+            <ModalFooter className="mt-2 w-full">
               <div className="flex w-full gap-2">
                 <Button
                   onClick={() => {

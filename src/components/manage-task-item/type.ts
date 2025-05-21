@@ -1,15 +1,14 @@
 import {
-  Frequency,
-  Task,
+  Recurring,
+  DetailTaskType,
 } from '@/app/(content-layout)/[groupId]/tasklist/_tasklist/types/task-type';
 
-export interface TaskItem extends Pick<Task, 'name' | 'description'> {
-  id?: number;
-  weekDays?: number[];
-  monthDay?: number;
+export type TaskItem = Pick<
+  Recurring,
+  'name' | 'description' | 'frequencyType' | 'weekDays' | 'monthDay'
+> & {
   startDate: Date | string;
-  frequencyType: Frequency;
-}
+};
 
 export interface Time {
   period: '오전' | '오후';
@@ -17,7 +16,7 @@ export interface Time {
 }
 
 export interface TaskItemProps {
-  task?: Task;
+  detailTask?: DetailTaskType;
   groupId: number;
   taskListId: number;
   isDone?: boolean;
