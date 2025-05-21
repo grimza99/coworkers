@@ -2,7 +2,7 @@
 
 import Button from '@/components/common/Button';
 import FormField from '@/components/common/formField';
-import BouncingDots from '../common/loading/BouncingDots';
+import BouncingDots from '@/components/common/loading/BouncingDots';
 import useManageGroup from './useManageGroup';
 import { Group } from '@/types/group';
 
