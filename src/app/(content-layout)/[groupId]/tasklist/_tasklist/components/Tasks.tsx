@@ -1,12 +1,12 @@
 'use client';
 import { closestCenter, DndContext, DragEndEvent } from '@dnd-kit/core';
-import { Task, TaskList } from '../../types/task-type';
 import { SortableContext, verticalListSortingStrategy } from '@dnd-kit/sortable';
-import useDndKit from '../../hooks/use-dnd-kit';
 import { useEffect, useState } from 'react';
-import TasksWiseTask from '../TasksWiseTask';
 import { ErrorBoundary } from 'react-error-boundary';
-import TaskListPageFallBack from '../../../error';
+import useDndKit from '../hooks/use-dnd-kit';
+import TaskListPageFallBack from '../../error';
+import { Task, TaskList } from '../types/task-type';
+import TasksWiseTask from './TasksWiseTask';
 
 interface Props {
   groupId: string;

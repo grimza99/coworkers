@@ -1,11 +1,11 @@
 'use client';
 import clsx from 'clsx';
-import { TaskList } from '../../types/task-type';
 import { useState } from 'react';
-import { revalidateTasks } from '../../actions/task-actions';
 import { useRouter, useSearchParams } from 'next/navigation';
-import TaskListPageFallBack from '../../../error';
 import { ErrorBoundary } from 'react-error-boundary';
+import { revalidateTasks } from '../actions/task-actions';
+import TaskListPageFallBack from '../../error';
+import { TaskList } from '../types/task-type';
 
 interface Props {
   taskLists: TaskList[];
