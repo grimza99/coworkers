@@ -1,4 +1,5 @@
 'use client';
+import { getInvitationToken } from '@/api/group';
 import Button from '@/components/common/Button';
 import {
   ModalCloseButton,
@@ -10,7 +11,7 @@ import {
   ModalPortal,
 } from '@/components/common/modal';
 import useModalContext from '@/components/common/modal/core/useModalContext';
-import axiosClient from '@/lib/axiosClient';
+import { Toast } from '@/components/common/Toastify';
 import { Group } from '@/types/group';
 
 interface MemberInvitationModalProps {
@@ -23,10 +24,14 @@ export default function MemberInvitationModal({ modalId, groupId }: MemberInvita
   const { closeModal } = useModalContext();
 
   const copyInvitationTokenToClipboard = async () => {
-    // @TODO: 요청 중 UI 처리
-    const res = await axiosClient.get(`/groups/${groupId}/invitation`);
-    const token = res.data;
-    navigator.clipboard.writeText(token);
+    try {
+      const res = await getInvitationToken(groupId);
+      const token = res.data;
+      navigator.clipboard.writeText(token);
+      Toast.success('멤버 초대 토큰 복사 완료');
+    } catch {
+      Toast.error('멤버 초대 토큰 복사 실패');
+    }
   };
 
   return (
