@@ -1,12 +1,5 @@
 'use client';
-import React, {
-  createContext,
-  useContext,
-  useState,
-  useEffect,
-  ReactNode,
-  useCallback,
-} from 'react';
+import { createContext, useContext, useState, useEffect, useCallback } from 'react';
 import { getClientCookie, deleteClientCookie } from '@/lib/cookie/client';
 import { Membership, User } from '@/types/user';
 import { getUser } from '@/api/user';
@@ -22,7 +15,7 @@ interface UserContextType {
 
 const UserContext = createContext<UserContextType | null>(null);
 
-export const UserProvider = ({ children }: { children: ReactNode }) => {
+export const UserProvider = ({ children }: { children: React.ReactNode }) => {
   const [user, setUser] = useState<User | null>(null);
   const [email, setEmail] = useState<string | null>(null);
   const [memberships, setMemberships] = useState<Membership[] | null>(null);
