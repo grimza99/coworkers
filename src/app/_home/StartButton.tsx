@@ -2,7 +2,7 @@
 import Link from 'next/link';
 import { useUser } from '@/contexts/UserContext';
 import Button from '@/components/common/Button';
-import Spinner from '@/components/common/loading/Spiner';
+import Spinner from '@/components/common/loading/Spinner';
 import PATHS from '@/constants/paths';
 
 export default function StartButton({ className, children }: React.ComponentProps<'button'>) {
