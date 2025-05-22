@@ -105,7 +105,7 @@ export default function ArticlesPageClient() {
             ? allArticles.filter((article: Article) => article.writer.id === userId)
             : allArticles;
         setArticles(filtered);
-        setTotalCount(res.data.totalCount);
+        setTotalCount(myArticlesOnly ? filtered.length : res.data.totalCount);
       } catch (error) {
         console.error('게시글 불러오기 실패:', error);
         Toast.error('게시글을 불러오는 데 실패했습니다.');
