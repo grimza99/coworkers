@@ -32,7 +32,7 @@ export const getTaskLists = async (groupId: string) => {
 
 export const getTasks = async (groupId: string, taskListId: number, date: Date | string) => {
   try {
-    const { data } = await axiosServer(`groups/${groupId}/task-lists/${taskListId}/tasks`, {
+    const { data } = await axiosServer(`/groups/${groupId}/task-lists/${taskListId}/tasks`, {
       params: { date },
       fetchOptions: { next: { tags: ['getTasks'] } },
     });
@@ -42,6 +42,8 @@ export const getTasks = async (groupId: string, taskListId: number, date: Date |
     if (error instanceof Error) {
       throw error;
     } else {
+      console.log(error);
+
       throw new Error('Unknown error occurred');
     }
   }

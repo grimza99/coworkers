@@ -21,7 +21,6 @@ export default async function Page({ params, searchParams }: Props) {
   const taskLists = await getTaskLists(groupId);
 
   const taskListId = searchParamsTaskListId ? Number(searchParamsTaskListId) : taskLists[0].id;
-  if (taskLists.length < 1) return;
   const tasks = await getTasks(groupId, taskListId, date);
 
   return (
