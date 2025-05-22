@@ -1,7 +1,7 @@
 'use client';
 
 import Image from 'next/image';
-import { useState, useOptimistic, useTransition, useEffect } from 'react';
+import { useState, useEffect } from 'react';
 import { updateUserNickname } from './_mypage/action';
 import ProfileImageUploader from './_mypage/ProfileImageUploader';
 import NicknameField from './_mypage/NicknameField';
@@ -18,9 +18,7 @@ export default function MyPageClient() {
   const { user, email, fetchUser } = useUser();
   const [image, setImage] = useState(user?.image ?? '');
   const [nickname, setNickname] = useState(user?.nickname ?? '');
-  const [optimisticNickname, addOptimisticNickname] = useOptimistic(user?.nickname ?? '');
   // @TODO: 헤더에도 닉네임 즉시반영하도록
-  const [, startTransition] = useTransition();
   const [nicknameError, setNicknameError] = useState('');
   const [password, setPassword] = useState('');
   const { openModal, closeModal } = useModalContext();
@@ -39,26 +37,23 @@ export default function MyPageClient() {
           <div className="flex w-full flex-col gap-6">
             <ProfileImageUploader image={image} setImage={setImage} />
             <NicknameField
-              nickname={optimisticNickname}
+              nickname={nickname}
               nicknameError={nicknameError}
-              setNickname={(value: string) => {
-                startTransition(() => {
-                  addOptimisticNickname(value);
-                });
-                setNickname(value);
-              }}
+              setNickname={setNickname}
               setNicknameError={setNicknameError}
               onClick={async () => {
+                if (nickname === user?.nickname) {
+                  Toast.info('변경된 내용이 없습니다.');
+                  return;
+                }
                 try {
                   await updateUserNickname(nickname);
                   await fetchUser();
-                  startTransition(() => {
-                    addOptimisticNickname(nickname);
-                  });
                   Toast.success('닉네임 변경 성공');
                 } catch (error: unknown) {
                   const errorObj = error as { response?: { data?: { message?: string } } };
-                  const message = errorObj?.response?.data?.message || '닉네임 변경 실패';
+                  const message =
+                    errorObj?.response?.data?.message || '닉네임을 변경할 수 없습니다.';
                   setNicknameError(message);
                   Toast.error('닉네임 변경에 실패했습니다.');
                 }
