@@ -3,6 +3,7 @@ import ManageTaskItemModal from '../_tasklist/components/manage-task-item-modal/
 import DateSwitcher from '../_tasklist/components/DateSwitcher';
 import TaskLists from '../_tasklist/components/TaskLists';
 import Tasks from '../_tasklist/components/Tasks';
+import { format } from 'date-fns';
 
 interface Props {
   params: Promise<{ groupId: string }>;
@@ -13,19 +14,15 @@ interface Props {
 export default async function Page({ params, searchParams }: Props) {
   const { date: searchParamsDate } = await searchParams;
   const { taskListId: searchParamsTaskListId } = await searchParams;
-
   const { groupId } = await params;
-  const dateStr = searchParamsDate
-    ? String(searchParamsDate)
-    : new Date().toISOString().substring(0, 10);
-  const date = new Date(dateStr);
+
+  const date = searchParamsDate ? searchParamsDate : format(new Date(), 'yyyy-mm-dd');
 
   const taskLists = await getTaskLists(groupId);
-  if (!taskLists) throw Error;
 
   const taskListId = searchParamsTaskListId ? Number(searchParamsTaskListId) : taskLists[0].id;
-
-  const tasks = await getTasks(groupId, taskListId, String(date));
+  if (taskLists.length < 1) return;
+  const tasks = await getTasks(groupId, taskListId, date);
 
   return (
     <div className="flex w-full flex-col gap-6 pb-25">

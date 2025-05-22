@@ -16,15 +16,20 @@ interface Props {
 export default function Tasks({ groupId, tasks, currentTaskList }: Props) {
   const [currentTasks, setCurrentTasks] = useState<Task[]>(tasks);
   const [isClient, setIsClient] = useState(false);
+
   const orderCurrentTasks = (orderedCurrentTasks: Task[]) => {
     setCurrentTasks(orderedCurrentTasks);
   };
-  const { sensors, handleDragEnd } = useDndKit(currentTasks, currentTaskList!, orderCurrentTasks);
+
   useEffect(() => {
     setCurrentTasks(tasks);
     setIsClient(true);
   }, [tasks]);
-  if (!isClient) return null; // or a loading skeleton
+
+  const { sensors, handleDragEnd } = useDndKit(currentTasks, currentTaskList!, orderCurrentTasks);
+
+  if (!isClient) return;
+
   return (
     <ErrorBoundary fallbackRender={({ error }) => <TaskListPageFallBack error={error} />}>
       {currentTasks.length > 0 ? (
