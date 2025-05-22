@@ -101,7 +101,7 @@ export default function Page() {
   return (
     <main className="mt-4 mb-8 md:mt-8 md:mb-40">
       <div className="flex items-center justify-between">
-        <h1 className="text-lg-md md:text-xl-bold">게시글 쓰기</h1>
+        <h1 className="text-lg-md md:text-xl-bold">게시글 수정</h1>
         <div className="hidden w-46 md:block">
           <Button
             type="submit"
