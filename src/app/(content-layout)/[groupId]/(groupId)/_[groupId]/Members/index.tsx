@@ -4,7 +4,10 @@ import MemberItem from '@/app/(content-layout)/[groupId]/(groupId)/_[groupId]/Me
 import MemberInvitationModal from '@/app/(content-layout)/[groupId]/(groupId)/_[groupId]/Members/MemberInvitationModal';
 import MemberDeleteModal from '@/app/(content-layout)/[groupId]/(groupId)/_[groupId]/Members/MemberDeleteModal';
 import MemberDetailModal from '@/app/(content-layout)/[groupId]/(groupId)/_[groupId]/Members/MemberDetailModal';
-import { deleteMemberAction } from '@/app/(content-layout)/[groupId]/(groupId)/_[groupId]/Members/actions';
+import {
+  deleteMemberAction,
+  postMemberAction,
+} from '@/app/(content-layout)/[groupId]/(groupId)/_[groupId]/Members/actions';
 import { ModalTrigger } from '@/components/common/modal';
 import { Member } from '@/types/user';
 import { Group } from '@/types/group';
@@ -19,29 +22,71 @@ export default function Members({ groupId, members }: MembersProps) {
   const [memberForDelete, setMemberForDelete] = useState<Member | null>(null);
   const [optimisticMembers, setOptimisticMembers] = useOptimistic(
     members,
-    (currentMembers: Member[], action: Member['userId'] | Member[]) => {
-      if (typeof action === 'number') {
-        return currentMembers.filter((member) => member.userId !== action);
+    (
+      currentMembers: Member[],
+      action:
+        | { type: 'add'; newMember: Member }
+        | { type: 'delete'; memberForDelete: Member }
+        | { type: 'rollback' }
+    ) => {
+      switch (action.type) {
+        case 'add':
+          return [...currentMembers, action.newMember];
+
+        case 'delete':
+          return currentMembers.filter((member) => member.userId !== action.memberForDelete.userId);
+
+        case 'rollback':
+          return currentMembers;
+
+        default:
+          return currentMembers;
       }
-      return action;
     }
   );
+  const [isAddLoading, startAddTransition] = useTransition();
+
   const [isDeleteLoading, startDeleteTransition] = useTransition();
   const [transitionError, setTransitionError] = useState<{ message: string; id: string } | null>(
     null
   );
 
+  const addMember = async (newMemberEmail: string) => {
+    startAddTransition(async () => {
+      setTransitionError(null);
+      const newMember: Member = {
+        userId: -1,
+        userName: '',
+        userImage: null,
+        role: 'MEMBER',
+        userEmail: newMemberEmail,
+        groupId: groupId,
+      };
+      setOptimisticMembers({ type: 'add', newMember });
+
+      const result = await postMemberAction(groupId, newMemberEmail);
+
+      if (!result.success) {
+        setOptimisticMembers({ type: 'rollback' });
+        setTransitionError({
+          message: result.message,
+          id: Date.now().toString(),
+        });
+      }
+    });
+  };
+
   const deleteMember = async (memberForDelete: Member) => {
     startDeleteTransition(async () => {
       setTransitionError(null);
-      setOptimisticMembers(memberForDelete.userId);
+      setOptimisticMembers({ type: 'delete', memberForDelete });
 
       const result = await deleteMemberAction(groupId, memberForDelete.userId);
 
       if (result.success) {
         setMemberForDelete(null);
       } else {
-        setOptimisticMembers(members);
+        setOptimisticMembers({ type: 'rollback' });
         setTransitionError({
           message: result.message,
           id: Date.now().toString(),
@@ -80,7 +125,13 @@ export default function Members({ groupId, members }: MembersProps) {
         </ul>
       </section>
 
-      <MemberInvitationModal modalId={memberInvitationModalId} groupId={groupId} />
+      <MemberInvitationModal
+        modalId={memberInvitationModalId}
+        groupId={groupId}
+        isLoading={isAddLoading}
+        error={transitionError}
+        addMember={addMember}
+      />
 
       {memberForDetail && (
         <MemberDetailModal modalId={memberDetailModalId} member={memberForDetail} />

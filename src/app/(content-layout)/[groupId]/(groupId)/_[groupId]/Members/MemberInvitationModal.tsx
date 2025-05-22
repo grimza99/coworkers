@@ -1,5 +1,5 @@
 'use client';
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import clsx from 'clsx';
 import Button from '@/components/common/Button';
 import FormField from '@/components/common/formField';
@@ -13,7 +13,6 @@ import {
   ModalPortal,
 } from '@/components/common/modal';
 import useModalContext from '@/components/common/modal/core/useModalContext';
-import { postMemberAction } from '@/app/(content-layout)/[groupId]/(groupId)/_[groupId]/Members/actions';
 import { Toast } from '@/components/common/Toastify';
 import { getInvitationToken } from '@/api/group';
 import { Group } from '@/types/group';
@@ -22,20 +21,28 @@ import { validateEmail, validateEmptyValue } from '@/utils/validators';
 interface MemberInvitationModalProps {
   modalId: string;
   groupId: Group['id'];
+  isLoading: boolean;
+  error: { message: string; id: string } | null;
+  addMember: (email: string) => Promise<void> | void;
 }
 
-export default function MemberInvitationModal({ modalId, groupId }: MemberInvitationModalProps) {
+export default function MemberInvitationModal({
+  modalId,
+  groupId,
+  isLoading,
+  error,
+  addMember,
+}: MemberInvitationModalProps) {
   const { closeModal } = useModalContext();
   const [isTokenMethod, setIsTokenMethod] = useState(true);
   const [email, setEmail] = useState('');
-  const [isLoading, setIsLoading] = useState(false);
 
   const copyInvitationTokenToClipboard = async () => {
     try {
       const res = await getInvitationToken(groupId);
       const token = res.data;
       navigator.clipboard.writeText(token);
-      Toast.success('멤버 초대 코드 복사 완료');
+      Toast.success('복사 완료');
     } catch {
       Toast.error('멤버 초대 코드 복사 실패');
     }
@@ -45,9 +52,10 @@ export default function MemberInvitationModal({ modalId, groupId }: MemberInvita
     setEmail(e.target.value);
   };
 
-  const addMember = async (email: string) => {
-    postMemberAction(groupId, email);
-  };
+  useEffect(() => {
+    if (!error) return;
+    Toast.error(error.message);
+  }, [error]);
 
   return (
     <ModalPortal modalId={modalId}>
@@ -111,7 +119,7 @@ export default function MemberInvitationModal({ modalId, groupId }: MemberInvita
                   }}
                   disabled={isLoading || validateEmptyValue(email) || !validateEmail(email)}
                 >
-                  추가하기
+                  {isLoading ? '...' : '추가하기'}
                 </Button>
               </ModalFooter>
             </>
