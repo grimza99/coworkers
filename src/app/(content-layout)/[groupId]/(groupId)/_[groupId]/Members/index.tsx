@@ -5,6 +5,7 @@ import MemberInvitationModal from '@/app/(content-layout)/[groupId]/(groupId)/_[
 import MemberRemovalModal from '@/app/(content-layout)/[groupId]/(groupId)/_[groupId]/Members/MemberRemovalModal';
 import MemberDetailModal from '@/app/(content-layout)/[groupId]/(groupId)/_[groupId]/Members/MemberDetailModal';
 import { removeMemberAction } from '@/app/(content-layout)/[groupId]/(groupId)/_[groupId]/Members/actions';
+import { useUser } from '@/contexts/UserContext';
 import { ModalTrigger } from '@/components/common/modal';
 import { Member } from '@/types/user';
 import { Group } from '@/types/group';
@@ -12,9 +13,11 @@ import { Group } from '@/types/group';
 type MembersProps = {
   groupId: Group['id'];
   members: Member[];
+  admin: Member;
 };
 
-export default function Members({ groupId, members }: MembersProps) {
+export default function Members({ groupId, members, admin }: MembersProps) {
+  const { user } = useUser();
   const [memberForDetail, setMemberForDetail] = useState<Member | null>(null);
   const [memberForRemoval, setMemberForRemoval] = useState<Member | null>(null);
   const [optimisticMembers, setOptimisticMembers] = useOptimistic(
@@ -48,6 +51,7 @@ export default function Members({ groupId, members }: MembersProps) {
     });
   };
 
+  const isUserAdmin = admin.userId === user?.id;
   const memberCount = optimisticMembers.length;
   const memberInvitationModalId = `memberInvitation-${groupId}`;
   const memberDetailModalId = memberForDetail ? `memberDetail-${memberForDetail.userId}` : '';
@@ -73,6 +77,7 @@ export default function Members({ groupId, members }: MembersProps) {
               memberRemovalModalId={memberRemovalModalId}
               setMemberForDetail={setMemberForDetail}
               setMemberForRemoval={setMemberForRemoval}
+              isUserAdmin={isUserAdmin}
             />
           ))}
         </ul>
@@ -84,7 +89,7 @@ export default function Members({ groupId, members }: MembersProps) {
         <MemberDetailModal modalId={memberDetailModalId} member={memberForDetail} />
       )}
 
-      {memberForRemoval && (
+      {isUserAdmin && memberForRemoval && (
         <MemberRemovalModal
           member={memberForRemoval}
           modalId={memberRemovalModalId}

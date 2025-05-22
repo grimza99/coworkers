@@ -9,12 +9,14 @@ type MemberItemProps = {
   memberRemovalModalId: string;
   setMemberForDetail: (member: Member) => void;
   setMemberForRemoval: (member: Member) => void;
+  isUserAdmin: boolean;
 };
 
 export default function MemberItem({
   member,
   setMemberForDetail,
   setMemberForRemoval,
+  isUserAdmin,
 }: MemberItemProps) {
   const { userName, userImage, userEmail, role } = member;
   const memberDetailModalId = `memberDetail-${member.userId}`;
@@ -42,7 +44,7 @@ export default function MemberItem({
           </div>
         </div>
       </ModalTrigger>
-      {role === 'MEMBER' && (
+      {isUserAdmin && role === 'MEMBER' && (
         <ModalTrigger modalId={memberRemovalModalId} onClick={() => setMemberForRemoval(member)}>
           <Image
             width={24}

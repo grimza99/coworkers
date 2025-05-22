@@ -1,14 +1,11 @@
-import { cache, use } from 'react';
+import { cache } from 'react';
 import { Metadata } from 'next';
-import Image from 'next/image';
-import Link from 'next/link';
+import Title from '@/app/(content-layout)/[groupId]/(groupId)/_[groupId]/Title';
 import Tasklists from '@/app/(content-layout)/[groupId]/(groupId)/_[groupId]/Tasklists';
 import Report from '@/app/(content-layout)/[groupId]/(groupId)/_[groupId]/Report';
 import Members from '@/app/(content-layout)/[groupId]/(groupId)/_[groupId]/Members';
 import axiosServer from '@/lib/axiosServer';
-import PATHS from '@/constants/paths';
 import { getGroupApiResponse, Group } from '@/types/group';
-import Title from './_[groupId]/Title';
 
 const getGroup = cache(async (groupId: Group['id']) => {
   'use server';
@@ -67,7 +64,7 @@ export default async function Page({ params }: { params: Promise<{ groupId: stri
       <div className="my-6 flex flex-col gap-12 lg:gap-16">
         <Tasklists groupId={groupId} tasklists={data.taskLists} />
         <Report tasklists={data.taskLists} />
-        <Members groupId={groupId} members={data.members} />
+        <Members groupId={groupId} members={data.members} admin={admin} />
       </div>
     </main>
   );

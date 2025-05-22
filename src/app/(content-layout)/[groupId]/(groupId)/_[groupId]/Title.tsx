@@ -14,6 +14,7 @@ type TitleProps = {
 
 export default function Title({ admin, groupId, name }: TitleProps) {
   const { user } = useUser();
+  const isUserAdmin = admin.userId === user?.id;
 
   return (
     <div className="border-gray100/10 bg-gray100/10 relative flex h-16 w-full items-center justify-between rounded-xl border-1 px-6 py-5">
@@ -25,7 +26,7 @@ export default function Title({ admin, groupId, name }: TitleProps) {
         alt="그룹 기본 이미지"
         className="absolute right-1/4 h-16 w-auto object-contain select-none md:right-20"
       />
-      {admin.userId === user?.id && (
+      {isUserAdmin && (
         <Link href={`${groupId}${PATHS.EDITGROUP}`}>
           <Image
             src="/icons/gear-icon.svg"
