@@ -32,11 +32,11 @@ export default function Card(props: Article) {
               src={writer.image?.trim() ? writer.image : '/icons/profile-icon.svg'}
               className="rounded-full"
             />
-            <span className="text-md-md overflow-hidden text-ellipsis whitespace-nowrap">
+            <span className="text-md-md w-18 overflow-hidden text-ellipsis whitespace-nowrap">
               {writer.nickname}
             </span>
             <span className="text-bg100">|</span>
-            <span className="text-md-md text-gray400">
+            <span className="text-md-md text-gray400 w-19">
               {new Date(createdAt).toLocaleDateString()}
             </span>
           </div>
