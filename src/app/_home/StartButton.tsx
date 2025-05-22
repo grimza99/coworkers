@@ -2,7 +2,7 @@
 import Link from 'next/link';
 import { useUser } from '@/contexts/UserContext';
 import Button from '@/components/common/Button';
-import Spinner from '@/components/common/spinner';
+import BouncingDots from '@/components/common/loading/BouncingDots';
 import PATHS from '@/constants/paths';
 
 export default function StartButton({ className, children }: React.ComponentProps<'button'>) {
@@ -11,7 +11,7 @@ export default function StartButton({ className, children }: React.ComponentProp
   if (isLoading) {
     return (
       <Button variant="gradient" fontSize="16" size="xl" className={className} disabled>
-        <Spinner className="flex size-6 items-center justify-center" />
+        <BouncingDots size={10} />
       </Button>
     );
   }
