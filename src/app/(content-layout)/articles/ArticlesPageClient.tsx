@@ -43,13 +43,23 @@ export default function ArticlesPageClient() {
           params.delete('keyword');
         }
         router.replace(`/articles?${params.toString()}`);
-      }, 300),
+      }, 1000),
     [router, searchParams]
   );
 
   useEffect(() => {
     updateKeyword(searchInput);
   }, [searchInput, updateKeyword]);
+
+  const handleSearch = () => {
+    const params = new URLSearchParams(searchParams.toString());
+    if (searchInput) {
+      params.set('keyword', searchInput);
+    } else {
+      params.delete('keyword');
+    }
+    router.push(`/articles?${params.toString()}`);
+  };
 
   useEffect(() => {
     const fetchBestArticles = async () => {
@@ -106,7 +116,7 @@ export default function ArticlesPageClient() {
     <main className="">
       <section className="flex flex-col gap-10 pb-10">
         <h1 className="text-2xl-bold">자유게시판</h1>
-        <ArticleSearchBar value={searchInput} onChange={setSearchInput} />
+        <ArticleSearchBar value={searchInput} onChange={setSearchInput} onEnter={handleSearch} />
       </section>
 
       <section className="border-bg200 flex flex-col gap-14 border-b pb-10">
