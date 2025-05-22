@@ -112,6 +112,8 @@ export default function ArticlesPageClient() {
     fetchArticles();
   }, [currentPage, orderBy, myArticlesOnly, searchInput, user]);
 
+  const isPendingArticles = articles.length === 0;
+
   return (
     <main className="">
       <section className="flex flex-col gap-10 pb-10">
@@ -168,17 +170,23 @@ export default function ArticlesPageClient() {
           </div>
         </div>
         <Suspense fallback={<CardSkeleton />}>
-          <div className="grid grid-cols-1 gap-6 lg:grid-cols-2">
-            {articles.map((article) => (
-              <Card
-                key={article.id}
-                {...article}
-                title={
-                  article.title.length > 30 ? article.title.slice(0, 30) + '...' : article.title
-                }
-              />
-            ))}
-          </div>
+          {isPendingArticles ? (
+            <p className="text-xl-md text-gray500 text-center">
+              {myArticlesOnly ? '내가 등록한 게시글이 없습니다.' : '등록된 게시글이 없습니다.'}
+            </p>
+          ) : (
+            <div className="grid grid-cols-1 gap-6 lg:grid-cols-2">
+              {articles.map((article) => (
+                <Card
+                  key={article.id}
+                  {...article}
+                  title={
+                    article.title.length > 30 ? article.title.slice(0, 30) + '...' : article.title
+                  }
+                />
+              ))}
+            </div>
+          )}
         </Suspense>
         <Pagination
           currentPage={currentPage}
