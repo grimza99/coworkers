@@ -31,7 +31,7 @@ export default async function Page({ params, searchParams }: Props) {
     <div className="flex w-full flex-col gap-6 pb-25">
       <p className="text-lg-bold md:text-xl-bold">할 일</p>
       <DateSwitcher groupId={groupId} date={String(date)} />
-      <TaskLists taskLists={taskLists} date={String(date)} />
+      <TaskLists taskLists={taskLists} currentTaskListId={searchParamsTaskListId} />
       <Tasks groupId={groupId} tasks={tasks} currentTaskList={taskLists[0]} />
       <ManageTaskItemModal groupId={Number(groupId)} taskListId={taskListId} />
     </div>

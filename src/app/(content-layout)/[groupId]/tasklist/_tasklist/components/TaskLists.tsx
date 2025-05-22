@@ -9,11 +9,10 @@ import { TaskList } from '../types/task-type';
 
 interface Props {
   taskLists: TaskList[];
-  date: string;
+  currentTaskListId: string;
 }
 
-export default function TaskLists({ taskLists }: Props) {
-  const [currentTaskList, setCurrentTaskList] = useState<TaskList>(taskLists[0]);
+export default function TaskLists({ taskLists, currentTaskListId }: Props) {
   const router = useRouter();
   const searchParams = useSearchParams();
 
@@ -24,7 +23,6 @@ export default function TaskLists({ taskLists }: Props) {
 
     params.set('taskListId', String(taskList.id));
     router.push(`?${params.toString()}`);
-    setCurrentTaskList(taskList);
   };
 
   return (
@@ -37,7 +35,7 @@ export default function TaskLists({ taskLists }: Props) {
               onClick={() => handleClickChangeCurrentTaskList(taskList)}
               className={clsx(
                 'text-md-md mb-1 w-fit cursor-pointer whitespace-nowrap',
-                taskList === currentTaskList
+                taskList.id === Number(currentTaskListId)
                   ? 'text-gray200 underline underline-offset-6'
                   : 'text-gray500'
               )}
