@@ -14,6 +14,7 @@ import {
 } from '@/components/common/modal';
 import useModalContext from '@/components/common/modal/core/useModalContext';
 import axiosClient from '@/lib/axiosClient';
+import { revalidateTaskLists } from '../../actions/task-actions';
 
 interface Props {
   groupId: string;
@@ -28,6 +29,7 @@ export default function CreateTaskListModal({ groupId }: Props) {
 
   const handleSubmitCreateTaskList = async () => {
     await axiosClient.post(`/groups/${groupId}/task-lists`, { name: currentValue });
+    revalidateTaskLists();
     closeModal('createTaskList');
   };
 
@@ -38,7 +40,7 @@ export default function CreateTaskListModal({ groupId }: Props) {
       </ModalTrigger>
       <ModalPortal modalId="createTaskList">
         <ModalOverlay modalId="createTaskList">
-          <ModalContainer className="md:max-w-96">
+          <ModalContainer className="md:w-full md:max-w-96">
             <ModalCloseButton modalId="createTaskList" />
             <div className="mb-6 w-full px-6">
               <ModalHeading className="mb-2">새로운 목록 추가</ModalHeading>
