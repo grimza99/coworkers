@@ -18,6 +18,7 @@ interface DangerModalProps {
   closeButtonText?: string;
   confirmButton: string;
   onConfirm: () => void;
+  disabled?: boolean;
 }
 export default function DangerModal({
   modalId,
@@ -26,6 +27,7 @@ export default function DangerModal({
   closeButtonText,
   confirmButton,
   onConfirm,
+  disabled,
 }: DangerModalProps) {
   const { closeModal } = useModalContext();
 
@@ -52,7 +54,7 @@ export default function DangerModal({
                 >
                   {closeButton}
                 </Button>
-                <Button onClick={onConfirm} variant="danger" size="fullWidth">
+                <Button onClick={onConfirm} variant="danger" size="fullWidth" disabled={disabled}>
                   {confirmButton}
                 </Button>
               </div>
