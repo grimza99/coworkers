@@ -1,19 +1,13 @@
-import { cache } from 'react';
 import { Metadata } from 'next';
+import { notFound } from 'next/navigation';
 import Title from '@/app/(content-layout)/[groupId]/(groupId)/_[groupId]/Title';
 import Tasklists from '@/app/(content-layout)/[groupId]/(groupId)/_[groupId]/Tasklists';
 import Report from '@/app/(content-layout)/[groupId]/(groupId)/_[groupId]/Report';
 import Members from '@/app/(content-layout)/[groupId]/(groupId)/_[groupId]/Members';
-import axiosServer from '@/lib/axiosServer';
-import { getGroupApiResponse, Group } from '@/types/group';
-
-const getGroup = cache(async (groupId: Group['id']) => {
-  'use server';
-  const data = await axiosServer
-    .get<getGroupApiResponse>(`/groups/${groupId}`, { fetchOptions: { next: { tags: ['group'] } } })
-    .then((res) => res.data);
-  return data;
-});
+import {
+  getGroup,
+  getUserMemberships,
+} from '@/app/(content-layout)/[groupId]/(groupId)/_[groupId]/actions';
 
 export async function generateMetadata({
   params,
@@ -55,6 +49,13 @@ export async function generateMetadata({
 
 export default async function Page({ params }: { params: Promise<{ groupId: string }> }) {
   const groupId = Number((await params).groupId);
+  const userMembersips = await getUserMemberships();
+  const canAccess = userMembersips.some((membership) => membership.groupId === groupId);
+
+  if (!canAccess) {
+    notFound();
+  }
+
   const data = await getGroup(groupId);
   const admin = data.members.find((member) => member.role === 'ADMIN')!;
 
