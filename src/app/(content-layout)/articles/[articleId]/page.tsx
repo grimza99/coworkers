@@ -10,7 +10,7 @@ export default async function DetailArticle({
 }) {
   const articleId = Number((await params).articleId);
   const detail = await getDetailArticle(articleId);
-  const initialComments = await getArticleComments(articleId);
+  const initialComments = await getArticleComments(articleId, 10);
 
   return (
     <div className="flex h-full w-full flex-col gap-20">

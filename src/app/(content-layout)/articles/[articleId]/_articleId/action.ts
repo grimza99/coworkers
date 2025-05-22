@@ -11,9 +11,9 @@ export async function getDetailArticle(articleId: number) {
   return response.data;
 }
 
-export async function getArticleComments(articleId: number) {
+export async function getArticleComments(articleId: number, limit: number) {
   const response = await axiosServer.get<ArticleComments>(
-    `/articles/${articleId}/comments?limit=10`,
+    `/articles/${articleId}/comments?limit=${limit}`,
     {
       fetchOptions: { next: { tags: [`article-comments-${articleId}`] } },
     }
