@@ -2,11 +2,10 @@
 
 import Image from 'next/image';
 import { useState, useOptimistic, useTransition, useEffect } from 'react';
-import { updateUserNickname } from './_mypage/user';
+import { updateUserNickname } from './_mypage/action';
 import ProfileImageUploader from './_mypage/ProfileImageUploader';
 import NicknameField from './_mypage/NicknameField';
 import PasswordField from './_mypage/PasswordField';
-import axiosClient from '@/lib/axiosClient';
 import { Toast } from '@/components/common/Toastify';
 import ChangePasswordModal from './_mypage/mypage-modal/ChangePasswordModal';
 import DeleteAccountModal from './_mypage/mypage-modal/DeleteAccountModal';

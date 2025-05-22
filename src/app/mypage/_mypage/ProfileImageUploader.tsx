@@ -2,9 +2,9 @@
 
 import { useOptimistic, useTransition } from 'react';
 import FormField from '@/components/common/formField';
-import axiosClient from '@/lib/axiosClient';
 import postImageUrl from '@/lib/api/image/postImageUrl';
 import { Toast } from '@/components/common/Toastify';
+import { updateUserImage } from './action';
 
 interface ProfileImageUploaderProps {
   image: string;
@@ -34,9 +34,7 @@ export default function ProfileImageUploader({ image, setImage }: ProfileImageUp
           const uploaded = await postImageUrl(file);
           const uploadedUrl = uploaded.url;
 
-          await axiosClient.patch('/user', {
-            image: uploadedUrl,
-          });
+          await updateUserImage(uploadedUrl);
 
           const finalUrl = `${uploadedUrl}?t=${Date.now()}`;
           setImage(finalUrl);
