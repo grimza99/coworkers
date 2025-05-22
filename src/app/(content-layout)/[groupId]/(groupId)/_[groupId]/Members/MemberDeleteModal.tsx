@@ -12,6 +12,7 @@ import {
   ModalOverlay,
   ModalPortal,
 } from '@/components/common/modal';
+import useModalContext from '@/components/common/modal/core/useModalContext';
 import { Member } from '@/types/user';
 
 type MemberDeleteModalProps = {
@@ -30,9 +31,11 @@ export default function MemberDeleteModal({
   deleteMember,
 }: MemberDeleteModalProps) {
   const { userName } = member;
+  const { closeModal } = useModalContext();
 
   const handleClickDeleteButton = async () => {
-    await deleteMember();
+    deleteMember();
+    closeModal(modalId);
   };
 
   useEffect(() => {
