@@ -5,9 +5,6 @@ import { ko } from 'date-fns/locale';
 import Image from 'next/image';
 import { useState } from 'react';
 import { useOutSideClickAutoClose } from '@/utils/use-outside-click-auto-close';
-import prevIcon from '@/../public/icons/prev-arrow-icon.svg';
-import nextIcon from '@/../public/icons/next-arrow-icon.svg';
-import calendar from '@/../public/icons/calendar.svg';
 import { useRouter, useSearchParams } from 'next/navigation';
 import { revalidateTasks } from '../actions/task-actions';
 import CreateTaskListModal from './ModalContents/CreateTaskListModal';
@@ -43,14 +40,14 @@ export default function DateSwitcher({ groupId, date }: Props) {
         <p className="text-lg-md">{format(currentDate, 'M월 dd일 (eee)', { locale: ko })}</p>
         <div className="flex gap-1">
           <button onClick={() => handleChangeDate(subDays(currentDate, 1))}>
-            <Image src={prevIcon} width={16} height={16} alt="<" />
+            <Image src="/icons/prev-arrow-icon.svg" width={16} height={16} alt="<" />
           </button>
           <button onClick={() => handleChangeDate(addDays(currentDate, 1))}>
-            <Image src={nextIcon} width={16} height={16} alt=">" />
+            <Image src="/icons/next-arrow-icon.svg" width={16} height={16} alt=">" />
           </button>
         </div>
         <button onClick={() => setIsCalendarOpen(!isCalendarOpen)}>
-          <Image src={calendar} width={24} height={24} alt=">" />
+          <Image src="/icons/calendar.svg" width={24} height={24} alt=">" />
         </button>
         {isCalendarOpen && (
           <div ref={ref} className="absolute top-10 z-100 w-80 md:top-0 md:-right-90 md:w-100">
