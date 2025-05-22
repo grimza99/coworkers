@@ -2,19 +2,18 @@
 
 import { Metadata } from 'next';
 import Image from 'next/image';
-import { useEffect, useState, useOptimistic, useTransition } from 'react';
+import { useState, useOptimistic, useTransition, useEffect } from 'react';
 import ProfileImageUploader from './_mypage/ProfileImageUploader';
 import NicknameField from './_mypage/NicknameField';
 import PasswordField from './_mypage/PasswordField';
 import axiosClient from '@/lib/axiosClient';
-import { getClientCookie, deleteClientCookie } from '@/lib/cookie/client';
-import { getUserApiResponse } from '@/types/user';
-import useModalContext from '@/components/common/modal/core/useModalContext';
-import FormField from '@/components/common/formField';
 import { Toast } from '@/components/common/Toastify';
 import ChangePasswordModal from './_mypage/mypage-modal/ChangePasswordModal';
 import DeleteAccountModal from './_mypage/mypage-modal/DeleteAccountModal';
 import ConfirmDeleteAccountModal from './_mypage/mypage-modal/ConfirmDeleteAccountModal';
+import useModalContext from '@/components/common/modal/core/useModalContext';
+import FormField from '@/components/common/formField';
+import { useUser } from '@/contexts/UserContext';
 
 export async function generateMetadata(): Promise<Metadata> {
   return {
@@ -27,47 +26,22 @@ export async function generateMetadata(): Promise<Metadata> {
   };
 }
 
-async function fetchUserInfo(): Promise<getUserApiResponse | null> {
-  try {
-    const token = getClientCookie('accessToken');
-    if (!token) {
-      deleteClientCookie('accessToken');
-      deleteClientCookie('refreshToken');
-      return null;
-    }
-
-    const response = await axiosClient.get<getUserApiResponse>('/user');
-    return response.data;
-  } catch (error) {
-    console.error('계정 정보 가져오기 실패', error);
-    Toast.error('계정 정보를 불러오지 못했습니다. 다시 시도해주세요.');
-    return null;
-  }
-}
-
-export default function MyPage() {
-  const [userData, setUserData] = useState<getUserApiResponse | null>(null);
-  const [image, setImage] = useState('');
-  const [nickname, setNickname] = useState('');
-  const [optimisticNickname, addOptimisticNickname] = useOptimistic(nickname);
-  // 헤더에도 닉네임 즉시반영을 위해 useOptimistic을 사용했습니다. 추후 헤더 수정예정
+export default function MyPageClient() {
+  const { user, email, fetchUser } = useUser();
+  const [image, setImage] = useState(user?.image ?? '');
+  const [nickname, setNickname] = useState(user?.nickname ?? '');
+  const [optimisticNickname, addOptimisticNickname] = useOptimistic(user?.nickname ?? '');
+  // @TODO: 헤더에도 닉네임 즉시반영하도록
   const [, startTransition] = useTransition();
   const [nicknameError, setNicknameError] = useState('');
   const [password, setPassword] = useState('');
   const { openModal, closeModal } = useModalContext();
 
   useEffect(() => {
-    fetchUserInfo().then((data) => {
-      if (data) {
-        setUserData(data);
-        setImage(data.image || '');
-        setNickname(data.nickname || '');
-        startTransition(() => {
-          addOptimisticNickname(data.nickname || '');
-        });
-      }
-    });
-  });
+    if (user?.image) {
+      setImage(user.image);
+    }
+  }, [user?.image]);
 
   return (
     <div className="flex justify-center">
@@ -89,6 +63,7 @@ export default function MyPage() {
               onClick={async () => {
                 try {
                   await axiosClient.patch('/user', { nickname });
+                  await fetchUser();
                   startTransition(() => {
                     addOptimisticNickname(nickname);
                   });
@@ -101,7 +76,7 @@ export default function MyPage() {
                 }
               }}
             />
-            <FormField field="input" label="이메일" value={userData?.email || ''} readOnly />
+            <FormField field="input" label="이메일" value={email || ''} readOnly />
             <PasswordField
               password={password}
               setPassword={setPassword}

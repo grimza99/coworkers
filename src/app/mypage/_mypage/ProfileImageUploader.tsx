@@ -20,7 +20,7 @@ export default function ProfileImageUploader({ image, setImage }: ProfileImageUp
       field="file-input"
       label=""
       imageUploaderType="user"
-      image={optimisticImage || '/default-profile.png'}
+      image={optimisticImage || '/icons/profile-icon.svg'}
       onImageChange={async (e) => {
         const file = e.target.files?.[0];
         if (!file) return;
