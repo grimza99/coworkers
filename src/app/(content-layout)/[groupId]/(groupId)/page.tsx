@@ -1,4 +1,4 @@
-import { cache } from 'react';
+import { cache, use } from 'react';
 import { Metadata } from 'next';
 import Image from 'next/image';
 import Link from 'next/link';
@@ -8,6 +8,7 @@ import Members from '@/app/(content-layout)/[groupId]/(groupId)/_[groupId]/Membe
 import axiosServer from '@/lib/axiosServer';
 import PATHS from '@/constants/paths';
 import { getGroupApiResponse, Group } from '@/types/group';
+import Title from './_[groupId]/Title';
 
 const getGroup = cache(async (groupId: Group['id']) => {
   'use server';
@@ -58,28 +59,11 @@ export async function generateMetadata({
 export default async function Page({ params }: { params: Promise<{ groupId: string }> }) {
   const groupId = Number((await params).groupId);
   const data = await getGroup(groupId);
+  const admin = data.members.find((member) => member.role === 'ADMIN')!;
 
   return (
     <main className="pb-16 md:pb-24">
-      <div className="border-gray100/10 bg-gray100/10 relative flex h-16 w-full items-center justify-between rounded-xl border-1 px-6 py-5">
-        <h1 className="text-xl-bold text-white">{data.name}</h1>
-        <Image
-          src={'/images/group-thumbnail.png'}
-          width={543}
-          height={192}
-          alt="그룹 기본 이미지"
-          className="absolute right-1/4 h-16 w-auto object-contain md:right-20"
-        />
-        <Link href={`${groupId}${PATHS.EDITGROUP}`}>
-          <Image
-            src="/icons/gear-icon.svg"
-            width={24}
-            height={24}
-            alt="톱니바퀴 아이콘"
-            className="size-6"
-          />
-        </Link>
-      </div>
+      <Title groupId={groupId} name={data.name} admin={admin} />
       <div className="my-6 flex flex-col gap-12 lg:gap-16">
         <Tasklists groupId={groupId} tasklists={data.taskLists} />
         <Report tasklists={data.taskLists} />
