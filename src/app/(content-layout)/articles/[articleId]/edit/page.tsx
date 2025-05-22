@@ -1,5 +1,5 @@
 'use client';
-import { useRouter } from 'next/navigation';
+import { useParams, useRouter } from 'next/navigation';
 import { useState, useEffect } from 'react';
 import Button from '@/components/common/Button';
 import FormField from '@/components/common/formField';
@@ -8,9 +8,11 @@ import axiosClient from '@/lib/axiosClient';
 import postImageUrl from '@/lib/api/image/postImageUrl';
 import { validateEmptyValue } from '@/utils/validators';
 import PATHS from '@/constants/paths';
+import { GetArticleDetailResponse } from '@/types/article';
 
 export default function Page() {
   const router = useRouter();
+  const { articleId } = useParams();
   const [title, setTitle] = useState('');
   const [content, setContent] = useState('');
   const [image, setImage] = useState<File | null>(null);
@@ -52,9 +54,9 @@ export default function Page() {
         ...(uploadedImageUrl && { image: uploadedImageUrl }),
       };
 
-      await axiosClient.post('/articles', articlePayload);
+      await axiosClient.patch(`/articles/${articleId}`, articlePayload);
 
-      Toast.success('게시글 작성이 완료되었습니다.');
+      Toast.success('게시글 수정이 완료되었습니다.');
       setTitle('');
       setContent('');
       setImage(null);
@@ -65,7 +67,7 @@ export default function Page() {
 
       router.push(`${PATHS.ARTICLES.BASE}`);
     } catch {
-      Toast.error('게시글 작성 중 오류가 발생했습니다.');
+      Toast.error('게시글 수정 중 오류가 발생했습니다.');
     } finally {
       setIsSubmitting(false);
     }
@@ -79,10 +81,27 @@ export default function Page() {
     };
   }, [previewImage]);
 
+  useEffect(() => {
+    const fetchArticle = async () => {
+      try {
+        const response = await axiosClient.get<GetArticleDetailResponse>(`/articles/${articleId}`);
+        const { title, content, image } = response.data;
+        setTitle(title);
+        setContent(content);
+        setPreviewImage(image);
+      } catch (error) {
+        Toast.error('게시글 불러오기 실패');
+        throw error;
+      }
+    };
+
+    fetchArticle();
+  }, [articleId]);
+
   return (
     <main className="mt-4 mb-8 md:mt-8 md:mb-40">
       <div className="flex items-center justify-between">
-        <h1 className="text-lg-md md:text-xl-bold">게시글 쓰기</h1>
+        <h1 className="text-lg-md md:text-xl-bold">게시글 수정</h1>
         <div className="hidden w-46 md:block">
           <Button
             type="submit"
