@@ -24,6 +24,7 @@ export default function ArticlesPageClient() {
   const [isLoadingBest, setIsLoadingBest] = useState(true);
   const [orderBy, setOrderBy] = useState<'recent' | 'like'>('recent');
   const [myArticlesOnly, setMyArticlesOnly] = useState(false);
+  const [isArticlesLoading, setIsArticlesLoading] = useState(true);
 
   const searchParams = useSearchParams();
   const [searchInput, setSearchInput] = useState(searchParams.get('keyword') ?? '');
@@ -86,6 +87,7 @@ export default function ArticlesPageClient() {
 
   useEffect(() => {
     const fetchArticles = async () => {
+      setIsArticlesLoading(true);
       try {
         const res = await axiosClient.get('/articles', {
           params: {
@@ -107,12 +109,12 @@ export default function ArticlesPageClient() {
       } catch (error) {
         console.error('게시글 불러오기 실패:', error);
         Toast.error('게시글을 불러오는 데 실패했습니다.');
+      } finally {
+        setIsArticlesLoading(false);
       }
     };
     fetchArticles();
   }, [currentPage, orderBy, myArticlesOnly, searchInput, user]);
-
-  const isPendingArticles = articles.length === 0;
 
   return (
     <main className="">
@@ -170,7 +172,9 @@ export default function ArticlesPageClient() {
           </div>
         </div>
         <Suspense fallback={<CardSkeleton />}>
-          {isPendingArticles ? (
+          {isArticlesLoading ? (
+            <CardSkeleton />
+          ) : articles.length === 0 ? (
             <p className="text-xl-md text-gray500 text-center">
               {myArticlesOnly ? '내가 등록한 게시글이 없습니다.' : '등록된 게시글이 없습니다.'}
             </p>
