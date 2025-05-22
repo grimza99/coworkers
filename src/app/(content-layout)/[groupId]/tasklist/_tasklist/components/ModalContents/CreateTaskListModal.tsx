@@ -17,6 +17,7 @@ import axiosClient from '@/lib/axiosClient';
 import { revalidateTaskLists } from '../../actions/task-actions';
 import { Toast } from '@/components/common/Toastify';
 import { AxiosError } from 'axios';
+import BouncingDots from '@/components/common/loading/BouncingDots';
 
 interface Props {
   groupId: string;
@@ -96,7 +97,7 @@ export default function CreateTaskListModal({ groupId }: Props) {
                   size="fullWidth"
                   disabled={currentValue === ''}
                 >
-                  {isLoading ? '...' : '만들기'}
+                  {isLoading ? <BouncingDots /> : '만들기'}
                 </Button>
               </ModalFooter>
             </div>
