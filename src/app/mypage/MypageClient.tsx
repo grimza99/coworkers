@@ -29,6 +29,12 @@ export default function MyPageClient() {
     }
   }, [user?.image]);
 
+  useEffect(() => {
+    if (user?.nickname) {
+      setNickname(user.nickname);
+    }
+  }, [user?.nickname]);
+
   return (
     <div className="flex justify-center">
       <div className="mx-4 mt-6 w-full max-w-198 min-w-[343px] md:mx-6 lg:mt-7">
