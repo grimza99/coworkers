@@ -1,8 +1,8 @@
 'use client';
 
-import { Metadata } from 'next';
 import Image from 'next/image';
 import { useState, useOptimistic, useTransition, useEffect } from 'react';
+import { updateUserNickname } from './_mypage/user';
 import ProfileImageUploader from './_mypage/ProfileImageUploader';
 import NicknameField from './_mypage/NicknameField';
 import PasswordField from './_mypage/PasswordField';
@@ -14,17 +14,6 @@ import ConfirmDeleteAccountModal from './_mypage/mypage-modal/ConfirmDeleteAccou
 import useModalContext from '@/components/common/modal/core/useModalContext';
 import FormField from '@/components/common/formField';
 import { useUser } from '@/contexts/UserContext';
-
-export async function generateMetadata(): Promise<Metadata> {
-  return {
-    title: '계정관리 | Coworkers',
-    openGraph: {
-      title: '계정관리 | Coworkers',
-      description: '자유롭게 게시글을 작성하고 소통할 수 있는 공간입니다.',
-      siteName: 'Coworkers',
-    },
-  };
-}
 
 export default function MyPageClient() {
   const { user, email, fetchUser } = useUser();
@@ -62,7 +51,7 @@ export default function MyPageClient() {
               setNicknameError={setNicknameError}
               onClick={async () => {
                 try {
-                  await axiosClient.patch('/user', { nickname });
+                  await updateUserNickname(nickname);
                   await fetchUser();
                   startTransition(() => {
                     addOptimisticNickname(nickname);
