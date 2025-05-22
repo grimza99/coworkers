@@ -85,7 +85,7 @@ export default function Header() {
   if (isMinimalHeader) {
     return (
       <header className="bg-bg200 border-border sticky top-0 z-200 flex h-15 w-full justify-center border-b-1">
-        <div className="flex w-full max-w-300 items-center justify-between p-4 lg:p-0">
+        <div className="mx-5 flex w-full max-w-300 items-center justify-between">
           <Logo />
         </div>
       </header>
@@ -94,7 +94,7 @@ export default function Header() {
 
   return (
     <header className="bg-bg200 border-border sticky top-0 z-200 flex h-15 w-full justify-center border-b-1">
-      <div className="flex w-full max-w-300 items-center justify-between p-4 lg:p-0">
+      <div className="mx-5 flex w-full max-w-300 items-center justify-between">
         <div className="flex items-center gap-8 lg:gap-10">
           <div className="flex items-center gap-4">
             <button

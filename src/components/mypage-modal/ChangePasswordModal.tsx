@@ -49,10 +49,13 @@ export default function ChangePasswordModal({ onClose }: PasswordChangeSuccessMo
         password: formData.newPassword,
         passwordConfirmation: formData.confirmPassword,
       });
+
+      setFormData({ newPassword: '', confirmPassword: '' });
+
       closeModal('change-password');
       Toast.success('비밀번호가 변경 성공');
     } catch {
-      Toast.error('비밀번호 변경에 실패했습니다. 다시 시도해 주세요.');
+      Toast.error('비밀번호 변경에 실패했습니다.');
     }
   };
 
