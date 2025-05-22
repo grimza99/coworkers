@@ -27,26 +27,14 @@ export default function DateSwitcher({ groupId, date }: Props) {
     ref,
   } = useOutSideClickAutoClose(false);
 
-  const handleClickChangeDayIcon = (direction: 'prev' | 'next') => {
+  const handleChangeDate = (value: Date) => {
     const params = new URLSearchParams(searchParams.toString());
-    const newDate = direction === 'prev' ? subDays(currentDate, 1) : addDays(currentDate, 1);
-
-    setCurrentDate(String(newDate));
-    revalidateTasks();
-
-    params.set('date', String(newDate));
-    router.push(`?${params.toString()}`);
-  };
-
-  const selectDateOnCalendar = (value: Date) => {
-    const params = new URLSearchParams(searchParams.toString());
-
     setIsCalendarOpen(false);
     setCurrentDate(String(value));
     revalidateTasks();
 
-    params.set('date', String(value));
-    router.push(`?${params.toString()}`);
+    params.set('date', format(value, 'yyyy-MM-dd'));
+    router.push(`?${params}`);
   };
 
   return (
@@ -54,10 +42,10 @@ export default function DateSwitcher({ groupId, date }: Props) {
       <div className="relative flex items-center gap-3">
         <p className="text-lg-md">{format(currentDate, 'M월 dd일 (eee)', { locale: ko })}</p>
         <div className="flex gap-1">
-          <button onClick={() => handleClickChangeDayIcon('prev')}>
+          <button onClick={() => handleChangeDate(subDays(currentDate, 1))}>
             <Image src={prevIcon} width={16} height={16} alt="<" />
           </button>
-          <button onClick={() => handleClickChangeDayIcon('next')}>
+          <button onClick={() => handleChangeDate(addDays(currentDate, 1))}>
             <Image src={nextIcon} width={16} height={16} alt=">" />
           </button>
         </div>
@@ -69,7 +57,7 @@ export default function DateSwitcher({ groupId, date }: Props) {
             <CalendarSelect
               date={new Date(currentDate)}
               onDateChange={(value) => {
-                selectDateOnCalendar(value);
+                handleChangeDate(value);
               }}
             />
           </div>
