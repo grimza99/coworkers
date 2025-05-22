@@ -14,24 +14,25 @@ import {
 } from '@/components/common/modal';
 import { Member } from '@/types/user';
 
-type MemberRemovalModalProps = {
+type MemberDeleteModalProps = {
   member: Member;
   modalId: string;
-  isRemoving: boolean;
+  isLoading: boolean;
   error: { message: string; id: string } | null;
-  removeMember: () => Promise<void> | void;
+  deleteMember: () => Promise<void> | void;
 };
 
-export default function MemberRemovalModal({
+export default function MemberDeleteModal({
   member,
   modalId,
-  isRemoving,
+  isLoading,
   error,
-  removeMember,
-}: MemberRemovalModalProps) {
+  deleteMember,
+}: MemberDeleteModalProps) {
   const { userName } = member;
-  const handleClickRemoveButton = async () => {
-    await removeMember();
+
+  const handleClickDeleteButton = async () => {
+    await deleteMember();
   };
 
   useEffect(() => {
@@ -60,10 +61,10 @@ export default function MemberRemovalModal({
               <Button
                 variant="danger"
                 size="fullWidth"
-                onClick={handleClickRemoveButton}
-                disabled={isRemoving}
+                onClick={handleClickDeleteButton}
+                disabled={isLoading}
               >
-                {isRemoving ? '...' : '내보내기'}
+                {isLoading ? '...' : '내보내기'}
               </Button>
             </ModalFooter>
           </ModalContainer>
