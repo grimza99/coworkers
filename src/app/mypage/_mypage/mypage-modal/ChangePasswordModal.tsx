@@ -8,14 +8,14 @@ import {
   ModalOverlay,
   ModalPortal,
 } from '@/components/common/modal';
-import Button from '../common/Button';
 import useModalContext from '@/components/common/modal/core/useModalContext';
-import FormField from '../common/formField';
 import { validatePassword, validateConfirmPassword } from '@/utils/validators';
 import axiosClient from '@/lib/axiosClient';
-import { Toast } from '@/components/common/Toastify';
+import FormField from '@/components/common/formField';
+import Button from '@/components/common/Button';
 import PasswordToggleButton from '@/app/(form-layout)/signup/_signup/PasswordToggleButton';
 import { AUTH_ERROR_MESSAGES } from '@/constants/messages/signup';
+import { Toast } from '@/components/common/Toastify';
 
 interface PasswordChangeSuccessModalProps {
   onClose: () => void;
@@ -30,6 +30,7 @@ export default function ChangePasswordModal({ onClose }: PasswordChangeSuccessMo
     newPassword: '',
     confirmPassword: '',
   });
+
   const setFieldValue = (key: keyof typeof formData, value: string) => {
     setFormData((prev) => ({
       ...prev,
@@ -58,7 +59,7 @@ export default function ChangePasswordModal({ onClose }: PasswordChangeSuccessMo
         setFormData({ newPassword: '', confirmPassword: '' });
 
         closeModal('change-password');
-        Toast.success('비밀번호가 변경 성공');
+        Toast.success('비밀번호 변경 성공');
         onClose();
       } catch {
         Toast.error('비밀번호 변경에 실패했습니다.');

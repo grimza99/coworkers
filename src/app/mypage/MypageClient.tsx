@@ -6,15 +6,15 @@ import { useEffect, useState, useOptimistic, useTransition } from 'react';
 import ProfileImageUploader from './_mypage/ProfileImageUploader';
 import NicknameField from './_mypage/NicknameField';
 import PasswordField from './_mypage/PasswordField';
-import ChangePasswordModal from '@/components/mypage-modal/ChangePasswordModal';
-import DeleteAccountModal from '@/components/mypage-modal/DeleteAccountModal';
-import ConfirmDeleteAccountModal from '@/components/mypage-modal/ConfirmDeleteAccountModal';
 import axiosClient from '@/lib/axiosClient';
 import { getClientCookie, deleteClientCookie } from '@/lib/cookie/client';
 import { getUserApiResponse } from '@/types/user';
 import useModalContext from '@/components/common/modal/core/useModalContext';
 import FormField from '@/components/common/formField';
 import { Toast } from '@/components/common/Toastify';
+import ChangePasswordModal from './_mypage/mypage-modal/ChangePasswordModal';
+import DeleteAccountModal from './_mypage/mypage-modal/DeleteAccountModal';
+import ConfirmDeleteAccountModal from './_mypage/mypage-modal/ConfirmDeleteAccountModal';
 
 export async function generateMetadata(): Promise<Metadata> {
   return {
@@ -49,7 +49,8 @@ export default function MyPage() {
   const [userData, setUserData] = useState<getUserApiResponse | null>(null);
   const [image, setImage] = useState('');
   const [nickname, setNickname] = useState('');
-  const [optimisticNickname, setOptimisticNickname] = useOptimistic(nickname);
+  const [optimisticNickname, addOptimisticNickname] = useOptimistic(nickname);
+  // 헤더에도 닉네임 즉시반영을 위해 useOptimistic을 사용했습니다. 추후 헤더 수정예정
   const [, startTransition] = useTransition();
   const [nicknameError, setNicknameError] = useState('');
   const [password, setPassword] = useState('');
@@ -62,11 +63,11 @@ export default function MyPage() {
         setImage(data.image || '');
         setNickname(data.nickname || '');
         startTransition(() => {
-          setOptimisticNickname(data.nickname || '');
+          addOptimisticNickname(data.nickname || '');
         });
       }
     });
-  }, []);
+  });
 
   return (
     <div className="flex justify-center">
@@ -80,7 +81,7 @@ export default function MyPage() {
               nicknameError={nicknameError}
               setNickname={(value: string) => {
                 startTransition(() => {
-                  setOptimisticNickname(value);
+                  addOptimisticNickname(value);
                 });
                 setNickname(value);
               }}
@@ -89,7 +90,7 @@ export default function MyPage() {
                 try {
                   await axiosClient.patch('/user', { nickname });
                   startTransition(() => {
-                    setOptimisticNickname(nickname);
+                    addOptimisticNickname(nickname);
                   });
                   Toast.success('닉네임 변경 성공');
                 } catch (error: unknown) {
