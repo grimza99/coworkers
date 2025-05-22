@@ -35,9 +35,9 @@ export default function MemberInvitationModal({ modalId, groupId }: MemberInvita
       const res = await getInvitationToken(groupId);
       const token = res.data;
       navigator.clipboard.writeText(token);
-      Toast.success('멤버 초대 토큰 복사 완료');
+      Toast.success('멤버 초대 코드 복사 완료');
     } catch {
-      Toast.error('멤버 초대 토큰 복사 실패');
+      Toast.error('멤버 초대 코드 복사 실패');
     }
   };
 
@@ -52,21 +52,21 @@ export default function MemberInvitationModal({ modalId, groupId }: MemberInvita
   return (
     <ModalPortal modalId={modalId}>
       <ModalOverlay modalId={modalId}>
-        <ModalContainer>
+        <ModalContainer className="justify-between px-12 pt-12 pb-8 max-md:h-80 md:h-80 md:px-12">
           <ModalCloseButton modalId={modalId} />
-          <div className="text-md-md text-gray100 flex">
+          <div className="text-md-md text-gray100 flex w-full">
             <button
               className={clsx(
-                'border-gray100 rounded-l-md border-2 border-r-0 bg-auto px-4 py-2',
+                'border-gray100 flex-1 rounded-l-md border-2 border-r-0 bg-auto px-4 py-1.5',
                 isTokenMethod && 'border-primary text-primary border-r-2'
               )}
               onClick={() => setIsTokenMethod(true)}
             >
-              링크 복사
+              코드 복사
             </button>
             <button
               className={clsx(
-                'border-gray100 rounded-r-md border-2 border-l-0 bg-auto px-4 py-2',
+                'border-gray100 flex-1 rounded-r-md border-2 border-l-0 bg-auto px-4 py-1.5',
                 isTokenMethod || 'border-primary text-primary border-l-2'
               )}
               onClick={() => setIsTokenMethod(false)}
@@ -76,38 +76,44 @@ export default function MemberInvitationModal({ modalId, groupId }: MemberInvita
           </div>
           {isTokenMethod ? (
             <>
-              <ModalHeading className="mb-2">초대 링크 복사</ModalHeading>
-              <ModalDescription>그룹에 참여할 수 있는 링크를 복사합니다.</ModalDescription>
-              <ModalFooter className="mt-5 w-70">
+              <div className="flex flex-col gap-2">
+                <ModalHeading>참여 코드 복사</ModalHeading>
+                <ModalDescription>그룹 참여 코드를 유저에게 전달해주세요.</ModalDescription>
+              </div>
+              <ModalFooter className="w-full md:w-70">
                 <Button variant="solid" size="fullWidth" onClick={copyInvitationTokenToClipboard}>
-                  링크 복사하기
+                  코드 복사하기
                 </Button>
               </ModalFooter>
             </>
           ) : (
             <>
-              <ModalHeading className="mb-2">이메일로 멤버 추가</ModalHeading>
-              <FormField
-                field="input"
-                placeholder="추가할 유저의 이메일을 입력해 주세요."
-                isSuccess={!validateEmptyValue(email) && validateEmail(email)}
-                isFailure={validateEmptyValue(email) || !validateEmail(email)}
-                errorMessage="올바른 이메일을 입력해 주세요."
-                value={email}
-                onChange={handleChangeEmail}
-                disabled={isLoading}
-              />
-              <Button
-                variant="solid"
-                size="fullWidth"
-                onClick={() => {
-                  addMember(email);
-                  closeModal(modalId);
-                }}
-                disabled={isLoading || validateEmptyValue(email) || !validateEmail(email)}
-              >
-                추가하기
-              </Button>
+              <div className="w-full">
+                <ModalHeading className="mb-2">이메일로 멤버 추가</ModalHeading>
+                <FormField
+                  field="input"
+                  placeholder="이메일을 입력해 주세요."
+                  isSuccess={!validateEmptyValue(email) && validateEmail(email)}
+                  isFailure={validateEmptyValue(email) || !validateEmail(email)}
+                  errorMessage="올바른 이메일을 입력해 주세요."
+                  value={email}
+                  onChange={handleChangeEmail}
+                  disabled={isLoading}
+                />
+              </div>
+              <ModalFooter className="w-full md:w-70">
+                <Button
+                  variant="solid"
+                  size="fullWidth"
+                  onClick={() => {
+                    addMember(email);
+                    closeModal(modalId);
+                  }}
+                  disabled={isLoading || validateEmptyValue(email) || !validateEmail(email)}
+                >
+                  추가하기
+                </Button>
+              </ModalFooter>
             </>
           )}
         </ModalContainer>
