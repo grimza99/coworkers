@@ -12,6 +12,11 @@ export interface ArticleComment extends Omit<Comment, 'user'> {
   writer: User;
 }
 
+export interface ArticleComments {
+  list: ArticleComment[];
+  nextCursor: number | null;
+}
+
 export type CommentApiResponse = Comment;
 
 export type CommentsApiResponse = Comment[];

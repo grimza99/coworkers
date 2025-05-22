@@ -10,7 +10,7 @@ export default async function DetailArticle({
 }) {
   const articleId = Number((await params).articleId);
   const detail = await getDetailArticle(articleId);
-  const comments = await getArticleComments(articleId);
+  const initialComments = await getArticleComments(articleId);
 
   return (
     <div className="flex h-full w-full flex-col gap-20">
@@ -18,7 +18,11 @@ export default async function DetailArticle({
       <div className="flex flex-col gap-8 sm:gap-10">
         <CommentField articleId={articleId} />
         <div className="border-border border" />
-        <CommentList comments={comments} articleId={articleId} />
+        <CommentList
+          initialComments={initialComments.list}
+          initialCursor={initialComments.nextCursor}
+          articleId={articleId}
+        />
       </div>
     </div>
   );

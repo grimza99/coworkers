@@ -6,17 +6,19 @@ import Button from '@/components/common/Button';
 import DangerModal from '@/components/danger-modal';
 import { Toast } from '@/components/common/Toastify';
 import CommentItem from '@/components/comment';
-import { ArticleComment } from '@/components/comment/types';
+import { ArticleComments } from '@/components/comment/types';
 import BouncingDots from '@/components/common/loading/BouncingDots';
 import useModalContext from '@/components/common/modal/core/useModalContext';
 import { deleteArticleComment, patchArticleComment } from '../action';
 import { validateEmptyValue } from '@/utils/validators';
 
 export default function CommentList({
-  comments,
+  initialComments,
+  initialCursor,
   articleId,
 }: {
-  comments: ArticleComment[];
+  initialComments: ArticleComments['list'];
+  initialCursor: ArticleComments['nextCursor'];
   articleId: number;
 }) {
   const [commentIdToDelete, setCommentIdToDelete] = useState<number | null>(null);
@@ -53,7 +55,7 @@ export default function CommentList({
 
   const deleteCommentModalId = `delete-comment-${commentIdToDelete}`;
 
-  if (comments.length === 0) {
+  if (initialComments.length === 0) {
     return (
       <div className="flex h-full w-full justify-center pt-37 sm:pt-[126px]">
         <span className="text-lg-md text-gray500">아직 작성된 댓글이 없습니다.</span>
@@ -63,7 +65,7 @@ export default function CommentList({
 
   return (
     <div className="mb-10 flex flex-col gap-4">
-      {comments.map((comment) => {
+      {initialComments.map((comment) => {
         const isEdit = commentToEdit?.id === comment.id;
 
         return (
