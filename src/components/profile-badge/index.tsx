@@ -19,7 +19,7 @@ export default function ProfileBadge({
 }: ProfileBadgeProps) {
   if (!user) return;
 
-  const isBasicProfile = user.image === DEFAULT_IMAGE;
+  const isBasicProfile = !user.image || user.image === DEFAULT_IMAGE;
 
   return (
     <div className={clsx(`flex shrink-0 items-center gap-3`, className)}>
