@@ -44,11 +44,12 @@ export default function Tasklists({ groupId, tasklists }: TasklistsProps) {
           </ModalTrigger>
         </div>
         <ol className="flex flex-col gap-4">
-          {tasklists.map((tasklist) => (
+          {tasklists.map((tasklist, index) => (
             <TasklistItem
               key={tasklist.id}
               tasklist={tasklist}
               onDropdownTriggerClick={() => setSelectedTasklist(tasklist)}
+              index={index}
             />
           ))}
         </ol>
