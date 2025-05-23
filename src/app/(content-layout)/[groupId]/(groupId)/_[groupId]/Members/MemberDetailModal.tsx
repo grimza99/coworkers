@@ -28,7 +28,7 @@ export default function MemberDetailModal({ modalId, member }: MemberDetailModal
   return (
     <ModalPortal modalId={modalId}>
       <ModalOverlay modalId={modalId}>
-        <ModalContainer>
+        <ModalContainer className="px-8 pt-12 pb-8 md:px-8 md:pt-12 md:pb-8">
           <ModalCloseButton modalId={modalId} />
           <div className="relative size-11.5">
             {userImage ? (
