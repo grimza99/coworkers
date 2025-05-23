@@ -22,6 +22,9 @@ const MINIMAL_HEADER_PATHS = [
   PATHS.ADDGROUP,
 ];
 
+// 그룹이 필요한 페이지들 (groupId가 URL에 있는 페이지들)
+const GROUP_REQUIRED_PATHS = ['/groups/', '/group/'];
+
 export default function Header() {
   const pathname = usePathname();
   const { groupId } = useParams<{ groupId: string }>();
@@ -56,7 +59,22 @@ export default function Header() {
   const isMinimalHeader = MINIMAL_HEADER_PATHS.includes(pathname);
   const hasGroup = groups.length > 0;
 
-  if (isMinimalHeader || !selectedGroup) {
+  // 현재 페이지가 그룹이 필요한 페이지인지 확인
+  const isGroupRequiredPage = GROUP_REQUIRED_PATHS.some((path) => pathname.startsWith(path));
+
+  // 로딩 중이거나, 미니멀 헤더 페이지인 경우에만 미니멀 헤더 표시
+  if (isMinimalHeader || isLoading) {
+    return (
+      <header className="bg-bg200 border-border sticky top-0 z-200 flex h-15 w-full justify-center border-b-1">
+        <div className="mx-5 flex w-full max-w-300 items-center justify-between">
+          <Logo />
+        </div>
+      </header>
+    );
+  }
+
+  // 그룹이 필요한 페이지인데 선택된 그룹이 없는 경우에만 미니멀 헤더
+  if (isGroupRequiredPage && !selectedGroup) {
     return (
       <header className="bg-bg200 border-border sticky top-0 z-200 flex h-15 w-full justify-center border-b-1">
         <div className="mx-5 flex w-full max-w-300 items-center justify-between">
@@ -84,7 +102,7 @@ export default function Header() {
           </div>
 
           <div className="text-lg-md relative hidden items-center gap-8 md:flex lg:gap-y-10">
-            {hasGroup && (
+            {hasGroup && selectedGroup && (
               <GroupDropdownSelector
                 groups={groups}
                 selectedGroupName={selectedGroup.name}
