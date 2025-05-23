@@ -41,14 +41,8 @@ jobs:
           NEXT_PUBLIC_KAKAO_CLIENT_ID: ${{ vars.NEXT_PUBLIC_KAKAO_CLIENT_ID }}
           NEXT_PUBLIC_KAKAO_REDIRECT_URI: ${{ vars.NEXT_PUBLIC_KAKAO_REDIRECT_URI }}
 
-      - name: Log in to Docker Hub
-        uses: docker/login-action@v3
-        with:
-          username: ${{ secrets.DOCKERHUB_USERNAME }}
-          password: ${{ secrets.DOCKERHUB_TOKEN }}
-
   dockerize:
-    name: Build and Push Docker Image
+    name: Dockerize
     needs: build
     environment:
       name: Preview
