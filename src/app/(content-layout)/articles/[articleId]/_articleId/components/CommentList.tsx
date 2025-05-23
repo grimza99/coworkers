@@ -154,7 +154,7 @@ export default function CommentList({
       <DangerModal
         modalId={deleteCommentModalId}
         heading="댓글을 삭제하시겠어요?"
-        confirmButton={isPending ? '...' : '삭제하기'}
+        confirmButton={isPending ? <BouncingDots size={7} /> : '삭제하기'}
         onConfirm={deleteComment}
         disabled={isPending}
       />
