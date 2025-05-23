@@ -1,5 +1,6 @@
 'use client';
 import { useOptimistic, useState, useTransition } from 'react';
+import { useUser } from '@/contexts/UserContext';
 import MemberItem from '@/app/(content-layout)/[groupId]/(groupId)/_[groupId]/Members/MemberItem';
 import MemberInvitationModal from '@/app/(content-layout)/[groupId]/(groupId)/_[groupId]/Members/MemberInvitationModal';
 import MemberDeleteModal from '@/app/(content-layout)/[groupId]/(groupId)/_[groupId]/Members/MemberDeleteModal';
