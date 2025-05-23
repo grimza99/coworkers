@@ -3,7 +3,7 @@
 import Image from 'next/image';
 import Link from 'next/link';
 import { useParams, usePathname } from 'next/navigation';
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import Logo from './Logo';
 import SideMenu from './SideMenu';
 import GroupDropdownSelector from './GroupDropdownSelector';
@@ -27,12 +27,23 @@ export default function Header() {
   const { groupId } = useParams<{ groupId: string }>();
   const { user, memberships, isLoading } = useUser();
 
-  const [selectedGroupId, setSelectedGroupId] = useState<number>(Number(groupId));
+  const [selectedGroupId, setSelectedGroupId] = useState<number | null>(null);
 
   const groups: Group[] =
     !isLoading && memberships ? memberships.map((membership) => membership.group) : [];
 
-  const selectedGroup = groups.find((group) => group.id === selectedGroupId);
+  useEffect(() => {
+    if (!isLoading && memberships && groupId !== null) {
+      const numericId = Number(groupId);
+      const isValid = memberships.some((m) => m.group.id === numericId);
+
+      if (isValid) {
+        setSelectedGroupId(numericId);
+      } else {
+        setSelectedGroupId(null);
+      }
+    }
+  }, [groupId, memberships, isLoading]);
 
   const {
     ref: sideMenuRef,
@@ -40,10 +51,12 @@ export default function Header() {
     setIsOpen: setIsSideMenuOpen,
   } = useOutSideClickAutoClose(false);
 
+  const selectedGroup = groups.find((group) => group.id === selectedGroupId);
+
   const isMinimalHeader = MINIMAL_HEADER_PATHS.includes(pathname);
   const hasGroup = groups.length > 0;
 
-  if (isMinimalHeader) {
+  if (isMinimalHeader || !selectedGroup) {
     return (
       <header className="bg-bg200 border-border sticky top-0 z-200 flex h-15 w-full justify-center border-b-1">
         <div className="mx-5 flex w-full max-w-300 items-center justify-between">
@@ -74,7 +87,7 @@ export default function Header() {
             {hasGroup && (
               <GroupDropdownSelector
                 groups={groups}
-                selectedGroupName={selectedGroup?.name ?? groups[0].name}
+                selectedGroupName={selectedGroup.name}
                 setSelectedGroupId={setSelectedGroupId}
               />
             )}
