@@ -11,6 +11,7 @@ import getDetailTaskItem from '@/lib/api/detail-task-item';
 import DetailTaskContainer from '../../@detailTask/page';
 import { useSortable } from '@dnd-kit/sortable';
 import { CSS } from '@dnd-kit/utilities';
+import { useDndMonitor } from '@dnd-kit/core';
 
 interface Props {
   task: Task;
@@ -24,6 +25,16 @@ export default function TasksWiseTask({ task, groupId, taskListId }: Props) {
   const [isDetailTaskOpen, setIsDetailTaskOpen] = useState(false);
   const [detailTask, setDetailTask] = useState<DetailTaskType>();
   const [isDropdownOpen, setIsDropdownOpen] = useState(false);
+  const { attributes, listeners, setNodeRef, transform, transition, isDragging } = useSortable({
+    id: task.id,
+  });
+  const [onDrag, setOnDrag] = useState(false);
+
+  useDndMonitor({
+    onDragStart: () => setOnDrag(true),
+    onDragEnd: () => setOnDrag(false),
+    onDragCancel: () => setOnDrag(false),
+  });
 
   useEffect(() => {
     const fetchDetailItem = async () => {
@@ -47,9 +58,7 @@ export default function TasksWiseTask({ task, groupId, taskListId }: Props) {
   const { popUpDeleteTaskModal, popUpEditTaskModal } = useTaskModals();
   const { deleteTask } = useTaskActions();
   const { toggleTaskDone } = useTaskActions(task);
-  const { attributes, listeners, setNodeRef, transform, transition, isDragging } = useSortable({
-    id: task.id,
-  });
+
   const safeFormatDate = (dateString: string | undefined | null) => {
     if (!dateString) return '';
 
@@ -118,13 +127,15 @@ export default function TasksWiseTask({ task, groupId, taskListId }: Props) {
             modalId={taskDeleteModalId}
             deleteTask={() => deleteTask(groupId, taskListId, task.id, setTaskToDeleteState)}
           />
-          <ManageTaskItemModal
-            detailTask={detailTask}
-            groupId={Number(groupId)}
-            taskListId={taskListId}
-            isDone={isDone}
-            createOrEditModalId={createOrEditModalId}
-          />
+          {!onDrag && (
+            <ManageTaskItemModal
+              detailTask={detailTask}
+              groupId={Number(groupId)}
+              taskListId={taskListId}
+              isDone={isDone}
+              createOrEditModalId={createOrEditModalId}
+            />
+          )}
         </div>
       )}
     </>

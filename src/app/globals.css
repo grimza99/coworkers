@@ -17,6 +17,9 @@
     -webkit-text-fill-color: var(--color-gray100) !important;
     caret-color: var(--color-gray100) !important;
   }
+  .scrollbar-hidden::-webkit-scrollbar {
+    display: none;
+  }
 }
 
 @theme {
