@@ -21,12 +21,7 @@ export const getTaskLists = async (groupId: string) => {
 
     return fetchedTaskLists;
   } catch (error) {
-    if (error instanceof Error) {
-      console.error(error);
-      throw error;
-    } else {
-      throw new Error('Unknown error occurred');
-    }
+    console.error(error);
   }
 };
 
@@ -43,7 +38,6 @@ export const getTasks = async (groupId: string, taskListId: number, date: Date |
       throw error;
     } else {
       console.log(error);
-
       throw new Error('Unknown error occurred');
     }
   }

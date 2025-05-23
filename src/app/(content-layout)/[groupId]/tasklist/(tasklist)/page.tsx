@@ -3,6 +3,7 @@ import ManageTaskItemModal from '../_tasklist/components/manage-task-item-modal/
 import DateSwitcher from '../_tasklist/components/DateSwitcher';
 import TaskLists from '../_tasklist/components/TaskLists';
 import Tasks from '../_tasklist/components/Tasks';
+import { notFound } from 'next/navigation';
 
 interface Props {
   params: Promise<{ groupId: string }>;
@@ -18,8 +19,8 @@ export default async function Page({ params, searchParams }: Props) {
   const date = searchParamsDate ? new Date(searchParamsDate) : new Date();
 
   const taskLists = await getTaskLists(groupId);
+  if (!taskLists) notFound();
   const taskListId = searchParamsTaskListId ? Number(searchParamsTaskListId) : taskLists[0].id;
-  if (!taskListId) throw new Error();
   const tasks = await getTasks(groupId, taskListId, date);
 
   return (
