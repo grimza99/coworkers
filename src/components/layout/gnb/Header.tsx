@@ -3,6 +3,7 @@
 import Image from 'next/image';
 import Link from 'next/link';
 import { usePathname } from 'next/navigation';
+import { useRouter } from 'next/navigation';
 import { useEffect, useState } from 'react';
 import Logo from './Logo';
 import SideMenu from './SideMenu';
@@ -12,6 +13,7 @@ import { Group } from '@/types/group';
 import PATHS from '@/constants/paths';
 import ProfileDropdownButton from './ProfileDropdownButton';
 import { useUser } from '@/contexts/UserContext';
+import { useGroups } from '@/contexts/GroupContext';
 
 const MINIMAL_HEADER_PATHS = [
   PATHS.HOME,
@@ -24,22 +26,24 @@ const MINIMAL_HEADER_PATHS = [
 
 export default function Header() {
   const pathname = usePathname();
-  const { user, memberships } = useUser();
-  const groups: Group[] = memberships?.map((m) => m.group) ?? [];
+  const router = useRouter();
+  const { user } = useUser();
+  const { groups } = useGroups();
   const [selectedGroupId, setSelectedGroupId] = useState<number | null>(null);
 
   useEffect(() => {
     const currentPathId = pathname.split('/')[1];
-    const currentGroup = groups.find((group: Group) => String(group.id) === currentPathId);
-    if (currentGroup?.id != null) {
-      setSelectedGroupId(currentGroup.id);
-      return;
-    }
-    if (groups[0]?.id != null) {
+    const matchedGroup = groups.find((g) => String(g.id) === currentPathId);
+
+    if (matchedGroup) {
+      setSelectedGroupId(matchedGroup.id);
+    } else if (groups[0]) {
       setSelectedGroupId(groups[0].id);
-      return;
+      router.replace(`/${groups[0].id}`);
+    } else {
+      setSelectedGroupId(null);
+      router.replace(`/`);
     }
-    setSelectedGroupId(null);
   }, [pathname, groups]);
 
   const {

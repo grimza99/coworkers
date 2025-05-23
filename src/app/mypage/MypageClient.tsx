@@ -15,7 +15,7 @@ import FormField from '@/components/common/formField';
 import { useUser } from '@/contexts/UserContext';
 
 export default function MyPageClient() {
-  const { user, email, fetchUser } = useUser();
+  const { user, email, fetchUser, setUser } = useUser();
   const [image, setImage] = useState(user?.image ?? '');
   const [nickname, setNickname] = useState(user?.nickname ?? '');
   // @TODO: 헤더에도 닉네임 즉시반영하도록
@@ -41,7 +41,13 @@ export default function MyPageClient() {
         <div className="flex w-full flex-col items-center">
           <h1 className="text-xl-bold flex w-full flex-col pb-3 text-start">계정설정</h1>
           <div className="flex w-full flex-col gap-6">
-            <ProfileImageUploader image={image} setImage={setImage} />
+            <ProfileImageUploader
+              image={image}
+              setImage={(newImageUrl: string) => {
+                setImage(newImageUrl);
+                setUser((prev) => (prev ? { ...prev, image: newImageUrl } : null));
+              }}
+            />
             <NicknameField
               nickname={nickname}
               nicknameError={nicknameError}
