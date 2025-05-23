@@ -1,5 +1,6 @@
 'use client';
 import { useOptimistic, useState, useTransition } from 'react';
+import { useUser } from '@/contexts/UserContext';
 import MemberItem from '@/app/(content-layout)/[groupId]/(groupId)/_[groupId]/Members/MemberItem';
 import MemberInvitationModal from '@/app/(content-layout)/[groupId]/(groupId)/_[groupId]/Members/MemberInvitationModal';
 import MemberDeleteModal from '@/app/(content-layout)/[groupId]/(groupId)/_[groupId]/Members/MemberDeleteModal';
@@ -15,9 +16,11 @@ import { Group } from '@/types/group';
 type MembersProps = {
   groupId: Group['id'];
   members: Member[];
+  admin: Member;
 };
 
-export default function Members({ groupId, members }: MembersProps) {
+export default function Members({ groupId, members, admin }: MembersProps) {
+  const { user } = useUser();
   const [memberForDetail, setMemberForDetail] = useState<Member | null>(null);
   const [memberForDelete, setMemberForDelete] = useState<Member | null>(null);
   const [optimisticMembers, setOptimisticMembers] = useOptimistic(
@@ -95,6 +98,7 @@ export default function Members({ groupId, members }: MembersProps) {
     });
   };
 
+  const isUserAdmin = admin.userId === user?.id;
   const memberCount = optimisticMembers.length;
   const memberInvitationModalId = `memberInvitation-${groupId}`;
   const memberDetailModalId = memberForDetail ? `memberDetail-${memberForDetail.userId}` : '';
@@ -137,7 +141,7 @@ export default function Members({ groupId, members }: MembersProps) {
         <MemberDetailModal modalId={memberDetailModalId} member={memberForDetail} />
       )}
 
-      {memberForDelete && (
+      {isUserAdmin && memberForDelete && (
         <MemberDeleteModal
           member={memberForDelete}
           modalId={MemberDeleteModalId}

@@ -9,10 +9,15 @@ import { Tasklist } from '@/types/tasklist';
 type TasklistItemProps = {
   tasklist: Tasklist;
   onDropdownTriggerClick: () => void;
+  index: number;
 };
 
-export default function TasklistItem({ tasklist, onDropdownTriggerClick }: TasklistItemProps) {
-  const { name, groupId, displayIndex, tasks } = tasklist;
+export default function TasklistItem({
+  tasklist,
+  onDropdownTriggerClick,
+  index,
+}: TasklistItemProps) {
+  const { name, groupId, tasks } = tasklist;
   const totalTaskCount = tasks.length;
   const doneTaskCount = countDoneTasks(tasks);
 
@@ -22,7 +27,7 @@ export default function TasklistItem({ tasklist, onDropdownTriggerClick }: Taskl
         href={`${PATHS.getGroupTaskListPath(groupId)}`}
         className="flex h-full flex-1 items-center gap-3"
       >
-        <div className={clsx('h-full w-3 rounded-l-xl', getTasklistItemColor(displayIndex))}></div>
+        <div className={clsx('h-full w-3 rounded-l-xl', getTasklistItemColor(index))}></div>
         <div className="text-md-md flex-1">{name}</div>
       </Link>
       <div className="mr-2 flex items-center gap-1">
@@ -33,8 +38,8 @@ export default function TasklistItem({ tasklist, onDropdownTriggerClick }: Taskl
   );
 }
 
-const getTasklistItemColor = (displayIndex: number) => {
-  const remain = displayIndex % 4;
+const getTasklistItemColor = (index: number) => {
+  const remain = index % 4;
   switch (remain) {
     case 0:
       return 'bg-purple';
@@ -43,6 +48,8 @@ const getTasklistItemColor = (displayIndex: number) => {
     case 2:
       return 'bg-cyan';
     case 3:
+      return 'bg-pink';
+    default:
       return 'bg-pink';
   }
 };
