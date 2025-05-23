@@ -28,7 +28,7 @@ export default function CommentList({
   const { openModal } = useModalContext();
 
   const [ref, inView] = useInView({ threshold: 1.0 });
-  const [comments, setComments] = useState<ArticleComment[]>(initialComments);
+  const [moreComments, setMoreComments] = useState<ArticleComment[]>([]);
   const [cursor, setCursor] = useState<number | null>(initialCursor);
   const [isScrollLoading, setIsScrollLoading] = useState(false);
   const hasMore = cursor !== null;
@@ -42,7 +42,7 @@ export default function CommentList({
       await new Promise((res) => setTimeout(res, 200));
 
       const { list, nextCursor } = await getArticleComments(articleId, 5, cursor);
-      setComments((prev) => [...prev, ...list]);
+      setMoreComments((prev) => [...prev, ...list]);
       setCursor(nextCursor);
     } catch {
       Toast.error('댓글 불러오기 실패');
@@ -86,7 +86,9 @@ export default function CommentList({
 
   const deleteCommentModalId = `delete-comment-${commentIdToDelete}`;
 
-  if (comments.length === 0) {
+  const allComments = [...initialComments, ...moreComments];
+
+  if (allComments.length === 0) {
     return (
       <div className="flex h-full w-full justify-center pt-37 sm:pt-[126px]">
         <span className="text-lg-md text-gray500">아직 작성된 댓글이 없습니다.</span>
@@ -96,7 +98,7 @@ export default function CommentList({
 
   return (
     <div className="mb-10 flex w-full flex-col items-center gap-4">
-      {comments.map((comment) => {
+      {allComments.map((comment) => {
         const isEdit = commentToEdit?.id === comment.id;
 
         return (
