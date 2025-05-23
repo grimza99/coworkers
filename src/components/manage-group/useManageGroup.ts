@@ -30,14 +30,14 @@ export default function useManageGroup({
   const [group, setGroup] = useState<ManageGroup>(groupData ?? INITIAL_GROUP_VALUE);
   const [isSubmit, setIsSubmit] = useState(false);
 
+  const router = useRouter();
+
   const isImageEmpty = group.image === '';
   const isNameEmpty = validateEmptyValue(group.name);
   const isNameOverLimit = group.name.length > 10;
   const isNameDuplicate = isEdit
     ? groupNames.filter((name) => name !== groupData?.name).includes(group.name)
     : groupNames.includes(group.name);
-
-  const router = useRouter();
 
   const handleNameChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     setGroup((prev) => ({
@@ -84,14 +84,14 @@ export default function useManageGroup({
   const handleManageGroupSubmit = (e: React.FormEvent) => {
     e.preventDefault();
 
-    setIsSubmit(true);
-
     if (!isManageTeamFormValid) return;
 
     if (isGroupDataUnchanged) {
-      Toast.info('변경된 내용이 없습니다.');
+      Toast.info('변경 사항이 없습니다.');
       return;
     }
+
+    setIsSubmit(true);
 
     axiosClient
       .request({
@@ -103,13 +103,13 @@ export default function useManageGroup({
         },
       })
       .then((result) => {
-        setIsSubmit(false);
         router.push(`/${result.data.id}`);
       })
       .catch(() => {
         const action = isEdit ? '수정' : '생성';
-        Toast.error(`팀 ${action}에 실패했습니다. 다시 시도해 주세요.`);
-      });
+        Toast.error(`팀 ${action} 실패`);
+      })
+      .finally(() => setIsSubmit(false));
   };
 
   return {

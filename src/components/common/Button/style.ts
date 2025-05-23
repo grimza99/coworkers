@@ -28,6 +28,8 @@ export const disabledButton: Partial<Record<ButtonVariant, string>> = {
   solid: 'bg-gray400 text-white',
   'outline-primary': 'bg-white text-gray400 border border-gray400',
   'ghost-primary': 'bg-transparent text-gray400 border border-gray400',
+  danger: 'bg-gray400 text-white',
+  gradient: 'bg-gray400 text-white',
 };
 
 export const buttonFontSize: Record<FontSize, string> = {
