@@ -12,6 +12,7 @@ import {
   ModalPortal,
 } from '@/components/common/modal';
 import useModalContext from '@/components/common/modal/core/useModalContext';
+import BouncingDots from '@/components/common/loading/BouncingDots';
 import { validateEmptyValue } from '@/utils/validators';
 
 interface TasklistCreateModalProps {
@@ -71,7 +72,7 @@ export default function TasklistCreateModal({
             </div>
             <ModalFooter className="w-full">
               <Button onClick={handleClickAddButton} fontSize="16" size="fullWidth">
-                {isLoading ? '...' : '만들기'}
+                {isLoading ? <BouncingDots /> : '만들기'}
               </Button>
             </ModalFooter>
           </ModalContainer>

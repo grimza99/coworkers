@@ -12,6 +12,7 @@ import {
   ModalPortal,
 } from '@/components/common/modal';
 import useModalContext from '@/components/common/modal/core/useModalContext';
+import BouncingDots from '@/components/common/loading/BouncingDots';
 import { Tasklist } from '@/types/tasklist';
 
 interface TasklistDeleteModalProps {
@@ -72,7 +73,7 @@ export default function TasklistDeleteModal({
                 size="fullWidth"
                 disabled={isLoading}
               >
-                {isLoading ? '...' : '삭제하기'}
+                {isLoading ? <BouncingDots /> : '삭제하기'}
               </Button>
             </ModalFooter>
           </ModalContainer>
