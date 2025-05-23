@@ -5,6 +5,7 @@ import axios, { CancelTokenSource, isAxiosError } from 'axios';
 import { useUser } from '@/contexts/UserContext';
 import FormField from '@/components/common/formField';
 import Button from '@/components/common/Button';
+import BouncingDots from '@/components/common/loading/BouncingDots';
 import SendResetPassword from '@/app/(form-layout)/login/_login/SendResetPassword';
 import PasswordToggleButton from '@/app/(form-layout)/signup/_signup/PasswordToggleButton';
 import axiosClient from '@/lib/axiosClient';
@@ -127,7 +128,7 @@ export default function LoginForm() {
         className="mt-10"
         disabled={!isFormValid || isLoggingIn}
       >
-        {isLoggingIn ? '...' : '로그인'}
+        {isLoggingIn ? <BouncingDots /> : '로그인'}
       </Button>
       {isLoginFailed && (
         <p className="text-md-md text-danger mt-4 self-center text-center">

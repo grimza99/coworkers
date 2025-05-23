@@ -14,6 +14,7 @@ import {
 } from '@/components/common/modal';
 import useModalContext from '@/components/common/modal/core/useModalContext';
 import { Toast } from '@/components/common/Toastify';
+import BouncingDots from '@/components/common/loading/BouncingDots';
 import { getInvitationToken } from '@/api/group';
 import { Group } from '@/types/group';
 import { validateEmail, validateEmptyValue } from '@/utils/validators';
@@ -119,7 +120,7 @@ export default function MemberInvitationModal({
                   }}
                   disabled={isLoading || validateEmptyValue(email) || !validateEmail(email)}
                 >
-                  {isLoading ? '...' : '추가하기'}
+                  {isLoading ? <BouncingDots /> : '추가하기'}
                 </Button>
               </ModalFooter>
             </>

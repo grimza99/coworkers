@@ -13,6 +13,7 @@ import {
   ModalPortal,
 } from '@/components/common/modal';
 import useModalContext from '@/components/common/modal/core/useModalContext';
+import BouncingDots from '@/components/common/loading/BouncingDots';
 import { Member } from '@/types/user';
 
 type MemberDeleteModalProps = {
@@ -67,7 +68,7 @@ export default function MemberDeleteModal({
                 onClick={handleClickDeleteButton}
                 disabled={isLoading}
               >
-                {isLoading ? '...' : '내보내기'}
+                {isLoading ? <BouncingDots /> : '내보내기'}
               </Button>
             </ModalFooter>
           </ModalContainer>
