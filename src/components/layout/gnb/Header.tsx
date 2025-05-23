@@ -2,17 +2,16 @@
 
 import Image from 'next/image';
 import Link from 'next/link';
-import { usePathname } from 'next/navigation';
-import { useEffect, useState } from 'react';
+import { useParams, usePathname } from 'next/navigation';
+import { useState } from 'react';
 import Logo from './Logo';
 import SideMenu from './SideMenu';
 import GroupDropdownSelector from './GroupDropdownSelector';
 import { useOutSideClickAutoClose } from '@/utils/use-outside-click-auto-close';
-import { Group } from '@/types/group';
 import PATHS from '@/constants/paths';
 import ProfileDropdownButton from './ProfileDropdownButton';
 import { useUser } from '@/contexts/UserContext';
-import { useGroups } from '@/contexts/GroupContext';
+import { Group } from '@/types/group';
 
 const MINIMAL_HEADER_PATHS = [
   PATHS.HOME,
@@ -25,30 +24,14 @@ const MINIMAL_HEADER_PATHS = [
 
 export default function Header() {
   const pathname = usePathname();
-  const { user } = useUser();
-  const { groups, fetchGroups } = useGroups();
-  const [selectedGroupId, setSelectedGroupId] = useState<number | null>(null);
+  const { groupId } = useParams<{ groupId: string }>();
+  const [selectedGroupId, setSelectedGroupId] = useState<number>(Number(groupId));
 
-  useEffect(() => {
-    if (groups.length === 0) {
-      fetchGroups();
-    }
-  }, [groups, fetchGroups]);
-  // 혹시 렌더링 중일 떄 groups.length === 0으로 생각하고 그룹 드롭다운을 안띄우는 경우를 위한 방어코드
-
-  useEffect(() => {
-    const currentPathId = pathname.split('/')[1];
-    const currentGroup = groups.find((group: Group) => String(group.id) === currentPathId);
-    if (currentGroup?.id != null) {
-      setSelectedGroupId(currentGroup.id);
-      return;
-    }
-    if (groups[0]?.id != null) {
-      setSelectedGroupId(groups[0].id);
-      return;
-    }
-    setSelectedGroupId(null);
-  }, [pathname, groups]);
+  const { user, memberships, isLoading } = useUser();
+  const groups: Group[] =
+    !isLoading && memberships // isLoading이 false일 때만 memberships에 접근
+      ? memberships.map((membership) => membership.group)
+      : [];
 
   const {
     ref: sideMenuRef,
@@ -58,6 +41,8 @@ export default function Header() {
 
   const isMinimalHeader = MINIMAL_HEADER_PATHS.includes(pathname);
   const hasGroup = groups.length > 0;
+
+  const selectedGroupName = groups.find((group) => group.id === selectedGroupId);
 
   if (isMinimalHeader) {
     return (
@@ -90,7 +75,7 @@ export default function Header() {
             {hasGroup && (
               <GroupDropdownSelector
                 groups={groups}
-                selectedGroupId={selectedGroupId}
+                selectedGroupName={selectedGroupName?.name ?? ''}
                 setSelectedGroupId={setSelectedGroupId}
               />
             )}
