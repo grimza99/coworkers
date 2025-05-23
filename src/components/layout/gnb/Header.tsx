@@ -54,7 +54,7 @@ export default function Header() {
     setIsOpen: setIsSideMenuOpen,
   } = useOutSideClickAutoClose(false);
 
-  const selectedGroup = groups.find((group) => group.id === selectedGroupId);
+  const selectedGroup = groups.find((group) => group.id === selectedGroupId) ?? groups[0];
 
   const isMinimalHeader = MINIMAL_HEADER_PATHS.includes(pathname);
   const hasGroup = groups.length > 0;
@@ -105,7 +105,7 @@ export default function Header() {
             {hasGroup && selectedGroup && (
               <GroupDropdownSelector
                 groups={groups}
-                selectedGroupName={selectedGroup.name}
+                selectedGroupName={selectedGroup?.name ?? ''}
                 setSelectedGroupId={setSelectedGroupId}
               />
             )}
