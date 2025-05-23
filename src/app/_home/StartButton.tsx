@@ -2,7 +2,7 @@
 import Link from 'next/link';
 import { useUser } from '@/contexts/UserContext';
 import Button from '@/components/common/Button';
-import Spinner from '@/components/common/spinner';
+import BouncingDots from '@/components/common/loading/BouncingDots';
 import PATHS from '@/constants/paths';
 
 export default function StartButton({
@@ -14,8 +14,8 @@ export default function StartButton({
 
   if (isLoading) {
     return (
-      <Button variant="gradient" fontSize="16" size="xl" className={className} {...props} disabled>
-        <Spinner className="flex size-6 items-center justify-center" />
+      <Button variant="gradient" fontSize="16" size="xl" className={className} disabled>
+        <BouncingDots size={10} />
       </Button>
     );
   }
@@ -33,8 +33,8 @@ export default function StartButton({
   }
 
   return (
-    <Link href={determinedHref}>
-      <Button variant="gradient" fontSize="16" size="xl" className={className} {...props}>
+    <Link href={determinedHref} className={className}>
+      <Button variant="gradient" fontSize="16" size="xl" {...props}>
         {children}
       </Button>
     </Link>
