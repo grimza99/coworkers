@@ -1,5 +1,3 @@
-export const dynamic = 'force-dynamic';
-
 import { getTaskLists, getTasks } from '../_tasklist/actions/task-actions';
 import ManageTaskItemModal from '../_tasklist/components/manage-task-item-modal/MangeTaskItemModal';
 import DateSwitcher from '../_tasklist/components/DateSwitcher';
