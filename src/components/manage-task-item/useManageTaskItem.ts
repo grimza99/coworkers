@@ -1,24 +1,14 @@
 import { useState } from 'react';
-import { format, getDate } from 'date-fns';
+import { format, getDate, startOfDay } from 'date-fns';
 import { Frequency } from '@/app/(content-layout)/[groupId]/tasklist/_tasklist/types/task-type';
 import generateTime from './time-table';
 import { TaskItemProps, TaskItem, Time } from './type';
 import axiosClient from '@/lib/axiosClient';
 import useModalContext from '../common/modal/core/useModalContext';
-
-const INITIAL_TASK_ITEM: TaskItem = {
-  name: '',
-  description: '',
-  startDate: new Date(),
-  frequencyType: 'ONCE',
-};
-
-const FREQUENCY_MAP: Record<Frequency, string> = {
-  ONCE: '한 번',
-  DAILY: '매일',
-  WEEKLY: '주 반복',
-  MONTHLY: '월 반복',
-};
+import { validateEmptyValue } from '@/utils/validators';
+import { Toast } from '../common/Toastify';
+import { revalidateTasks } from '@/app/(content-layout)/[groupId]/tasklist/_tasklist/actions/task-actions';
+import { useRouter } from 'next/navigation';
 
 const REVERSE_FREQUENCY_MAP: Record<string, Frequency> = {
   '한 번': 'ONCE',
@@ -28,28 +18,44 @@ const REVERSE_FREQUENCY_MAP: Record<string, Frequency> = {
 };
 
 export default function useManageTaskItem({
-  task,
+  detailTask,
   groupId,
   taskListId,
   isDone,
   createOrEditModalId,
 }: TaskItemProps) {
   const { am, pm } = generateTime();
-
   const { closeModal } = useModalContext();
+  const task = detailTask?.recurring;
+  const router = useRouter();
 
   const [isCalendarOpen, setIsCalendarOpen] = useState(false);
   const [taskItem, setTaskItem] = useState<TaskItem>(() => ({
-    ...INITIAL_TASK_ITEM,
-    ...task,
+    name: detailTask?.name ?? '',
+    description: detailTask?.description ?? '',
+    startDate: task?.startDate ?? startOfDay(new Date()),
+    frequencyType: task?.frequencyType ?? 'ONCE',
   }));
   const [isTimeOpen, setIsTimeOpen] = useState(false);
   const [selectedFrequency, setSelectedFrequency] = useState('');
   const [weekDays, setWeekDays] = useState<number[]>([]);
-  const [selectedTime, setSelectedTime] = useState<Time>({
-    period: '오전',
-    time: am[0],
-  });
+  const [isPending, setIsPending] = useState(false);
+
+  const initialSelectedTime = (): Time => {
+    if (!task?.startDate) return { period: '오전', time: am[0] };
+
+    const date = new Date(task?.startDate);
+    const hours = date.getHours();
+    const period = hours < 12 ? '오전' : '오후';
+    const time = format(date, 'hh:mm');
+    return { period, time };
+  };
+
+  const [selectedTime, setSelectedTime] = useState<Time>(initialSelectedTime);
+
+  const [_, setIsFrequencyDelete] = useState(false);
+
+  const { period, time } = selectedTime;
 
   const select = [
     {
@@ -66,7 +72,7 @@ export default function useManageTaskItem({
     },
     {
       id: 'time',
-      value: `${selectedTime.period} ${selectedTime.time}`,
+      value: `${period} ${time}`,
       onClick: task
         ? undefined
         : () => {
@@ -78,6 +84,20 @@ export default function useManageTaskItem({
     },
   ];
 
+  const createStartDate = (date: Date | string, time: string) => {
+    const dateObj = new Date(date);
+
+    const [hourStr, minuteStr] = time.split(':');
+    const hour = parseInt(hourStr, 10);
+    const minute = parseInt(minuteStr, 10);
+
+    return new Date(dateObj.getFullYear(), dateObj.getMonth(), dateObj.getDate(), hour, minute, 0);
+  };
+
+  const updateStartDate = (date: Date) => {
+    setTaskItem((prev) => ({ ...prev, startDate: date }));
+  };
+
   const handleInputChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
     const { name, value } = e.target;
     setTaskItem((prev) => ({
@@ -87,10 +107,7 @@ export default function useManageTaskItem({
   };
 
   const handleCalendarDateChange = (selectedDate: Date) => {
-    setTaskItem((prev) => ({
-      ...prev,
-      startDate: selectedDate,
-    }));
+    updateStartDate(createStartDate(selectedDate, time));
     setIsCalendarOpen(false);
   };
 
@@ -108,69 +125,119 @@ export default function useManageTaskItem({
   };
 
   const updateTime = (key: 'period' | 'time', value: string) => {
-    setSelectedTime((prev) => {
-      if (key === 'period') {
-        const newTime = value === '오전' ? am[0] : pm[0];
-        return { period: value as '오전' | '오후', time: newTime };
+    let newPeriod = selectedTime.period;
+    let newTime = selectedTime.time;
+
+    if (key === 'period') {
+      newPeriod = value as '오전' | '오후';
+      const list = newPeriod === '오전' ? am : pm;
+      if (!list.includes(newTime)) {
+        newTime = list[0];
       }
+    } else {
+      newTime = value;
+    }
 
-      setIsTimeOpen(false);
+    updateStartDate(createStartDate(taskItem.startDate, newTime));
+    setSelectedTime({ period: newPeriod, time: newTime });
 
-      return { ...prev, [key]: value };
-    });
+    if (key === 'time') setIsTimeOpen(false);
   };
 
   const closeTaskItemModal = () => closeModal(createOrEditModalId ?? '');
 
-  const withWeekDaysTaskItem = (item: TaskItem): TaskItem => ({
-    ...item,
-    weekDays,
-  });
+  const markFrequencyForDelete = () => {
+    setIsFrequencyDelete(true);
+  };
 
-  const withMonthDayTaskItem = (item: TaskItem): TaskItem => ({
-    ...item,
-    monthDay: getDate(item.startDate),
-  });
+  const isTaskItemValid =
+    !validateEmptyValue(taskItem.name) && !validateEmptyValue(taskItem.description);
+
+  const isEqualTaskItem =
+    taskItem.name === detailTask?.name && taskItem.description === detailTask?.description;
 
   const handleCreateTaskItemSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
 
+    if (!isTaskItemValid) return;
+
     try {
-      let finalTaskItem = { ...taskItem };
+      const updatedStartDate = createStartDate(taskItem.startDate, time);
 
-      if (taskItem.frequencyType === 'WEEKLY') {
-        finalTaskItem = withWeekDaysTaskItem(finalTaskItem);
+      let finalTaskItem: TaskItem = {
+        ...taskItem,
+        startDate: updatedStartDate,
+      };
+
+      if (finalTaskItem.frequencyType === 'WEEKLY') {
+        finalTaskItem = {
+          ...finalTaskItem,
+          weekDays,
+        };
       }
 
-      if (taskItem.frequencyType === 'MONTHLY') {
-        finalTaskItem = withMonthDayTaskItem(finalTaskItem);
+      if (finalTaskItem.frequencyType === 'MONTHLY') {
+        finalTaskItem = {
+          ...finalTaskItem,
+          monthDay: getDate(finalTaskItem.startDate),
+        };
       }
-
+      setIsPending(true);
       await axiosClient.post(`/groups/${groupId}/task-lists/${taskListId}/tasks`, finalTaskItem);
 
+      revalidateTasks();
+      router.refresh();
       closeTaskItemModal();
-    } catch (err) {
-      console.error(err);
+    } catch {
+      Toast.error('할 일 생성 실패');
+    } finally {
+      setIsPending(false);
     }
   };
 
   const handleEditTaskItemSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
 
-    try {
-      await axiosClient.patch(`/groups/${groupId}/task-lists/${taskListId}/tasks/${taskItem.id}`, {
-        done: isDone,
-        name: taskItem.name,
-        description: taskItem.description,
-      });
+    if (isEqualTaskItem) {
+      Toast.info('변경된 내용이 없습니다.');
+      return;
+    }
 
+    try {
+      setIsPending(true);
+
+      await axiosClient.patch(
+        `/groups/${groupId}/task-lists/${taskListId}/tasks/${detailTask?.id}`,
+        {
+          done: isDone,
+          name: taskItem.name,
+          description: taskItem.description,
+        }
+      );
+
+      // const promises = [updateTaskPromise];
+
+      // if (isFrequencyDelete) {
+      //   const deleteRecurringPromise = axiosClient.delete(
+      //     `/groups/${groupId}/task-lists/${taskListId}/tasks/${task?.id}/recurring/${task?.recurringId}`
+      //   );
+
+      //   promises.push(deleteRecurringPromise);
+      // }
+
+      // await Promise.all(promises);
+      revalidateTasks();
+      router.refresh();
       closeTaskItemModal();
-    } catch (err) {
-      console.error(err);
+    } catch {
+      Toast.error('할 일 수정 실패');
+    } finally {
+      setIsPending(false);
     }
   };
 
   const isWeekly = selectedFrequency === '주 반복';
+  const isOnce = task?.frequencyType === 'ONCE';
 
   const createOrEditSubmit = task ? handleEditTaskItemSubmit : handleCreateTaskItemSubmit;
 
@@ -179,16 +246,19 @@ export default function useManageTaskItem({
     selectedTime,
     weekDays,
     isWeekly,
+    isOnce,
     isCalendarOpen,
     isTimeOpen,
+    isPending,
+    isTaskItemValid,
     select,
-    FREQUENCY_MAP,
     handleInputChange,
     handleCalendarDateChange,
     handleFrequencyChange,
+    markFrequencyForDelete,
     createOrEditSubmit,
     toggleDay,
     updateTime,
-    closeModal: closeTaskItemModal,
+    closeTaskItemModal,
   };
 }

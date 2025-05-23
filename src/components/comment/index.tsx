@@ -1,16 +1,27 @@
+'use client';
+
 import { ArticleComment, Comment } from './types';
 import { formatTimeDistance } from '@/utils/date';
 import ProfileBadge from '@/components/profile-badge';
 import CommentItemDropdown from './CommentItemDropdown';
 import { User } from '@/types/user';
+import { useUser } from '@/contexts/UserContext';
 
 interface CommentItemProps {
   comment: Comment | ArticleComment;
   onEdit: () => void;
   onDelete: () => void;
+  checkDropdownOpen?: () => void;
 }
 
-export default function CommentItem({ comment, onEdit, onDelete }: CommentItemProps) {
+export default function CommentItem({
+  comment,
+  onEdit,
+  onDelete,
+  checkDropdownOpen,
+}: CommentItemProps) {
+  const { user } = useUser();
+
   if (!comment) return;
   const { content, updatedAt } = comment;
 
@@ -18,12 +29,19 @@ export default function CommentItem({ comment, onEdit, onDelete }: CommentItemPr
     'user' in comment ? comment.user : 'writer' in comment ? comment.writer : ({} as User);
   const variant = 'user' in comment ? 'default' : 'article';
 
+  const isAuthor = user?.id === userObject.id;
+
   return (
     <div className={COMMENT_STYLES.container[variant]}>
       <div className="flex items-start justify-between">
-        <div className="text-md-rg break-keep whitespace-pre-wrap">{content}</div>
+        <div className="text-md-rg break-words whitespace-pre-wrap">{content}</div>
         <div className="shrink-0">
-          <CommentItemDropdown onDelete={onDelete} onEdit={onEdit} />
+          <CommentItemDropdown
+            onDelete={onDelete}
+            onEdit={onEdit}
+            checkDropdownOpen={checkDropdownOpen}
+            isAuthor={isAuthor}
+          />
         </div>
       </div>
       <div className={COMMENT_STYLES.metaContainer[variant]}>

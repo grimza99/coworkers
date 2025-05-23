@@ -19,11 +19,9 @@ import { Toast } from '../common/Toastify';
 
 interface Props {
   nickname: string;
-  email: string;
-  password: string;
 }
 
-export default function SignupSuccessModal({ nickname, email, password }: Props) {
+export default function SignupSuccessModal({ nickname }: Props) {
   const router = useRouter();
 
   useEffect(() => {
@@ -51,7 +49,7 @@ export default function SignupSuccessModal({ nickname, email, password }: Props)
     }, 5000);
 
     return () => clearTimeout(timer);
-  }, [router, email, password]);
+  }, [router]);
 
   return (
     <ModalPortal modalId="signup-success">

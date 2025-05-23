@@ -2,15 +2,17 @@
 import { useRef, useState, useEffect } from 'react';
 import { useRouter } from 'next/navigation';
 import axios, { CancelTokenSource, isAxiosError } from 'axios';
+import { useUser } from '@/contexts/UserContext';
 import FormField from '@/components/common/formField';
 import Button from '@/components/common/Button';
+import BouncingDots from '@/components/common/loading/BouncingDots';
+import SendResetPassword from '@/app/(form-layout)/login/_login/SendResetPassword';
 import PasswordToggleButton from '@/app/(form-layout)/signup/_signup/PasswordToggleButton';
 import axiosClient from '@/lib/axiosClient';
 import { setClientCookie } from '@/lib/cookie/client';
 import { validateEmail } from '@/utils/validators';
 import { User } from '@/types/user';
 import PATHS from '@/constants/paths';
-import SendResetPassword from './SendResetPassword';
 
 export interface loginApiResponse {
   accessToken: string;
@@ -22,6 +24,7 @@ export default function LoginForm() {
   const router = useRouter();
   const cancelTokenRef = useRef<CancelTokenSource | null>(null);
 
+  const { fetchUser } = useUser();
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [isPasswordVisible, setIsPasswordVisible] = useState(false);
@@ -54,6 +57,7 @@ export default function LoginForm() {
       const data = res.data;
       setClientCookie('accessToken', data.accessToken);
       setClientCookie('refreshToken', data.refreshToken);
+      fetchUser();
       router.push(PATHS.HOME);
       setIsLoggingIn(false);
     } catch (error) {
@@ -78,7 +82,7 @@ export default function LoginForm() {
   }, []);
 
   return (
-    <form onSubmit={handleSubmit} className="flex w-full flex-col">
+    <form onSubmit={handleSubmit} className="flex w-full flex-col md:max-w-115">
       <div className="flex w-full flex-col gap-6">
         <FormField
           name="email"
@@ -124,7 +128,7 @@ export default function LoginForm() {
         className="mt-10"
         disabled={!isFormValid || isLoggingIn}
       >
-        {isLoggingIn ? '...' : '로그인'}
+        {isLoggingIn ? <BouncingDots /> : '로그인'}
       </Button>
       {isLoginFailed && (
         <p className="text-md-md text-danger mt-4 self-center text-center">
