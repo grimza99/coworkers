@@ -16,6 +16,8 @@ import {
 } from '@/utils/validators';
 import { AUTH_ERROR_MESSAGES } from '@/constants/messages/signup';
 import { Toast } from '@/components/common/Toastify';
+import { useRouter } from 'next/navigation';
+import { setClientCookie } from '@/lib/cookie/client';
 
 interface ErrorResponse {
   response?: {
@@ -26,6 +28,7 @@ interface ErrorResponse {
 }
 
 export default function SignupForm() {
+  const router = useRouter();
   const { openModal } = useModalContext();
   const { isPasswordVisible, togglePasswordVisibility } = usePasswordVisibility();
   const [formData, setFormData] = useState({
@@ -45,6 +48,7 @@ export default function SignupForm() {
     nickname: false,
     email: false,
   });
+  const [loginTimeoutId, setLoginTimeoutId] = useState<NodeJS.Timeout | null>(null);
 
   function getNicknameErrorMessage() {
     if (formData.nickname.trim() === '') {
@@ -147,6 +151,27 @@ export default function SignupForm() {
         nickname: formData.nickname,
       });
 
+      const timeoutId = setTimeout(async () => {
+        try {
+          const loginRes = await axiosClient.post('/auth/signIn', {
+            email: formData.email,
+            password: formData.password,
+          });
+
+          const { accessToken, refreshToken } = loginRes.data;
+
+          setClientCookie('accessToken', accessToken);
+          setClientCookie('refreshToken', refreshToken);
+
+          router.push('/nogroup');
+        } catch {
+          Toast.error('자동 로그인 실패. 로그인 페이지로 이동합니다.');
+          router.push('/login');
+        }
+      }, 5000);
+
+      setLoginTimeoutId(timeoutId);
+
       openModal('signup-success');
       setIsSuccess(true);
     } catch (error: unknown) {
@@ -194,8 +219,10 @@ export default function SignupForm() {
       {isSuccess && (
         <SignupSuccessModal
           nickname={formData.nickname}
-          email={formData.email}
-          password={formData.password}
+          onGoToLoginPage={() => {
+            if (loginTimeoutId) clearTimeout(loginTimeoutId);
+            router.push('/login');
+          }}
         />
       )}
     </form>
