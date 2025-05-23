@@ -4,7 +4,6 @@ import Button from '@/components/common/Button';
 import FormField from '@/components/common/formField';
 import useManageGroup from './useManageGroup';
 import { Group } from '@/types/group';
-import { useGroups } from '@/contexts/GroupContext';
 
 export type ManageGroup = Partial<Pick<Group, 'id'>> & Pick<Group, 'name' | 'image'>;
 
@@ -15,7 +14,6 @@ interface MangeGroupProps {
 
 export default function ManageGroup({ groupData, groupNames }: MangeGroupProps) {
   const isEdit = !!groupData;
-  const { refetchGroups } = useGroups();
 
   const {
     group,
@@ -33,15 +31,10 @@ export default function ManageGroup({ groupData, groupNames }: MangeGroupProps) 
     groupNames,
   });
 
-  const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
-    await handleManageGroupSubmit(e);
-    await refetchGroups();
-  };
-
   const groupButtonText = isEdit ? '수정하기' : '생성하기';
 
   return (
-    <form onSubmit={handleSubmit} className="flex w-full flex-col gap-10">
+    <form onSubmit={handleManageGroupSubmit} className="flex w-full flex-col gap-10">
       <div className="flex w-full flex-col gap-6">
         <FormField
           field="file-input"
