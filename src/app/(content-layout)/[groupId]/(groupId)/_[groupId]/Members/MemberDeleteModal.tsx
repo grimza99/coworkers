@@ -12,26 +12,31 @@ import {
   ModalOverlay,
   ModalPortal,
 } from '@/components/common/modal';
+import useModalContext from '@/components/common/modal/core/useModalContext';
+import BouncingDots from '@/components/common/loading/BouncingDots';
 import { Member } from '@/types/user';
 
-type MemberRemovalModalProps = {
+type MemberDeleteModalProps = {
   member: Member;
   modalId: string;
-  isRemoving: boolean;
+  isLoading: boolean;
   error: { message: string; id: string } | null;
-  removeMember: () => Promise<void> | void;
+  deleteMember: () => Promise<void> | void;
 };
 
-export default function MemberRemovalModal({
+export default function MemberDeleteModal({
   member,
   modalId,
-  isRemoving,
+  isLoading,
   error,
-  removeMember,
-}: MemberRemovalModalProps) {
+  deleteMember,
+}: MemberDeleteModalProps) {
   const { userName } = member;
-  const handleClickRemoveButton = async () => {
-    await removeMember();
+  const { closeModal } = useModalContext();
+
+  const handleClickDeleteButton = async () => {
+    deleteMember();
+    closeModal(modalId);
   };
 
   useEffect(() => {
@@ -60,10 +65,10 @@ export default function MemberRemovalModal({
               <Button
                 variant="danger"
                 size="fullWidth"
-                onClick={handleClickRemoveButton}
-                disabled={isRemoving}
+                onClick={handleClickDeleteButton}
+                disabled={isLoading}
               >
-                {isRemoving ? '...' : '내보내기'}
+                {isLoading ? <BouncingDots /> : '내보내기'}
               </Button>
             </ModalFooter>
           </ModalContainer>

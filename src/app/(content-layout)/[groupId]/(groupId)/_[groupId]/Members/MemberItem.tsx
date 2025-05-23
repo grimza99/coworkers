@@ -6,21 +6,19 @@ import { Member } from '@/types/user';
 type MemberItemProps = {
   member: Member;
   memberDetailModalId: string;
-  memberRemovalModalId: string;
+  memberDeleteModalId: string;
   setMemberForDetail: (member: Member) => void;
-  setMemberForRemoval: (member: Member) => void;
-  isUserAdmin: boolean;
+  setMemberForDelete: (member: Member) => void;
 };
 
 export default function MemberItem({
   member,
   setMemberForDetail,
-  setMemberForRemoval,
-  isUserAdmin,
+  setMemberForDelete,
 }: MemberItemProps) {
   const { userName, userImage, userEmail, role } = member;
   const memberDetailModalId = `memberDetail-${member.userId}`;
-  const memberRemovalModalId = `memberRemoval-${member.userId}`;
+  const memberDeleteModalId = `memberDelete-${member.userId}`;
 
   return (
     <li className="bg-bg200 flex items-center justify-between gap-1.5 rounded-2xl px-4 py-3 md:px-6 md:py-5">
@@ -44,8 +42,8 @@ export default function MemberItem({
           </div>
         </div>
       </ModalTrigger>
-      {isUserAdmin && role === 'MEMBER' && (
-        <ModalTrigger modalId={memberRemovalModalId} onClick={() => setMemberForRemoval(member)}>
+      {role === 'MEMBER' && (
+        <ModalTrigger modalId={memberDeleteModalId} onClick={() => setMemberForDelete(member)}>
           <Image
             width={24}
             height={24}

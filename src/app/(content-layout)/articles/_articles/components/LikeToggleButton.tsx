@@ -9,17 +9,20 @@ interface LikeToggleButtonProps {
   articleId: number;
   isLiked?: boolean;
   likeCount: number;
+  readOnly?: boolean;
 }
 
 export default function LikeToggleButton({
   articleId,
   isLiked = false,
   likeCount = 0,
+  readOnly = false,
 }: LikeToggleButtonProps) {
   const [liked, setLiked] = useState(isLiked);
   const [count, setCount] = useState(likeCount);
 
   const toggleLike = async () => {
+    if (readOnly) return;
     try {
       const res = liked
         ? await axiosClient.delete(`/articles/${articleId}/like`)
@@ -33,7 +36,11 @@ export default function LikeToggleButton({
   };
 
   return (
-    <button type="button" onClick={toggleLike} className="flex items-center gap-1">
+    <button
+      type="button"
+      onClick={toggleLike}
+      className={`flex items-center gap-1 ${readOnly ? '!cursor-default' : ''}`}
+    >
       <HeartIcon filled={liked} size={16} />
       <span className="text-xs-rg sm:text-md-rg text-gray400">
         {count > 9999 ? '9999+' : count}
