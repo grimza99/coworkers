@@ -1,6 +1,7 @@
 'use client';
 
 import { useState, ChangeEvent } from 'react';
+import { useRouter } from 'next/navigation';
 import axiosClient from '@/lib/axiosClient';
 import FormField from '@/components/common/formField';
 import Button from '@/components/common/Button';
@@ -16,7 +17,6 @@ import {
 } from '@/utils/validators';
 import { AUTH_ERROR_MESSAGES } from '@/constants/messages/signup';
 import { Toast } from '@/components/common/Toastify';
-import { useRouter } from 'next/navigation';
 import { setClientCookie } from '@/lib/cookie/client';
 
 interface ErrorResponse {
@@ -28,8 +28,8 @@ interface ErrorResponse {
 }
 
 export default function SignupForm() {
-  const router = useRouter();
   const { openModal } = useModalContext();
+  const router = useRouter();
   const { isPasswordVisible, togglePasswordVisibility } = usePasswordVisibility();
   const [formData, setFormData] = useState({
     nickname: '',
@@ -43,11 +43,11 @@ export default function SignupForm() {
       [key]: value.trim(),
     }));
   };
-  const [isSuccess, setIsSuccess] = useState(false);
   const [duplicateError, setDuplicateError] = useState({
     nickname: false,
     email: false,
   });
+  const [isSuccess, setIsSuccess] = useState(false);
   const [loginTimeoutId, setLoginTimeoutId] = useState<NodeJS.Timeout | null>(null);
 
   function getNicknameErrorMessage() {
