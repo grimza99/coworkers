@@ -49,8 +49,7 @@ export default function MyPageClient() {
               setNicknameError={setNicknameError}
               onClick={async () => {
                 if (nickname === user?.nickname) {
-                  // setNicknameError('기존 닉네임과 동일합니다.'); 이거 왜 바로 안뜨는지.. 요청 동시에 바로 뜨도록
-                  Toast.info('변경된 내용이 없습니다.');
+                  setNicknameError('기존 닉네임과 동일합니다.');
                   return;
                 }
                 try {
