@@ -2,9 +2,9 @@
 
 import { useOptimistic, useTransition } from 'react';
 import FormField from '@/components/common/formField';
-import axiosClient from '@/lib/axiosClient';
 import postImageUrl from '@/lib/api/image/postImageUrl';
 import { Toast } from '@/components/common/Toastify';
+import { updateUserImage } from './action';
 
 interface ProfileImageUploaderProps {
   image: string;
@@ -13,14 +13,14 @@ interface ProfileImageUploaderProps {
 
 export default function ProfileImageUploader({ image, setImage }: ProfileImageUploaderProps) {
   const [optimisticImage, addOptimisticImage] = useOptimistic(image);
-  const [isPending, startTransition] = useTransition();
+  const [, startTransition] = useTransition();
 
   return (
     <FormField
       field="file-input"
       label=""
       imageUploaderType="user"
-      image={optimisticImage || '/default-profile.png'}
+      image={optimisticImage || '/icons/profile-icon.svg'}
       onImageChange={async (e) => {
         const file = e.target.files?.[0];
         if (!file) return;
@@ -28,27 +28,25 @@ export default function ProfileImageUploader({ image, setImage }: ProfileImageUp
         const objectUrl = URL.createObjectURL(file);
         startTransition(() => {
           addOptimisticImage(objectUrl);
-        }); // show preview immediately
+        });
 
         try {
           const uploaded = await postImageUrl(file);
           const uploadedUrl = uploaded.url;
 
-          await axiosClient.patch('/user', {
-            image: uploadedUrl,
-          });
+          await updateUserImage(uploadedUrl);
 
           const finalUrl = `${uploadedUrl}?t=${Date.now()}`;
           setImage(finalUrl);
           startTransition(() => {
             addOptimisticImage(finalUrl);
           });
-          Toast.success('프로필 이미지가 변경 성공');
+          Toast.success('프로필 이미지 변경 성공');
         } catch {
-          Toast.error('프로필 이미지 저장에 실패했습니다. 다시 시도해주세요.');
+          Toast.error('프로필 이미지 저장에 실패했습니다.');
           startTransition(() => {
             addOptimisticImage(image);
-          }); // rollback to original on error
+          });
         }
       }}
     />

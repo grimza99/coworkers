@@ -1,67 +1,39 @@
 'use client';
 
-import { Metadata } from 'next';
 import Image from 'next/image';
-import { useEffect, useState } from 'react';
+import { useState, useEffect } from 'react';
+import { updateUserNickname } from './_mypage/action';
 import ProfileImageUploader from './_mypage/ProfileImageUploader';
 import NicknameField from './_mypage/NicknameField';
 import PasswordField from './_mypage/PasswordField';
-import ChangePasswordModal from '@/components/mypage-modal/ChangePasswordModal';
-import DeleteAccountModal from '@/components/mypage-modal/DeleteAccountModal';
-import ConfirmDeleteAccountModal from '@/components/mypage-modal/ConfirmDeleteAccountModal';
-import axiosClient from '@/lib/axiosClient';
-import { getClientCookie, deleteClientCookie } from '@/lib/cookie/client';
-import { getUserApiResponse } from '@/types/user';
+import { Toast } from '@/components/common/Toastify';
+import ChangePasswordModal from './_mypage/mypage-modal/ChangePasswordModal';
+import DeleteAccountModal from './_mypage/mypage-modal/DeleteAccountModal';
+import ConfirmDeleteAccountModal from './_mypage/mypage-modal/ConfirmDeleteAccountModal';
 import useModalContext from '@/components/common/modal/core/useModalContext';
 import FormField from '@/components/common/formField';
-import { Toast } from '@/components/common/Toastify';
+import { useUser } from '@/contexts/UserContext';
 
-export async function generateMetadata(): Promise<Metadata> {
-  return {
-    title: '계정관리 | Coworkers',
-    openGraph: {
-      title: '계정관리 | Coworkers',
-      description: '자유롭게 게시글을 작성하고 소통할 수 있는 공간입니다.',
-      siteName: 'Coworkers',
-    },
-  };
-}
-
-async function fetchUserInfo(): Promise<getUserApiResponse | null> {
-  try {
-    const token = getClientCookie('accessToken');
-    if (!token) {
-      deleteClientCookie('accessToken');
-      deleteClientCookie('refreshToken');
-      return null;
-    }
-
-    const response = await axiosClient.get<getUserApiResponse>('/user');
-    return response.data;
-  } catch (error) {
-    console.error('계정 정보 가져오기 실패', error);
-    Toast.error('계정 정보를 불러오지 못했습니다. 다시 시도해주세요.');
-    return null;
-  }
-}
-
-export default function MyPage() {
-  const [userData, setUserData] = useState<getUserApiResponse | null>(null);
-  const [image, setImage] = useState('');
-  const [nickname, setNickname] = useState('');
+export default function MyPageClient() {
+  const { user, email, fetchUser } = useUser();
+  const [image, setImage] = useState(user?.image ?? '');
+  const [nickname, setNickname] = useState(user?.nickname ?? '');
+  // @TODO: 헤더에도 닉네임 즉시반영하도록
   const [nicknameError, setNicknameError] = useState('');
   const [password, setPassword] = useState('');
   const { openModal, closeModal } = useModalContext();
 
   useEffect(() => {
-    fetchUserInfo().then((data) => {
-      if (data) {
-        setUserData(data);
-        setImage(data.image || '');
-        setNickname(data.nickname || '');
-      }
-    });
-  }, []);
+    if (user?.image) {
+      setImage(user.image);
+    }
+  }, [user?.image]);
+
+  useEffect(() => {
+    if (user?.nickname) {
+      setNickname(user.nickname);
+    }
+  }, [user?.nickname]);
 
   return (
     <div className="flex justify-center">
@@ -76,18 +48,24 @@ export default function MyPage() {
               setNickname={setNickname}
               setNicknameError={setNicknameError}
               onClick={async () => {
+                if (nickname === user?.nickname) {
+                  setNicknameError('기존 닉네임과 동일합니다.');
+                  return;
+                }
                 try {
-                  await axiosClient.patch('/user', { nickname });
+                  await updateUserNickname(nickname);
+                  await fetchUser();
                   Toast.success('닉네임 변경 성공');
                 } catch (error: unknown) {
                   const errorObj = error as { response?: { data?: { message?: string } } };
-                  const message = errorObj?.response?.data?.message || '닉네임 변경 실패';
+                  const message =
+                    errorObj?.response?.data?.message || '닉네임을 변경할 수 없습니다.';
                   setNicknameError(message);
-                  Toast.error('닉네임 변경에 실패했습니다. 다시 시도해주세요.');
+                  Toast.error('닉네임 변경에 실패했습니다.');
                 }
               }}
             />
-            <FormField field="input" label="이메일" value={userData?.email || ''} readOnly />
+            <FormField field="input" label="이메일" value={email || ''} readOnly />
             <PasswordField
               password={password}
               setPassword={setPassword}

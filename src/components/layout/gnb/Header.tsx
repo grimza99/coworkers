@@ -8,13 +8,10 @@ import Logo from './Logo';
 import SideMenu from './SideMenu';
 import GroupDropdownSelector from './GroupDropdownSelector';
 import { useOutSideClickAutoClose } from '@/utils/use-outside-click-auto-close';
-import axiosClient from '@/lib/axiosClient';
 import { Group } from '@/types/group';
-import { getUserApiResponse } from '@/types/user';
-import { getClientCookie, deleteClientCookie } from '@/lib/cookie/client';
 import PATHS from '@/constants/paths';
 import ProfileDropdownButton from './ProfileDropdownButton';
-import { Toast } from '@/components/common/Toastify';
+import { useUser } from '@/contexts/UserContext';
 
 const MINIMAL_HEADER_PATHS = [
   PATHS.HOME,
@@ -27,51 +24,23 @@ const MINIMAL_HEADER_PATHS = [
 
 export default function Header() {
   const pathname = usePathname();
-  const [userData, setUserData] = useState<getUserApiResponse | null>(null);
-  const [groups, setGroups] = useState<Group[]>([]);
+  const { user, memberships } = useUser();
+  const groups: Group[] = memberships?.map((m) => m.group) ?? [];
   const [selectedGroupId, setSelectedGroupId] = useState<number | null>(null);
 
   useEffect(() => {
-    const fetchUserData = async () => {
-      try {
-        const accessToken = getClientCookie('accessToken');
-        if (!accessToken) {
-          deleteClientCookie('accessToken');
-          deleteClientCookie('refreshToken');
-          console.log('No access token found');
-          console.log(document.cookie);
-          return;
-        }
-        const { data } = await axiosClient.get('/user');
-        setUserData(data);
-        localStorage.setItem('userId', String(data.id));
-        localStorage.setItem('userEmail', data.email);
-
-        const userGroups = Array.isArray(data.memberships)
-          ? data.memberships.map((m: { group: Group }) => m.group)
-          : [];
-
-        setGroups(userGroups);
-
-        const currentPathId = pathname.split('/')[1];
-        const currentGroup = userGroups.find((group: Group) => String(group.id) === currentPathId);
-        if (currentGroup?.id != null) {
-          setSelectedGroupId(currentGroup.id);
-          return;
-        }
-        if (userGroups[0]?.id != null) {
-          setSelectedGroupId(userGroups[0].id);
-          return;
-        }
-        setSelectedGroupId(null);
-      } catch (error) {
-        Toast.error('사용자 정보를 불러오는 데 실패했습니다.');
-        console.error('유저 정보 가져오기 실패', error);
-      }
-    };
-
-    fetchUserData();
-  }, [pathname]);
+    const currentPathId = pathname.split('/')[1];
+    const currentGroup = groups.find((group: Group) => String(group.id) === currentPathId);
+    if (currentGroup?.id != null) {
+      setSelectedGroupId(currentGroup.id);
+      return;
+    }
+    if (groups[0]?.id != null) {
+      setSelectedGroupId(groups[0].id);
+      return;
+    }
+    setSelectedGroupId(null);
+  }, [pathname, groups]);
 
   const {
     ref: sideMenuRef,
@@ -123,7 +92,20 @@ export default function Header() {
           </div>
         </div>
 
-        <div className="ml-auto">{userData && <ProfileDropdownButton userData={userData} />}</div>
+        <div className="ml-auto">
+          {user && (
+            <ProfileDropdownButton
+              userData={{
+                ...user,
+                email: '',
+                memberships: [],
+                createdAt: '',
+                updatedAt: '',
+                teamId: '',
+              }}
+            />
+          )}
+        </div>
       </div>
 
       <SideMenu
