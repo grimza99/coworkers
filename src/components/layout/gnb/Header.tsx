@@ -25,13 +25,14 @@ const MINIMAL_HEADER_PATHS = [
 export default function Header() {
   const pathname = usePathname();
   const { groupId } = useParams<{ groupId: string }>();
+  const { user, memberships, isLoading } = useUser();
+
   const [selectedGroupId, setSelectedGroupId] = useState<number>(Number(groupId));
 
-  const { user, memberships, isLoading } = useUser();
   const groups: Group[] =
-    !isLoading && memberships // isLoading이 false일 때만 memberships에 접근
-      ? memberships.map((membership) => membership.group)
-      : [];
+    !isLoading && memberships ? memberships.map((membership) => membership.group) : [];
+
+  const selectedGroup = groups.find((group) => group.id === selectedGroupId);
 
   const {
     ref: sideMenuRef,
@@ -41,8 +42,6 @@ export default function Header() {
 
   const isMinimalHeader = MINIMAL_HEADER_PATHS.includes(pathname);
   const hasGroup = groups.length > 0;
-
-  const selectedGroupName = groups.find((group) => group.id === selectedGroupId);
 
   if (isMinimalHeader) {
     return (
@@ -75,7 +74,7 @@ export default function Header() {
             {hasGroup && (
               <GroupDropdownSelector
                 groups={groups}
-                selectedGroupName={selectedGroupName?.name ?? ''}
+                selectedGroupName={selectedGroup?.name ?? groups[0].name}
                 setSelectedGroupId={setSelectedGroupId}
               />
             )}

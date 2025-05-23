@@ -6,16 +6,21 @@ import DangerModal from '@/components/danger-modal';
 import useModalContext from '@/components/common/modal/core/useModalContext';
 import { useRouter } from 'next/navigation';
 import { Toast } from '@/components/common/Toastify';
+import { useUser } from '@/contexts/UserContext';
 
 const DELETE_MODAL_ID = 'delete-group';
 
 export default function DeleteGroupButton({ groupId }: { groupId: number }) {
   const { openModal } = useModalContext();
+  const { fetchUser } = useUser();
   const router = useRouter();
 
   const handleDeleteGroup = async () => {
     await deleteGroup(groupId)
-      .then(() => router.push('/'))
+      .then(() => {
+        fetchUser();
+        router.push('/');
+      })
       .catch(() => Toast.error('팀 삭제에 실패했습니다. 다시 시도해 주세요.'));
   };
 
