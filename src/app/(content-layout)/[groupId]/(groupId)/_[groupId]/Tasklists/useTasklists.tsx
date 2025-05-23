@@ -8,6 +8,8 @@ import { Group } from '@/types/group';
 import { Tasklist } from '@/types/tasklist';
 
 export default function useOptimisticTasklists(groupId: Group['id'], tasklists: Tasklist[]) {
+  console.log(tasklists);
+
   const [optimisticTasklists, setOptimisticTasklists] = useOptimistic(
     tasklists,
     (
@@ -56,7 +58,7 @@ export default function useOptimisticTasklists(groupId: Group['id'], tasklists: 
         createdAt: '',
         updatedAt: '',
         groupId: groupId,
-        displayIndex: tasklists[tasklists.length - 1].displayIndex + 1,
+        displayIndex: -1,
         tasks: [],
       };
       setTransitionError(null);
