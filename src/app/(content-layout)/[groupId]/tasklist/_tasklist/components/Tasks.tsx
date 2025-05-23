@@ -54,10 +54,12 @@ export default function Tasks({ groupId, tasks, currentTaskList }: Props) {
           </SortableContext>
         </DndContext>
       ) : (
-        <p className="text-md-md text-gray500">
-          아직 할 일이 없습니다.
-          <br />할 일을 추가 해보세요.
-        </p>
+        <div className="flex h-200 items-center justify-center">
+          <p className="text-md-md text-gray500">
+            아직 할 일이 없습니다.
+            <br />할 일을 추가 해보세요.
+          </p>
+        </div>
       )}
     </ErrorBoundary>
   );

@@ -1,9 +1,10 @@
+export const dynamic = 'force-dynamic';
+
 import { getTaskLists, getTasks } from '../_tasklist/actions/task-actions';
 import ManageTaskItemModal from '../_tasklist/components/manage-task-item-modal/MangeTaskItemModal';
 import DateSwitcher from '../_tasklist/components/DateSwitcher';
 import TaskLists from '../_tasklist/components/TaskLists';
 import Tasks from '../_tasklist/components/Tasks';
-import { format } from 'date-fns';
 
 interface Props {
   params: Promise<{ groupId: string }>;
@@ -16,11 +17,11 @@ export default async function Page({ params, searchParams }: Props) {
   const { taskListId: searchParamsTaskListId } = await searchParams;
   const { groupId } = await params;
 
-  const date = searchParamsDate ? searchParamsDate : format(new Date(), 'yyyy-mm-dd');
+  const date = searchParamsDate ? new Date(searchParamsDate) : new Date();
 
   const taskLists = await getTaskLists(groupId);
-
   const taskListId = searchParamsTaskListId ? Number(searchParamsTaskListId) : taskLists[0].id;
+  if (!taskListId) throw new Error();
   const tasks = await getTasks(groupId, taskListId, date);
 
   return (
