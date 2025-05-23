@@ -3,7 +3,6 @@
 import Image from 'next/image';
 import Link from 'next/link';
 import { usePathname } from 'next/navigation';
-import { useRouter } from 'next/navigation';
 import { useEffect, useState } from 'react';
 import Logo from './Logo';
 import SideMenu from './SideMenu';
@@ -26,24 +25,29 @@ const MINIMAL_HEADER_PATHS = [
 
 export default function Header() {
   const pathname = usePathname();
-  const router = useRouter();
   const { user } = useUser();
-  const { groups } = useGroups();
+  const { groups, fetchGroups } = useGroups();
   const [selectedGroupId, setSelectedGroupId] = useState<number | null>(null);
 
   useEffect(() => {
-    const currentPathId = pathname.split('/')[1];
-    const matchedGroup = groups.find((g) => String(g.id) === currentPathId);
-
-    if (matchedGroup) {
-      setSelectedGroupId(matchedGroup.id);
-    } else if (groups[0]) {
-      setSelectedGroupId(groups[0].id);
-      router.replace(`/${groups[0].id}`);
-    } else {
-      setSelectedGroupId(null);
-      router.replace(`/`);
+    if (groups.length === 0) {
+      fetchGroups();
     }
+  }, [groups, fetchGroups]);
+  // 혹시 렌더링 중일 떄 groups.length === 0으로 생각하고 그룹 드롭다운을 안띄우는 경우를 위한 방어코드
+
+  useEffect(() => {
+    const currentPathId = pathname.split('/')[1];
+    const currentGroup = groups.find((group: Group) => String(group.id) === currentPathId);
+    if (currentGroup?.id != null) {
+      setSelectedGroupId(currentGroup.id);
+      return;
+    }
+    if (groups[0]?.id != null) {
+      setSelectedGroupId(groups[0].id);
+      return;
+    }
+    setSelectedGroupId(null);
   }, [pathname, groups]);
 
   const {

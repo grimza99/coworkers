@@ -8,6 +8,7 @@ interface GroupContextType {
   groups: Group[];
   isLoading: boolean;
   fetchGroups: () => Promise<void>;
+  refetchGroups: () => Promise<void>;
 }
 
 const GroupContext = createContext<GroupContextType | null>(null);
@@ -30,11 +31,17 @@ export const GroupProvider = ({ children }: { children: React.ReactNode }) => {
   }, []);
 
   useEffect(() => {
+    const tokenExists = document.cookie.includes('accessToken');
+    if (!tokenExists) return;
+
     fetchGroups();
   }, [fetchGroups]);
 
+  // Provide a stable refetchGroups function for external refresh
+  const refetchGroups = fetchGroups;
+
   return (
-    <GroupContext.Provider value={{ groups, fetchGroups, isLoading }}>
+    <GroupContext.Provider value={{ groups, fetchGroups, refetchGroups, isLoading }}>
       {children}
     </GroupContext.Provider>
   );
