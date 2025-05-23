@@ -10,12 +10,12 @@ import {
 } from '@/components/common/modal';
 import useModalContext from '@/components/common/modal/core/useModalContext';
 import { validatePassword, validateConfirmPassword } from '@/utils/validators';
-import axiosClient from '@/lib/axiosClient';
 import FormField from '@/components/common/formField';
 import Button from '@/components/common/Button';
 import PasswordToggleButton from '@/app/(form-layout)/signup/_signup/PasswordToggleButton';
 import { AUTH_ERROR_MESSAGES } from '@/constants/messages/signup';
 import { Toast } from '@/components/common/Toastify';
+import { updateUserPassword } from '../action';
 
 interface PasswordChangeSuccessModalProps {
   onClose: () => void;
@@ -51,10 +51,7 @@ export default function ChangePasswordModal({ onClose }: PasswordChangeSuccessMo
       }
 
       try {
-        await axiosClient.patch('/user/password', {
-          password: formData.newPassword,
-          passwordConfirmation: formData.confirmPassword,
-        });
+        await updateUserPassword(formData.newPassword, formData.confirmPassword);
 
         setFormData({ newPassword: '', confirmPassword: '' });
 

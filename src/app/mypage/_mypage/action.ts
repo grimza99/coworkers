@@ -19,3 +19,15 @@ export async function updateUserImage(imageUrl: string) {
     throw new Error('프로필 이미지 변경 실패');
   }
 }
+
+export async function updateUserPassword(password: string, passwordConfirmation: string) {
+  try {
+    await axiosServer.patch('/user/password', {
+      password,
+      passwordConfirmation,
+    });
+  } catch (e) {
+    console.error('비밀번호 변경 중 에러 발생:', e);
+    throw new Error('비밀번호 변경 실패');
+  }
+}
