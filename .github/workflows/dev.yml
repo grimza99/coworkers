@@ -90,17 +90,22 @@ jobs:
           script: |
             echo "Pulling image: ${{ needs.build.outputs.image_name }}"
             docker pull ${{ needs.dockerize.outputs.image_name }}
+
             if docker ps -a --format '{{.Names}}' | grep -q coworkers-staging; then
               echo "Stopping and removing existing coworkers-staging container"
               docker stop coworkers-staging
               docker rm coworkers-staging
             fi
+
             echo "Running new container with image: ${{ needs.dockerize.outputs.image_name }}"
             docker run -d \
               --name coworkers-staging \
               -p 3000:3000 \
               ${{ needs.dockerize.outputs.image_name }}
             echo "Deployment script finished."
+
+            echo "Pruning unused Docker images..."
+            docker image prune -a -f || echo "Docker image prune command failed or no images to prune."
 
   notify:
     name: Notify PR
