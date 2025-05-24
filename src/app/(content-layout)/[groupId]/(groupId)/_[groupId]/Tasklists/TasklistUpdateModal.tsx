@@ -28,7 +28,6 @@ export default function TasklistUpdateModal({
   isLoading,
   updateTasklist,
 }: TasklistUpdateModalProps) {
-  console.log(tasklist);
   const [name, setName] = useState(tasklist.name);
   const { closeModal } = useModalContext();
 

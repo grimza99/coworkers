@@ -37,7 +37,6 @@ export const getTasks = async (groupId: string, taskListId: number, date: Date |
     if (error instanceof Error) {
       throw error;
     } else {
-      console.log(error);
       throw new Error('Unknown error occurred');
     }
   }

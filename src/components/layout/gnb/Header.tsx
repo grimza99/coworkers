@@ -38,8 +38,6 @@ export default function Header() {
         if (!accessToken) {
           deleteClientCookie('accessToken');
           deleteClientCookie('refreshToken');
-          console.log('No access token found');
-          console.log(document.cookie);
           return;
         }
         const { data } = await axiosClient.get('/user');
