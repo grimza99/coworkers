@@ -14,7 +14,6 @@ const DELETE_MODAL_ID = 'delete-group';
 export default function DeleteGroupButton({ groupId }: { groupId: number }) {
   const [isPending, setIsPending] = useState(false);
   const { openModal } = useModalContext();
-  const { fetchUser } = useUser();
   const router = useRouter();
 
   const handleDeleteGroup = () => {
