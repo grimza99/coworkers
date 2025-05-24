@@ -2,19 +2,31 @@
 
 import { revalidateTag } from 'next/cache';
 import axiosServer from '@/lib/axiosServer';
+import { ArticleComments } from '@/components/comment/types';
+import { GetArticleDetailResponse } from '@/types/article';
 
 export async function getDetailArticle(articleId: number) {
-  const response = await axiosServer.get(`/articles/${articleId}`);
+  const response = await axiosServer.get<GetArticleDetailResponse>(`/articles/${articleId}`);
 
   return response.data;
 }
 
-export async function getArticleComments(articleId: number) {
-  const response = await axiosServer.get(`/articles/${articleId}/comments?limit=10`, {
-    fetchOptions: { next: { tags: [`article-comments-${articleId}`] } },
-  });
+export async function getArticleComments(articleId: number, limit: number, cursor?: number) {
+  const params = new URLSearchParams();
+  params.append('limit', String(limit));
 
-  return response.data.list;
+  if (cursor !== undefined) {
+    params.append('cursor', String(cursor));
+  }
+
+  const response = await axiosServer.get<ArticleComments>(
+    `/articles/${articleId}/comments?${params}`,
+    {
+      fetchOptions: { next: { tags: [`article-comments-${articleId}`] } },
+    }
+  );
+
+  return response.data;
 }
 
 export async function postArticleCommentsAction(articleId: number, comment: string) {

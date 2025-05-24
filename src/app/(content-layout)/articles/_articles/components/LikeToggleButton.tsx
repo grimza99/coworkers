@@ -41,7 +41,11 @@ export default function LikeToggleButton({
       onClick={toggleLike}
       className={`flex items-center gap-1 ${readOnly ? '!cursor-default' : ''}`}
     >
-      <HeartIcon filled={liked} size={16} />
+      <HeartIcon
+        fill={liked ? 'var(--color-primary)' : 'none'}
+        stroke={liked ? 'var(--color-primary)' : 'var(--color-gray400)'}
+        size={16}
+      />
       <span className="text-xs-rg sm:text-md-rg text-gray400">
         {count > 9999 ? '9999+' : count}
       </span>
