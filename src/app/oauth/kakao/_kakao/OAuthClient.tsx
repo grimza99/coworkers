@@ -1,21 +1,15 @@
 'use client';
 
 import { loginApiResponse } from '@/app/(form-layout)/login/_login/LoginForm';
-import ErrorModal from '@/components/common/ErrorModal';
-import useModalContext from '@/components/common/modal/core/useModalContext';
-import { ERROR_MODAL_ID } from '@/constants/modal-id/error-modal';
+import BouncingDots from '@/components/common/loading/BouncingDots';
+import { Toast } from '@/components/common/Toastify';
+import PATHS from '@/constants/paths';
 import axiosClient from '@/lib/axiosClient';
 import { setClientCookie } from '@/lib/cookie/client';
 import { useRouter, useSearchParams } from 'next/navigation';
 import { useCallback, useEffect } from 'react';
 
-/**
- * @todo
- * get user response type지정
- */
-
 export default function OAuthClient() {
-  const { openModal } = useModalContext();
   const searchParams = useSearchParams();
   const redirectUri = process.env.NEXT_PUBLIC_KAKAO_REDIRECT_URI;
   const code = searchParams.get('code');
@@ -37,24 +31,23 @@ export default function OAuthClient() {
 
       const { data } = await axiosClient.get(`/user`);
       if (data.memberships.length < 1) {
-        router.push('/nogroup');
+        router.push(PATHS.NOGROUP);
       } else {
         router.push(`${data.memberships[0].group.id}`);
       }
     } catch {
-      openModal(ERROR_MODAL_ID.OAUTH);
+      Toast.error('로그인 실패');
+      router.push(PATHS.LOGIN);
     }
-  }, [code, openModal, redirectUri, router, state]);
+  }, [code, redirectUri, router, state]);
 
   useEffect(() => {
     oauthRequest();
   }, [oauthRequest]);
 
   return (
-    <ErrorModal
-      modalId={ERROR_MODAL_ID.OAUTH}
-      description="간편로그인에 실패 했습니다."
-      onClick={() => router.back()}
-    />
+    <div className="flex h-full w-full items-center justify-center">
+      <BouncingDots />
+    </div>
   );
 }

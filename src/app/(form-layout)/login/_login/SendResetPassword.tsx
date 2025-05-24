@@ -17,6 +17,7 @@ import useModalContext from '@/components/common/modal/core/useModalContext';
 import axiosClient from '@/lib/axiosClient';
 import { validateEmail } from '@/utils/validators';
 import { AUTH_ERROR_MESSAGES } from '@/constants/messages/signup';
+import BouncingDots from '@/components/common/loading/BouncingDots';
 
 const redirectUrl = process.env.NEXT_PUBLIC_RESET_PASSWORD;
 
@@ -109,7 +110,7 @@ export default function SendResetPassword() {
                 disabled={isLoading || !validateEmail(email)}
                 onClick={sendResetPasswordLink}
               >
-                {isLoading ? '...' : '링크 보내기'}
+                {isLoading ? <BouncingDots /> : '링크 보내기'}
               </Button>
             </ModalFooter>
           </ModalContainer>

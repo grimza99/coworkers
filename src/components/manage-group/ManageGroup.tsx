@@ -2,6 +2,7 @@
 
 import Button from '@/components/common/Button';
 import FormField from '@/components/common/formField';
+import BouncingDots from '@/components/common/loading/BouncingDots';
 import useManageGroup from './useManageGroup';
 import { Group } from '@/types/group';
 
@@ -60,8 +61,8 @@ export default function ManageGroup({ groupData, groupNames }: MangeGroupProps) 
         />
       </div>
       <div className="flex flex-col gap-6">
-        <Button type="submit" variant="solid" size="fullWidth">
-          {groupButtonText}
+        <Button type="submit" variant="solid" size="fullWidth" disabled={isSubmit}>
+          {isSubmit ? <BouncingDots /> : groupButtonText}
         </Button>
         <p className="text-lg-rg text-gray500 text-center">
           팀 이름은 회사명이나 모임 이름 등으로 설정하면 좋아요.
