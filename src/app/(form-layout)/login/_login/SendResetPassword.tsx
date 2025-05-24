@@ -31,6 +31,12 @@ export default function SendResetPassword() {
   const [errorMessage, setErrorMessage] = useState('');
   const [isForceShowError, setIsForceShowError] = useState(false);
 
+  const clearState = () => {
+    setEmail('');
+    setErrorMessage('');
+    setIsForceShowError(false);
+  };
+
   const sendResetPasswordLink = async () => {
     setIsLoading(true);
     try {
@@ -39,9 +45,8 @@ export default function SendResetPassword() {
         redirectUrl: redirectUrl,
       });
       if (res.status === 200) {
-        Toast.success('링크를 전송했습니다.');
-        setEmail('');
-        setErrorMessage('');
+        Toast.success('링크 전송 성공');
+        clearState();
         closeModal(modalId);
       }
     } catch (error) {
@@ -74,7 +79,7 @@ export default function SendResetPassword() {
         비밀번호를 잊으셨나요?
       </ModalTrigger>
       <ModalPortal modalId={modalId}>
-        <ModalOverlay modalId={modalId}>
+        <ModalOverlay modalId={modalId} onClick={() => clearState()}>
           <ModalContainer className="md:w-full md:max-w-96">
             <div className="mb-6 w-full">
               <ModalHeading className="mb-2">비밀번호 재설정</ModalHeading>
@@ -97,8 +102,7 @@ export default function SendResetPassword() {
                 size="fullWidth"
                 variant="outline-primary"
                 onClick={() => {
-                  setEmail('');
-                  setErrorMessage('');
+                  clearState();
                   closeModal(modalId);
                 }}
               >

@@ -54,7 +54,7 @@ export default function Content({ task, isDone }: Props) {
             dropDownOpenBtn={
               <Image src="/icons/kebab-icon.svg" width={24} height={24} alt="kebab" />
             }
-            placement="top-4 right-3"
+            placement="top-6 right-[14px]"
           />
         </div>
         <div className="flex justify-between">

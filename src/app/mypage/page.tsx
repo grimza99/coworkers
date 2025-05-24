@@ -28,7 +28,7 @@ async function fetchUserInfo(): Promise<getUserApiResponse | null> {
     return response.data;
   } catch (error) {
     console.error('계정 정보 가져오기 실패', error);
-    Toast.error('계정 정보를 불러오지 못했습니다. 다시 시도해주세요.');
+    Toast.error('계정 정보 가져오기 실패');
     return null;
   }
 }
@@ -71,7 +71,7 @@ export default function MyPage() {
                   const errorObj = error as { response?: { data?: { message?: string } } };
                   const message = errorObj?.response?.data?.message || '닉네임 변경 실패';
                   setNicknameError(message);
-                  Toast.error('닉네임 변경에 실패했습니다. 다시 시도해주세요.');
+                  Toast.error('닉네임 변경 실패');
                 }
               }}
             />

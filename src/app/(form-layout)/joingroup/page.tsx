@@ -26,7 +26,7 @@ export default function JoinGroup() {
         router.push(`/${groupId}`);
       }, 1000);
     } catch (error) {
-      Toast.error('팀 참여에 실패했습니다. 링크를 다시 확인해주세요.');
+      Toast.error('팀 참여 실패');
       console.error('팀 참여 실패:', error);
     }
   };
