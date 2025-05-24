@@ -1,6 +1,5 @@
 'use client';
-import { useEffect, useState } from 'react';
-import { Toast } from '@/components/common/Toastify';
+import { useState } from 'react';
 import Button from '@/components/common/Button';
 import FormField from '@/components/common/formField';
 import {
@@ -18,14 +17,12 @@ import { validateEmptyValue } from '@/utils/validators';
 interface TasklistCreateModalProps {
   modalId: string;
   isLoading: boolean;
-  error: { message: string; id: string } | null;
   createTasklist: (name: string) => void;
 }
 
 export default function TasklistCreateModal({
   modalId,
   isLoading,
-  error,
   createTasklist,
 }: TasklistCreateModalProps) {
   const [name, setName] = useState('');
@@ -46,15 +43,10 @@ export default function TasklistCreateModal({
     closeModal(modalId);
   };
 
-  useEffect(() => {
-    if (!error) return;
-    Toast.error(error.message);
-  }, [error]);
-
   return (
     <>
       <ModalPortal modalId={modalId}>
-        <ModalOverlay modalId={modalId}>
+        <ModalOverlay modalId={modalId} onClick={clearName}>
           <ModalContainer className="px-13 pt-12 pb-8 md:px-13 md:pt-12 md:pb-8">
             <ModalCloseButton modalId={modalId} onClick={clearName} />
             <div className="mb-6 w-70">

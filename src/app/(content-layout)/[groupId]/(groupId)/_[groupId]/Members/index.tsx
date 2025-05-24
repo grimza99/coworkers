@@ -1,14 +1,10 @@
 'use client';
-import { useOptimistic, useState, useTransition } from 'react';
 import { useUser } from '@/contexts/UserContext';
+import useMembers from '@/app/(content-layout)/[groupId]/(groupId)/_[groupId]/Members/useMembers';
 import MemberItem from '@/app/(content-layout)/[groupId]/(groupId)/_[groupId]/Members/MemberItem';
 import MemberInvitationModal from '@/app/(content-layout)/[groupId]/(groupId)/_[groupId]/Members/MemberInvitationModal';
 import MemberDeleteModal from '@/app/(content-layout)/[groupId]/(groupId)/_[groupId]/Members/MemberDeleteModal';
 import MemberDetailModal from '@/app/(content-layout)/[groupId]/(groupId)/_[groupId]/Members/MemberDetailModal';
-import {
-  deleteMemberAction,
-  postMemberAction,
-} from '@/app/(content-layout)/[groupId]/(groupId)/_[groupId]/Members/actions';
 import { ModalTrigger } from '@/components/common/modal';
 import { Member } from '@/types/user';
 import { Group } from '@/types/group';
@@ -21,82 +17,17 @@ type MembersProps = {
 
 export default function Members({ groupId, members, admin }: MembersProps) {
   const { user } = useUser();
-  const [memberForDetail, setMemberForDetail] = useState<Member | null>(null);
-  const [memberForDelete, setMemberForDelete] = useState<Member | null>(null);
-  const [optimisticMembers, setOptimisticMembers] = useOptimistic(
-    members,
-    (
-      currentMembers: Member[],
-      action:
-        | { type: 'add'; newMember: Member }
-        | { type: 'delete'; memberForDelete: Member }
-        | { type: 'rollback' }
-    ) => {
-      switch (action.type) {
-        case 'add':
-          return [...currentMembers, action.newMember];
-
-        case 'delete':
-          return currentMembers.filter((member) => member.userId !== action.memberForDelete.userId);
-
-        case 'rollback':
-          return currentMembers;
-
-        default:
-          return currentMembers;
-      }
-    }
-  );
-  const [isAddLoading, startAddTransition] = useTransition();
-
-  const [isDeleteLoading, startDeleteTransition] = useTransition();
-  const [transitionError, setTransitionError] = useState<{ message: string; id: string } | null>(
-    null
-  );
-
-  const addMember = async (newMemberEmail: string) => {
-    startAddTransition(async () => {
-      setTransitionError(null);
-      const newMember: Member = {
-        userId: -1,
-        userName: '',
-        userImage: null,
-        role: 'MEMBER',
-        userEmail: newMemberEmail,
-        groupId: groupId,
-      };
-      setOptimisticMembers({ type: 'add', newMember });
-
-      const result = await postMemberAction(groupId, newMemberEmail);
-
-      if (!result.success) {
-        setOptimisticMembers({ type: 'rollback' });
-        setTransitionError({
-          message: result.message,
-          id: Date.now().toString(),
-        });
-      }
-    });
-  };
-
-  const deleteMember = async (memberForDelete: Member) => {
-    startDeleteTransition(async () => {
-      setTransitionError(null);
-      setOptimisticMembers({ type: 'delete', memberForDelete });
-
-      const result = await deleteMemberAction(groupId, memberForDelete.userId);
-
-      if (result.success) {
-        setMemberForDelete(null);
-      } else {
-        setOptimisticMembers({ type: 'rollback' });
-        setTransitionError({
-          message: result.message,
-          id: Date.now().toString(),
-        });
-      }
-    });
-  };
+  const {
+    memberForDetail,
+    setMemberForDetail,
+    memberForDelete,
+    setMemberForDelete,
+    optimisticMembers,
+    isAddLoading,
+    isDeleteLoading,
+    addMember,
+    deleteMember,
+  } = useMembers(groupId, members);
 
   const isUserAdmin = admin.userId === user?.id;
   const memberCount = optimisticMembers.length;
@@ -133,7 +64,6 @@ export default function Members({ groupId, members, admin }: MembersProps) {
         modalId={memberInvitationModalId}
         groupId={groupId}
         isLoading={isAddLoading}
-        error={transitionError}
         addMember={addMember}
       />
 
@@ -146,7 +76,6 @@ export default function Members({ groupId, members, admin }: MembersProps) {
           member={memberForDelete}
           modalId={MemberDeleteModalId}
           isLoading={isDeleteLoading}
-          error={transitionError}
           deleteMember={() => deleteMember(memberForDelete)}
         />
       )}

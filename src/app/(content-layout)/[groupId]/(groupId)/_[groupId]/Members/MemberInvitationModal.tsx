@@ -1,5 +1,5 @@
 'use client';
-import { useEffect, useState } from 'react';
+import { useState } from 'react';
 import clsx from 'clsx';
 import Button from '@/components/common/Button';
 import FormField from '@/components/common/formField';
@@ -23,7 +23,6 @@ interface MemberInvitationModalProps {
   modalId: string;
   groupId: Group['id'];
   isLoading: boolean;
-  error: { message: string; id: string } | null;
   addMember: (email: string) => Promise<void> | void;
 }
 
@@ -31,7 +30,6 @@ export default function MemberInvitationModal({
   modalId,
   groupId,
   isLoading,
-  error,
   addMember,
 }: MemberInvitationModalProps) {
   const { closeModal } = useModalContext();
@@ -53,16 +51,11 @@ export default function MemberInvitationModal({
     setEmail(e.target.value);
   };
 
-  useEffect(() => {
-    if (!error) return;
-    Toast.error(error.message);
-  }, [error]);
-
   return (
     <ModalPortal modalId={modalId}>
-      <ModalOverlay modalId={modalId}>
+      <ModalOverlay modalId={modalId} onClick={() => setEmail('')}>
         <ModalContainer className="justify-between px-12 pt-12 pb-8 max-md:h-80 md:h-80 md:px-12">
-          <ModalCloseButton modalId={modalId} />
+          <ModalCloseButton modalId={modalId} onClick={() => setEmail('')} />
           <div className="text-md-md text-gray100 flex w-full">
             <button
               className={clsx(
@@ -117,6 +110,7 @@ export default function MemberInvitationModal({
                   onClick={() => {
                     addMember(email);
                     closeModal(modalId);
+                    setEmail('');
                   }}
                   disabled={isLoading || validateEmptyValue(email) || !validateEmail(email)}
                 >
