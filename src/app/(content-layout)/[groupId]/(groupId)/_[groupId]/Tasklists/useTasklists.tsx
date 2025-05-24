@@ -1,15 +1,14 @@
-import { useState, useOptimistic, useTransition } from 'react';
+import { useState, useOptimistic, useTransition, useEffect } from 'react';
 import {
   createTasklistAction,
   updateTasklistAction,
   deleteTasklistAction,
 } from '@/app/(content-layout)/[groupId]/(groupId)/_[groupId]/Tasklists/actions';
+import { Toast } from '@/components/common/Toastify';
 import { Group } from '@/types/group';
 import { Tasklist } from '@/types/tasklist';
 
 export default function useOptimisticTasklists(groupId: Group['id'], tasklists: Tasklist[]) {
-  console.log(tasklists);
-
   const [optimisticTasklists, setOptimisticTasklists] = useOptimistic(
     tasklists,
     (
@@ -66,10 +65,12 @@ export default function useOptimisticTasklists(groupId: Group['id'], tasklists: 
 
       const result = await createTasklistAction(groupId, name);
 
-      if (!result.success) {
+      if (result.success) {
+        Toast.success(`${name} 추가 완료`);
+      } else {
         setOptimisticTasklists({ type: 'rollback' });
         setTransitionError({
-          message: result.message,
+          message: '할 일 목록 추가 실패',
           id: Date.now().toString(),
         });
       }
@@ -83,10 +84,12 @@ export default function useOptimisticTasklists(groupId: Group['id'], tasklists: 
 
       const result = await updateTasklistAction(groupId, selectedTasklist.id, newName);
 
-      if (!result.success) {
+      if (result.success) {
+        Toast.success(`${newName} 수정 완료`);
+      } else {
         setOptimisticTasklists({ type: 'rollback' });
         setTransitionError({
-          message: result.message,
+          message: '할 일 목록 수정 실패',
           id: Date.now().toString(),
         });
       }
@@ -100,15 +103,22 @@ export default function useOptimisticTasklists(groupId: Group['id'], tasklists: 
 
       const result = await deleteTasklistAction(groupId, selectedTasklist.id);
 
-      if (!result.success) {
+      if (result.success) {
+        Toast.success(`${selectedTasklist.name} 삭제 완료`);
+      } else {
         setOptimisticTasklists({ type: 'rollback' });
         setTransitionError({
-          message: result.message,
+          message: '할 일 목록 삭제 실패',
           id: Date.now().toString(),
         });
       }
     });
   };
+
+  useEffect(() => {
+    if (!transitionError) return;
+    Toast.error(transitionError.message);
+  }, [transitionError]);
 
   return {
     optimisticTasklists,

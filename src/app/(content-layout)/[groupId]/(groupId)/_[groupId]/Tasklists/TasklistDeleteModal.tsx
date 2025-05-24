@@ -1,7 +1,5 @@
 'use client';
-import { useEffect, useState } from 'react';
 import Image from 'next/image';
-import { Toast } from '@/components/common/Toastify';
 import Button from '@/components/common/Button';
 import {
   ModalContainer,
@@ -19,7 +17,6 @@ interface TasklistDeleteModalProps {
   modalId: string;
   tasklist: Tasklist;
   isLoading: boolean;
-  error: { message: string; id: string } | null;
   deleteTasklist: (tasklist: Tasklist) => void;
 }
 
@@ -27,28 +24,15 @@ export default function TasklistDeleteModal({
   modalId,
   tasklist,
   isLoading,
-  error,
   deleteTasklist,
 }: TasklistDeleteModalProps) {
   const { name } = tasklist;
   const { closeModal } = useModalContext();
-  const [wasLoading, setWasLoading] = useState(false);
 
   const handleClickDeleteButton = async () => {
     deleteTasklist(tasklist);
+    closeModal(modalId);
   };
-
-  useEffect(() => {
-    if (wasLoading && !isLoading) {
-      if (!error) {
-        closeModal(modalId);
-        Toast.success(`'${name}' 목록 삭제 완료`);
-      } else {
-        Toast.error(error.message);
-      }
-    }
-    setWasLoading(isLoading);
-  }, [isLoading, error, closeModal, modalId, name, wasLoading]);
 
   return (
     <>
