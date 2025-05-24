@@ -21,7 +21,9 @@ export default function RootLayout({
           <UserProvider>
             <ToastProvider>
               <Header />
-              <div className="flex-1 overflow-y-auto">{children}</div>
+              <div id="scroll-container" className="flex-1 overflow-y-auto">
+                {children}
+              </div>
               <div id="modal-container"></div>
             </ToastProvider>
           </UserProvider>
