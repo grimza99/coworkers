@@ -50,6 +50,7 @@ export default function Members({ groupId, members, admin }: MembersProps) {
           {optimisticMembers.map((member) => (
             <MemberItem
               key={member.userId}
+              isUserAdmin={isUserAdmin}
               member={member}
               memberDetailModalId={memberDetailModalId}
               memberDeleteModalId={MemberDeleteModalId}
