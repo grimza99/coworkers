@@ -13,8 +13,10 @@ export function useTaskActions(task?: Task) {
       const res = await axiosClient.delete(
         `/groups/${groupId}/task-lists/${taskListId}/tasks/${taskId}`
       );
-      setTaskToDeleteState();
-      Toast.success('할 일 삭제 성공');
+      if (res.status === 204) {
+        setTaskToDeleteState();
+        Toast.success('할 일 삭제 성공');
+      }
     } catch {
       Toast.error('할 일 삭제 실패');
     }
