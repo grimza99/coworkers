@@ -33,7 +33,7 @@ export default function OAuthClient() {
       if (data.memberships.length < 1) {
         router.push(PATHS.NOGROUP);
       } else {
-        router.push(`${data.memberships[0].group.id}`);
+        router.push(`/${data.memberships[0].group.id}`);
       }
     } catch {
       Toast.error('로그인 실패');
@@ -46,7 +46,7 @@ export default function OAuthClient() {
   }, [oauthRequest]);
 
   return (
-    <div className="flex h-full w-full items-center justify-center">
+    <div className="flex h-full w-full items-center justify-center pt-100">
       <BouncingDots />
     </div>
   );

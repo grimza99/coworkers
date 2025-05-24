@@ -54,13 +54,13 @@ export default function ConfirmDeleteAccountModal() {
                       logoutUser();
                       deleteClientCookie('accessToken');
                       deleteClientCookie('refreshToken');
-                      Toast.success('회원 탈퇴가 완료되었습니다. 잠시 후 페이지가 이동합니다.');
+                      Toast.success('회원 탈퇴 완료, 잠시 후 페이지가 이동됩니다.');
                       setTimeout(() => {
                         closeModal('confirm-delete-account');
                         window.location.href = '/';
                       }, 3000);
                     } catch {
-                      Toast.error('회원 탈퇴에 실패했습니다. 다시 시도해주세요.');
+                      Toast.error('회원 탈퇴 실패');
                       closeModal('confirm-delete-account');
                     }
                   }}
