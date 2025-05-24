@@ -18,7 +18,6 @@ export default function MyPageClient() {
   const { user, email, fetchUser, setUser } = useUser();
   const [image, setImage] = useState(user?.image ?? '');
   const [nickname, setNickname] = useState(user?.nickname ?? '');
-  // @TODO: 헤더에도 닉네임 즉시반영하도록
   const [nicknameError, setNicknameError] = useState('');
   const [password, setPassword] = useState('');
   const { openModal, closeModal } = useModalContext();
@@ -34,6 +33,14 @@ export default function MyPageClient() {
       setNickname(user.nickname);
     }
   }, [user?.nickname]);
+
+  const isSameNickname = () => {
+    if (nickname === user?.nickname) {
+      setNicknameError('기존 닉네임과 동일합니다.');
+      return true;
+    }
+    return false;
+  };
 
   return (
     <div className="flex justify-center">
@@ -54,10 +61,7 @@ export default function MyPageClient() {
               setNickname={setNickname}
               setNicknameError={setNicknameError}
               onClick={async () => {
-                if (nickname === user?.nickname) {
-                  setNicknameError('기존 닉네임과 동일합니다.');
-                  return;
-                }
+                if (isSameNickname()) return;
                 try {
                   await updateUserNickname(nickname);
                   await fetchUser();
