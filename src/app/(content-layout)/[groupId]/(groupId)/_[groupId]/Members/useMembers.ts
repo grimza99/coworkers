@@ -55,7 +55,9 @@ export default function useMembers(groupId: Group['id'], members: Member[]) {
 
       const result = await postMemberAction(groupId, newMemberEmail);
 
-      if (!result.success) {
+      if (result.success) {
+        Toast.success(`${newMemberEmail} 추가 완료`);
+      } else {
         setOptimisticMembers({ type: 'rollback' });
         setTransitionError({
           message: result.message,
@@ -74,6 +76,7 @@ export default function useMembers(groupId: Group['id'], members: Member[]) {
 
       if (result.success) {
         setMemberForDelete(null);
+        Toast.success(`${memberForDelete.userName} 내보내기 완료`);
       } else {
         setOptimisticMembers({ type: 'rollback' });
         setTransitionError({
