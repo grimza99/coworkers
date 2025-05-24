@@ -11,7 +11,7 @@ interface GroupDropdownSelectorProps {
   selectedGroupName: string;
   setSelectedGroupId: (id: number) => void;
 }
-// 맵으로 돌려서 넣으면된다
+
 export default function GroupDropdownSelector({
   groups,
   selectedGroupName,
