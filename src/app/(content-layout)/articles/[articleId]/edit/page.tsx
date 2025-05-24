@@ -56,7 +56,7 @@ export default function Page() {
 
       await axiosClient.patch(`/articles/${articleId}`, articlePayload);
 
-      Toast.success('게시글 수정이 완료되었습니다.');
+      Toast.success('게시글 수정이 완료');
       setTitle('');
       setContent('');
       setImage(null);
@@ -67,7 +67,7 @@ export default function Page() {
 
       router.push(`${PATHS.ARTICLES.BASE}`);
     } catch {
-      Toast.error('게시글 수정 중 오류가 발생했습니다.');
+      Toast.error('게시글 수정 중 오류 발생');
     } finally {
       setIsSubmitting(false);
     }

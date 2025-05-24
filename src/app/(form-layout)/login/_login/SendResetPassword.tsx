@@ -45,7 +45,7 @@ export default function SendResetPassword() {
         redirectUrl: redirectUrl,
       });
       if (res.status === 200) {
-        Toast.success('링크를 전송했습니다.');
+        Toast.success('링크 전송 성공');
         clearState();
         closeModal(modalId);
       }

@@ -44,7 +44,7 @@ export default function DetailTaskCommentField({ taskId }: Props) {
       });
       setCurrentComments((prev) => [...prev, data]);
     } catch {
-      Toast.error('댓글 생성에 실패 했습니다.');
+      Toast.error('댓글 생성에 실패');
     } finally {
       setCommentValue('');
     }

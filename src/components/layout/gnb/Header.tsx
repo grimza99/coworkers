@@ -63,7 +63,7 @@ export default function Header() {
         }
         setSelectedGroupId(null);
       } catch (error) {
-        Toast.error('사용자 정보를 불러오는 데 실패했습니다.');
+        Toast.error('사용자 정보 불러오기 실패');
         console.error('유저 정보 가져오기 실패', error);
       }
     };

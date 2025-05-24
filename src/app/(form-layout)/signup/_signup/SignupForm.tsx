@@ -183,7 +183,7 @@ export default function SignupForm() {
         nickname: message.includes('닉네임'),
       });
 
-      Toast.error('회원가입에 실패했습니다.');
+      Toast.error('회원가입 실패');
     }
   };
 

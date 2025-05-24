@@ -33,9 +33,9 @@ export default function CommentField({ comment, taskId }: Props) {
     try {
       await axiosClient.delete(`/tasks/${taskId}/comments/${comment.id}`);
       setIsDelete(true);
-      Toast.success('댓글을 삭제했습니다.');
+      Toast.success('댓글을 삭제 성공');
     } catch {
-      Toast.error('댓글 삭제에 실패 했습니다.');
+      Toast.error('댓글 삭제 실패');
     }
   };
 
@@ -56,7 +56,7 @@ export default function CommentField({ comment, taskId }: Props) {
       onEditCancel();
     } catch (err) {
       console.error(err);
-      Toast.error('댓글 수정에 실패 했습니다.');
+      Toast.error('댓글 수정 실패');
     }
   };
 
