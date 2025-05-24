@@ -10,24 +10,13 @@ import {
   ModalPortal,
 } from '@/components/common/modal';
 import Button from '../common/Button';
-import { useEffect } from 'react';
-import { useRouter } from 'next/navigation';
 
 interface Props {
   nickname: string;
+  onGoToLoginPage: () => void;
 }
 
-export default function SignupSuccessModal({ nickname }: Props) {
-  const router = useRouter();
-
-  useEffect(() => {
-    const timer = setTimeout(() => {
-      router.push('/teams');
-    }, 5000);
-
-    return () => clearTimeout(timer);
-  }, [router]);
-
+export default function SignupSuccessModal({ nickname, onGoToLoginPage }: Props) {
   return (
     <ModalPortal modalId="signup-success">
       <ModalOverlay modalId="signup-success">
@@ -39,12 +28,7 @@ export default function SignupSuccessModal({ nickname }: Props) {
             5초 뒤 자동으로 로그인됩니다.
           </ModalDescription>
           <ModalFooter className="w-full">
-            <Button
-              variant="solid"
-              size="fullWidth"
-              className="w-full"
-              onClick={() => router.push('/login')}
-            >
+            <Button variant="solid" size="fullWidth" className="w-full" onClick={onGoToLoginPage}>
               로그인 페이지로 이동
             </Button>
           </ModalFooter>

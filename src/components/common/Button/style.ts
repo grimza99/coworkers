@@ -10,7 +10,7 @@ export const buttonSize = {
   sm: 'w-[111px] h-10 rounded-[40px]',
   md: 'w-[125px] h-12 rounded-[40px]',
   lg: 'w-[138px] h-10 rounded-[40px]',
-  xl: 'w-[373px] h-12 rounded-[40px]',
+  xl: 'w-[343px] h-12 rounded-[40px]',
   custom: '',
 } as const;
 
@@ -28,6 +28,8 @@ export const disabledButton: Partial<Record<ButtonVariant, string>> = {
   solid: 'bg-gray400 text-white',
   'outline-primary': 'bg-white text-gray400 border border-gray400',
   'ghost-primary': 'bg-transparent text-gray400 border border-gray400',
+  danger: 'bg-gray400 text-white',
+  gradient: 'bg-gray400 text-white',
 };
 
 export const buttonFontSize: Record<FontSize, string> = {

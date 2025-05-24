@@ -4,12 +4,20 @@
   right: 0;
 }
 
+@media (max-width: 640px) {
+  .Toastify__toast {
+    margin-bottom: 16px;
+  }
+}
+
 .Toastify__toast {
   border-radius: 8px;
-  padding: 16px;
+  padding: 16px 32px 16px 16px;
   box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
   font-size: 18px;
   font-weight: 500;
+  max-width: 400px;
+  width: fit-content;
 }
 
 .Toastify__toast--success {

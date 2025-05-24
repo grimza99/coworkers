@@ -1,6 +1,9 @@
 'use client';
-import { useState, useTransition } from 'react';
+import { useState } from 'react';
+import { AxiosError } from 'axios';
+import { Toast } from '@/components/common/Toastify';
 import Button from '@/components/common/Button';
+import FormField from '@/components/common/formField';
 import {
   ModalContainer,
   ModalDescription,
@@ -12,49 +15,53 @@ import {
 } from '@/components/common/modal';
 import useModalContext from '@/components/common/modal/core/useModalContext';
 import axiosClient from '@/lib/axiosClient';
-import FormField from '@/components/common/formField';
 import { validateEmail } from '@/utils/validators';
-import { AxiosError } from 'axios';
-import { Toast } from '@/components/common/Toastify';
+import { AUTH_ERROR_MESSAGES } from '@/constants/messages/signup';
+import BouncingDots from '@/components/common/loading/BouncingDots';
 
 const redirectUrl = process.env.NEXT_PUBLIC_RESET_PASSWORD;
 
 export default function SendResetPassword() {
   const { closeModal } = useModalContext();
   const modalId = `resetPassword`;
+  const errorMessageConstant = AUTH_ERROR_MESSAGES.sendResetPassword;
 
   const [email, setEmail] = useState('');
-  const [isPending, startTransition] = useTransition();
-  const [errorMessage, setErrorMessage] = useState('이메일을 입력해주세요');
+  const [isLoading, setIsLoading] = useState(false);
+  const [errorMessage, setErrorMessage] = useState('');
+  const [isForceShowError, setIsForceShowError] = useState(false);
 
-  const sendResetPasswordLink = () => {
-    startTransition(async () => {
-      try {
-        const res = await axiosClient.post(`/user/send-reset-password-email`, {
-          email: email,
-          redirectUrl: redirectUrl,
-        });
-        if (res.status === 200) {
-          Toast.success('링크를 전송했습니다.');
-          setErrorMessage('이메일을 입력해주세요');
-          setEmail('');
-          closeModal(modalId);
-        }
-      } catch (error) {
-        if (error instanceof AxiosError) {
-          const status = error.response?.status;
-          if (status === 400) return setErrorMessage('존재하지 않는 유저입니다.');
-        }
-        setErrorMessage('예상치 못한 오류가 발생했습니다.');
+  const sendResetPasswordLink = async () => {
+    setIsLoading(true);
+    try {
+      const res = await axiosClient.post(`/user/send-reset-password-email`, {
+        email: email,
+        redirectUrl: redirectUrl,
+      });
+      if (res.status === 200) {
+        Toast.success('링크를 전송했습니다.');
+        setEmail('');
+        setErrorMessage('');
+        closeModal(modalId);
       }
-    });
+    } catch (error) {
+      if (error instanceof AxiosError) {
+        const status = error.response?.status;
+        if (status === 400) return setErrorMessage(errorMessageConstant.notMatch);
+        setIsForceShowError(true);
+      }
+      setErrorMessage('예상치 못한 오류가 발생했습니다.');
+      setIsForceShowError(true);
+    } finally {
+      setIsLoading(false);
+    }
   };
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const value = e.target.value.trim();
     setEmail(value);
-    if (value === ' ') return setErrorMessage('이메일을 입력해주세요');
-    if (!validateEmail(value)) return setErrorMessage('이메일 형식을 입력해주세요.');
+    if (!validateEmail(value)) return setErrorMessage(errorMessageConstant.invalid);
+    if (validateEmail(value)) return setErrorMessage('');
   };
 
   return (
@@ -80,9 +87,9 @@ export default function SendResetPassword() {
                 value={email}
                 onChange={handleChange}
                 name="email"
-                isFailure={!validateEmail(email) || !!errorMessage}
-                isSuccess={validateEmail(email)}
-                errorMessage={errorMessage}
+                isFailure={!validateEmail(email) || !!errorMessage || isForceShowError}
+                isSuccess={validateEmail(email) && !Boolean(errorMessage)}
+                errorMessage={email === '' ? errorMessageConstant.required : errorMessage}
               />
             </div>
             <ModalFooter className="flex w-full gap-2">
@@ -90,8 +97,8 @@ export default function SendResetPassword() {
                 size="fullWidth"
                 variant="outline-primary"
                 onClick={() => {
-                  setErrorMessage('이메일을 입력해주세요');
                   setEmail('');
+                  setErrorMessage('');
                   closeModal(modalId);
                 }}
               >
@@ -100,10 +107,10 @@ export default function SendResetPassword() {
               <Button
                 size="fullWidth"
                 variant="solid"
-                disabled={isPending || !validateEmail(email)}
+                disabled={isLoading || !validateEmail(email)}
                 onClick={sendResetPasswordLink}
               >
-                링크 보내기
+                {isLoading ? <BouncingDots /> : '링크 보내기'}
               </Button>
             </ModalFooter>
           </ModalContainer>

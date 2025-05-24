@@ -60,9 +60,12 @@ const SideMenu = forwardRef<HTMLDivElement, SideMenuProps>(({ groups, isOpen, on
             value={searchKeyword}
             onChange={(e) => setSearchKeyword(e.target.value)}
             leftSlot={<Image src="/icons/search.svg" alt="검색" width={16} height={16} />}
-            className="h-[40px] p-0"
+            className="h-10 p-0"
             borderClassName="border-border"
           />
+          <button type="button" className="border-gray100 h-10 rounded-xl border-1">
+            <Link href="/addgroup">+ 팀 추가하기</Link>
+          </button>
           {filteredGroups.map((group) => (
             <Link
               key={group.id}
