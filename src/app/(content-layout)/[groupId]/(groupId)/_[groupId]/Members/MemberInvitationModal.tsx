@@ -1,5 +1,5 @@
 'use client';
-import { useEffect, useState } from 'react';
+import { useState } from 'react';
 import clsx from 'clsx';
 import Button from '@/components/common/Button';
 import FormField from '@/components/common/formField';
@@ -23,7 +23,6 @@ interface MemberInvitationModalProps {
   modalId: string;
   groupId: Group['id'];
   isLoading: boolean;
-  error: { message: string; id: string } | null;
   addMember: (email: string) => Promise<void> | void;
 }
 
@@ -31,7 +30,6 @@ export default function MemberInvitationModal({
   modalId,
   groupId,
   isLoading,
-  error,
   addMember,
 }: MemberInvitationModalProps) {
   const { closeModal } = useModalContext();
@@ -52,11 +50,6 @@ export default function MemberInvitationModal({
   const handleChangeEmail = (e: React.ChangeEvent<HTMLInputElement>) => {
     setEmail(e.target.value);
   };
-
-  useEffect(() => {
-    if (!error) return;
-    Toast.error(error.message);
-  }, [error]);
 
   return (
     <ModalPortal modalId={modalId}>
