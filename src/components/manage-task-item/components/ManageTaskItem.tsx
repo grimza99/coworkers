@@ -2,6 +2,7 @@
 
 import clsx from 'clsx';
 import FormField from '../../common/formField';
+import BouncingDots from '@/components/common/loading/BouncingDots';
 import CalendarSelect from '../../calendar/CalendarSelect';
 import WeeklySelect from './WeeklySelect';
 import TimePicker from './TimePicker';
@@ -127,7 +128,7 @@ export default function ManageTaskItem({
               size="fullWidth"
               disabled={!detailTask && (!isTaskItemValid || isPending)}
             >
-              {isPending ? '...' : createOrEdit}
+              {isPending ? <BouncingDots /> : createOrEdit}
             </Button>
           </ModalFooter>
         </form>

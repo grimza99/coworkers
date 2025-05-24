@@ -17,14 +17,14 @@ export default function TasklistItem({
   onDropdownTriggerClick,
   index,
 }: TasklistItemProps) {
-  const { name, groupId, tasks } = tasklist;
+  const { id, name, groupId, tasks } = tasklist;
   const totalTaskCount = tasks.length;
   const doneTaskCount = countDoneTasks(tasks);
 
   return (
     <li className="bg-bg200 flex h-10 items-center justify-between rounded-xl">
       <Link
-        href={`${PATHS.getGroupTaskListPath(groupId)}`}
+        href={`${PATHS.getGroupTaskListPath(groupId)}?taskListId=${id}`}
         className="flex h-full flex-1 items-center gap-3"
       >
         <div className={clsx('h-full w-3 rounded-l-xl', getTasklistItemColor(index))}></div>
