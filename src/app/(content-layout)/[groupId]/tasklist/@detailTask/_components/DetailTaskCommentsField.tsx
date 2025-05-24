@@ -7,6 +7,7 @@ import CommentField from './CommentField';
 import CommentSubmit from '@/assets/CommentSubmit';
 import { Toast } from '@/components/common/Toastify';
 import clsx from 'clsx';
+import { revalidateTasks } from '../../_tasklist/actions/task-actions';
 
 interface Props {
   taskId: number | undefined;
@@ -43,6 +44,7 @@ export default function DetailTaskCommentField({ taskId }: Props) {
         content: commentValue,
       });
       setCurrentComments((prev) => [...prev, data]);
+      revalidateTasks();
     } catch {
       Toast.error('댓글 생성에 실패');
     } finally {
