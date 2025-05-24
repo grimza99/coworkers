@@ -1,6 +1,10 @@
-type NumericString = `${number}`;
-type groupId = number | NumericString;
-type taskId = number | NumericString;
+import { Group } from '@/types/group';
+import { Task } from '@/types/task';
+import { Article } from '@/types/article';
+
+type groupId = Group['id'] | `${Group['id']}`;
+type articleId = Article['id'] | `${Article['id']}`;
+type taskId = Task['id'] | `${Task['id']}`;
 
 const PATHS = {
   HOME: '/',
@@ -16,6 +20,7 @@ const PATHS = {
   ARTICLES: {
     BASE: '/articles',
     NEW: '/articles/new',
+    getArticleDetailPath: (articleId: articleId) => `/articles/${articleId}`,
   },
 
   getGroupPath: (groupId: groupId) => `${groupId}`,

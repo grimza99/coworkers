@@ -55,7 +55,7 @@ export default function Page() {
         ...(uploadedImageUrl && { image: uploadedImageUrl }),
       };
 
-      await axiosClient.patch(`/articles/${articleId}`, articlePayload);
+      const res = await axiosClient.patch(`/articles/${articleId}`, articlePayload);
 
       Toast.success('게시글 수정이 완료되었습니다.');
       setTitle('');
@@ -66,7 +66,11 @@ export default function Page() {
       }
       setPreviewImage('');
 
-      router.push(`${PATHS.ARTICLES.BASE}`);
+      if (res && res.data && res.data.id) {
+        router.push(`${PATHS.ARTICLES.getArticleDetailPath(res.data.id)}`);
+      } else {
+        throw new Error('수정된 게시글의 id를 읽을 수 없습니다.');
+      }
     } catch {
       Toast.error('게시글 수정 중 오류가 발생했습니다.');
     } finally {
