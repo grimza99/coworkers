@@ -11,9 +11,10 @@ import { submitResetPassword } from '../utils/submit-reset-password';
 import { PasswordForm } from '../types/form-data-type';
 import { Toast } from '@/components/common/Toastify';
 import { AUTH_ERROR_MESSAGES } from '@/constants/messages/signup';
+import BouncingDots from '@/components/common/loading/BouncingDots';
 
 interface Props {
-  token: string | string[] | undefined;
+  token: string | undefined;
 }
 
 export default function ResetPasswordForm({ token }: Props) {
@@ -29,13 +30,13 @@ export default function ResetPasswordForm({ token }: Props) {
 
   const [_unused, action, pending] = useActionState(() => {
     submitResetPassword(token, formData).then(() => {
-      Toast.success('비밀 번호 변경에 성공했습니다!');
+      Toast.success('비밀 번호 변경 성공');
       router.push('/login');
     });
   }, null);
 
   if (!token) {
-    Toast.error('잘못된 접근입니다. 다시 시도해주세요');
+    Toast.error('잘못된 접근');
     router.push(PATHS.HOME);
     return null;
   }
@@ -114,7 +115,7 @@ export default function ResetPasswordForm({ token }: Props) {
         type="submit"
         size="fullWidth"
       >
-        {pending ? '...' : '재설정'}
+        {pending ? <BouncingDots /> : '재설정'}
       </Button>
     </form>
   );
