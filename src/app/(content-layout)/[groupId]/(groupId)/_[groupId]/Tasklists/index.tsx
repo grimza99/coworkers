@@ -21,7 +21,6 @@ export default function Tasklists({ groupId, tasklists }: TasklistsProps) {
     isCreateLoading,
     isUpdateLoading,
     isDeleteLoading,
-    transitionError,
     createTasklist,
     updateTasklist,
     deleteTasklist,
@@ -59,7 +58,6 @@ export default function Tasklists({ groupId, tasklists }: TasklistsProps) {
         modalId={tasklistCreateModalId}
         createTasklist={createTasklist}
         isLoading={isCreateLoading}
-        error={transitionError}
       />
 
       {selectedTasklist && (
@@ -68,7 +66,6 @@ export default function Tasklists({ groupId, tasklists }: TasklistsProps) {
           modalId={tasklistUpdateModalId}
           updateTasklist={updateTasklist}
           isLoading={isUpdateLoading}
-          error={transitionError}
         />
       )}
 
@@ -78,7 +75,6 @@ export default function Tasklists({ groupId, tasklists }: TasklistsProps) {
           modalId={tasklistDeleteModalId}
           deleteTasklist={deleteTasklist}
           isLoading={isDeleteLoading}
-          error={transitionError}
         />
       )}
     </>

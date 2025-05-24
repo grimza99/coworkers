@@ -16,7 +16,7 @@ interface DangerModalProps {
   heading: React.ReactNode;
   description?: React.ReactNode;
   closeButtonText?: string;
-  confirmButton: string;
+  confirmButton: React.ReactNode;
   onConfirm: () => void;
   disabled?: boolean;
 }
@@ -36,7 +36,7 @@ export default function DangerModal({
   return (
     <>
       <ModalPortal modalId={modalId}>
-        <ModalOverlay modalId={modalId} onClick={() => closeModal(modalId)}>
+        <ModalOverlay modalId={modalId}>
           <ModalContainer className="flex gap-4 md:w-full md:max-w-96">
             <Image src="/icons/danger.icon.svg" alt="!" width={24} height={24} />
             <ModalHeading className="text-lg-md text-gray100">{heading}</ModalHeading>

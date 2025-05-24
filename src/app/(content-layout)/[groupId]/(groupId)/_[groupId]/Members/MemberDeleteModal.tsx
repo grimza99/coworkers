@@ -1,8 +1,6 @@
 'use client';
-import { useEffect } from 'react';
 import Image from 'next/image';
 import Button from '@/components/common/Button';
-import { Toast } from '@/components/common/Toastify';
 import {
   ModalCloseButton,
   ModalContainer,
@@ -20,7 +18,6 @@ type MemberDeleteModalProps = {
   member: Member;
   modalId: string;
   isLoading: boolean;
-  error: { message: string; id: string } | null;
   deleteMember: () => Promise<void> | void;
 };
 
@@ -28,7 +25,6 @@ export default function MemberDeleteModal({
   member,
   modalId,
   isLoading,
-  error,
   deleteMember,
 }: MemberDeleteModalProps) {
   const { userName } = member;
@@ -38,11 +34,6 @@ export default function MemberDeleteModal({
     deleteMember();
     closeModal(modalId);
   };
-
-  useEffect(() => {
-    if (!error) return;
-    Toast.error(error.message);
-  }, [error]);
 
   return (
     <>

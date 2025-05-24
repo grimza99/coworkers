@@ -5,9 +5,7 @@ export default function ContentPageLayout({
 }>) {
   return (
     <div className="flex justify-center">
-      <div className="mx-4 mt-6 h-[calc(100dvh-84px)] w-full max-w-300 min-w-[343px] md:mx-6">
-        {children}
-      </div>
+      <div className="mx-4 mt-6 h-full w-full max-w-300 min-w-[343px] md:mx-6">{children}</div>
     </div>
   );
 }

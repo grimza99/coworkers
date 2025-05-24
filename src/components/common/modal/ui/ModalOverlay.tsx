@@ -6,19 +6,22 @@ import useModalContext from '@/components/common/modal/core/useModalContext';
 interface ModalOverlayProps extends React.ComponentProps<'div'> {
   modalId: string;
   disableOverlayClose?: boolean;
+  onClick?: (e: React.MouseEvent<HTMLDivElement>) => void;
 }
 
 export default function ModalOverlay({
   modalId,
+  disableOverlayClose = false,
+  onClick = () => {},
   className,
   children,
-  disableOverlayClose = false,
   ...props
 }: ModalOverlayProps) {
   const { closeModal } = useModalContext();
 
   const handleClick = (e: React.MouseEvent<HTMLDivElement>) => {
     if (e.target === e.currentTarget && !disableOverlayClose) {
+      onClick(e);
       closeModal(modalId);
     }
   };

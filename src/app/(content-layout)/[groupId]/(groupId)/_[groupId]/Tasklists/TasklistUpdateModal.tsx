@@ -1,6 +1,5 @@
 'use client';
 import { useEffect, useState } from 'react';
-import { Toast } from '@/components/common/Toastify';
 import Button from '@/components/common/Button';
 import FormField from '@/components/common/formField';
 import {
@@ -20,7 +19,6 @@ interface TasklistUpdateModalProps {
   modalId: string;
   tasklist: Tasklist;
   isLoading: boolean;
-  error: { message: string; id: string } | null;
   updateTasklist: (tasklist: Tasklist, newName: string) => void;
 }
 
@@ -28,10 +26,8 @@ export default function TasklistUpdateModal({
   modalId,
   tasklist,
   isLoading,
-  error,
   updateTasklist,
 }: TasklistUpdateModalProps) {
-  console.log(tasklist);
   const [name, setName] = useState(tasklist.name);
   const { closeModal } = useModalContext();
 
@@ -54,15 +50,10 @@ export default function TasklistUpdateModal({
     setName(tasklist.name);
   }, [tasklist]);
 
-  useEffect(() => {
-    if (!error) return;
-    Toast.error(error.message);
-  }, [error]);
-
   return (
     <>
       <ModalPortal modalId={modalId}>
-        <ModalOverlay modalId={modalId}>
+        <ModalOverlay modalId={modalId} onClick={clearName}>
           <ModalContainer className="px-12 md:max-w-96 md:px-13">
             <ModalCloseButton modalId={modalId} onClick={clearName} />
             <div className="mb-6 w-full">
@@ -79,7 +70,12 @@ export default function TasklistUpdateModal({
               />
             </div>
             <ModalFooter className="w-full">
-              <Button onClick={handleClickAddButton} fontSize="16" size="fullWidth">
+              <Button
+                onClick={handleClickAddButton}
+                fontSize="16"
+                size="fullWidth"
+                disabled={isLoading || validateEmptyValue(name) || name.trim() === tasklist.name}
+              >
                 {isLoading ? <BouncingDots /> : '수정하기'}
               </Button>
             </ModalFooter>

@@ -22,10 +22,10 @@ export default function ImageUploader({ imageUploaderType, image, inputRef }: Im
     return (
       <button
         onClick={triggerUploadClick}
-        className="bg-bg200 relative h-40 w-40 cursor-pointer rounded-xl sm:h-60 sm:w-60"
+        className="bg-bg200 relative h-40 w-40 cursor-pointer overflow-hidden rounded-xl sm:h-60 sm:w-60"
       >
         {image ? (
-          <Image src={image} fill alt="image" className="rounded-xl" />
+          <Image src={image} fill alt="image" className="object-cover" />
         ) : (
           <div className="flex h-full w-full flex-col items-center justify-center gap-3">
             <Plus className="text-gray400 h-6 w-6 sm:h-12 sm:w-12" />
