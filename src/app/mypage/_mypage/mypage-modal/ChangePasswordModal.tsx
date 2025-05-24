@@ -24,12 +24,13 @@ interface PasswordChangeSuccessModalProps {
 export default function ChangePasswordModal({ onClose }: PasswordChangeSuccessModalProps) {
   const { closeModal } = useModalContext();
   const [isPending, startTransition] = useTransition();
-  const [showPassword, setShowPassword] = useState(false);
-  const [showConfirmPassword, setShowConfirmPassword] = useState(false);
-  const [formData, setFormData] = useState({
+  const INITIAL_FORM_DATA = {
     newPassword: '',
     confirmPassword: '',
-  });
+  };
+  const [showPassword, setShowPassword] = useState(false);
+  const [showConfirmPassword, setShowConfirmPassword] = useState(false);
+  const [formData, setFormData] = useState(INITIAL_FORM_DATA);
 
   const setFieldValue = (key: keyof typeof formData, value: string) => {
     setFormData((prev) => ({
@@ -53,7 +54,7 @@ export default function ChangePasswordModal({ onClose }: PasswordChangeSuccessMo
       try {
         await updateUserPassword(formData.newPassword, formData.confirmPassword);
 
-        setFormData({ newPassword: '', confirmPassword: '' });
+        setFormData(INITIAL_FORM_DATA);
 
         closeModal('change-password');
         Toast.success('비밀번호 변경 성공');
