@@ -95,7 +95,7 @@ export default function CreateTaskListModal({ groupId }: Props) {
                   onClick={handleSubmitCreateTaskList}
                   fontSize="16"
                   size="fullWidth"
-                  disabled={currentValue === ''}
+                  disabled={currentValue === '' || isLoading}
                 >
                   {isLoading ? <BouncingDots /> : '만들기'}
                 </Button>
