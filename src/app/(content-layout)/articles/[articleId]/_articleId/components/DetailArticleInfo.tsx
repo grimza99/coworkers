@@ -29,7 +29,7 @@ export default function DetailArticleInfo({ detail }: { detail: GetArticleDetail
             {isAuthor && (
               <DropDown
                 size="md"
-                placement="right-0"
+                placement="top-4 -right-[14px]"
                 options={ARTICLE_DROPDOWN_OPTIONS}
                 onSelect={() => {}}
                 dropDownOpenBtn={
