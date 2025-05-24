@@ -7,7 +7,6 @@ on:
 jobs:
   dockerize:
     name: Dockerize
-    needs: build
     environment:
       name: Production
     runs-on: ubuntu-latest
@@ -52,7 +51,7 @@ jobs:
           username: ${{ secrets.PRODUCTION_USER }}
           key: ${{ secrets.PRODUCTION_SSH_KEY }}
           script: |
-            echo "Pulling image: ${{ needs.build.outputs.image_name }}"
+            echo "Pulling image: ${{ needs.dockerize.outputs.image_name }}"
             docker pull ${{ needs.dockerize.outputs.image_name }}
 
             if docker ps -a --format '{{.Names}}' | grep -q coworkers-production; then

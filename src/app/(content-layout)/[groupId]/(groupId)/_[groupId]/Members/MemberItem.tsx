@@ -4,6 +4,7 @@ import { ModalTrigger } from '@/components/common/modal';
 import { Member } from '@/types/user';
 
 type MemberItemProps = {
+  isUserAdmin: boolean;
   member: Member;
   memberDetailModalId: string;
   memberDeleteModalId: string;
@@ -12,6 +13,7 @@ type MemberItemProps = {
 };
 
 export default function MemberItem({
+  isUserAdmin,
   member,
   setMemberForDetail,
   setMemberForDelete,
@@ -42,7 +44,7 @@ export default function MemberItem({
           </div>
         </div>
       </ModalTrigger>
-      {role === 'MEMBER' && (
+      {isUserAdmin && role === 'MEMBER' && (
         <ModalTrigger modalId={memberDeleteModalId} onClick={() => setMemberForDelete(member)}>
           <Image
             width={24}

@@ -49,8 +49,8 @@ export async function generateMetadata({
 
 export default async function Page({ params }: { params: Promise<{ groupId: string }> }) {
   const groupId = Number((await params).groupId);
-  const userMembersips = await getUserMemberships();
-  const canAccess = userMembersips.some((membership) => membership.groupId === groupId);
+  const userMemberships = await getUserMemberships();
+  const canAccess = userMemberships.some((membership) => membership.groupId === groupId);
 
   if (!canAccess) {
     notFound();

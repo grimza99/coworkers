@@ -4,6 +4,7 @@ import { useState, useEffect } from 'react';
 import Button from '@/components/common/Button';
 import FormField from '@/components/common/formField';
 import { Toast } from '@/components/common/Toastify';
+import BouncingDots from '@/components/common/loading/BouncingDots';
 import axiosClient from '@/lib/axiosClient';
 import postImageUrl from '@/lib/api/image/postImageUrl';
 import { validateEmptyValue } from '@/utils/validators';
@@ -90,7 +91,7 @@ export default function Page() {
             size="fullWidth"
             disabled={!canSubmit || isSubmitting}
           >
-            {isSubmitting ? '...' : '등록'}
+            {isSubmitting ? <BouncingDots /> : '등록'}
           </Button>
         </div>
       </div>
@@ -140,7 +141,7 @@ export default function Page() {
         size="fullWidth"
         disabled={!canSubmit || isSubmitting}
       >
-        {isSubmitting ? '...' : '등록'}
+        {isSubmitting ? <BouncingDots /> : '등록'}
       </Button>
     </main>
   );
