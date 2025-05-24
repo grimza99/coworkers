@@ -30,6 +30,7 @@ export default function useManageGroup({
 }) {
   const [group, setGroup] = useState<ManageGroup>(groupData ?? INITIAL_GROUP_VALUE);
   const [isSubmit, setIsSubmit] = useState(false);
+  const { fetchUser } = useUser();
 
   const router = useRouter();
 

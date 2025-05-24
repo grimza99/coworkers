@@ -43,7 +43,7 @@ export default function ProfileImageUploader({ image, setImage }: ProfileImageUp
           });
           Toast.success('프로필 이미지 변경 성공');
         } catch {
-          Toast.error('프로필 이미지 저장에 실패했습니다.');
+          Toast.error('프로필 이미지 변경 실패');
           startTransition(() => {
             addOptimisticImage(image);
           });
