@@ -1,10 +1,11 @@
 import { Group } from '@/types/group';
 import { Task } from '@/types/task';
 import { Article } from '@/types/article';
+import { NumberLike } from '@/types/utils';
 
-type groupId = Group['id'] | `${Group['id']}`;
-type articleId = Article['id'] | `${Article['id']}`;
-type taskId = Task['id'] | `${Task['id']}`;
+type GroupId = NumberLike<Group['id']>;
+type ArticleId = NumberLike<Article['id']>;
+type TaskId = NumberLike<Task['id']>;
 
 const PATHS = {
   HOME: '/',
@@ -20,12 +21,12 @@ const PATHS = {
   ARTICLES: {
     BASE: '/articles',
     NEW: '/articles/new',
-    getArticleDetailPath: (articleId: articleId) => `/articles/${articleId}`,
+    getArticleDetailPath: (articleId: ArticleId) => `/articles/${articleId}`,
   },
 
-  getGroupPath: (groupId: groupId) => `${groupId}`,
-  getGroupTaskListPath: (groupId: groupId) => `${groupId}/tasklist`,
-  getGroupTaskDetailPath: (groupId: groupId, taskId: taskId) => `${groupId}/${taskId}`,
+  getGroupPath: (groupId: GroupId) => `${groupId}`,
+  getGroupTaskListPath: (groupId: GroupId) => `${groupId}/tasklist`,
+  getGroupTaskDetailPath: (groupId: GroupId, taskId: TaskId) => `${groupId}/${taskId}`,
 };
 
 export default PATHS;
