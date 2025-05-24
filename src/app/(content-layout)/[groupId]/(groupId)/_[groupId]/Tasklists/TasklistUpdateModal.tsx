@@ -54,7 +54,7 @@ export default function TasklistUpdateModal({
   return (
     <>
       <ModalPortal modalId={modalId}>
-        <ModalOverlay modalId={modalId}>
+        <ModalOverlay modalId={modalId} onClick={clearName}>
           <ModalContainer className="px-12 md:max-w-96 md:px-13">
             <ModalCloseButton modalId={modalId} onClick={clearName} />
             <div className="mb-6 w-full">

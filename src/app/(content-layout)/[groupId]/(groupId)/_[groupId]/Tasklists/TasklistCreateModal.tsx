@@ -46,7 +46,7 @@ export default function TasklistCreateModal({
   return (
     <>
       <ModalPortal modalId={modalId}>
-        <ModalOverlay modalId={modalId}>
+        <ModalOverlay modalId={modalId} onClick={clearName}>
           <ModalContainer className="px-13 pt-12 pb-8 md:px-13 md:pt-12 md:pb-8">
             <ModalCloseButton modalId={modalId} onClick={clearName} />
             <div className="mb-6 w-70">
