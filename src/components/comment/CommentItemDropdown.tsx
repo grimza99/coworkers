@@ -36,7 +36,7 @@ export default function CommentItemDropdown({
         }
         options={ITEM_DROPDOWN_VALUE}
         onSelect={handleClickDropdownOption}
-        placement="top-6 right-[14px]"
+        placement="top-5 right-[10px]"
       />
     )
   );
