@@ -16,7 +16,7 @@ import PasswordToggleButton from '@/app/(form-layout)/signup/_signup/PasswordTog
 import { AUTH_ERROR_MESSAGES } from '@/constants/messages/signup';
 import { Toast } from '@/components/common/Toastify';
 import { updateUserPassword } from '../action';
-
+import BouncingDots from '@/components/common/loading/BouncingDots';
 interface PasswordChangeSuccessModalProps {
   onClose: () => void;
 }
@@ -133,7 +133,7 @@ export default function ChangePasswordModal({ onClose }: PasswordChangeSuccessMo
                     onClick={handleChangePassword}
                     disabled={isPending}
                   >
-                    {isPending ? '변경 중...' : '변경하기'}
+                    {isPending ? <BouncingDots /> : '변경하기'}
                   </Button>
                 </div>
               </ModalFooter>
