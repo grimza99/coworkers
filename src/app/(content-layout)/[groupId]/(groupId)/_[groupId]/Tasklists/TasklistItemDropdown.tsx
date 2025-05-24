@@ -41,7 +41,7 @@ export default function TasklistItemDropdown({
             openModal(`tasklistDelete-${tasklist.id}`);
           }
         }}
-        placement="top-4 -right-[14px]"
+        placement="top-6 right-[14px]"
       />
     </div>
   );
