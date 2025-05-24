@@ -56,7 +56,7 @@ export default function Page() {
 
       await axiosClient.patch(`/articles/${articleId}`, articlePayload);
 
-      Toast.success('게시글 수정이 완료');
+      Toast.success('게시글 수정 완료');
       setTitle('');
       setContent('');
       setImage(null);

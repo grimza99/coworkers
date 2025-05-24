@@ -76,7 +76,7 @@ export default function ArticlesPageClient() {
         const sortedByLike = res.data.list.toSorted((a, b) => b.likeCount - a.likeCount);
         setBestArticles(sortedByLike.slice(0, 3));
       } catch (error) {
-        Toast.error('베스트 게시글을 불러오기 실패');
+        Toast.error('베스트 게시글 불러오기 실패');
         console.error('베스트 게시글을 불러오기 실패', error);
       } finally {
         setIsLoadingBest(false);
