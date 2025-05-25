@@ -15,6 +15,7 @@ export default function PasswordField({ password, setPassword, onClick }: Passwo
       field="input"
       type="password"
       label="비밀번호"
+      placeholder="비밀번호를 입력해 주세요."
       value={password}
       onChange={(e) => setPassword(e.target.value)}
       rightSlot={

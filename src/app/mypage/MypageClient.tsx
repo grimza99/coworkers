@@ -2,7 +2,7 @@
 
 import Image from 'next/image';
 import { useState, useEffect } from 'react';
-import { updateUserNickname } from './_mypage/action';
+import { updateUserNickname, verifyPassword } from './_mypage/action';
 import ProfileImageUploader from './_mypage/ProfileImageUploader';
 import NicknameField from './_mypage/NicknameField';
 import PasswordField from './_mypage/PasswordField';
@@ -79,7 +79,16 @@ export default function MyPageClient() {
             <PasswordField
               password={password}
               setPassword={setPassword}
-              onClick={() => openModal('change-password')}
+              onClick={async () => {
+                try {
+                  const res = await verifyPassword(email!, password);
+                  if (res?.accessToken) {
+                    openModal('change-password');
+                  }
+                } catch (e) {
+                  Toast.error('비밀번호 인증 실패');
+                }
+              }}
             />
             <button
               type="button"
