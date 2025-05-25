@@ -46,19 +46,21 @@ export default function DateSwitcher({ groupId, date }: Props) {
             <Image src="/icons/next-arrow-icon.svg" width={16} height={16} alt=">" />
           </button>
         </div>
-        <button onClick={() => setIsCalendarOpen(!isCalendarOpen)}>
-          <Image src="/icons/calendar.svg" width={24} height={24} alt=">" />
-        </button>
-        {isCalendarOpen && (
-          <div ref={ref} className="absolute top-10 z-100 w-80 md:top-0 md:-right-90 md:w-100">
-            <CalendarSelect
-              date={new Date(currentDate)}
-              onDateChange={(value) => {
-                handleChangeDate(value);
-              }}
-            />
-          </div>
-        )}
+        <div ref={ref} className="flex items-center">
+          <button onClick={() => setIsCalendarOpen((prev) => !prev)}>
+            <Image src="/icons/calendar.svg" width={24} height={24} alt=">" />
+          </button>
+          {isCalendarOpen && (
+            <div className="absolute top-10 left-[calc(50%)] z-100 w-65 md:top-10 md:-right-90 md:w-100">
+              <CalendarSelect
+                date={new Date(currentDate)}
+                onDateChange={(value) => {
+                  handleChangeDate(value);
+                }}
+              />
+            </div>
+          )}
+        </div>
       </div>
       <CreateTaskListModal groupId={groupId} />
     </div>

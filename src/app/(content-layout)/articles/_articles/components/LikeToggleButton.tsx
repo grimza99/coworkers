@@ -30,7 +30,7 @@ export default function LikeToggleButton({
       setLiked(res.data.isLiked);
       setCount(res.data.likeCount);
     } catch (error) {
-      Toast.error('좋아요 처리 중 문제가 발생했습니다.');
+      Toast.error('좋아요 처리 중 문제 발생');
       console.error('좋아요 처리 실패:', error);
     }
   };

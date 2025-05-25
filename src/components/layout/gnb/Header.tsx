@@ -2,19 +2,16 @@
 
 import Image from 'next/image';
 import Link from 'next/link';
-import { usePathname } from 'next/navigation';
-import { useEffect, useState } from 'react';
+import { useParams, usePathname } from 'next/navigation';
+import { useState, useEffect } from 'react';
 import Logo from './Logo';
 import SideMenu from './SideMenu';
 import GroupDropdownSelector from './GroupDropdownSelector';
 import { useOutSideClickAutoClose } from '@/utils/use-outside-click-auto-close';
-import axiosClient from '@/lib/axiosClient';
-import { Group } from '@/types/group';
-import { getUserApiResponse } from '@/types/user';
-import { getClientCookie, deleteClientCookie } from '@/lib/cookie/client';
 import PATHS from '@/constants/paths';
 import ProfileDropdownButton from './ProfileDropdownButton';
-import { Toast } from '@/components/common/Toastify';
+import { useUser } from '@/contexts/UserContext';
+import { Group } from '@/types/group';
 
 const MINIMAL_HEADER_PATHS = [
   PATHS.HOME,
@@ -27,49 +24,26 @@ const MINIMAL_HEADER_PATHS = [
 
 export default function Header() {
   const pathname = usePathname();
-  const [userData, setUserData] = useState<getUserApiResponse | null>(null);
-  const [groups, setGroups] = useState<Group[]>([]);
+  const { groupId } = useParams<{ groupId: string }>();
+  const { user, memberships, isLoading } = useUser();
+
   const [selectedGroupId, setSelectedGroupId] = useState<number | null>(null);
 
+  const groups: Group[] =
+    !isLoading && memberships ? memberships.map((membership) => membership.group) : [];
+
   useEffect(() => {
-    const fetchUserData = async () => {
-      try {
-        const accessToken = getClientCookie('accessToken');
-        if (!accessToken) {
-          deleteClientCookie('accessToken');
-          deleteClientCookie('refreshToken');
-          return;
-        }
-        const { data } = await axiosClient.get('/user');
-        setUserData(data);
-        localStorage.setItem('userId', String(data.id));
-        localStorage.setItem('userEmail', data.email);
+    if (!isLoading && memberships && groupId !== null) {
+      const numericId = Number(groupId);
+      const isValid = memberships.some((m) => m.group.id === numericId);
 
-        const userGroups = Array.isArray(data.memberships)
-          ? data.memberships.map((m: { group: Group }) => m.group)
-          : [];
-
-        setGroups(userGroups);
-
-        const currentPathId = pathname.split('/')[1];
-        const currentGroup = userGroups.find((group: Group) => String(group.id) === currentPathId);
-        if (currentGroup?.id != null) {
-          setSelectedGroupId(currentGroup.id);
-          return;
-        }
-        if (userGroups[0]?.id != null) {
-          setSelectedGroupId(userGroups[0].id);
-          return;
-        }
+      if (isValid) {
+        setSelectedGroupId(numericId);
+      } else {
         setSelectedGroupId(null);
-      } catch (error) {
-        Toast.error('사용자 정보를 불러오는 데 실패했습니다.');
-        console.error('유저 정보 가져오기 실패', error);
       }
-    };
-
-    fetchUserData();
-  }, [pathname]);
+    }
+  }, [groupId, memberships, isLoading]);
 
   const {
     ref: sideMenuRef,
@@ -77,10 +51,13 @@ export default function Header() {
     setIsOpen: setIsSideMenuOpen,
   } = useOutSideClickAutoClose(false);
 
+  const selectedGroup = groups.find((group) => group.id === selectedGroupId);
+
   const isMinimalHeader = MINIMAL_HEADER_PATHS.includes(pathname);
   const hasGroup = groups.length > 0;
 
-  if (isMinimalHeader) {
+  // 로딩 중이거나, 미니멀 헤더 페이지인 경우에만 미니멀 헤더 표시
+  if (isMinimalHeader || isLoading) {
     return (
       <header className="bg-bg200 border-border sticky top-0 z-200 flex h-15 w-full justify-center border-b-1">
         <div className="mx-5 flex w-full max-w-300 items-center justify-between">
@@ -90,6 +67,7 @@ export default function Header() {
     );
   }
 
+  // 나머지 모든 페이지에서는 풀 헤더 표시
   return (
     <header className="bg-bg200 border-border sticky top-0 z-200 flex h-15 w-full justify-center border-b-1">
       <div className="mx-5 flex w-full max-w-300 items-center justify-between">
@@ -108,10 +86,11 @@ export default function Header() {
           </div>
 
           <div className="text-lg-md relative hidden items-center gap-8 md:flex lg:gap-y-10">
+            {/* 그룹이 있을 때만 그룹 드롭다운 표시 */}
             {hasGroup && (
               <GroupDropdownSelector
                 groups={groups}
-                selectedGroupId={selectedGroupId}
+                selectedGroupName={selectedGroup?.name || groups[0]?.name || '그룹 선택'}
                 setSelectedGroupId={setSelectedGroupId}
               />
             )}
@@ -121,7 +100,20 @@ export default function Header() {
           </div>
         </div>
 
-        <div className="ml-auto">{userData && <ProfileDropdownButton userData={userData} />}</div>
+        <div className="ml-auto">
+          {user && (
+            <ProfileDropdownButton
+              userData={{
+                ...user,
+                email: '',
+                memberships: [],
+                createdAt: '',
+                updatedAt: '',
+                teamId: '',
+              }}
+            />
+          )}
+        </div>
       </div>
 
       <SideMenu
