@@ -64,7 +64,7 @@ export default function ChangePasswordModal({ onClose }: PasswordChangeSuccessMo
         setFormData(INITIAL_FORM_DATA);
 
         closeModal('change-password');
-        Toast.success('변경된 비밀번호로 로그인해 주세요.');
+        Toast.success('비밀번호 변경 성공');
         router.replace('/login?from=password-change');
       } catch {
         Toast.error('비밀번호 변경 실패');
