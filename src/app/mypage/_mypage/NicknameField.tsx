@@ -2,6 +2,8 @@
 
 import Button from '@/components/common/Button';
 import FormField from '@/components/common/formField';
+import { validateLengthLimit } from '@/utils/validators';
+import { AUTH_ERROR_MESSAGES } from '@/constants/messages/signup';
 
 interface NicknameFieldProps {
   nickname: string;
@@ -26,7 +28,14 @@ export default function NicknameField({
       isFailure={!!nicknameError}
       errorMessage={nicknameError}
       onChange={(e) => {
-        setNickname(e.target.value);
+        const value = e.target.value;
+        setNickname(value);
+
+        if (!validateLengthLimit(value)) {
+          setNicknameError(AUTH_ERROR_MESSAGES.nickname.tooLong);
+          return;
+        }
+
         setNicknameError('');
       }}
       rightSlot={

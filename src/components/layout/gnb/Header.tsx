@@ -30,29 +30,17 @@ export default function Header() {
   const [selectedGroupId, setSelectedGroupId] = useState<number | null>(null);
 
   const groups: Group[] =
-    !isLoading && memberships
-      ? memberships
-          .map((membership) => membership.group)
-          .sort((a, b) => new Date(b.createdAt).getTime() - new Date(a.createdAt).getTime())
-      : [];
+    !isLoading && memberships ? memberships.map((membership) => membership.group) : [];
 
   useEffect(() => {
-    if (!isLoading && memberships) {
-      if (groupId !== null) {
-        const numericId = Number(groupId);
-        const isValid = memberships.some((m) => m.group.id === numericId);
+    if (!isLoading && memberships && groupId !== null) {
+      const numericId = Number(groupId);
+      const isValid = memberships.some((m) => m.group.id === numericId);
 
-        if (isValid) {
-          setSelectedGroupId(numericId);
-        } else {
-          // URL에 groupId가 있지만 유효하지 않은 경우, 첫 번째 그룹을 선택하지 않고 null 유지
-          setSelectedGroupId(null);
-        }
+      if (isValid) {
+        setSelectedGroupId(numericId);
       } else {
-        // URL에 groupId가 없는 경우에만 첫 번째 그룹 선택
-        if (memberships.length > 0 && selectedGroupId === null) {
-          setSelectedGroupId(memberships[0].group.id);
-        }
+        setSelectedGroupId(null);
       }
     }
   }, [groupId, memberships, isLoading]);
