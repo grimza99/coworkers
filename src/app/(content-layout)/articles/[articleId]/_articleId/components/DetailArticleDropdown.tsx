@@ -20,7 +20,7 @@ export default function DetailArticleDropdown({
   return (
     <DropDown
       size="md"
-      placement="right-0"
+      placement="top-6 right-[14px]"
       options={ARTICLE_DROPDOWN_OPTIONS}
       onSelect={onDropdownListClick}
       dropDownOpenBtn={
