@@ -260,3 +260,12 @@
     -webkit-text-fill-color: transparent;
   }
 }
+
+@keyframes shrinkBar {
+  from {
+    width: 100%;
+  }
+  to {
+    width: 0%;
+  }
+}
