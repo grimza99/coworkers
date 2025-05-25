@@ -46,7 +46,7 @@ export default function OAuthClient() {
   }, [oauthRequest]);
 
   return (
-    <div className="flex h-full w-full items-center justify-center pt-100">
+    <div className="flex h-full w-full items-center justify-center">
       <BouncingDots />
     </div>
   );
