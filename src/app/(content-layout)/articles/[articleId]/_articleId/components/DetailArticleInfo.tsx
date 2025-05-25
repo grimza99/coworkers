@@ -43,7 +43,7 @@ export default function DetailArticleInfo({ detail }: { detail: GetArticleDetail
       <div className="flex w-full flex-col items-center gap-6 md:flex-row md:items-start">
         {detail.image && detail.image !== DEFAULT_IMAGE && (
           <div className="relative aspect-[1/1] w-full max-w-125 items-center overflow-hidden rounded-2xl md:h-100 md:w-100">
-            <Image fill src={detail.image} alt="article-image" />
+            <Image fill src={detail.image} alt="article-image" className="object-cover" />
           </div>
         )}
         <div className="flex w-full flex-1 flex-col gap-12">
