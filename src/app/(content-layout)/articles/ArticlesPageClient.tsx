@@ -203,7 +203,7 @@ export default function ArticlesPageClient() {
 
       <Button
         onClick={() => router.push(`${PATHS.ARTICLES.NEW}`)}
-        className="fixed right-6 bottom-6 gap-1"
+        className="text-lg-semi bg-primary fixed right-1/20 bottom-5.5 flex h-12 w-[125px] items-center justify-center rounded-[40px] text-white md:bottom-6 lg:right-1/10 lg:bottom-15"
       >
         <Image width={16} height={16} alt="게시글 추가버튼" src="/icons/plus.svg" /> 글쓰기
       </Button>
