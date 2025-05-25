@@ -47,7 +47,7 @@ export default function useManageTaskItem({
     const date = new Date(task?.startDate);
     const hours = date.getHours();
     const period = hours < 12 ? '오전' : '오후';
-    const time = format(date, 'hh:mm');
+    const time = format(date, 'HH:mm');
     return { period, time };
   };
 
