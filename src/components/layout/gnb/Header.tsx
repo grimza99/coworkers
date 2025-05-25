@@ -56,8 +56,7 @@ export default function Header() {
   const isMinimalHeader = MINIMAL_HEADER_PATHS.includes(pathname);
   const hasGroup = groups.length > 0;
 
-  // 로딩 중이거나, 미니멀 헤더 페이지인 경우에만 미니멀 헤더 표시
-  if (isMinimalHeader || isLoading) {
+  if (isMinimalHeader || !selectedGroup) {
     return (
       <header className="bg-bg200 border-border sticky top-0 z-200 flex h-15 w-full justify-center border-b-1">
         <div className="mx-5 flex w-full max-w-300 items-center justify-between">
@@ -67,7 +66,6 @@ export default function Header() {
     );
   }
 
-  // 나머지 모든 페이지에서는 풀 헤더 표시
   return (
     <header className="bg-bg200 border-border sticky top-0 z-200 flex h-15 w-full justify-center border-b-1">
       <div className="mx-5 flex w-full max-w-300 items-center justify-between">
@@ -86,11 +84,10 @@ export default function Header() {
           </div>
 
           <div className="text-lg-md relative hidden items-center gap-8 md:flex lg:gap-y-10">
-            {/* 그룹이 있을 때만 그룹 드롭다운 표시 */}
             {hasGroup && (
               <GroupDropdownSelector
                 groups={groups}
-                selectedGroupName={selectedGroup?.name || groups[0]?.name || '그룹 선택'}
+                selectedGroupName={selectedGroup.name}
                 setSelectedGroupId={setSelectedGroupId}
               />
             )}
