@@ -8,10 +8,12 @@ import BouncingDots from '@/components/common/loading/BouncingDots';
 import useModalContext from '@/components/common/modal/core/useModalContext';
 import TrashCan from '@/assets/TrashCan';
 import { deleteGroup } from '../action';
+import { useUser } from '@/contexts/UserContext';
 
 export default function DeleteGroupButton({ groupId }: { groupId: number }) {
   const [isPending, setIsPending] = useState(false);
   const { openModal } = useModalContext();
+  const { fetchUser } = useUser();
   const router = useRouter();
 
   const handleDeleteGroup = () => {
@@ -19,6 +21,7 @@ export default function DeleteGroupButton({ groupId }: { groupId: number }) {
 
     deleteGroup(groupId)
       .then(() => {
+        fetchUser();
         Toast.success('팀 삭제 성공');
         router.push('/');
       })

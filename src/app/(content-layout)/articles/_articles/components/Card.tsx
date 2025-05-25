@@ -14,7 +14,7 @@ export default function Card(props: Article) {
     <div className="border-bg100 bg-bg200 flex h-44 w-full flex-col gap-6 rounded-lg border px-7 py-6">
       <Link href={`/articles/${props.id}`}>
         <div className="flex justify-between">
-          <h3 className="text-2lg-md text-gray300 max-w-75 truncate">{title}</h3>
+          <h3 className="text-2lg-md text-gray300 max-w-80">{title}</h3>
 
           <div className="relative flex h-16 w-16 shrink-0 items-start overflow-hidden rounded-md md:h-18 md:w-18">
             {image && image !== DEFAULT_IMAGE && (

@@ -1,6 +1,7 @@
 'use client';
 
 import { useState, useTransition } from 'react';
+import { useRouter } from 'next/navigation';
 import {
   ModalContainer,
   ModalFooter,
@@ -17,13 +18,18 @@ import { AUTH_ERROR_MESSAGES } from '@/constants/messages/signup';
 import { Toast } from '@/components/common/Toastify';
 import { updateUserPassword } from '../action';
 import BouncingDots from '@/components/common/loading/BouncingDots';
+import { deleteClientCookie } from '@/lib/cookie/client';
+import { useUser } from '@/contexts/UserContext';
+
 interface PasswordChangeSuccessModalProps {
   onClose: () => void;
 }
 
 export default function ChangePasswordModal({ onClose }: PasswordChangeSuccessModalProps) {
   const { closeModal } = useModalContext();
+  const router = useRouter();
   const [isPending, startTransition] = useTransition();
+  const { logoutUser } = useUser();
   const INITIAL_FORM_DATA = {
     newPassword: '',
     confirmPassword: '',
@@ -54,11 +60,15 @@ export default function ChangePasswordModal({ onClose }: PasswordChangeSuccessMo
       try {
         await updateUserPassword(formData.newPassword, formData.confirmPassword);
 
+        deleteClientCookie('accessToken');
+        deleteClientCookie('refreshToken');
+        await logoutUser();
+
         setFormData(INITIAL_FORM_DATA);
 
         closeModal('change-password');
         Toast.success('비밀번호 변경 성공');
-        onClose();
+        router.replace('/login?from=password-change');
       } catch {
         Toast.error('비밀번호 변경 실패');
       }
