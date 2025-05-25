@@ -39,6 +39,12 @@ export default function Header() {
 
       if (isValid) {
         setSelectedGroupId(numericId);
+      } else if (memberships.length > 0) {
+        const sortedGroups = memberships
+          .map((m) => m.group)
+          .toSorted((a, b) => new Date(b.createdAt).getTime() - new Date(a.createdAt).getTime());
+
+        setSelectedGroupId(sortedGroups[0].id);
       } else {
         setSelectedGroupId(null);
       }
@@ -56,7 +62,7 @@ export default function Header() {
   const isMinimalHeader = MINIMAL_HEADER_PATHS.includes(pathname);
   const hasGroup = groups.length > 0;
 
-  if (isMinimalHeader || !selectedGroup) {
+  if (isMinimalHeader) {
     return (
       <header className="bg-bg200 border-border sticky top-0 z-200 flex h-15 w-full justify-center border-b-1">
         <div className="mx-5 flex w-full max-w-300 items-center justify-between">
@@ -84,7 +90,7 @@ export default function Header() {
           </div>
 
           <div className="text-lg-md relative hidden items-center gap-8 md:flex lg:gap-y-10">
-            {hasGroup && (
+            {hasGroup && selectedGroup && (
               <GroupDropdownSelector
                 groups={groups}
                 selectedGroupName={selectedGroup.name}
