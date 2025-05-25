@@ -18,6 +18,12 @@ export default function PasswordField({ password, setPassword, onClick }: Passwo
       placeholder="비밀번호를 입력해 주세요."
       value={password}
       onChange={(e) => setPassword(e.target.value)}
+      onKeyDown={(e) => {
+        if (e.key === 'Enter') {
+          e.preventDefault();
+          onClick();
+        }
+      }}
       rightSlot={
         <div className="flex items-center">
           <Button size="xs" fontSize="14" className="shrink-0" onClick={onClick}>
