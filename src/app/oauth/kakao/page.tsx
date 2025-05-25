@@ -4,7 +4,7 @@ import Spinner from '@/components/common/loading/Spinner';
 
 export default async function OAuthPage() {
   return (
-    <Suspense fallback={<Spinner className="text-4xl" />}>
+    <Suspense fallback={<Spinner className="text-primary" />}>
       <OAuthClient />
     </Suspense>
   );
