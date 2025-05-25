@@ -19,6 +19,7 @@ import { Toast } from '@/components/common/Toastify';
 import { updateUserPassword } from '../action';
 import BouncingDots from '@/components/common/loading/BouncingDots';
 import { deleteClientCookie } from '@/lib/cookie/client';
+import { useUser } from '@/contexts/UserContext';
 
 interface PasswordChangeSuccessModalProps {
   onClose: () => void;
@@ -28,6 +29,7 @@ export default function ChangePasswordModal({ onClose }: PasswordChangeSuccessMo
   const { closeModal } = useModalContext();
   const router = useRouter();
   const [isPending, startTransition] = useTransition();
+  const { logoutUser } = useUser();
   const INITIAL_FORM_DATA = {
     newPassword: '',
     confirmPassword: '',
@@ -60,6 +62,7 @@ export default function ChangePasswordModal({ onClose }: PasswordChangeSuccessMo
 
         deleteClientCookie('accessToken');
         deleteClientCookie('refreshToken');
+        await logoutUser();
 
         setFormData(INITIAL_FORM_DATA);
 
