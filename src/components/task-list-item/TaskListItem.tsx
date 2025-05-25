@@ -95,7 +95,7 @@ export default function TaskListItem({
                     <Image src="/icons/kebab-icon.svg" width={16} height={16} alt="kebab" />
                   </button>
                 }
-                placement="top-6 right-[14px]"
+                placement="top-5 right-[10px]"
               />
             </div>
           </div>

@@ -1,5 +1,5 @@
 import { useState } from 'react';
-import { format, getDate, startOfDay } from 'date-fns';
+import { format, getDate, startOfDay, differenceInMinutes } from 'date-fns';
 import { Frequency } from '@/app/(content-layout)/[groupId]/tasklist/_tasklist/types/task-type';
 import generateTime from './time-table';
 import { TaskItemProps, TaskItem, Time } from './type';
@@ -41,14 +41,30 @@ export default function useManageTaskItem({
   const [weekDays, setWeekDays] = useState<number[]>([]);
   const [isPending, setIsPending] = useState(false);
 
-  const initialSelectedTime = (): Time => {
-    if (!task?.startDate) return { period: '오전', time: am[0] };
-
-    const date = new Date(task?.startDate);
+  const getNearestTime = (date: Date): Time => {
     const hours = date.getHours();
-    const period = hours < 12 ? '오전' : '오후';
-    const time = format(date, 'hh:mm');
-    return { period, time };
+    const isAM = hours < 12;
+    const period = isAM ? '오전' : '오후';
+    const list = isAM ? am : pm;
+
+    const formattedTime = list.map((time) => {
+      const [h, m] = time.split(':').map(Number);
+      const candidate = new Date(date).setHours(h, m);
+
+      return {
+        time,
+        diff: Math.abs(differenceInMinutes(candidate, date)),
+      };
+    });
+
+    const nearest = formattedTime.reduce((prev, curr) => (curr.diff < prev.diff ? curr : prev));
+
+    return { period, time: nearest.time };
+  };
+
+  const initialSelectedTime = (): Time => {
+    const date = task?.startDate ? new Date(task.startDate) : new Date();
+    return getNearestTime(date);
   };
 
   const [selectedTime, setSelectedTime] = useState<Time>(initialSelectedTime);
