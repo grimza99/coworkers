@@ -33,13 +33,20 @@ export default function Header() {
     !isLoading && memberships ? memberships.map((membership) => membership.group) : [];
 
   useEffect(() => {
-    if (!isLoading && memberships && groupId !== null) {
-      const numericId = Number(groupId);
-      const isValid = memberships.some((m) => m.group.id === numericId);
+    if (!isLoading && memberships) {
+      // URL에 groupId가 있는 경우
+      if (groupId !== null && groupId !== undefined) {
+        const numericId = Number(groupId);
+        const isValidGroup = memberships.some((m) => m.group.id === numericId);
 
-      if (isValid) {
-        setSelectedGroupId(numericId);
-      } else if (memberships.length > 0) {
+        if (isValidGroup) {
+          setSelectedGroupId(numericId);
+          return;
+        }
+      }
+
+      // URL에 groupId가 없거나 유효하지 않은 경우, 가장 최근 그룹 선택
+      if (memberships.length > 0) {
         const sortedGroups = memberships
           .map((m) => m.group)
           .toSorted((a, b) => new Date(b.createdAt).getTime() - new Date(a.createdAt).getTime());

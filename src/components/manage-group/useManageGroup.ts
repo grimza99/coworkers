@@ -106,7 +106,10 @@ export default function useManageGroup({
       })
       .then((result) => {
         fetchUser();
-        router.push(`/${result.data.id}`);
+
+        setTimeout(() => {
+          router.push(`/${result.data.id}`);
+        }, 500);
       })
       .catch(() => {
         const action = isEdit ? '수정' : '생성';
