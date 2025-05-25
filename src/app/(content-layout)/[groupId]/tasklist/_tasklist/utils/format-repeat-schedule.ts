@@ -10,7 +10,7 @@ export function getRepeatDescription(frequency: Frequency, schedule?: number[] |
       return '매일 반복';
     case 'MONTHLY':
       if (Array.isArray(schedule) || schedule == null) return null;
-      return `매 월 ${String(schedule + 1)}일 반복`;
+      return `매 월 ${schedule}일 반복`;
     case 'WEEKLY':
       if (typeof schedule === 'number' || schedule == null) return null;
       const weekDays = schedule.map((day) => DAY_MAP[day]);

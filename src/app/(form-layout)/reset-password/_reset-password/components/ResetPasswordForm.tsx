@@ -36,7 +36,7 @@ export default function ResetPasswordForm({ token }: Props) {
   }, null);
 
   if (!token) {
-    Toast.error('잘못된 접근');
+    Toast.info('잘못된 접근 입니다.');
     router.push(PATHS.HOME);
     return null;
   }

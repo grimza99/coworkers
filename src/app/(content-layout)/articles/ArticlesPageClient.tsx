@@ -76,7 +76,7 @@ export default function ArticlesPageClient() {
         const sortedByLike = res.data.list.toSorted((a, b) => b.likeCount - a.likeCount);
         setBestArticles(sortedByLike.slice(0, 3));
       } catch (error) {
-        Toast.error('베스트 게시글을 불러오는 데 실패했습니다.');
+        Toast.error('베스트 게시글 불러오기 실패');
         console.error('베스트 게시글을 불러오기 실패', error);
       } finally {
         setIsLoadingBest(false);
@@ -108,7 +108,7 @@ export default function ArticlesPageClient() {
         setTotalCount(myArticlesOnly ? filtered.length : res.data.totalCount);
       } catch (error) {
         console.error('게시글 불러오기 실패:', error);
-        Toast.error('게시글을 불러오는 데 실패했습니다.');
+        Toast.error('게시글 불러오기 실패');
       } finally {
         setIsArticlesLoading(false);
       }
@@ -192,11 +192,13 @@ export default function ArticlesPageClient() {
             </div>
           )}
         </Suspense>
-        <Pagination
-          currentPage={currentPage}
-          totalPages={Math.ceil(totalCount / pageSize)}
-          onPageChange={setCurrentPage}
-        />
+        {!isArticlesLoading && articles.length > 0 && (
+          <Pagination
+            currentPage={currentPage}
+            totalPages={Math.ceil(totalCount / pageSize)}
+            onPageChange={setCurrentPage}
+          />
+        )}
       </section>
 
       <Button

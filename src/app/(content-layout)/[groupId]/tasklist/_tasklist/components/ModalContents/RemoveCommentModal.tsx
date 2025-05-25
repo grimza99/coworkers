@@ -3,6 +3,7 @@ import {
   ModalContainer,
   ModalDescription,
   ModalFooter,
+  ModalHeading,
   ModalOverlay,
   ModalPortal,
 } from '@/components/common/modal';
@@ -24,9 +25,9 @@ export default function RemoveCommentModal({ modalId, onDelete }: Props) {
         <ModalOverlay modalId={modalId} onClick={() => closeModal(modalId)}>
           <ModalContainer className="md:w-full md:max-w-96">
             <Image src="/icons/danger.icon.svg" alt="!" width={20} height={20} />
-            <ModalDescription className="text-md-md text-gray500 mb-6 w-full">
+            <ModalHeading className="text-md-md text-gray500 my-6 w-full">
               삭제 후에는 되돌릴 수 없습니다.
-            </ModalDescription>
+            </ModalHeading>
             <ModalFooter className="w-full">
               <div className="flex w-full gap-2">
                 <Button

@@ -4,6 +4,7 @@ import { useState, useEffect } from 'react';
 import Button from '@/components/common/Button';
 import FormField from '@/components/common/formField';
 import { Toast } from '@/components/common/Toastify';
+import BouncingDots from '@/components/common/loading/BouncingDots';
 import axiosClient from '@/lib/axiosClient';
 import postImageUrl from '@/lib/api/image/postImageUrl';
 import { validateEmptyValue } from '@/utils/validators';
@@ -54,9 +55,9 @@ export default function Page() {
         ...(uploadedImageUrl && { image: uploadedImageUrl }),
       };
 
-      await axiosClient.patch(`/articles/${articleId}`, articlePayload);
+      const res = await axiosClient.patch(`/articles/${articleId}`, articlePayload);
 
-      Toast.success('게시글 수정이 완료되었습니다.');
+      Toast.success('게시글 수정 완료');
       setTitle('');
       setContent('');
       setImage(null);
@@ -65,9 +66,13 @@ export default function Page() {
       }
       setPreviewImage('');
 
-      router.push(`${PATHS.ARTICLES.BASE}`);
+      if (res && res.data && res.data.id) {
+        router.push(`${PATHS.ARTICLES.getArticleDetailPath(res.data.id)}`);
+      } else {
+        throw new Error('수정된 게시글의 id를 읽을 수 없습니다.');
+      }
     } catch {
-      Toast.error('게시글 수정 중 오류가 발생했습니다.');
+      Toast.error('게시글 수정 중 오류 발생');
     } finally {
       setIsSubmitting(false);
     }
@@ -109,7 +114,7 @@ export default function Page() {
             size="fullWidth"
             disabled={!canSubmit || isSubmitting}
           >
-            {isSubmitting ? '...' : '등록'}
+            {isSubmitting ? <BouncingDots /> : '등록'}
           </Button>
         </div>
       </div>
@@ -159,7 +164,7 @@ export default function Page() {
         size="fullWidth"
         disabled={!canSubmit || isSubmitting}
       >
-        {isSubmitting ? '...' : '등록'}
+        {isSubmitting ? <BouncingDots /> : '등록'}
       </Button>
     </main>
   );

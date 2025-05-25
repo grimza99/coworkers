@@ -30,6 +30,12 @@ export default function CreateTaskListModal({ groupId }: Props) {
 
   const { closeModal } = useModalContext();
 
+  const clearState = () => {
+    setCurrentValue('');
+    setErrorMessage('');
+    setIsForceShowError(false);
+  };
+
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const value = e.target.value.trim();
     setCurrentValue(value);
@@ -43,10 +49,9 @@ export default function CreateTaskListModal({ groupId }: Props) {
       await axiosClient.post(`/groups/${groupId}/task-lists`, { name: currentValue });
       Toast.success('새로운 목록 생성 성공');
       closeModal('createTaskList');
-      revalidateTaskLists();
 
-      setCurrentValue('');
-      setErrorMessage('');
+      revalidateTaskLists();
+      clearState();
     } catch (error) {
       setIsForceShowError(true);
       Toast.error('새로운 목록 생성 실패');
@@ -67,9 +72,9 @@ export default function CreateTaskListModal({ groupId }: Props) {
         + 새로운 목록 추가하기
       </ModalTrigger>
       <ModalPortal modalId="createTaskList">
-        <ModalOverlay modalId="createTaskList">
+        <ModalOverlay modalId="createTaskList" onClick={() => clearState()}>
           <ModalContainer className="md:w-full md:max-w-96">
-            <ModalCloseButton modalId="createTaskList" />
+            <ModalCloseButton modalId="createTaskList" onClick={() => clearState()} />
             <div className="mb-6 w-full px-6">
               <ModalHeading className="mb-2">새로운 목록 추가</ModalHeading>
               <ModalDescription className="text-md-md text-gray500 mb-6 w-full">
@@ -95,7 +100,7 @@ export default function CreateTaskListModal({ groupId }: Props) {
                   onClick={handleSubmitCreateTaskList}
                   fontSize="16"
                   size="fullWidth"
-                  disabled={currentValue === ''}
+                  disabled={currentValue === '' || isLoading}
                 >
                   {isLoading ? <BouncingDots /> : '만들기'}
                 </Button>

@@ -2,6 +2,8 @@
 
 import Button from '@/components/common/Button';
 import FormField from '@/components/common/formField';
+import { validateLengthLimit } from '@/utils/validators';
+import { AUTH_ERROR_MESSAGES } from '@/constants/messages/signup';
 
 interface NicknameFieldProps {
   nickname: string;
@@ -26,12 +28,19 @@ export default function NicknameField({
       isFailure={!!nicknameError}
       errorMessage={nicknameError}
       onChange={(e) => {
-        setNickname(e.target.value);
+        const value = e.target.value;
+        setNickname(value);
+
+        if (!validateLengthLimit(value)) {
+          setNicknameError(AUTH_ERROR_MESSAGES.nickname.tooLong);
+          return;
+        }
+
         setNicknameError('');
       }}
       rightSlot={
         <div className="flex items-center">
-          <Button size="xs" fontSize="14" className="shrink-0" onClick={onClick}>
+          <Button size="xs" fontSize="14" disabled={!!nicknameError} onClick={onClick}>
             변경하기
           </Button>
         </div>

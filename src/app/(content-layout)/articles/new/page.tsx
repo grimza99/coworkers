@@ -4,6 +4,7 @@ import { useState, useEffect } from 'react';
 import Button from '@/components/common/Button';
 import FormField from '@/components/common/formField';
 import { Toast } from '@/components/common/Toastify';
+import BouncingDots from '@/components/common/loading/BouncingDots';
 import axiosClient from '@/lib/axiosClient';
 import postImageUrl from '@/lib/api/image/postImageUrl';
 import { validateEmptyValue } from '@/utils/validators';
@@ -54,7 +55,7 @@ export default function Page() {
 
       await axiosClient.post('/articles', articlePayload);
 
-      Toast.success('게시글 작성이 완료되었습니다.');
+      Toast.success('게시글 작성 완료');
       setTitle('');
       setContent('');
       setImage(null);
@@ -65,7 +66,7 @@ export default function Page() {
 
       router.push(`${PATHS.ARTICLES.BASE}`);
     } catch {
-      Toast.error('게시글 작성 중 오류가 발생했습니다.');
+      Toast.error('게시글 작성 중 오류 발생');
     } finally {
       setIsSubmitting(false);
     }
@@ -90,7 +91,7 @@ export default function Page() {
             size="fullWidth"
             disabled={!canSubmit || isSubmitting}
           >
-            {isSubmitting ? '...' : '등록'}
+            {isSubmitting ? <BouncingDots /> : '등록'}
           </Button>
         </div>
       </div>
@@ -140,7 +141,7 @@ export default function Page() {
         size="fullWidth"
         disabled={!canSubmit || isSubmitting}
       >
-        {isSubmitting ? '...' : '등록'}
+        {isSubmitting ? <BouncingDots /> : '등록'}
       </Button>
     </main>
   );
