@@ -33,12 +33,25 @@ export default function Header() {
     !isLoading && memberships ? memberships.map((membership) => membership.group) : [];
 
   useEffect(() => {
-    if (!isLoading && memberships && groupId !== null) {
-      const numericId = Number(groupId);
-      const isValid = memberships.some((m) => m.group.id === numericId);
+    if (!isLoading && memberships) {
+      // URL에 groupId가 있는 경우
+      if (groupId !== null && groupId !== undefined) {
+        const numericId = Number(groupId);
+        const isValidGroup = memberships.some((m) => m.group.id === numericId);
 
-      if (isValid) {
-        setSelectedGroupId(numericId);
+        if (isValidGroup) {
+          setSelectedGroupId(numericId);
+          return;
+        }
+      }
+
+      // URL에 groupId가 없거나 유효하지 않은 경우, 가장 최근 그룹 선택
+      if (memberships.length > 0) {
+        const sortedGroups = memberships
+          .map((m) => m.group)
+          .toSorted((a, b) => new Date(b.createdAt).getTime() - new Date(a.createdAt).getTime());
+
+        setSelectedGroupId(sortedGroups[0].id);
       } else {
         setSelectedGroupId(null);
       }
@@ -56,8 +69,7 @@ export default function Header() {
   const isMinimalHeader = MINIMAL_HEADER_PATHS.includes(pathname);
   const hasGroup = groups.length > 0;
 
-  // 로딩 중이거나, 미니멀 헤더 페이지인 경우에만 미니멀 헤더 표시
-  if (isMinimalHeader || isLoading) {
+  if (isMinimalHeader) {
     return (
       <header className="bg-bg200 border-border sticky top-0 z-200 flex h-15 w-full justify-center border-b-1">
         <div className="mx-5 flex w-full max-w-300 items-center justify-between">
@@ -67,7 +79,6 @@ export default function Header() {
     );
   }
 
-  // 나머지 모든 페이지에서는 풀 헤더 표시
   return (
     <header className="bg-bg200 border-border sticky top-0 z-200 flex h-15 w-full justify-center border-b-1">
       <div className="mx-5 flex w-full max-w-300 items-center justify-between">
@@ -86,11 +97,10 @@ export default function Header() {
           </div>
 
           <div className="text-lg-md relative hidden items-center gap-8 md:flex lg:gap-y-10">
-            {/* 그룹이 있을 때만 그룹 드롭다운 표시 */}
-            {hasGroup && (
+            {hasGroup && selectedGroup && (
               <GroupDropdownSelector
                 groups={groups}
-                selectedGroupName={selectedGroup?.name || groups[0]?.name || '그룹 선택'}
+                selectedGroupName={selectedGroup.name}
                 setSelectedGroupId={setSelectedGroupId}
               />
             )}

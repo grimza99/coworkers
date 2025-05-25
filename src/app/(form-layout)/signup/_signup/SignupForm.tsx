@@ -205,9 +205,14 @@ export default function SignupForm() {
             isFailure={field.isFailure}
             errorMessage={field.errorMessage}
             value={formData[field.name as keyof typeof formData]}
-            onChange={(e: ChangeEvent<HTMLInputElement>) =>
-              setFieldValue(field.name as keyof typeof formData, e.target.value)
-            }
+            onChange={(e: ChangeEvent<HTMLInputElement>) => {
+              const key = field.name as keyof typeof formData;
+              setFieldValue(key, e.target.value);
+
+              if (key === 'email' || key === 'nickname') {
+                setDuplicateError((prev) => ({ ...prev, [key]: false }));
+              }
+            }}
             placeholder={field.placeholder}
             rightSlot={field.rightSlot}
           />

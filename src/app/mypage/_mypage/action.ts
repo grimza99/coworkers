@@ -31,3 +31,13 @@ export async function updateUserPassword(password: string, passwordConfirmation:
     throw new Error('비밀번호 변경 실패');
   }
 }
+
+export async function verifyPassword(email: string, password: string) {
+  try {
+    const res = await axiosServer.post('/auth/signIn', { email, password });
+    return res.data;
+  } catch (e) {
+    console.error('비밀번호 인증 실패:', e);
+    throw new Error('비밀번호 인증 실패');
+  }
+}
