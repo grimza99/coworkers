@@ -192,11 +192,13 @@ export default function ArticlesPageClient() {
             </div>
           )}
         </Suspense>
-        <Pagination
-          currentPage={currentPage}
-          totalPages={Math.ceil(totalCount / pageSize)}
-          onPageChange={setCurrentPage}
-        />
+        {!isArticlesLoading && articles.length > 0 && (
+          <Pagination
+            currentPage={currentPage}
+            totalPages={Math.ceil(totalCount / pageSize)}
+            onPageChange={setCurrentPage}
+          />
+        )}
       </section>
 
       <Button
