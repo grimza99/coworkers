@@ -18,6 +18,7 @@ import {
 import { AUTH_ERROR_MESSAGES } from '@/constants/messages/signup';
 import { Toast } from '@/components/common/Toastify';
 import { setClientCookie } from '@/lib/cookie/client';
+import { useUser } from '@/contexts/UserContext';
 
 interface ErrorResponse {
   response?: {
@@ -31,6 +32,7 @@ export default function SignupForm() {
   const { openModal } = useModalContext();
   const router = useRouter();
   const { isPasswordVisible, togglePasswordVisibility } = usePasswordVisibility();
+  const { fetchUser } = useUser();
   const [formData, setFormData] = useState({
     nickname: '',
     email: '',
@@ -162,6 +164,8 @@ export default function SignupForm() {
 
           setClientCookie('accessToken', accessToken);
           setClientCookie('refreshToken', refreshToken);
+
+          await fetchUser();
 
           router.push('/nogroup');
         } catch {
