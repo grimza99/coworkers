@@ -169,7 +169,7 @@ export default function SignupForm() {
 
           router.push('/nogroup');
         } catch {
-          Toast.error('자동 로그인 실패. 로그인 페이지로 이동합니다.');
+          Toast.error('자동 로그인 실패.');
           router.push('/login');
         }
       }, 5000);
