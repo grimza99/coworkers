@@ -21,6 +21,7 @@ export default function ManageGroup({ groupData, groupNames }: MangeGroupProps) 
     isNameFailure,
     isImageEmpty,
     isSubmit,
+    isPending,
     imageErrorMessage,
     nameErrorMessage,
     handleNameChange,
@@ -61,8 +62,8 @@ export default function ManageGroup({ groupData, groupNames }: MangeGroupProps) 
         />
       </div>
       <div className="flex flex-col gap-6">
-        <Button type="submit" variant="solid" size="fullWidth" disabled={isSubmit}>
-          {isSubmit ? <BouncingDots /> : groupButtonText}
+        <Button type="submit" variant="solid" size="fullWidth" disabled={isPending}>
+          {isPending ? <BouncingDots /> : groupButtonText}
         </Button>
         <p className="text-lg-rg text-gray500 text-center">
           팀 이름은 회사명이나 모임 이름 등으로 설정하면 좋아요.
