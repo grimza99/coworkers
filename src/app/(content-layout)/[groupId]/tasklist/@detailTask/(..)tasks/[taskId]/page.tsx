@@ -1,5 +1,4 @@
 'use client';
-import DetailTaskPage from '@/app/(content-layout)/[groupId]/tasks/[taskId]/page';
 import Image from 'next/image';
 import { useCallback, useEffect, useRef } from 'react';
 import { ErrorBoundary } from 'react-error-boundary';
@@ -7,8 +6,6 @@ import DetailTask from '../../_components/DetailTask';
 import { useRouter } from 'next/navigation';
 
 interface Props {
-  groupId: string;
-  taskListId: number;
   isOpen: boolean;
   isDone: boolean;
   setIsDone: () => void;

@@ -118,8 +118,6 @@ export default function TasksWiseTask({ task, groupId, taskListId }: Props) {
             isDone={isDone}
             setIsDone={toggleTaskStatus}
             taskId={task.id}
-            groupId={groupId}
-            taskListId={taskListId}
             closeDetailTask={closeDetailTask}
             isOpen={isDetailTaskOpen}
           />
