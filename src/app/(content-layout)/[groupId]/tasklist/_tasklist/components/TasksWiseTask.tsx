@@ -8,10 +8,11 @@ import { useTaskActions } from '../hooks/use-task-actions';
 import { useTaskModals } from '../hooks/use-task-modals';
 import ManageTaskItemModal from './manage-task-item-modal/MangeTaskItemModal';
 import getDetailTaskItem from '@/lib/api/detail-task-item';
-import DetailTaskContainer from '../../@detailTask/page';
 import { useSortable } from '@dnd-kit/sortable';
 import { CSS } from '@dnd-kit/utilities';
 import { useDndMonitor } from '@dnd-kit/core';
+import Link from 'next/link';
+import DetailTaskContainer from '../../@detailTask/(..)tasks/[taskId]/page';
 
 interface Props {
   task: Task;
@@ -97,22 +98,22 @@ export default function TasksWiseTask({ task, groupId, taskListId }: Props) {
             opacity: isDragging ? 0.5 : 1,
           }}
         >
-          <TaskListItem
-            key={task.id}
-            type="taskList"
-            checkDropdownOpen={checkDropdownOpen}
-            onCheckStatusChange={() =>
-              toggleTaskDone(groupId, taskListId, isDone, toggleTaskStatus)
-            }
-            onEdit={() => popUpEditTaskModal(createOrEditModalId)}
-            onDelete={() => popUpDeleteTaskModal(taskDeleteModalId)}
-            onClick={() => openDetailTask()}
-            isDone={isDone}
-            name={task.name}
-            commentCount={task.commentCount}
-            date={safeFormatDate(task.date)}
-            frequency={task.frequency}
-          />
+          <Link href={`/${groupId}/tasks/${task.id}`}>
+            <TaskListItem
+              key={task.id}
+              type="taskList"
+              checkDropdownOpen={checkDropdownOpen}
+              onCheckStatusChange={() => toggleTaskDone(isDone, toggleTaskStatus)}
+              onEdit={() => popUpEditTaskModal(createOrEditModalId)}
+              onDelete={() => popUpDeleteTaskModal(taskDeleteModalId)}
+              // onClick={() => openDetailTask()}
+              isDone={isDone}
+              name={task.name}
+              commentCount={task.commentCount}
+              date={safeFormatDate(task.date)}
+              frequency={task.frequency}
+            />
+          </Link>
           <DetailTaskContainer
             isDone={isDone}
             setIsDone={toggleTaskStatus}

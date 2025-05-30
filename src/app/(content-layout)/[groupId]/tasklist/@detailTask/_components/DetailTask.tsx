@@ -10,14 +10,12 @@ import clsx from 'clsx';
 import { DetailTaskType } from '../../_tasklist/types/task-type';
 
 interface Props {
-  groupId: string;
-  taskListId: number;
   isDone: boolean;
   setIsDone: () => void;
   taskId: number;
 }
 
-export default function DetailTask({ taskId, groupId, taskListId, isDone, setIsDone }: Props) {
+export default function DetailTask({ taskId, isDone, setIsDone }: Props) {
   const [currentTask, setCurrentTask] = useState<DetailTaskType>();
   const [error, setError] = useState<Error | null>(null);
   const { toggleTaskDone } = useTaskActions(currentTask);
@@ -26,15 +24,13 @@ export default function DetailTask({ taskId, groupId, taskListId, isDone, setIsD
   const fetchTask = useCallback(async () => {
     if (!taskId) return;
     try {
-      const { data } = await axiosClient(
-        `/groups/${groupId}/task-lists/${taskListId}/tasks/${taskId}`
-      );
+      const { data } = await axiosClient(`/groups/groupId/task-lists/taskListId/tasks/${taskId}`);
 
       setCurrentTask(data);
     } catch {
       setError(new Error('Task를 불러오는데 오류가 발생했습니다.'));
     }
-  }, [groupId, taskListId, taskId]);
+  }, [taskId]);
 
   useEffect(() => {
     fetchTask();
@@ -48,7 +44,7 @@ export default function DetailTask({ taskId, groupId, taskListId, isDone, setIsD
       <Content isDone={isDone} task={currentTask} />
       <DetailTaskCommentField taskId={currentTask?.id} />
       <Button
-        onClick={() => toggleTaskDone(groupId, taskListId, isDone, setIsDone)}
+        onClick={() => toggleTaskDone(isDone, setIsDone)}
         className="absolute right-6 bottom-6 lg:right-10 lg:bottom-10"
         variant={isDone ? 'outline-primary' : 'solid'}
         size={isDone ? 'lg' : 'sm'}
