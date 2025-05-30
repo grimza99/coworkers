@@ -106,7 +106,7 @@ export default function TasksWiseTask({ task, groupId, taskListId }: Props) {
               onCheckStatusChange={() => toggleTaskDone(isDone, toggleTaskStatus)}
               onEdit={() => popUpEditTaskModal(createOrEditModalId)}
               onDelete={() => popUpDeleteTaskModal(taskDeleteModalId)}
-              // onClick={() => openDetailTask()}
+              onClick={() => openDetailTask()}
               isDone={isDone}
               name={task.name}
               commentCount={task.commentCount}

@@ -22,7 +22,7 @@ export function useTaskActions(task?: Task) {
     }
   };
 
-  const toggleTaskDone = async (doneState: boolean, toggleDoneState: () => void) => {
+  const toggleTaskDone = async (doneState: boolean, toggleDoneState?: () => void) => {
     if (!task) return;
     try {
       await axiosClient.patch(`/groups/groupId/task-lists/taskListId/tasks/${task.id}`, {
@@ -30,7 +30,7 @@ export function useTaskActions(task?: Task) {
         description: task.description,
         done: !doneState,
       });
-      toggleDoneState();
+      toggleDoneState?.();
 
       if (doneState) return Toast.success('할 일 완료 취소 성공');
       if (!doneState) return Toast.success('할 일 완료 성공');

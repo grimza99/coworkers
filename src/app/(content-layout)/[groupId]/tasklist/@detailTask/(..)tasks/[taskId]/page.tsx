@@ -3,6 +3,7 @@ import DetailTaskPage from '@/app/(content-layout)/[groupId]/tasks/[taskId]/page
 import Image from 'next/image';
 import { useCallback, useEffect, useRef } from 'react';
 import { ErrorBoundary } from 'react-error-boundary';
+import DetailTask from '../../_components/DetailTask';
 
 interface Props {
   groupId: string;
@@ -53,7 +54,7 @@ export default function DetailTaskContainer({ taskId, isOpen, closeDetailTask, .
               <Image src="/icons/close.svg" alt="x" width={24} height={24} />
             </button>
             <ErrorBoundary fallback={<div>해당 태스크를 불러올 수 없습니다.</div>}>
-              <DetailTaskPage taskId={taskId} {...props} />
+              <DetailTask taskId={taskId} {...props} />
             </ErrorBoundary>
           </div>
         </div>

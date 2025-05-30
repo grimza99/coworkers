@@ -40,7 +40,7 @@ export default function DetailTask({ taskId, isDone, setIsDone }: Props) {
   if (!currentTask) return;
 
   return (
-    <div className="flex h-full flex-col gap-25 overflow-scroll">
+    <div className="flex h-full w-full flex-col gap-25 overflow-scroll">
       <Content isDone={isDone} task={currentTask} />
       <DetailTaskCommentField taskId={currentTask?.id} />
       <Button

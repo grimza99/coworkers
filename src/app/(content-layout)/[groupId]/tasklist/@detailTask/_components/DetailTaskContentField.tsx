@@ -1,3 +1,4 @@
+'use client';
 import DropDown from '@/components/common/dropdown';
 import Image from 'next/image';
 import ProfileBadge from '@/components/profile-badge';
