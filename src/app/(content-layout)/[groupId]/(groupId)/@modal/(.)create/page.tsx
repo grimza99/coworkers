@@ -1,21 +1,15 @@
 'use client';
-import { useEffect, useState } from 'react';
-import Button from '@/components/common/Button';
-import FormField from '@/components/common/formField';
+import { useEffect } from 'react';
 import {
   ModalCloseButton,
   ModalContainer,
   ModalFooter,
   ModalHeading,
   ModalOverlay,
-  ModalPortal,
 } from '@/components/common/modal';
-import useModalContext from '@/components/common/modal/core/useModalContext';
-import BouncingDots from '@/components/common/loading/BouncingDots';
-import { validateEmptyValue } from '@/utils/validators';
-
+import { useModal, ModalPortal } from '@/contexts/ModalContext';
 export default function Page() {
-  const { openModal } = useModalContext();
+  const { openModal } = useModal();
   useEffect(() => {
     openModal('modalId');
   }, []);

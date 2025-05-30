@@ -7,7 +7,7 @@ import FormField from '@/components/common/formField';
 import Button from '@/components/common/Button';
 import PasswordToggleButton from './PasswordToggleButton';
 import usePasswordVisibility from '@/utils/use-password-visibility';
-import useModalContext from '@/components/common/modal/core/useModalContext';
+import { useModal } from '@/contexts/ModalContext';
 import SignupSuccessModal from '@/components/signup-alert-modal/SignupSuccessModal';
 import {
   validateEmail,
@@ -28,7 +28,7 @@ interface ErrorResponse {
 }
 
 export default function SignupForm() {
-  const { openModal } = useModalContext();
+  const { openModal } = useModal();
   const router = useRouter();
   const { isPasswordVisible, togglePasswordVisibility } = usePasswordVisibility();
   const [formData, setFormData] = useState({
