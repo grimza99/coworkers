@@ -1,8 +1,8 @@
 import DetailTaskCommentField from '../../tasklist/@detailTask/_components/DetailTaskCommentsField';
 import Content from '../../tasklist/@detailTask/_components/DetailTaskContentField';
-import axiosServer from '@/lib/axiosServer';
-import { DetailTaskType } from '../../tasklist/_tasklist/types/task-type';
 import ToggleDoneButton from '../../tasklist/@detailTask/_components/ToggleDoneButton';
+import { getDetailTask } from '../../tasklist/_tasklist/actions/task-actions';
+import { DetailTaskType } from '../../tasklist/_tasklist/types/task-type';
 
 interface Props {
   params: Promise<{ taskId: string }>;
@@ -10,8 +10,8 @@ interface Props {
 export default async function DetailTaskPage({ params }: Props) {
   const taskId = (await params).taskId;
 
-  const { data } = await axiosServer(`/groups/groupId/task-lists/taskListId/tasks/${taskId}`);
-  const task = data;
+  const task: DetailTaskType = await getDetailTask(taskId);
+
   const isDone = Boolean(task.doneAt);
 
   return (

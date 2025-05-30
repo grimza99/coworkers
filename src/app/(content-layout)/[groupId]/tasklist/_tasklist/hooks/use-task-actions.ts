@@ -1,6 +1,7 @@
 import axiosClient from '@/lib/axiosClient';
 import { Task } from '../types/task-type';
 import { Toast } from '@/components/common/Toastify';
+import { revalidateDetailTask } from '../actions/task-actions';
 
 export function useTaskActions(task?: Task) {
   const deleteTask = async (
@@ -31,7 +32,7 @@ export function useTaskActions(task?: Task) {
         done: !doneState,
       });
       toggleDoneState?.();
-
+      revalidateDetailTask();
       if (doneState) return Toast.success('할 일 완료 취소 성공');
       if (!doneState) return Toast.success('할 일 완료 성공');
     } catch {
