@@ -2,8 +2,8 @@
 import Check from '@/assets/Check';
 import Button from '@/components/common/Button';
 import clsx from 'clsx';
-import { useTaskActions } from '../../_tasklist/hooks/use-task-actions';
 import { DetailTaskType } from '../../_tasklist/types/task-type';
+import { useTaskActions } from '../../_tasklist/hooks/use-task-actions';
 
 interface Props {
   isDone: boolean;

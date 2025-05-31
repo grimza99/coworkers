@@ -5,8 +5,8 @@ import ProfileBadge from '@/components/profile-badge';
 import Repeat from '@/assets/Repeat';
 import { format } from 'date-fns';
 import clsx from 'clsx';
-import { useTaskModals } from '../../_tasklist/hooks/use-task-modals';
 import { getRepeatDescription } from '../../_tasklist/utils/format-repeat-schedule';
+import { useTaskModals } from '../../_tasklist/hooks/use-task-modals';
 import { DetailTaskType } from '../../_tasklist/types/task-type';
 
 interface Props {

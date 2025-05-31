@@ -1,13 +1,13 @@
 'use client';
 import axiosClient from '@/lib/axiosClient';
 import { useCallback, useEffect, useState } from 'react';
-import { useTaskActions } from '../../_tasklist/hooks/use-task-actions';
 import Content from './DetailTaskContentField';
 import DetailTaskCommentField from './DetailTaskCommentsField';
 import Button from '@/components/common/Button';
 import Check from '@/assets/Check';
 import clsx from 'clsx';
 import { DetailTaskType } from '../../_tasklist/types/task-type';
+import { useTaskActions } from '../../_tasklist/hooks/use-task-actions';
 
 interface Props {
   isDone: boolean;

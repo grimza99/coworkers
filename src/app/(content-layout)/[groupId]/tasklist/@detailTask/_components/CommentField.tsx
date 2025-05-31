@@ -5,9 +5,9 @@ import { useState } from 'react';
 import EditCommentInput from './EditCommentInput';
 import axiosClient from '@/lib/axiosClient';
 import useModalContext from '@/components/common/modal/core/useModalContext';
-import RemoveCommentModal from '../../_tasklist/components/ModalContents/RemoveCommentModal';
 import { Toast } from '@/components/common/Toastify';
 import { revalidateTasks } from '../../_tasklist/actions/task-actions';
+import RemoveCommentModal from '../../_tasklist/components/ModalContents/RemoveCommentModal';
 
 interface Props {
   comment: Comment;
