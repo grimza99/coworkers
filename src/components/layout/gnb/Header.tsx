@@ -111,7 +111,7 @@ export default function Header() {
         </div>
 
         <div className="ml-auto">
-          {user && (
+          {!isLoading && user && (
             <ProfileDropdownButton
               userData={{
                 ...user,

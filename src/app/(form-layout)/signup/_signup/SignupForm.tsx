@@ -18,6 +18,7 @@ import {
 import { AUTH_ERROR_MESSAGES } from '@/constants/messages/signup';
 import { Toast } from '@/components/common/Toastify';
 import { setClientCookie } from '@/lib/cookie/client';
+import { useUser } from '@/contexts/UserContext';
 
 interface ErrorResponse {
   response?: {
@@ -31,6 +32,7 @@ export default function SignupForm() {
   const { openModal } = useModalContext();
   const router = useRouter();
   const { isPasswordVisible, togglePasswordVisibility } = usePasswordVisibility();
+  const { fetchUser } = useUser();
   const [formData, setFormData] = useState({
     nickname: '',
     email: '',
@@ -163,9 +165,11 @@ export default function SignupForm() {
           setClientCookie('accessToken', accessToken);
           setClientCookie('refreshToken', refreshToken);
 
+          await fetchUser();
+
           router.push('/nogroup');
         } catch {
-          Toast.error('자동 로그인 실패. 로그인 페이지로 이동합니다.');
+          Toast.error('자동 로그인 실패.');
           router.push('/login');
         }
       }, 5000);
