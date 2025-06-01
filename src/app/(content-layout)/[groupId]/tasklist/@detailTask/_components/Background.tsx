@@ -25,7 +25,7 @@ export default function Background({ children, isOpen }: Props) {
         router.back();
       }
     },
-    [isOpen]
+    [isOpen, router]
   );
 
   useEffect(() => {

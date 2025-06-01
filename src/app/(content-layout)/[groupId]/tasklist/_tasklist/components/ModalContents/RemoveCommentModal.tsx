@@ -1,7 +1,6 @@
 'use client';
 import {
   ModalContainer,
-  ModalDescription,
   ModalFooter,
   ModalHeading,
   ModalOverlay,
