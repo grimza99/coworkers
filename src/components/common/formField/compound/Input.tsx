@@ -7,6 +7,7 @@ import { InputProps } from '../type';
 export default function Input({
   leftSlot = null,
   rightSlot = null,
+  hasError,
   borderClassName = 'border-border',
   className,
   ref,
@@ -16,7 +17,7 @@ export default function Input({
     <div
       className={clsx(
         'bg-bg200 flex h-11 w-full gap-3 rounded-xl border px-4 py-2.5 sm:h-12',
-        borderClassName,
+        hasError ? 'border-danger' : borderClassName,
         className
       )}
     >
