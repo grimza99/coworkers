@@ -11,7 +11,7 @@ export default function Background({ children, isOpen }: Props) {
   const detailTaskRef = useRef<HTMLDivElement>(null);
   const router = useRouter();
 
-  const closingDetailTaskOutsideClick = useCallback(
+  const closeDetailTaskOutsideClick = useCallback(
     (e: MouseEvent) => {
       if (!isOpen) return;
 
@@ -29,11 +29,11 @@ export default function Background({ children, isOpen }: Props) {
   );
 
   useEffect(() => {
-    document.addEventListener('mousedown', closingDetailTaskOutsideClick);
+    document.addEventListener('mousedown', closeDetailTaskOutsideClick);
     return () => {
-      document.removeEventListener('mousedown', closingDetailTaskOutsideClick);
+      document.removeEventListener('mousedown', closeDetailTaskOutsideClick);
     };
-  }, [isOpen, closingDetailTaskOutsideClick]);
+  }, [isOpen, closeDetailTaskOutsideClick]);
 
   return (
     <div>
