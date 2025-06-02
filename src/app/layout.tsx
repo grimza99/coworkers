@@ -4,6 +4,7 @@ import Header from '@/components/layout/gnb/Header';
 import ToastProvider from '@/components/common/Toastify/ToasProvider';
 import { UserProvider } from '@/contexts/UserContext';
 import { ModalProvider } from '@/contexts/ModalContext';
+import QueryProvider from '@/lib/query/queryProvider';
 
 export const metadata: Metadata = {
   title: 'Coworkers',
@@ -17,17 +18,19 @@ export default function RootLayout({
   return (
     <html lang="ko">
       <body className="flex h-screen flex-col overflow-hidden">
-        <ModalProvider>
-          <UserProvider>
-            <ToastProvider>
-              <Header />
-              <div id="scroll-container" className="flex-1 overflow-y-auto">
-                {children}
-              </div>
-              <div id="modal-container"></div>
-            </ToastProvider>
-          </UserProvider>
-        </ModalProvider>
+        <QueryProvider>
+          <ModalProvider>
+            <UserProvider>
+              <ToastProvider>
+                <Header />
+                <div id="scroll-container" className="flex-1 overflow-y-auto">
+                  {children}
+                </div>
+                <div id="modal-container"></div>
+              </ToastProvider>
+            </UserProvider>
+          </ModalProvider>
+        </QueryProvider>
       </body>
     </html>
   );
