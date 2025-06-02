@@ -5,7 +5,7 @@ import { useEffect, useState } from 'react';
 import { ErrorBoundary } from 'react-error-boundary';
 import useDndKit from '../hooks/use-dnd-kit';
 import TaskListPageFallBack from '../../error';
-import { Task, TaskList } from '../types/task-type';
+import { Task } from '../types/task-type';
 import TasksWiseTask from './TasksWiseTask';
 
 interface Props {

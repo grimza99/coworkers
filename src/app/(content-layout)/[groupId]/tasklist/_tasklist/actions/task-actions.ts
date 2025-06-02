@@ -12,6 +12,10 @@ export const revalidateTaskLists = async () => {
   revalidateTag(`getTaskList`);
 };
 
+export const revalidateDetailTask = async () => {
+  revalidateTag(`getDetailTask`);
+};
+
 export const getTaskLists = async (groupId: string) => {
   try {
     const { data: taskListsData } = await axiosServer(`/groups/${groupId}`, {
@@ -39,5 +43,15 @@ export const getTasks = async (groupId: string, taskListId: number, date: Date |
     } else {
       throw new Error('Unknown error occurred');
     }
+  }
+};
+export const getDetailTask = async (taskId: string) => {
+  try {
+    const { data } = await axiosServer(`/groups/groupId/task-lists/taskListId/tasks/${taskId}`, {
+      fetchOptions: { next: { tags: ['getDetailTask'] } },
+    });
+    return data;
+  } catch (error: unknown) {
+    console.error(error);
   }
 };

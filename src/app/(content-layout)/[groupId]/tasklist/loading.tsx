@@ -1,4 +1,4 @@
-import { DateSkeleton, TaskListsSkeleton, TaskSkeleton } from '../_tasklist/components/Skeleton';
+import { DateSkeleton, TaskListsSkeleton, TaskSkeleton } from './_tasklist/components/Skeleton';
 
 export default function TaskListPageLoading() {
   return (

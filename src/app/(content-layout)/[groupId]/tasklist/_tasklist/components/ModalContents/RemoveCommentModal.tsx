@@ -1,4 +1,5 @@
 'use client';
+
 import { ModalContainer, ModalFooter, ModalHeading, ModalOverlay } from '@/components/common/modal';
 import { useModal, ModalPortal } from '@/contexts/ModalContext';
 import Image from 'next/image';
