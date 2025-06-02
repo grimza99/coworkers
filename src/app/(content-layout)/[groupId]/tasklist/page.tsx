@@ -1,13 +1,13 @@
-import { getTaskLists, getTasks } from '../_tasklist/actions/task-actions';
-import ManageTaskItemModal from '../_tasklist/components/manage-task-item-modal/MangeTaskItemModal';
-import DateSwitcher from '../_tasklist/components/DateSwitcher';
-import TaskLists from '../_tasklist/components/TaskLists';
-import Tasks from '../_tasklist/components/Tasks';
 import { notFound } from 'next/navigation';
 import { Metadata } from 'next';
 import { cache } from 'react';
 import { getGroupApiResponse, Group } from '@/types/group';
 import axiosServer from '@/lib/axiosServer';
+import DateSwitcher from './_tasklist/components/DateSwitcher';
+import TaskLists from './_tasklist/components/TaskLists';
+import Tasks from './_tasklist/components/Tasks';
+import ManageTaskItemModal from './_tasklist/components/manage-task-item-modal/MangeTaskItemModal';
+import { getTaskLists, getTasks } from './_tasklist/actions/task-actions';
 
 interface Props {
   params: Promise<{ groupId: string }>;

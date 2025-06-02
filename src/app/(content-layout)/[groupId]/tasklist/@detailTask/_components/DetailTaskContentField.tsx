@@ -1,11 +1,12 @@
+'use client';
 import DropDown from '@/components/common/dropdown';
 import Image from 'next/image';
 import ProfileBadge from '@/components/profile-badge';
 import Repeat from '@/assets/Repeat';
 import { format } from 'date-fns';
 import clsx from 'clsx';
-import { useTaskModals } from '../../_tasklist/hooks/use-task-modals';
 import { getRepeatDescription } from '../../_tasklist/utils/format-repeat-schedule';
+import { useTaskModals } from '../../_tasklist/hooks/use-task-modals';
 import { DetailTaskType } from '../../_tasklist/types/task-type';
 
 interface Props {
@@ -14,7 +15,7 @@ interface Props {
 }
 const DROPDOWN_OPTION_LIST = ['수정하기', '삭제하기'];
 
-export default function Content({ task, isDone }: Props) {
+export default function DetailTaskContentField({ task, isDone }: Props) {
   const { name, doneBy, updatedAt, date, description, frequency } = task;
   const { popUpDeleteTaskModal, popUpEditTaskModal } = useTaskModals();
 
