@@ -15,7 +15,7 @@ interface Props {
 }
 const DROPDOWN_OPTION_LIST = ['수정하기', '삭제하기'];
 
-export default function Content({ task, isDone }: Props) {
+export default function DetailTaskContentField({ task, isDone }: Props) {
   const { name, doneBy, updatedAt, date, description, frequency } = task;
   const { popUpDeleteTaskModal, popUpEditTaskModal } = useTaskModals();
 
