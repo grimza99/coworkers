@@ -1,66 +1,70 @@
 'use client';
 
 import Button from '@/components/common/Button';
-import FormField from '@/components/common/formField';
+import Fields from '../common/formField/Fields';
+import Input from '../common/formField/compound/Input';
+import FileInput from '../common/formField/compound/FileInput';
+import ImageUploader from '../common/formField/compound/ImageUploader';
 import BouncingDots from '@/components/common/loading/BouncingDots';
 import useManageGroup from './useManageGroup';
 import { Group } from '@/types/group';
 
 export type ManageGroup = Partial<Pick<Group, 'id'>> & Pick<Group, 'name' | 'image'>;
 
-interface MangeGroupProps {
+interface ManageGroupProps {
   groupData?: ManageGroup;
   groupNames: string[];
 }
 
-export default function ManageGroup({ groupData, groupNames }: MangeGroupProps) {
+export default function ManageGroup({ groupData, groupNames }: ManageGroupProps) {
   const isEdit = !!groupData;
-
-  const {
-    group,
-    isNameFailure,
-    isImageEmpty,
-    isSubmit,
-    isPending,
-    imageErrorMessage,
-    nameErrorMessage,
-    handleNameChange,
-    handleImageChange,
-    handleManageGroupSubmit,
-  } = useManageGroup({
-    isEdit,
-    groupData,
-    groupNames,
-  });
-
   const groupButtonText = isEdit ? '수정하기' : '생성하기';
 
+  const {
+    form: {
+      register,
+      handleSubmit,
+      formState: { errors },
+    },
+    image,
+    isPending,
+    handleImageChange,
+    handleSubmitGroup,
+  } = useManageGroup({ isEdit, groupData, groupNames });
+
   return (
-    <form onSubmit={handleManageGroupSubmit} className="flex w-full flex-col gap-10">
+    <form onSubmit={handleSubmit(handleSubmitGroup)} className="flex w-full flex-col gap-10">
       <div className="flex w-full flex-col gap-6">
-        <FormField
-          field="file-input"
-          name="image"
+        <Fields
           label="팀 프로필"
-          imageUploaderType="team"
-          isFailure={isImageEmpty}
-          isSubmit={isSubmit}
-          errorMessage={imageErrorMessage()}
-          image={group.image}
-          onImageChange={handleImageChange}
+          errorMessage={errors.image?.message}
+          render={() => (
+            <FileInput name="image" onImageChange={handleImageChange}>
+              {({ inputRef }) => (
+                <ImageUploader image={image} imageUploaderType="team" inputRef={inputRef} />
+              )}
+            </FileInput>
+          )}
         />
-        <FormField
-          field="input"
-          name="name"
+
+        <Fields
           label="팀 이름"
-          placeholder="팀 이름을 입력해 주세요."
-          isFailure={isNameFailure}
-          isSubmit={isSubmit}
-          errorMessage={nameErrorMessage()}
-          value={group.name}
-          onChange={handleNameChange}
+          errorMessage={errors.name?.message}
+          render={() => {
+            const { onBlur, ...inputProps } = register('name');
+            return (
+              <Input
+                {...inputProps}
+                name="name"
+                placeholder="팀 이름을 입력해 주세요."
+                onBlur={onBlur}
+                hasError={!!errors.name}
+              />
+            );
+          }}
         />
       </div>
+
       <div className="flex flex-col gap-6">
         <Button type="submit" variant="solid" size="fullWidth" disabled={isPending}>
           {isPending ? <BouncingDots /> : groupButtonText}

@@ -14,6 +14,7 @@ export const LABEL_SIZE = {
   '16/20': 'text-lg-md sm:text-xl-bold',
 } as const;
 
+// 삭제 예정
 export const getBorderClassName = ({
   isFocused,
   showSuccess,
