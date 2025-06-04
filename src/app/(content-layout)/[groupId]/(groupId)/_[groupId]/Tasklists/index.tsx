@@ -1,10 +1,8 @@
 'use client';
 import useTasklists from '@/app/(content-layout)/[groupId]/(groupId)/_[groupId]/Tasklists/useTasklists';
 import TasklistItem from '@/app/(content-layout)/[groupId]/(groupId)/_[groupId]/Tasklists/TasklistItem';
-import TasklistCreateModal from '@/app/(content-layout)/[groupId]/(groupId)/_[groupId]/Tasklists/TasklistCreateModal';
 import TasklistUpdateModal from '@/app/(content-layout)/[groupId]/(groupId)/_[groupId]/Tasklists/TasklistUpdateModal';
 import TasklistDeleteModal from '@/app/(content-layout)/[groupId]/(groupId)/_[groupId]/Tasklists/TasklistDeleteModal';
-import { ModalTrigger } from '@/components/common/modal';
 import { Group } from '@/types/group';
 import { Tasklist } from '@/types/tasklist';
 import Link from 'next/link';
@@ -20,15 +18,12 @@ export default function Tasklists({ groupId, tasklists }: TasklistsProps) {
     optimisticTasklists,
     selectedTasklist,
     setSelectedTasklist,
-    isCreateLoading,
     isUpdateLoading,
     isDeleteLoading,
-    createTasklist,
     updateTasklist,
     deleteTasklist,
   } = useTasklists(groupId, tasklists);
 
-  const tasklistCreateModalId = `tasklistCreate-${groupId}`;
   const tasklistUpdateModalId = selectedTasklist ? `tasklistUpdate-${selectedTasklist.id}` : '';
   const tasklistDeleteModalId = selectedTasklist ? `tasklistDelete-${selectedTasklist.id}` : '';
   const totalTasklistCount = optimisticTasklists.length;
@@ -41,10 +36,7 @@ export default function Tasklists({ groupId, tasklists }: TasklistsProps) {
           <h2 className="text-lg-md">
             할 일 목록 <span className="text-lg-rg text-gray500">({totalTasklistCount}개)</span>
           </h2>
-          {/* <ModalTrigger className="text-primary w-fit" modalId={tasklistCreateModalId}>
-            + 새로운 목록 추가하기
-          </ModalTrigger> */}
-          <Link href={`${pathname}/create`} className="text-primary w-fit">
+          <Link href={`${pathname}/create-tasklist`} className="text-primary w-fit">
             + 새로운 목록 추가하기
           </Link>
         </div>
@@ -59,12 +51,6 @@ export default function Tasklists({ groupId, tasklists }: TasklistsProps) {
           ))}
         </ol>
       </section>
-
-      <TasklistCreateModal
-        modalId={tasklistCreateModalId}
-        createTasklist={createTasklist}
-        isLoading={isCreateLoading}
-      />
 
       {selectedTasklist && (
         <TasklistUpdateModal
