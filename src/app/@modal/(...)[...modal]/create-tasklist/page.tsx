@@ -8,7 +8,7 @@ import BouncingDots from '@/components/common/loading/BouncingDots';
 import { validateEmptyValue } from '@/utils/validators';
 import { createTasklistAction } from '@/app/(content-layout)/[groupId]/(groupId)/_[groupId]/Tasklists/actions';
 
-export default function TasklistCreateModal() {
+export default function Page() {
   const { groupId } = useParams<{ groupId: string }>();
   const router = useRouter();
   const [name, setName] = useState('');

@@ -1,7 +1,6 @@
 'use client';
 import useTasklists from '@/app/(content-layout)/[groupId]/(groupId)/_[groupId]/Tasklists/useTasklists';
 import TasklistItem from '@/app/(content-layout)/[groupId]/(groupId)/_[groupId]/Tasklists/TasklistItem';
-import TasklistCreateModal from '@/app/(content-layout)/[groupId]/(groupId)/_[groupId]/Tasklists/TasklistCreateModal';
 import TasklistUpdateModal from '@/app/(content-layout)/[groupId]/(groupId)/_[groupId]/Tasklists/TasklistUpdateModal';
 import TasklistDeleteModal from '@/app/(content-layout)/[groupId]/(groupId)/_[groupId]/Tasklists/TasklistDeleteModal';
 import { Group } from '@/types/group';
@@ -19,15 +18,12 @@ export default function Tasklists({ groupId, tasklists }: TasklistsProps) {
     optimisticTasklists,
     selectedTasklist,
     setSelectedTasklist,
-    isCreateLoading,
     isUpdateLoading,
     isDeleteLoading,
-    createTasklist,
     updateTasklist,
     deleteTasklist,
   } = useTasklists(groupId, tasklists);
 
-  const tasklistCreateModalId = `tasklistCreate-${groupId}`;
   const tasklistUpdateModalId = selectedTasklist ? `tasklistUpdate-${selectedTasklist.id}` : '';
   const tasklistDeleteModalId = selectedTasklist ? `tasklistDelete-${selectedTasklist.id}` : '';
   const totalTasklistCount = optimisticTasklists.length;
@@ -55,12 +51,6 @@ export default function Tasklists({ groupId, tasklists }: TasklistsProps) {
           ))}
         </ol>
       </section>
-
-      <TasklistCreateModal
-        modalId={tasklistCreateModalId}
-        createTasklist={createTasklist}
-        isLoading={isCreateLoading}
-      />
 
       {selectedTasklist && (
         <TasklistUpdateModal
