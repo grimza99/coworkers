@@ -26,7 +26,7 @@ export default function PasswordField({
       field="input"
       type="password"
       label="비밀번호"
-      placeholder="기존 비밀번호 입력"
+      placeholder="비밀번호를 입력해 주세요."
       value={password}
       onChange={(e) => {
         setPassword(e.target.value);
