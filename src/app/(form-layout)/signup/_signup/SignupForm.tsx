@@ -7,7 +7,7 @@ import FormField from '@/components/common/formField';
 import Button from '@/components/common/Button';
 import PasswordToggleButton from './PasswordToggleButton';
 import usePasswordVisibility from '@/utils/use-password-visibility';
-import useModalContext from '@/components/common/modal/core/useModalContext';
+import { useModal } from '@/contexts/ModalContext';
 import SignupSuccessModal from '@/components/signup-alert-modal/SignupSuccessModal';
 import {
   validateEmail,
@@ -18,6 +18,7 @@ import {
 import { AUTH_ERROR_MESSAGES } from '@/constants/messages/signup';
 import { Toast } from '@/components/common/Toastify';
 import { setClientCookie } from '@/lib/cookie/client';
+import { useUser } from '@/contexts/UserContext';
 
 interface ErrorResponse {
   response?: {
@@ -28,9 +29,10 @@ interface ErrorResponse {
 }
 
 export default function SignupForm() {
-  const { openModal } = useModalContext();
+  const { openModal } = useModal();
   const router = useRouter();
   const { isPasswordVisible, togglePasswordVisibility } = usePasswordVisibility();
+  const { fetchUser } = useUser();
   const [formData, setFormData] = useState({
     nickname: '',
     email: '',
@@ -163,9 +165,11 @@ export default function SignupForm() {
           setClientCookie('accessToken', accessToken);
           setClientCookie('refreshToken', refreshToken);
 
+          await fetchUser();
+
           router.push('/nogroup');
         } catch {
-          Toast.error('자동 로그인 실패. 로그인 페이지로 이동합니다.');
+          Toast.error('자동 로그인 실패.');
           router.push('/login');
         }
       }, 5000);
@@ -205,9 +209,14 @@ export default function SignupForm() {
             isFailure={field.isFailure}
             errorMessage={field.errorMessage}
             value={formData[field.name as keyof typeof formData]}
-            onChange={(e: ChangeEvent<HTMLInputElement>) =>
-              setFieldValue(field.name as keyof typeof formData, e.target.value)
-            }
+            onChange={(e: ChangeEvent<HTMLInputElement>) => {
+              const key = field.name as keyof typeof formData;
+              setFieldValue(key, e.target.value);
+
+              if (key === 'email' || key === 'nickname') {
+                setDuplicateError((prev) => ({ ...prev, [key]: false }));
+              }
+            }}
             placeholder={field.placeholder}
             rightSlot={field.rightSlot}
           />

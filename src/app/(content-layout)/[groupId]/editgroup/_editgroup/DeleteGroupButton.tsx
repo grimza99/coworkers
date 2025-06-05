@@ -5,13 +5,15 @@ import { useState } from 'react';
 import { Toast } from '@/components/common/Toastify';
 import DangerModal from '@/components/danger-modal';
 import BouncingDots from '@/components/common/loading/BouncingDots';
-import useModalContext from '@/components/common/modal/core/useModalContext';
+import { useModal } from '@/contexts/ModalContext';
 import TrashCan from '@/assets/TrashCan';
 import { deleteGroup } from '../action';
+import { useUser } from '@/contexts/UserContext';
 
 export default function DeleteGroupButton({ groupId }: { groupId: number }) {
   const [isPending, setIsPending] = useState(false);
-  const { openModal } = useModalContext();
+  const { openModal } = useModal();
+  const { fetchUser } = useUser();
   const router = useRouter();
 
   const handleDeleteGroup = () => {
@@ -19,6 +21,7 @@ export default function DeleteGroupButton({ groupId }: { groupId: number }) {
 
     deleteGroup(groupId)
       .then(() => {
+        fetchUser();
         Toast.success('팀 삭제 성공');
         router.push('/');
       })

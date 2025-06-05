@@ -27,7 +27,10 @@ export default function StartButton({
   } else if (memberships.length === 0) {
     determinedHref = PATHS.NOGROUP;
   } else if (memberships[0].group.id) {
-    determinedHref = PATHS.getGroupPath(memberships[0].group.id);
+    const sortedGroups = memberships
+      .map((m) => m.group)
+      .toSorted((a, b) => new Date(b.createdAt).getTime() - new Date(a.createdAt).getTime());
+    determinedHref = PATHS.getGroupPath(sortedGroups[0].id);
   } else {
     determinedHref = PATHS.LOGIN;
   }

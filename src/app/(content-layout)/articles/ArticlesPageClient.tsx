@@ -185,7 +185,7 @@ export default function ArticlesPageClient() {
                   key={article.id}
                   {...article}
                   title={
-                    article.title.length > 30 ? article.title.slice(0, 30) + '...' : article.title
+                    article.title.length > 50 ? article.title.slice(0, 50) + '...' : article.title
                   }
                 />
               ))}
