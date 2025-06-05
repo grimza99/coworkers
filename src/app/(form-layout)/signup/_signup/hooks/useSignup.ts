@@ -7,24 +7,24 @@ import { Toast } from '@/components/common/Toastify';
 import { setClientCookie } from '@/lib/cookie/client';
 import { useUser } from '@/contexts/UserContext';
 
-interface SignupRequest {
+export interface SignupRequest {
   email: string;
   password: string;
   passwordConfirmation: string;
   nickname: string;
 }
 
-interface LoginRequest {
+export interface LoginRequest {
   email: string;
   password: string;
 }
 
-interface LoginResponse {
+export interface LoginResponse {
   accessToken: string;
   refreshToken: string;
 }
 
-interface ErrorResponse {
+export interface ErrorResponse {
   response?: {
     data: {
       message: string;
@@ -53,12 +53,20 @@ export const useSignup = () => {
 
   const [isSuccess, setIsSuccess] = useState(false);
   const [loginTimeoutId, setLoginTimeoutId] = useState<NodeJS.Timeout | null>(null);
+  const [pendingLogin, setPendingLogin] = useState<LoginRequest | null>(null);
 
   const signupMutation = useMutation({
     mutationFn: signupUser,
     onSuccess: () => {
       openModal('signup-success');
       setIsSuccess(true);
+
+      if (pendingLogin) {
+        const timeoutId = setTimeout(() => {
+          loginMutation.mutate(pendingLogin);
+        }, 5000);
+        setLoginTimeoutId(timeoutId);
+      }
     },
     onError: (error: unknown) => {
       const err = error as ErrorResponse;
@@ -70,6 +78,7 @@ export const useSignup = () => {
       });
 
       Toast.error('회원가입 실패');
+      setPendingLogin(null);
     },
   });
 
@@ -94,12 +103,8 @@ export const useSignup = () => {
     signupMutation.mutate(formData);
   };
 
-  const handleAutoLogin = (email: string, password: string, delay: number = 5000) => {
-    const timeoutId = setTimeout(() => {
-      loginMutation.mutate({ email, password });
-    }, delay);
-
-    setLoginTimeoutId(timeoutId);
+  const handleAutoLogin = (email: string, password: string) => {
+    setPendingLogin({ email, password });
   };
 
   const cancelAutoLogin = () => {
@@ -107,6 +112,7 @@ export const useSignup = () => {
       clearTimeout(loginTimeoutId);
       setLoginTimeoutId(null);
     }
+    setPendingLogin(null);
   };
 
   const clearDuplicateError = (field: 'email' | 'nickname') => {
