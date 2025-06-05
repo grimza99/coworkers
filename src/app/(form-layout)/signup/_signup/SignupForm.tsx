@@ -20,6 +20,7 @@ import { Toast } from '@/components/common/Toastify';
 import { setClientCookie } from '@/lib/cookie/client';
 import { useUser } from '@/contexts/UserContext';
 import SignupSuccessModal from './SignupSuccessModal';
+import BouncingDots from '@/components/common/loading/BouncingDots';
 
 interface SignupRequest {
   email: string;
@@ -270,7 +271,7 @@ export default function SignupForm() {
         fontSize="16"
         disabled={isFormInvalid || isLoading}
       >
-        {isLoading ? '처리 중...' : '회원가입'}
+        {isLoading ? <BouncingDots /> : '회원가입'}
       </Button>
       {isSuccess && (
         <SignupSuccessModal
