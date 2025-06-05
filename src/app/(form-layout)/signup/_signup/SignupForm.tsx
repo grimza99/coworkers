@@ -46,12 +46,10 @@ interface ErrorResponse {
   };
 }
 
-// 회원가입 API 함수
 const signupUser = async (data: SignupRequest): Promise<void> => {
   await axiosClient.post('/auth/signUp', data);
 };
 
-// 로그인 API 함수
 const loginUser = async (data: LoginRequest): Promise<LoginResponse> => {
   const response = await axiosClient.post('/auth/signIn', data);
   return response.data;
@@ -78,11 +76,9 @@ export default function SignupForm() {
   const [isSuccess, setIsSuccess] = useState(false);
   const [loginTimeoutId, setLoginTimeoutId] = useState<NodeJS.Timeout | null>(null);
 
-  // 회원가입 mutation
   const signupMutation = useMutation({
     mutationFn: signupUser,
     onSuccess: () => {
-      // 회원가입 성공 후 자동 로그인 시도
       const timeoutId = setTimeout(() => {
         loginMutation.mutate({
           email: formData.email,
@@ -240,7 +236,6 @@ export default function SignupForm() {
     !validatePassword(formData.password) ||
     !validateConfirmPassword(formData.password, formData.passwordConfirmation);
 
-  // 로딩 상태: 회원가입 중이거나 자동 로그인 중일 때
   const isLoading = signupMutation.isPending || loginMutation.isPending;
 
   return (
