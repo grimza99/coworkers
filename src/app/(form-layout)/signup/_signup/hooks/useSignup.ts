@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useState, useRef, useCallback } from 'react';
 import { useRouter } from 'next/navigation';
 import { useMutation } from '@tanstack/react-query';
 import axiosClient from '@/lib/axiosClient';
@@ -52,20 +52,24 @@ export const useSignup = () => {
   });
 
   const [isSuccess, setIsSuccess] = useState(false);
-  const [loginTimeoutId, setLoginTimeoutId] = useState<NodeJS.Timeout | null>(null);
   const [pendingLogin, setPendingLogin] = useState<LoginRequest | null>(null);
+
+  const loginTimeoutRef = useRef<NodeJS.Timeout | null>(null);
+  const autoLoginCancelledRef = useRef(false);
 
   const signupMutation = useMutation({
     mutationFn: signupUser,
     onSuccess: () => {
       openModal('signup-success');
       setIsSuccess(true);
+      autoLoginCancelledRef.current = false;
 
       if (pendingLogin) {
-        const timeoutId = setTimeout(() => {
-          loginMutation.mutate(pendingLogin);
+        loginTimeoutRef.current = setTimeout(() => {
+          if (!autoLoginCancelledRef.current) {
+            loginMutation.mutate(pendingLogin);
+          }
         }, 5000);
-        setLoginTimeoutId(timeoutId);
       }
     },
     onError: (error: unknown) => {
@@ -79,6 +83,7 @@ export const useSignup = () => {
 
       Toast.error('회원가입 실패');
       setPendingLogin(null);
+      autoLoginCancelledRef.current = true;
     },
   });
 
@@ -99,25 +104,49 @@ export const useSignup = () => {
     },
   });
 
-  const handleSignup = (formData: SignupRequest) => {
-    signupMutation.mutate(formData);
-  };
+  const handleSignup = useCallback(
+    (formData: SignupRequest) => {
+      if (signupMutation.isPending || loginMutation.isPending) {
+        return;
+      }
 
-  const handleAutoLogin = (email: string, password: string) => {
+      if (loginTimeoutRef.current) {
+        clearTimeout(loginTimeoutRef.current);
+        loginTimeoutRef.current = null;
+      }
+
+      signupMutation.mutate(formData);
+    },
+    [signupMutation, loginMutation]
+  );
+
+  const handleAutoLogin = useCallback((email: string, password: string) => {
     setPendingLogin({ email, password });
-  };
+  }, []);
 
-  const cancelAutoLogin = () => {
-    if (loginTimeoutId) {
-      clearTimeout(loginTimeoutId);
-      setLoginTimeoutId(null);
+  const cancelAutoLogin = useCallback(() => {
+    if (loginTimeoutRef.current) {
+      clearTimeout(loginTimeoutRef.current);
+      loginTimeoutRef.current = null;
     }
-    setPendingLogin(null);
-  };
 
-  const clearDuplicateError = (field: 'email' | 'nickname') => {
+    autoLoginCancelledRef.current = true;
+    setPendingLogin(null);
+  }, []);
+
+  const clearDuplicateError = useCallback((field: 'email' | 'nickname') => {
     setDuplicateError((prev) => ({ ...prev, [field]: false }));
-  };
+  }, []);
+
+  const cleanup = useCallback(() => {
+    if (loginTimeoutRef.current) {
+      clearTimeout(loginTimeoutRef.current);
+      loginTimeoutRef.current = null;
+    }
+    autoLoginCancelledRef.current = true;
+  }, []);
+
+  const isFormDisabled = signupMutation.isPending || loginMutation.isPending;
 
   const isLoading = signupMutation.isPending || loginMutation.isPending;
 
@@ -125,6 +154,7 @@ export const useSignup = () => {
     duplicateError,
     isSuccess,
     isLoading,
+    isFormDisabled,
 
     signupMutation,
     loginMutation,
@@ -133,5 +163,8 @@ export const useSignup = () => {
     handleAutoLogin,
     cancelAutoLogin,
     clearDuplicateError,
+    cleanup,
+
+    isPendingAutoLogin: !!pendingLogin && !autoLoginCancelledRef.current,
   };
 };
