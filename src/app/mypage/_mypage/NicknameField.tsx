@@ -12,7 +12,7 @@ interface NicknameFieldProps {
   setNickname: (value: string) => void;
   setNicknameError: (value: string) => void;
   onClick: () => void;
-  isLoading?: boolean; // 로딩 상태 추가
+  isLoading?: boolean;
 }
 
 export default function NicknameField({
@@ -30,6 +30,7 @@ export default function NicknameField({
       placeholder="닉네임을 입력해 주세요"
       value={nickname}
       errorMessage={nicknameError}
+      isFailure={!!nicknameError}
       onChange={(e) => {
         const value = e.target.value;
         setNickname(value);

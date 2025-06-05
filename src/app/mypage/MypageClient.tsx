@@ -21,16 +21,14 @@ export default function MyPageClient() {
   const [nickname, setNickname] = useState(user?.nickname ?? '');
   const [nicknameError, setNicknameError] = useState('');
   const [password, setPassword] = useState('');
+  const [passwordError, setPasswordError] = useState('');
   const { openModal, closeModal } = useModal();
   const queryClient = useQueryClient();
 
-  // 닉네임 업데이트 mutation
   const updateNicknameMutation = useMutation({
     mutationFn: (newNickname: string) => updateUserNickname(newNickname),
     onSuccess: async () => {
-      // 사용자 데이터 다시 불러오기
       await fetchUser();
-      // 관련된 쿼리 캐시 무효화
       queryClient.invalidateQueries({ queryKey: ['user'] });
       Toast.success('닉네임 변경 성공');
     },
@@ -42,16 +40,17 @@ export default function MyPageClient() {
     },
   });
 
-  // 비밀번호 검증 mutation
   const verifyPasswordMutation = useMutation({
     mutationFn: ({ email, password }: { email: string; password: string }) =>
       verifyPassword(email, password),
     onSuccess: (res) => {
       if (res?.accessToken) {
+        setPasswordError('');
         openModal('change-password');
       }
     },
     onError: () => {
+      setPasswordError('올바른 비밀번호를 입력해 주세요.');
       Toast.error('비밀번호 인증 실패');
     },
   });
@@ -113,6 +112,8 @@ export default function MyPageClient() {
               setPassword={setPassword}
               onClick={handlePasswordVerification}
               isLoading={verifyPasswordMutation.isPending}
+              passwordError={passwordError}
+              setPasswordError={setPasswordError}
             />
             <button
               type="button"

@@ -8,7 +8,9 @@ interface PasswordFieldProps {
   password: string;
   setPassword: (value: string) => void;
   onClick: () => void;
-  isLoading?: boolean; // 로딩 상태 추가
+  isLoading?: boolean;
+  passwordError?: string;
+  setPasswordError?: (value: string) => void;
 }
 
 export default function PasswordField({
@@ -16,6 +18,8 @@ export default function PasswordField({
   setPassword,
   onClick,
   isLoading = false,
+  passwordError,
+  setPasswordError,
 }: PasswordFieldProps) {
   return (
     <FormField
@@ -24,13 +28,18 @@ export default function PasswordField({
       label="비밀번호"
       placeholder="기존 비밀번호 입력"
       value={password}
-      onChange={(e) => setPassword(e.target.value)}
+      onChange={(e) => {
+        setPassword(e.target.value);
+        setPasswordError?.('');
+      }}
       onKeyDown={(e) => {
         if (e.key === 'Enter') {
           e.preventDefault();
           onClick();
         }
       }}
+      isFailure={!!passwordError}
+      errorMessage={passwordError}
       rightSlot={
         <div className="flex items-center">
           <Button
