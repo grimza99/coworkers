@@ -2,13 +2,13 @@
 
 import { useState, ChangeEvent } from 'react';
 import { useRouter } from 'next/navigation';
+import { useMutation } from '@tanstack/react-query';
 import axiosClient from '@/lib/axiosClient';
 import FormField from '@/components/common/formField';
 import Button from '@/components/common/Button';
 import PasswordToggleButton from './PasswordToggleButton';
 import usePasswordVisibility from '@/utils/use-password-visibility';
 import { useModal } from '@/contexts/ModalContext';
-import SignupSuccessModal from '@/components/signup-alert-modal/SignupSuccessModal';
 import {
   validateEmail,
   validatePassword,
@@ -19,6 +19,24 @@ import { AUTH_ERROR_MESSAGES } from '@/constants/messages/signup';
 import { Toast } from '@/components/common/Toastify';
 import { setClientCookie } from '@/lib/cookie/client';
 import { useUser } from '@/contexts/UserContext';
+import SignupSuccessModal from './SignupSuccessModal';
+
+interface SignupRequest {
+  email: string;
+  password: string;
+  passwordConfirmation: string;
+  nickname: string;
+}
+
+interface LoginRequest {
+  email: string;
+  password: string;
+}
+
+interface LoginResponse {
+  accessToken: string;
+  refreshToken: string;
+}
 
 interface ErrorResponse {
   response?: {
@@ -28,29 +46,91 @@ interface ErrorResponse {
   };
 }
 
+// 회원가입 API 함수
+const signupUser = async (data: SignupRequest): Promise<void> => {
+  await axiosClient.post('/auth/signUp', data);
+};
+
+// 로그인 API 함수
+const loginUser = async (data: LoginRequest): Promise<LoginResponse> => {
+  const response = await axiosClient.post('/auth/signIn', data);
+  return response.data;
+};
+
 export default function SignupForm() {
   const { openModal } = useModal();
   const router = useRouter();
   const { isPasswordVisible, togglePasswordVisibility } = usePasswordVisibility();
   const { fetchUser } = useUser();
+
   const [formData, setFormData] = useState({
     nickname: '',
     email: '',
     password: '',
     passwordConfirmation: '',
   });
+
+  const [duplicateError, setDuplicateError] = useState({
+    nickname: false,
+    email: false,
+  });
+
+  const [isSuccess, setIsSuccess] = useState(false);
+  const [loginTimeoutId, setLoginTimeoutId] = useState<NodeJS.Timeout | null>(null);
+
+  // 회원가입 mutation
+  const signupMutation = useMutation({
+    mutationFn: signupUser,
+    onSuccess: () => {
+      // 회원가입 성공 후 자동 로그인 시도
+      const timeoutId = setTimeout(() => {
+        loginMutation.mutate({
+          email: formData.email,
+          password: formData.password,
+        });
+      }, 5000);
+
+      setLoginTimeoutId(timeoutId);
+      openModal('signup-success');
+      setIsSuccess(true);
+    },
+    onError: (error: unknown) => {
+      const err = error as ErrorResponse;
+      const message = err.response?.data?.message || '';
+
+      setDuplicateError({
+        email: message.includes('이메일'),
+        nickname: message.includes('닉네임'),
+      });
+
+      Toast.error('회원가입 실패');
+    },
+  });
+
+  // 자동 로그인 mutation
+  const loginMutation = useMutation({
+    mutationFn: loginUser,
+    onSuccess: async (data: LoginResponse) => {
+      const { accessToken, refreshToken } = data;
+
+      setClientCookie('accessToken', accessToken);
+      setClientCookie('refreshToken', refreshToken);
+
+      await fetchUser();
+      router.push('/nogroup');
+    },
+    onError: () => {
+      Toast.error('자동 로그인 실패.');
+      router.push('/login');
+    },
+  });
+
   const setFieldValue = (key: keyof typeof formData, value: string) => {
     setFormData((prev) => ({
       ...prev,
       [key]: value.trim(),
     }));
   };
-  const [duplicateError, setDuplicateError] = useState({
-    nickname: false,
-    email: false,
-  });
-  const [isSuccess, setIsSuccess] = useState(false);
-  const [loginTimeoutId, setLoginTimeoutId] = useState<NodeJS.Timeout | null>(null);
 
   function getNicknameErrorMessage() {
     if (formData.nickname.trim() === '') {
@@ -145,50 +225,13 @@ export default function SignupForm() {
 
   const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
-    try {
-      await axiosClient.post('/auth/signUp', {
-        email: formData.email,
-        password: formData.password,
-        passwordConfirmation: formData.passwordConfirmation,
-        nickname: formData.nickname,
-      });
 
-      const timeoutId = setTimeout(async () => {
-        try {
-          const loginRes = await axiosClient.post('/auth/signIn', {
-            email: formData.email,
-            password: formData.password,
-          });
-
-          const { accessToken, refreshToken } = loginRes.data;
-
-          setClientCookie('accessToken', accessToken);
-          setClientCookie('refreshToken', refreshToken);
-
-          await fetchUser();
-
-          router.push('/nogroup');
-        } catch {
-          Toast.error('자동 로그인 실패.');
-          router.push('/login');
-        }
-      }, 5000);
-
-      setLoginTimeoutId(timeoutId);
-
-      openModal('signup-success');
-      setIsSuccess(true);
-    } catch (error: unknown) {
-      const err = error as ErrorResponse;
-      const message = err.response?.data?.message || '';
-
-      setDuplicateError({
-        email: message.includes('이메일'),
-        nickname: message.includes('닉네임'),
-      });
-
-      Toast.error('회원가입 실패');
-    }
+    signupMutation.mutate({
+      email: formData.email,
+      password: formData.password,
+      passwordConfirmation: formData.passwordConfirmation,
+      nickname: formData.nickname,
+    });
   };
 
   const isFormInvalid =
@@ -196,6 +239,9 @@ export default function SignupForm() {
     !validateEmail(formData.email) ||
     !validatePassword(formData.password) ||
     !validateConfirmPassword(formData.password, formData.passwordConfirmation);
+
+  // 로딩 상태: 회원가입 중이거나 자동 로그인 중일 때
+  const isLoading = signupMutation.isPending || loginMutation.isPending;
 
   return (
     <form className="flex w-full flex-col gap-y-10 md:max-w-115" onSubmit={handleSubmit}>
@@ -222,8 +268,14 @@ export default function SignupForm() {
           />
         ))}
       </div>
-      <Button type="submit" variant="solid" size="fullWidth" fontSize="16" disabled={isFormInvalid}>
-        회원가입
+      <Button
+        type="submit"
+        variant="solid"
+        size="fullWidth"
+        fontSize="16"
+        disabled={isFormInvalid || isLoading}
+      >
+        {isLoading ? '처리 중...' : '회원가입'}
       </Button>
       {isSuccess && (
         <SignupSuccessModal
