@@ -36,7 +36,7 @@ export default function MyPageClient() {
       const errorObj = error as { response?: { data?: { message?: string } } };
       const message = errorObj?.response?.data?.message || '닉네임을 변경할 수 없습니다.';
       setNicknameError(message);
-      Toast.error('닉네임 변경에 실패했습니다.');
+      Toast.error('닉네임 변경 실패');
     },
   });
 
