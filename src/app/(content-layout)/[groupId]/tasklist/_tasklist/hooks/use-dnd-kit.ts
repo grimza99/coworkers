@@ -1,11 +1,11 @@
 import { DragEndEvent, MouseSensor, TouchSensor, useSensor, useSensors } from '@dnd-kit/core';
 import { arrayMove } from '@dnd-kit/sortable';
-import { TaskList, Task } from '../types/task-type';
+import { Task } from '../types/task-type';
 import { useTaskActions } from './use-task-actions';
 
 export default function useDndKit(
   currentTasks: Task[],
-  currentTaskList: TaskList,
+  taskListId: number,
   sortCurrentTasks: (orderedCurrentTasks: Task[]) => void
 ) {
   const { saveNewTaskOrder } = useTaskActions();
@@ -31,7 +31,7 @@ export default function useDndKit(
       const newIndex = currentTasks.findIndex((task) => task.id === over?.id);
       if (oldIndex !== -1 && newIndex !== -1) {
         sortCurrentTasks(arrayMove(currentTasks, oldIndex, newIndex));
-        await saveNewTaskOrder(currentTaskList!.id, Number(active.id), newIndex);
+        await saveNewTaskOrder(taskListId, Number(active.id), newIndex);
       }
     }
   };

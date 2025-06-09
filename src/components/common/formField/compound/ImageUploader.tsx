@@ -41,12 +41,12 @@ export default function ImageUploader({ imageUploaderType, image, inputRef }: Im
       <button
         onClick={triggerUploadClick}
         className={clsx(
-          'border-border relative flex h-16 w-16 cursor-pointer items-center justify-center rounded-full border-2',
+          'border-border relative flex h-16 w-16 cursor-pointer items-center justify-center overflow-hidden rounded-full border-2',
           TEAM ? 'bg-bg200' : 'bg-bg100'
         )}
       >
         {image ? (
-          <Image src={image} fill alt="profile" className="rounded-full" />
+          <Image src={image} fill alt="profile" className="object-cover" />
         ) : (
           <Image
             src={defaultIcon}

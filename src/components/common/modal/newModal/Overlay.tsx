@@ -1,28 +1,25 @@
 'use client';
 import { useEffect } from 'react';
+import { useRouter } from 'next/navigation';
 import clsx from 'clsx';
-import useModalContext from '@/components/common/modal/core/useModalContext';
 
-interface ModalOverlayProps extends React.ComponentProps<'div'> {
-  modalId: string;
+interface OverlayProps extends React.ComponentProps<'div'> {
   disableOverlayClose?: boolean;
-  onClick?: (e: React.MouseEvent<HTMLDivElement>) => void;
 }
 
-export default function ModalOverlay({
-  modalId,
+export default function Overlay({
   disableOverlayClose = false,
-  onClick = () => {},
+  onClick,
   className,
   children,
   ...props
-}: ModalOverlayProps) {
-  const { closeModal } = useModalContext();
+}: OverlayProps) {
+  const router = useRouter();
 
   const handleClick = (e: React.MouseEvent<HTMLDivElement>) => {
     if (e.target === e.currentTarget && !disableOverlayClose) {
-      onClick(e);
-      closeModal(modalId);
+      onClick?.(e);
+      router.back();
     }
   };
 

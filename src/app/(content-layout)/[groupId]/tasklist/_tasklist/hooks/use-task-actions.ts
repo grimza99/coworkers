@@ -1,6 +1,7 @@
 import axiosClient from '@/lib/axiosClient';
 import { Task } from '../types/task-type';
 import { Toast } from '@/components/common/Toastify';
+import { revalidateDetailTask } from '../actions/task-actions';
 
 export function useTaskActions(task?: Task) {
   const deleteTask = async (
@@ -22,21 +23,16 @@ export function useTaskActions(task?: Task) {
     }
   };
 
-  const toggleTaskDone = async (
-    groupId: string,
-    taskListId: number,
-    doneState: boolean,
-    toggleDoneState: () => void
-  ) => {
+  const toggleTaskDone = async (doneState: boolean, toggleDoneState?: () => void) => {
     if (!task) return;
     try {
-      await axiosClient.patch(`/groups/${groupId}/task-lists/${taskListId}/tasks/${task.id}`, {
+      await axiosClient.patch(`/groups/groupId/task-lists/taskListId/tasks/${task.id}`, {
         name: task.name,
         description: task.description,
         done: !doneState,
       });
-      toggleDoneState();
-
+      toggleDoneState?.();
+      revalidateDetailTask();
       if (doneState) return Toast.success('할 일 완료 취소 성공');
       if (!doneState) return Toast.success('할 일 완료 성공');
     } catch {
