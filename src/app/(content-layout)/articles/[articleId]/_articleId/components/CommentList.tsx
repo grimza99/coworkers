@@ -1,6 +1,6 @@
 'use client';
 
-import { useEffect, useState } from 'react';
+import { useCallback, useEffect, useState } from 'react';
 import { useInView } from 'react-intersection-observer';
 import Textarea from '@/components/common/formField/compound/Textarea';
 import Button from '@/components/common/Button';
@@ -33,7 +33,7 @@ export default function CommentList({
   const [isScrollLoading, setIsScrollLoading] = useState(false);
   const hasMore = cursor !== null;
 
-  const getMoreComment = async () => {
+  const getMoreComment = useCallback(async () => {
     if (!hasMore || isScrollLoading) return;
 
     setIsScrollLoading(true);
@@ -49,7 +49,7 @@ export default function CommentList({
     } finally {
       setIsScrollLoading(false);
     }
-  };
+  }, [hasMore, isScrollLoading]);
 
   useEffect(() => {
     if (inView) {
