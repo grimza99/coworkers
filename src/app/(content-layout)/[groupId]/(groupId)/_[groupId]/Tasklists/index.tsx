@@ -5,8 +5,7 @@ import TasklistUpdateModal from '@/app/(content-layout)/[groupId]/(groupId)/_[gr
 import TasklistDeleteModal from '@/app/(content-layout)/[groupId]/(groupId)/_[groupId]/Tasklists/TasklistDeleteModal';
 import { Group } from '@/types/group';
 import { Tasklist } from '@/types/tasklist';
-import Link from 'next/link';
-import { usePathname } from 'next/navigation';
+import CreateTaskListModal from '../../../tasklist/_tasklist/components/ModalContents/CreateTaskListModal';
 
 type TasklistsProps = {
   groupId: Group['id'];
@@ -27,7 +26,6 @@ export default function Tasklists({ groupId, tasklists }: TasklistsProps) {
   const tasklistUpdateModalId = selectedTasklist ? `tasklistUpdate-${selectedTasklist.id}` : '';
   const tasklistDeleteModalId = selectedTasklist ? `tasklistDelete-${selectedTasklist.id}` : '';
   const totalTasklistCount = optimisticTasklists.length;
-  const pathname = usePathname();
 
   return (
     <>
@@ -36,9 +34,7 @@ export default function Tasklists({ groupId, tasklists }: TasklistsProps) {
           <h2 className="text-lg-md">
             할 일 목록 <span className="text-lg-rg text-gray500">({totalTasklistCount}개)</span>
           </h2>
-          <Link href={`${pathname}/create-tasklist`} className="text-primary w-fit">
-            + 새로운 목록 추가하기
-          </Link>
+          <CreateTaskListModal groupId={String(groupId)} />
         </div>
         <ol className="flex flex-col gap-4">
           {tasklists.map((tasklist, index) => (
