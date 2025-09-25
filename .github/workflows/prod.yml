@@ -46,4 +46,4 @@ jobs:
             docker pull ${{ secrets.DOCKERHUB_USERNAME }}/coworkers:latest
             docker stop coworkers || true
             docker rm coworkers || true
-            docker run -d --name coworkers -p 8080:8080 ${{ secrets.DOCKERHUB_USERNAME }}/coworkers:latest
+            docker run -d --name coworkers -p 8080:3000 ${{ secrets.DOCKERHUB_USERNAME }}/coworkers:latest
