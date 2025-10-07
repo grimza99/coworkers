@@ -9,7 +9,7 @@ on:
 jobs:
   deploy:
     runs-on: ubuntu-latest
-
+    environment: e
     steps:
       # 1. 레포 체크아웃
       - name: Checkout code
