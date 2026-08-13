@@ -1,3 +1,5 @@
+# 서버비용 이슈로 인해 AWS EC2배포 중단, vercel 배포 변경으로 해당 파일은 disabled 처리
+
 name: Deploy Coworkers to EC2 via Docker Hub
 
 on:
