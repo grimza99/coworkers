@@ -15,6 +15,10 @@ const nextConfig: NextConfig = {
         protocol: 'https',
         hostname: 'k.kakaocdn.net',
       },
+      {
+        protocol: 'http',
+        hostname: 'k.kakaocdn.net',
+      },
     ],
   },
   turbopack: {},
