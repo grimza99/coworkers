@@ -5,15 +5,15 @@ import { Task, TaskList } from '../types/task-type';
 import { revalidateTag } from 'next/cache';
 
 export const revalidateTasks = async () => {
-  revalidateTag(`getTasks`);
+  revalidateTag(`getTasks`, 'max');
 };
 
 export const revalidateTaskLists = async () => {
-  revalidateTag(`getTaskList`);
+  revalidateTag(`getTaskList`, 'max');
 };
 
 export const revalidateDetailTask = async () => {
-  revalidateTag(`getDetailTask`);
+  revalidateTag(`getDetailTask`, 'max');
 };
 
 export const getTaskLists = async (groupId: string) => {
