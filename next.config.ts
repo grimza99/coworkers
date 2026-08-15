@@ -2,14 +2,27 @@ import type { NextConfig } from 'next';
 
 const nextConfig: NextConfig = {
   images: {
-    domains: [
-      'sprint-fe-project.s3.ap-northeast-2.amazonaws.com',
-      'sprint-fe-project.s3.ap-northeast2.amazonaws.com',
-      'k.kakaocdn.net',
+    remotePatterns: [
+      {
+        protocol: 'https',
+        hostname: 'sprint-fe-project.s3.ap-northeast-2.amazonaws.com',
+      },
+      {
+        protocol: 'https',
+        hostname: 'sprint-fe-project.s3.ap-northeast2.amazonaws.com',
+      },
+      {
+        protocol: 'https',
+        hostname: 'k.kakaocdn.net',
+      },
+      {
+        protocol: 'http',
+        hostname: 'k.kakaocdn.net',
+      },
     ],
   },
-
-  webpack(config) {
+  turbopack: {},
+  webpack: (config) => {
     // Grab the existing rule that handles SVG imports
     const fileLoaderRule = config.module.rules.find((rule: any) => rule.test?.test?.('.svg'));
 

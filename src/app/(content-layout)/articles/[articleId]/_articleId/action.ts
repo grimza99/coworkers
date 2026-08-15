@@ -31,15 +31,15 @@ export async function getArticleComments(articleId: number, limit: number, curso
 
 export async function postArticleCommentsAction(articleId: number, comment: string) {
   await axiosServer.post(`/articles/${articleId}/comments`, { content: comment });
-  revalidateTag(`article-comments-${articleId}`);
+  revalidateTag(`article-comments-${articleId}`, 'max');
 }
 
 export async function deleteArticleComment(articleId: number, commentId: number) {
   await axiosServer.delete(`/comments/${commentId}`);
-  revalidateTag(`article-comments-${articleId}`);
+  revalidateTag(`article-comments-${articleId}`, 'max');
 }
 
 export async function patchArticleComment(articleId: number, commentId: number, comment: string) {
   await axiosServer.patch(`/comments/${commentId}`, { content: comment });
-  revalidateTag(`article-comments-${articleId}`);
+  revalidateTag(`article-comments-${articleId}`, 'max');
 }
