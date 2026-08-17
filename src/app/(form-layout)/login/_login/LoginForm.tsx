@@ -1,15 +1,12 @@
 'use client';
-import { useRef, useState, useEffect } from 'react';
+import { useState } from 'react';
 import { useRouter } from 'next/navigation';
-import axios, { CancelTokenSource, isAxiosError } from 'axios';
 import { useUser } from '@/contexts/UserContext';
 import FormField from '@/components/common/formField';
 import Button from '@/components/common/Button';
 import BouncingDots from '@/components/common/loading/BouncingDots';
 import SendResetPassword from '@/app/(form-layout)/login/_login/SendResetPassword';
 import PasswordToggleButton from '@/app/(form-layout)/signup/_signup/PasswordToggleButton';
-import axiosClient from '@/lib/axiosClient';
-import { setClientCookie } from '@/lib/cookie/client';
 import { validateEmail } from '@/utils/validators';
 import { User } from '@/types/user';
 import PATHS from '@/constants/paths';
@@ -22,7 +19,6 @@ export interface loginApiResponse {
 
 export default function LoginForm() {
   const router = useRouter();
-  const cancelTokenRef = useRef<CancelTokenSource | null>(null);
 
   const { fetchUser } = useUser();
   const [email, setEmail] = useState('');
@@ -39,47 +35,27 @@ export default function LoginForm() {
   const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
 
-    if (isLoggingIn && cancelTokenRef.current) {
-      cancelTokenRef.current.cancel();
-    }
-
     setIsLoggingIn(true);
     setIsLoginFailed(false);
-    cancelTokenRef.current = axios.CancelToken.source();
 
     try {
-      const res = await axiosClient.post<loginApiResponse>(
-        `/auth/signIn`,
-        { email, password },
-        { cancelToken: cancelTokenRef.current.token }
-      );
+      const res = await fetch('/api/auth/login', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({ email, password }),
+      });
 
-      const data = res.data;
-      setClientCookie('accessToken', data.accessToken);
-      setClientCookie('refreshToken', data.refreshToken);
+      if (!res.ok) return router.push(PATHS.HOME);
       fetchUser();
-      router.push(PATHS.HOME);
-      setIsLoggingIn(false);
+      router.push(PATHS.ARTICLES.BASE);
     } catch (error) {
-      if (axios.isCancel(error)) return;
-
-      if (isAxiosError(error)) {
-        setIsLoginFailed(true);
-      } else {
-        console.error('로그인 중 에러 발생:', error);
-      }
-      setPassword('');
+      console.error('로그인 중 에러 발생:', error);
+    } finally {
       setIsLoggingIn(false);
     }
   };
-
-  useEffect(() => {
-    return () => {
-      if (cancelTokenRef.current) {
-        cancelTokenRef.current.cancel();
-      }
-    };
-  }, []);
 
   return (
     <form onSubmit={handleSubmit} className="flex w-full flex-col md:max-w-115">
