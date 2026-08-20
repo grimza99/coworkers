@@ -20,7 +20,7 @@ export interface loginApiResponse {
 export default function LoginForm() {
   const router = useRouter();
 
-  const { fetchUser } = useUser();
+  const { fetchUser, setUser } = useUser();
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [isPasswordVisible, setIsPasswordVisible] = useState(false);
@@ -48,6 +48,8 @@ export default function LoginForm() {
       });
 
       if (!res.ok) return router.push(PATHS.HOME);
+      const data = (await res.json()) as loginApiResponse;
+      setUser(data.user);
       fetchUser();
       router.push(PATHS.ARTICLES.BASE);
     } catch (error) {
