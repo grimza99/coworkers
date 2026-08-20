@@ -9,12 +9,13 @@ const axiosClient = axios.create({
   timeout: 5000,
   headers: { 'Content-Type': 'application/json' },
   adapter: 'fetch',
+  withCredentials: true,
 });
 
 axiosClient.interceptors.request.use((config) => {
-  const token = getClientCookie('accessToken');
-  if (!token) return config;
-  config.headers.set('Authorization', `Bearer ${token}`);
+  // const token = getClientCookie('accessToken');
+  // if (!token) return config;
+  // config.headers.set('Authorization', `Bearer ${token}`);
   return config;
 });
 
