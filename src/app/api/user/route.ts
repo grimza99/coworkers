@@ -1,17 +1,12 @@
 import { BACKEND_API } from '@/constants/api';
-import { getRequestCookie } from '@/lib/api/cookie';
+import { requestHeader } from '@/lib/api/headers';
 import { NextRequest, NextResponse } from 'next/server';
 
 export async function GET(request: NextRequest) {
   try {
-    const token = getRequestCookie(request);
-
     const res = await fetch(BACKEND_API.user, {
       method: 'GET',
-      headers: {
-        'Content-Type': 'application/json',
-        Authorization: `Bearer ${token}`,
-      },
+      headers: requestHeader(request),
     });
 
     if (!res.ok) {
