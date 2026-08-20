@@ -1,6 +1,6 @@
 'use client';
 
-import { useEffect, useState, useMemo, Suspense, lazy } from 'react';
+import { useEffect, useState, useMemo, Suspense, lazy, useRef } from 'react';
 import { useRouter, useSearchParams } from 'next/navigation';
 import debounce from 'lodash.debounce';
 import axiosClient from '@/lib/axiosClient';
@@ -36,23 +36,28 @@ export default function ArticlesPageClient() {
   const router = useRouter();
   const { user } = useUser();
 
-  const updateKeyword = useMemo(
-    () =>
-      debounce((v: string) => {
-        const params = new URLSearchParams(searchParams.toString());
-        if (v) {
-          params.set('keyword', v);
-        } else {
-          params.delete('keyword');
-        }
-        router.replace(`/articles?${params.toString()}`);
-      }, 1000),
-    [router, searchParams]
-  );
+  const debouncedUpdateKeyword = useRef(
+    debounce((keyword: string) => {
+      const params = new URLSearchParams(window.location.search);
+      if (keyword) {
+        params.set('keyword', keyword);
+      } else {
+        params.delete('keyword');
+      }
+      router.replace(`/articles?${params.toString()}`);
+    }, 500)
+  ).current;
 
   useEffect(() => {
-    updateKeyword(searchInput);
-  }, [searchInput, updateKeyword]);
+    const currentKeyword = searchParams.get('keyword') ?? '';
+    if (searchInput !== currentKeyword) {
+      debouncedUpdateKeyword(searchInput);
+    }
+
+    return () => {
+      debouncedUpdateKeyword.cancel();
+    };
+  }, [searchInput, debouncedUpdateKeyword, searchParams]);
 
   const handleSearch = () => {
     const params = new URLSearchParams(searchParams.toString());
