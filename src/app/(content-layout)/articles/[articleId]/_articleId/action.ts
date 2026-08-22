@@ -44,7 +44,7 @@ export async function postArticleCommentsAction(articleId: number, comment: stri
 }
 
 export async function deleteArticleComment(articleId: number, commentId: number) {
-  await axiosServer.delete(`/comments/${commentId}`);
+  await axiosServer.delete(BFF_API.article.comment.delete(String(commentId)));
   revalidateTag(`article-comments-${articleId}`, 'max');
 }
 
