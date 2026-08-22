@@ -14,16 +14,20 @@ export async function getDetailArticle(id: number) {
   return response.data;
 }
 
-export async function getArticleComments(articleId: number, limit: number, cursor?: number) {
+const COMMENT_LIMIT = 10;
+export async function getArticleComments(
+  articleId: number,
+  limit: number = COMMENT_LIMIT,
+  cursor?: number
+) {
   const params = new URLSearchParams();
   params.append('limit', String(limit));
 
   if (cursor !== undefined) {
     params.append('cursor', String(cursor));
   }
-
   const response = await axiosServer.get<ArticleComments>(
-    `/articles/${articleId}/comments?${params}`,
+    `${BFF_API.article.comment.list(String(articleId))}?${params}`,
     {
       fetchOptions: { next: { tags: [`article-comments-${articleId}`] } },
     }
