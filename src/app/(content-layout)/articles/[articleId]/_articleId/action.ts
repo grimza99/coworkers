@@ -37,7 +37,9 @@ export async function getArticleComments(
 }
 
 export async function postArticleCommentsAction(articleId: number, comment: string) {
-  await axiosServer.post(`/articles/${articleId}/comments`, { content: comment });
+  await axiosServer.post(`${BFF_API.article.comment.create(String(articleId))}`, {
+    content: comment,
+  });
   revalidateTag(`article-comments-${articleId}`, 'max');
 }
 
