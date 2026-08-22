@@ -1,6 +1,6 @@
 'use server';
 
-import { revalidateTag } from 'next/cache';
+import { revalidateTag, updateTag } from 'next/cache';
 import axiosServer from '@/lib/axiosServer';
 import { ArticleComments } from '@/components/comment/types';
 import { GetArticleDetailResponse } from '@/types/article';
@@ -40,15 +40,15 @@ export async function postArticleCommentsAction(articleId: number, comment: stri
   await axiosServer.post(`${BFF_API.article.comment.create(String(articleId))}`, {
     content: comment,
   });
-  revalidateTag(`article-comments-${articleId}`, 'max');
+  updateTag(`article-comments-${articleId}`);
 }
 
 export async function deleteArticleComment(articleId: number, commentId: number) {
   await axiosServer.delete(BFF_API.article.comment.delete(String(commentId)));
-  revalidateTag(`article-comments-${articleId}`, 'max');
+  updateTag(`article-comments-${articleId}`);
 }
 
 export async function patchArticleComment(articleId: number, commentId: number, comment: string) {
   await axiosServer.patch(BFF_API.article.comment.edit(String(commentId)), { content: comment });
-  revalidateTag(`article-comments-${articleId}`, 'max');
+  updateTag(`article-comments-${articleId}`);
 }
