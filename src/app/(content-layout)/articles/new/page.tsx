@@ -9,6 +9,7 @@ import axiosClient from '@/lib/axiosClient';
 import postImageUrl from '@/lib/api/image/postImageUrl';
 import { validateEmptyValue } from '@/utils/validators';
 import PATHS from '@/constants/paths';
+import { BFF_API } from '@/constants/api';
 
 export default function Page() {
   const router = useRouter();
@@ -53,7 +54,7 @@ export default function Page() {
         ...(uploadedImageUrl && { image: uploadedImageUrl }),
       };
 
-      await axiosClient.post('/articles', articlePayload);
+      await axiosClient.post(BFF_API.article.create, articlePayload);
 
       Toast.success('게시글 작성 완료');
       setTitle('');

@@ -1,11 +1,12 @@
 import axios from 'axios';
 import { getClientCookie, setClientCookie } from '@/lib/cookie/client';
 import PATHS from '@/constants/paths';
+import { BFF_API } from '@/constants/api';
 
-const BASE_URL = process.env.NEXT_PUBLIC_API_URL;
+const BASE_URL = BFF_API.entry;
 
 const axiosClient = axios.create({
-  baseURL: BASE_URL,
+  baseURL: BFF_API.entry,
   timeout: 5000,
   headers: { 'Content-Type': 'application/json' },
   adapter: 'fetch',

@@ -4,9 +4,12 @@ import { revalidateTag } from 'next/cache';
 import axiosServer from '@/lib/axiosServer';
 import { ArticleComments } from '@/components/comment/types';
 import { GetArticleDetailResponse } from '@/types/article';
+import { BFF_API } from '@/constants/api';
 
-export async function getDetailArticle(articleId: number) {
-  const response = await axiosServer.get<GetArticleDetailResponse>(`/articles/${articleId}`);
+export async function getDetailArticle(id: number) {
+  const response = await axiosServer.get<GetArticleDetailResponse>(
+    BFF_API.article.detail(String(id))
+  );
 
   return response.data;
 }

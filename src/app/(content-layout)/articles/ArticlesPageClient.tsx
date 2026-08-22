@@ -1,6 +1,6 @@
 'use client';
 
-import { useEffect, useState, useMemo, Suspense, lazy } from 'react';
+import { useEffect, useState, useMemo, Suspense, lazy, useRef } from 'react';
 import { useRouter, useSearchParams } from 'next/navigation';
 import debounce from 'lodash.debounce';
 import axiosClient from '@/lib/axiosClient';
@@ -15,8 +15,11 @@ import { Toast } from '@/components/common/Toastify';
 import { BestCardSkeleton, CardSkeleton } from './_articles/components/Skeleton';
 import Image from 'next/image';
 import { useUser } from '@/contexts/UserContext';
+import { BFF_API } from '@/constants/api';
 
 const Card = lazy(() => import('./_articles/components/Card'));
+const MAX_BEST_ARTICLE_COUNT = 3;
+const PAGE_SIZE = 10;
 
 export default function ArticlesPageClient() {
   const [articles, setArticles] = useState<Article[]>([]);
@@ -30,27 +33,31 @@ export default function ArticlesPageClient() {
   const [searchInput, setSearchInput] = useState(searchParams.get('keyword') ?? '');
   const [totalCount, setTotalCount] = useState(0);
   const [currentPage, setCurrentPage] = useState(1);
-  const pageSize = 10;
   const router = useRouter();
   const { user } = useUser();
 
-  const updateKeyword = useMemo(
-    () =>
-      debounce((v: string) => {
-        const params = new URLSearchParams(searchParams.toString());
-        if (v) {
-          params.set('keyword', v);
-        } else {
-          params.delete('keyword');
-        }
-        router.replace(`/articles?${params.toString()}`);
-      }, 1000),
-    [router, searchParams]
-  );
+  const debouncedUpdateKeyword = useRef(
+    debounce((keyword: string) => {
+      const params = new URLSearchParams(window.location.search);
+      if (keyword) {
+        params.set('keyword', keyword);
+      } else {
+        params.delete('keyword');
+      }
+      router.replace(`/articles?${params.toString()}`);
+    }, 500)
+  ).current;
 
   useEffect(() => {
-    updateKeyword(searchInput);
-  }, [searchInput, updateKeyword]);
+    const currentKeyword = searchParams.get('keyword') ?? '';
+    if (searchInput !== currentKeyword) {
+      debouncedUpdateKeyword(searchInput);
+    }
+
+    return () => {
+      debouncedUpdateKeyword.cancel();
+    };
+  }, [searchInput, debouncedUpdateKeyword, searchParams]);
 
   const handleSearch = () => {
     const params = new URLSearchParams(searchParams.toString());
@@ -66,15 +73,14 @@ export default function ArticlesPageClient() {
     const fetchBestArticles = async () => {
       setIsLoadingBest(true);
       try {
-        const res = await axiosClient.get<GetArticlesResponse>('/articles', {
+        const res = await axiosClient.get<GetArticlesResponse>(BFF_API.article.list, {
           params: {
             page: 1,
-            pageSize: 100,
+            pageSize: MAX_BEST_ARTICLE_COUNT,
             orderBy: 'like',
           },
         });
-        const sortedByLike = res.data.list.toSorted((a, b) => b.likeCount - a.likeCount);
-        setBestArticles(sortedByLike.slice(0, 3));
+        setBestArticles(res.data.list);
       } catch (error) {
         Toast.error('베스트 게시글 불러오기 실패');
         console.error('베스트 게시글을 불러오기 실패', error);
@@ -89,10 +95,10 @@ export default function ArticlesPageClient() {
     const fetchArticles = async () => {
       setIsArticlesLoading(true);
       try {
-        const res = await axiosClient.get('/articles', {
+        const res = await axiosClient.get(BFF_API.article.list, {
           params: {
             page: currentPage,
-            pageSize,
+            pageSize: PAGE_SIZE,
             orderBy,
             keyword: searchInput,
           },
@@ -195,7 +201,7 @@ export default function ArticlesPageClient() {
         {!isArticlesLoading && articles.length > 0 && (
           <Pagination
             currentPage={currentPage}
-            totalPages={Math.ceil(totalCount / pageSize)}
+            totalPages={Math.ceil(totalCount / PAGE_SIZE)}
             onPageChange={setCurrentPage}
           />
         )}
