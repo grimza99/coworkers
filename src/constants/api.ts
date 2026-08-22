@@ -11,6 +11,7 @@ export const BFF_API = {
     comment: {
       list: (articleId: string) => `/articles/${articleId}/comments`,
       create: (articleId: string) => `/articles/${articleId}/comments`,
+      edit: (id: string) => `/comments/${id}`,
     },
   },
 };
@@ -24,6 +25,7 @@ export const BACKEND_API = {
       list: (articleId: string) => `${BACKEND_BASEURL}${BFF_API.article.comment.list(articleId)}`,
       create: (articleId: string) =>
         `${BACKEND_BASEURL}${BFF_API.article.comment.create(articleId)}`,
+      edit: (articleId: string) => `${BACKEND_BASEURL}${BFF_API.article.comment.edit(articleId)}`,
     },
   },
 };

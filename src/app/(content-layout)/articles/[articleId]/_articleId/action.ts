@@ -49,6 +49,6 @@ export async function deleteArticleComment(articleId: number, commentId: number)
 }
 
 export async function patchArticleComment(articleId: number, commentId: number, comment: string) {
-  await axiosServer.patch(`/comments/${commentId}`, { content: comment });
+  await axiosServer.patch(BFF_API.article.comment.edit(String(commentId)), { content: comment });
   revalidateTag(`article-comments-${articleId}`, 'max');
 }
