@@ -1,3 +1,4 @@
+import { BACKEND_API } from '@/constants/api';
 import { NextRequest, NextResponse } from 'next/server';
 
 type LoginApiResponse = {
@@ -9,13 +10,12 @@ type LoginApiResponse = {
     image: string | null;
   };
 };
-const BASEURL = process.env.NEXT_PUBLIC_API_URL;
 
 export async function POST(request: NextRequest) {
   try {
     const body = await request.json();
 
-    const res = await fetch(`${BASEURL}/auth/signIn`, {
+    const res = await fetch(BACKEND_API.auth.login, {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',

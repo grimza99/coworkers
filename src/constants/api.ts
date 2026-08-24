@@ -3,6 +3,10 @@ const BACKEND_BASEURL = process.env.NEXT_PUBLIC_API_URL;
 
 export const BFF_API = {
   entry: BFF_BASEURL,
+  auth: {
+    login: '/auth/login',
+    signup: '/auth/signup',
+  },
   user: '/user',
   article: {
     list: '/articles',
@@ -18,6 +22,10 @@ export const BFF_API = {
 };
 export const BACKEND_API = {
   user: `${BACKEND_BASEURL}${BFF_API.user}`,
+  auth: {
+    login: `${BACKEND_BASEURL}/auth/signIn`,
+    signup: `${BACKEND_BASEURL}/auth/signUp`,
+  },
   article: {
     list: `${BACKEND_BASEURL}${BFF_API.article.list}`,
     create: `${BACKEND_BASEURL}${BFF_API.article.create}`,
