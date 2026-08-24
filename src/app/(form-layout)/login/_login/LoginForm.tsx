@@ -10,6 +10,8 @@ import PasswordToggleButton from '@/app/(form-layout)/signup/_signup/PasswordTog
 import { validateEmail } from '@/utils/validators';
 import { User } from '@/types/user';
 import PATHS from '@/constants/paths';
+import { BFF_API } from '@/constants/api';
+import axiosClient from '@/lib/axiosClient';
 
 export interface loginApiResponse {
   accessToken: string;
@@ -39,16 +41,10 @@ export default function LoginForm() {
     setIsLoginFailed(false);
 
     try {
-      const res = await fetch('/api/auth/login', {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-        },
-        body: JSON.stringify({ email, password }),
-      });
+      const res = await axiosClient.post(BFF_API.auth.login, { email, password });
 
-      if (!res.ok) return router.push(PATHS.HOME);
-      const data = (await res.json()) as loginApiResponse;
+      if (!res.data) return router.push(PATHS.HOME);
+      const data = (await res.data) as loginApiResponse;
       setUser(data.user);
       fetchUser();
       router.push(PATHS.ARTICLES.BASE);

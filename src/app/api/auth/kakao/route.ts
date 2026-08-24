@@ -5,21 +5,18 @@ import { NextRequest, NextResponse } from 'next/server';
 export async function POST(request: NextRequest) {
   try {
     const body = await request.json();
-
-    const res = await fetch(BACKEND_API.auth.login, {
+    const res = await fetch(BACKEND_API.auth.kakao_oauth, {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',
       },
       body: JSON.stringify(body),
     });
+    const data = (await res.json()) as AuthApiResponse;
 
     if (!res.ok) {
-      console.error('백엔드 인증 실패 상태코드:', res.status);
       return NextResponse.json({ error: 'Failed to authenticate' }, { status: res.status });
     }
-
-    const data = (await res.json()) as AuthApiResponse;
 
     const response = NextResponse.json(data, { status: 200 });
 

@@ -1,5 +1,14 @@
 import { Group } from '@/types/group';
 
+export type AuthApiResponse = {
+  accessToken: string;
+  refreshToken: string;
+  user: {
+    id: number;
+    nickname: string;
+    image: string | null;
+  };
+};
 export interface User {
   id: number;
   nickname: string;
