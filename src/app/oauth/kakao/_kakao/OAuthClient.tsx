@@ -31,7 +31,7 @@ export default function OAuthClient() {
         token: code,
       });
 
-      const { data } = await axiosClient.get(`/user`);
+      const { data } = await axiosClient.get(BFF_API.user);
       if (data.memberships.length < 1) {
         router.push(PATHS.NOGROUP);
       } else {
