@@ -6,7 +6,7 @@ export async function POST(request: NextRequest) {
   try {
     const body = await request.json();
 
-    const res = await fetch(BACKEND_API.auth.login, {
+    const res = await fetch(BACKEND_API.auth.signup, {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',
