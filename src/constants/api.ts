@@ -6,6 +6,7 @@ export const BFF_API = {
   auth: {
     login: '/auth/login',
     signup: '/auth/signup',
+    kakao_oauth: '/auth/kakao',
   },
   user: '/user',
   article: {
@@ -25,6 +26,7 @@ export const BACKEND_API = {
   auth: {
     login: `${BACKEND_BASEURL}/auth/signIn`,
     signup: `${BACKEND_BASEURL}/auth/signUp`,
+    kakao_oauth: `${BACKEND_BASEURL}/auth/signIn/KAKAO`,
   },
   article: {
     list: `${BACKEND_BASEURL}${BFF_API.article.list}`,
