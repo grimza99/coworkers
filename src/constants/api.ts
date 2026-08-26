@@ -21,6 +21,7 @@ export const BFF_API = {
     },
   },
   group: {
+    detail: (groupId: string) => `/groups/${groupId}`,
     create: '/groups',
   },
   image: {
@@ -48,6 +49,7 @@ export const BACKEND_API = {
     },
   },
   group: {
+    detail: (groupId: string) => `${BACKEND_BASEURL}${BFF_API.group.detail(groupId)}`,
     create: `${BACKEND_BASEURL}${BFF_API.group.create}`,
   },
   image: {
