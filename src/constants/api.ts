@@ -26,6 +26,9 @@ export const BFF_API = {
     edit: (groupId: string) => `/groups/${groupId}`,
     delete: (groupId: string) => `/groups/${groupId}`,
   },
+  taskLists: {
+    create: (groupId: string) => `/groups/${groupId}/task-lists`,
+  },
   image: {
     upload: '/images/upload',
   },
@@ -55,6 +58,9 @@ export const BACKEND_API = {
     create: `${BACKEND_BASEURL}${BFF_API.group.create}`,
     edit: (groupId: string) => `${BACKEND_BASEURL}${BFF_API.group.edit(groupId)}`,
     delete: (groupId: string) => `${BACKEND_BASEURL}${BFF_API.group.delete(groupId)}`,
+  },
+  taskLists: {
+    create: (groupId: string) => `${BACKEND_BASEURL}${BFF_API.taskLists.create(groupId)}`,
   },
   image: {
     upload: `${BACKEND_BASEURL}${BFF_API.image.upload}`,

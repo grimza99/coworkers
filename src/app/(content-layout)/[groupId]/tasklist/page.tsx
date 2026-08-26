@@ -8,6 +8,7 @@ import TaskLists from './_tasklist/components/TaskLists';
 import Tasks from './_tasklist/components/Tasks';
 import ManageTaskItemModal from './_tasklist/components/manage-task-item-modal/MangeTaskItemModal';
 import { getTaskLists, getTasks } from './_tasklist/actions/task-actions';
+import { BFF_API } from '@/constants/api';
 
 interface Props {
   params: Promise<{ groupId: string }>;
@@ -16,9 +17,12 @@ interface Props {
 }
 const getGroup = cache(async (groupId: Group['id']) => {
   'use server';
-  const { data } = await axiosServer.get<getGroupApiResponse>(`/groups/${groupId}`, {
-    fetchOptions: { cache: 'force-cache' },
-  });
+  const { data } = await axiosServer.get<getGroupApiResponse>(
+    BFF_API.group.detail(String(groupId)),
+    {
+      fetchOptions: { cache: 'force-cache' },
+    }
+  );
   return data;
 });
 

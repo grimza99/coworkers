@@ -2,14 +2,15 @@
 
 import axiosServer from '@/lib/axiosServer';
 import { Task, TaskList } from '../types/task-type';
-import { revalidateTag } from 'next/cache';
+import { revalidateTag, updateTag } from 'next/cache';
+import { BFF_API } from '@/constants/api';
 
 export const revalidateTasks = async () => {
   revalidateTag(`getTasks`, 'max');
 };
 
 export const revalidateTaskLists = async () => {
-  revalidateTag(`getTaskList`, 'max');
+  updateTag(`getTaskList`);
 };
 
 export const revalidateDetailTask = async () => {
@@ -18,10 +19,10 @@ export const revalidateDetailTask = async () => {
 
 export const getTaskLists = async (groupId: string) => {
   try {
-    const { data: taskListsData } = await axiosServer(`/groups/${groupId}`, {
+    const { data } = await axiosServer(BFF_API.group.detail(groupId), {
       fetchOptions: { next: { tags: [`getTaskList`] } },
     });
-    const fetchedTaskLists: TaskList[] = taskListsData.taskLists;
+    const fetchedTaskLists: TaskList[] = data.taskLists;
 
     return fetchedTaskLists;
   } catch (error) {
