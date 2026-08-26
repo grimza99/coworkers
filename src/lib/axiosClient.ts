@@ -8,7 +8,6 @@ const BASE_URL = BFF_API.entry;
 const axiosClient = axios.create({
   baseURL: BFF_API.entry,
   timeout: 5000,
-  headers: { 'Content-Type': 'application/json' },
   adapter: 'fetch',
   withCredentials: true,
 });

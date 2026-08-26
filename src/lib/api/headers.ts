@@ -1,11 +1,21 @@
 import { NextRequest } from 'next/server';
 import { getRequestCookie } from './cookie';
 
-export const requestHeader = (request: NextRequest) => {
+type TContentType = 'application/json' | 'multipart/form-data';
+
+export const requestHeader = (
+  request: NextRequest,
+  contentType: TContentType = 'application/json'
+): Record<string, string> => {
   const token = getRequestCookie(request);
-  const header = {
-    'Content-Type': 'application/json',
+
+  const headers: Record<string, string> = {
     Authorization: `Bearer ${token}`,
   };
-  return header;
+
+  if (contentType !== 'multipart/form-data') {
+    headers['Content-Type'] = 'application/json';
+  }
+
+  return headers;
 };
