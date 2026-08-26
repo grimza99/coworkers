@@ -7,6 +7,7 @@ import { Toast } from '../common/Toastify';
 import { ManageGroup } from './ManageGroup';
 import { useUser } from '@/contexts/UserContext';
 import useZodForm from '@/hooks/useZodForm';
+import { BFF_API } from '@/constants/api';
 
 interface ManageGroupProps {
   isEdit: boolean;
@@ -83,7 +84,7 @@ export default function useManageGroup({ isEdit, groupData, groupNames }: Manage
 
     axiosClient
       .request({
-        url: isEdit ? `/groups/${groupData?.id}` : '/groups',
+        url: isEdit ? `/groups/${groupData?.id}` : BFF_API.group.create,
         method: isEdit ? 'patch' : 'post',
         data: { name, image },
       })
