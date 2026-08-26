@@ -6,7 +6,7 @@ import { revalidateTag, updateTag } from 'next/cache';
 import { BFF_API } from '@/constants/api';
 
 export const revalidateTasks = async () => {
-  revalidateTag(`getTasks`, 'max');
+  updateTag(`getTasks`);
 };
 
 export const revalidateTaskLists = async () => {

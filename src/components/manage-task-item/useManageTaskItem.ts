@@ -9,6 +9,7 @@ import { validateEmptyValue } from '@/utils/validators';
 import { Toast } from '../common/Toastify';
 import { revalidateTasks } from '@/app/(content-layout)/[groupId]/tasklist/_tasklist/actions/task-actions';
 import { useRouter } from 'next/navigation';
+import { BFF_API } from '@/constants/api';
 
 const REVERSE_FREQUENCY_MAP: Record<string, Frequency> = {
   '한 번': 'ONCE',
@@ -172,6 +173,7 @@ export default function useManageTaskItem({
   const isEqualTaskItem =
     taskItem.name === detailTask?.name && taskItem.description === detailTask?.description;
 
+  //-------------------------------------- 태스크 생성 ------------------------------------------------
   const handleCreateTaskItemSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
 
@@ -199,10 +201,12 @@ export default function useManageTaskItem({
         };
       }
       setIsPending(true);
-      await axiosClient.post(`/groups/${groupId}/task-lists/${taskListId}/tasks`, finalTaskItem);
+      await axiosClient.post(
+        BFF_API.task.create(String(groupId), String(taskListId)),
+        finalTaskItem
+      );
 
       revalidateTasks();
-      router.refresh();
       closeTaskItemModal();
     } catch {
       Toast.error('할 일 생성 실패');

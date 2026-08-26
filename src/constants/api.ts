@@ -29,6 +29,10 @@ export const BFF_API = {
   taskLists: {
     create: (groupId: string) => `/groups/${groupId}/task-lists`,
   },
+  task: {
+    create: (groupId: string, taskListId: string) =>
+      `/groups/${groupId}/task-lists/${taskListId}/tasks`,
+  },
   image: {
     upload: '/images/upload',
   },
@@ -61,6 +65,10 @@ export const BACKEND_API = {
   },
   taskLists: {
     create: (groupId: string) => `${BACKEND_BASEURL}${BFF_API.taskLists.create(groupId)}`,
+  },
+  task: {
+    create: (groupId: string, taskListId: string) =>
+      `${BACKEND_BASEURL}${BFF_API.task.create(groupId, taskListId)}`,
   },
   image: {
     upload: `${BACKEND_BASEURL}${BFF_API.image.upload}`,
