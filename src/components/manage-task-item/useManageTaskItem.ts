@@ -215,6 +215,7 @@ export default function useManageTaskItem({
     }
   };
 
+  //-------------------------------------- task 수정 핸들러 ------------------------------------------------
   const handleEditTaskItemSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
 
@@ -227,7 +228,7 @@ export default function useManageTaskItem({
       setIsPending(true);
 
       await axiosClient.patch(
-        `/groups/${groupId}/task-lists/${taskListId}/tasks/${detailTask?.id}`,
+        BFF_API.task.edit(String(groupId), String(taskListId), String(detailTask?.id)),
         {
           done: isDone,
           name: taskItem.name,
@@ -247,7 +248,6 @@ export default function useManageTaskItem({
 
       // await Promise.all(promises);
       revalidateTasks();
-      router.refresh();
       closeTaskItemModal();
     } catch {
       Toast.error('할 일 수정 실패');
