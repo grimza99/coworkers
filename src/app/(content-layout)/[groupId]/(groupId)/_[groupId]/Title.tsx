@@ -4,7 +4,7 @@ import { useUser } from '@/contexts/UserContext';
 import { Group } from '@/types/group';
 import { Member } from '@/types/user';
 import Image from 'next/image';
-import Link from 'next/link';
+import { useRouter } from 'next/navigation';
 
 type TitleProps = {
   groupId: Group['id'];
@@ -15,7 +15,7 @@ type TitleProps = {
 export default function Title({ admin, groupId, name }: TitleProps) {
   const { user } = useUser();
   const isUserAdmin = admin.userId === user?.id;
-
+  const router = useRouter();
   return (
     <div className="border-gray100/10 bg-gray100/10 relative flex h-16 w-full items-center justify-between rounded-xl border-1 px-6 py-5">
       <h1 className="text-xl-bold text-white">{name}</h1>
@@ -27,7 +27,7 @@ export default function Title({ admin, groupId, name }: TitleProps) {
         className="absolute right-1/4 h-16 w-auto object-contain select-none md:right-20"
       />
       {isUserAdmin && (
-        <Link href={`${groupId}${PATHS.EDITGROUP}`}>
+        <div onClick={() => router.replace(`${groupId}${PATHS.EDITGROUP}`)}>
           <Image
             src="/icons/gear-icon.svg"
             width={24}
@@ -35,7 +35,7 @@ export default function Title({ admin, groupId, name }: TitleProps) {
             alt="톱니바퀴 아이콘"
             className="size-6"
           />
-        </Link>
+        </div>
       )}
     </div>
   );
