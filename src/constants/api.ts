@@ -20,6 +20,12 @@ export const BFF_API = {
       delete: (commentId: string) => `/comments/${commentId}`,
     },
   },
+  group: {
+    create: '/groups',
+  },
+  image: {
+    upload: '/images/upload',
+  },
 };
 export const BACKEND_API = {
   user: `${BACKEND_BASEURL}${BFF_API.user}`,
@@ -40,5 +46,11 @@ export const BACKEND_API = {
       delete: (commentId: string) =>
         `${BACKEND_BASEURL}${BFF_API.article.comment.delete(commentId)}`,
     },
+  },
+  group: {
+    create: `${BACKEND_BASEURL}${BFF_API.group.create}`,
+  },
+  image: {
+    upload: `${BACKEND_BASEURL}${BFF_API.image.upload}`,
   },
 };
