@@ -13,5 +13,5 @@ export async function getGroupInfo(groupId: number) {
 }
 
 export async function deleteGroup(groupId: number) {
-  await axiosServer.delete(`/groups/${groupId}`);
+  await axiosServer.delete(BFF_API.group.delete(String(groupId)));
 }
