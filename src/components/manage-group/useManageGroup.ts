@@ -84,7 +84,7 @@ export default function useManageGroup({ isEdit, groupData, groupNames }: Manage
 
     axiosClient
       .request({
-        url: isEdit ? `/groups/${groupData?.id}` : BFF_API.group.create,
+        url: isEdit ? BFF_API.group.edit(String(groupData?.id)) : BFF_API.group.create,
         method: isEdit ? 'patch' : 'post',
         data: { name, image },
       })

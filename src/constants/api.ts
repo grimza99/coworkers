@@ -23,6 +23,7 @@ export const BFF_API = {
   group: {
     detail: (groupId: string) => `/groups/${groupId}`,
     create: '/groups',
+    edit: (groupId: string) => `/groups/${groupId}`,
   },
   image: {
     upload: '/images/upload',
@@ -51,6 +52,7 @@ export const BACKEND_API = {
   group: {
     detail: (groupId: string) => `${BACKEND_BASEURL}${BFF_API.group.detail(groupId)}`,
     create: `${BACKEND_BASEURL}${BFF_API.group.create}`,
+    edit: (groupId: string) => `${BACKEND_BASEURL}${BFF_API.group.edit(groupId)}`,
   },
   image: {
     upload: `${BACKEND_BASEURL}${BFF_API.image.upload}`,
