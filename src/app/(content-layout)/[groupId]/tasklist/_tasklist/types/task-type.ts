@@ -64,10 +64,5 @@ export interface Task {
   updatedAt: string;
   name: string;
   id: number;
-}
-
-//teamId/groups/[groupId]/task-lists/{taskListId}/tasks/{taskId}
-
-export interface DetailTaskType extends Task {
-  recurring: Recurring;
+  startDate: string;
 }
