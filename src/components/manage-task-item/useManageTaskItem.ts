@@ -1,6 +1,5 @@
 import { useState } from 'react';
 import { format, getDate, differenceInMinutes } from 'date-fns';
-import { Frequency } from '@/app/(content-layout)/[groupId]/tasklist/_tasklist/types/task-type';
 import generateTime from './time-table';
 import { TaskItemProps, TaskItem, Time } from './type';
 import axiosClient from '@/lib/axiosClient';
@@ -9,6 +8,7 @@ import { validateEmptyValue } from '@/utils/validators';
 import { Toast } from '../common/Toastify';
 import { revalidateTasks } from '@/app/(content-layout)/[groupId]/tasklist/_tasklist/actions/task-actions';
 import { BFF_API } from '@/constants/api';
+import { Frequency } from '@/types/task';
 
 const REVERSE_FREQUENCY_MAP: Record<string, Frequency> = {
   '한 번': 'ONCE',
@@ -18,7 +18,7 @@ const REVERSE_FREQUENCY_MAP: Record<string, Frequency> = {
 };
 
 export default function useManageTaskItem({
-  detailTask,
+  task,
   groupId,
   taskListId,
   isDone,
@@ -26,14 +26,13 @@ export default function useManageTaskItem({
 }: TaskItemProps) {
   const { am, pm } = generateTime();
   const { closeModal } = useModal();
-  const task = detailTask?.recurring;
 
   const [isCalendarOpen, setIsCalendarOpen] = useState(false);
   const [taskItem, setTaskItem] = useState<TaskItem>(() => ({
     name: task?.name ?? '',
     description: task?.description ?? '',
     startDate: task?.startDate ?? '',
-    frequencyType: task?.frequencyType ?? 'ONCE',
+    frequencyType: task?.frequency ?? 'ONCE',
   }));
   const [isTimeOpen, setIsTimeOpen] = useState(false);
   const [selectedFrequency, setSelectedFrequency] = useState('');
@@ -76,7 +75,7 @@ export default function useManageTaskItem({
     {
       id: 'date',
       value: format(taskItem.startDate, 'yyyy년 MM월 dd일'),
-      onClick: detailTask
+      onClick: task
         ? undefined
         : () => {
             setIsCalendarOpen((prev) => !prev);
@@ -88,7 +87,7 @@ export default function useManageTaskItem({
     {
       id: 'time',
       value: `${period} ${time}`,
-      onClick: detailTask
+      onClick: task
         ? undefined
         : () => {
             setIsTimeOpen((prev) => !prev);
@@ -169,7 +168,7 @@ export default function useManageTaskItem({
     !validateEmptyValue(taskItem.name) && !validateEmptyValue(taskItem.description);
 
   const isEqualTaskItem =
-    taskItem.name === detailTask?.name && taskItem.description === detailTask?.description;
+    taskItem.name === task?.name && taskItem.description === task?.description;
 
   //-------------------------------------- 태스크 생성 ------------------------------------------------
   const handleCreateTaskItemSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
@@ -225,7 +224,7 @@ export default function useManageTaskItem({
       setIsPending(true);
 
       await axiosClient.patch(
-        BFF_API.task.edit(String(groupId), String(taskListId), String(detailTask?.id)),
+        BFF_API.task.edit(String(groupId), String(taskListId), String(task?.id)),
         {
           done: isDone,
           name: taskItem.name,
@@ -254,9 +253,9 @@ export default function useManageTaskItem({
   };
 
   const isWeekly = selectedFrequency === '주 반복';
-  const isOnce = task?.frequencyType === 'ONCE';
+  const isOnce = task?.frequency === 'ONCE';
 
-  const createOrEditSubmit = detailTask ? handleEditTaskItemSubmit : handleCreateTaskItemSubmit;
+  const createOrEditSubmit = task ? handleEditTaskItemSubmit : handleCreateTaskItemSubmit;
 
   return {
     taskItem,

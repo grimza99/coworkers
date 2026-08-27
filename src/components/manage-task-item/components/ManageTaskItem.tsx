@@ -13,7 +13,7 @@ import { ModalFooter } from '@/components/common/modal';
 import Frequency from './Frequency';
 
 export default function ManageTaskItem({
-  detailTask,
+  task,
   groupId,
   taskListId,
   isDone,
@@ -37,11 +37,11 @@ export default function ManageTaskItem({
     toggleDay,
     updateTime,
     closeTaskItemModal,
-  } = useManageTaskItem({ detailTask, groupId, taskListId, isDone, createOrEditModalId });
+  } = useManageTaskItem({ task, groupId, taskListId, isDone, createOrEditModalId });
 
-  const createOrEdit = detailTask ? '수정하기' : '만들기';
+  const createOrEdit = task ? '수정하기' : '만들기';
 
-  const isEdit = !!detailTask;
+  const isEdit = !!task;
 
   return (
     <div className="bg-bg200 w-[384px]">
@@ -126,7 +126,7 @@ export default function ManageTaskItem({
               type="submit"
               variant="solid"
               size="fullWidth"
-              disabled={!detailTask && (!isTaskItemValid || isPending)}
+              disabled={!task && (!isTaskItemValid || isPending)}
             >
               {isPending ? <BouncingDots /> : createOrEdit}
             </Button>

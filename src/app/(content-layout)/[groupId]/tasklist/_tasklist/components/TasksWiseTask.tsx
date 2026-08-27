@@ -2,7 +2,6 @@
 import TaskListItem from '@/components/task-list-item/TaskListItem';
 import { format, isValid } from 'date-fns';
 import { useEffect, useState } from 'react';
-import { DetailTaskType } from '../types/task-type';
 import RemoveTaskModal from './ModalContents/RemoveTaskModal';
 import { useTaskActions } from '../hooks/use-task-actions';
 import { useTaskModals } from '../hooks/use-task-modals';
@@ -23,7 +22,6 @@ interface Props {
 export default function TasksWiseTask({ task, groupId, taskListId }: Props) {
   const [isDone, setIsDone] = useState(!!task.doneAt);
   const [isDelete, setIsDelete] = useState(false);
-  const [detailTask, setDetailTask] = useState<DetailTaskType>();
   const [isDropdownOpen, setIsDropdownOpen] = useState(false);
   const { attributes, listeners, setNodeRef, transform, transition, isDragging } = useSortable({
     id: task.id,
@@ -45,7 +43,6 @@ export default function TasksWiseTask({ task, groupId, taskListId }: Props) {
       const numberGroupId = Number(groupId);
 
       const data = await getDetailTaskItem({ groupId: numberGroupId, taskListId, taskId });
-      setDetailTask(data);
     };
     fetchDetailItem();
   }, [isDropdownOpen, groupId, taskListId, task]);
@@ -116,7 +113,7 @@ export default function TasksWiseTask({ task, groupId, taskListId }: Props) {
           />
           {!onDrag && (
             <ManageTaskItemModal
-              detailTask={detailTask}
+              task={task}
               groupId={Number(groupId)}
               taskListId={taskListId}
               isDone={isDone}

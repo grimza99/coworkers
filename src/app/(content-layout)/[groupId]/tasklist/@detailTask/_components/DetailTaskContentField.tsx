@@ -7,10 +7,10 @@ import { format } from 'date-fns';
 import clsx from 'clsx';
 import { getRepeatDescription } from '../../_tasklist/utils/format-repeat-schedule';
 import { useTaskModals } from '../../_tasklist/hooks/use-task-modals';
-import { DetailTaskType } from '../../_tasklist/types/task-type';
+import { Task } from '@/types/task';
 
 interface Props {
-  task: DetailTaskType;
+  task: Task;
   isDone: boolean;
 }
 const DROPDOWN_OPTION_LIST = ['수정하기', '삭제하기'];
@@ -19,8 +19,8 @@ export default function DetailTaskContentField({ task, isDone }: Props) {
   const { name, doneBy, updatedAt, date, description, frequency } = task;
   const { popUpDeleteTaskModal, popUpEditTaskModal } = useTaskModals();
 
-  const schedule = frequency === 'MONTHLY' ? task.recurring.monthDay : task.recurring.weekDays;
-  const repeatDescription = getRepeatDescription(frequency, schedule);
+  // const schedule = frequency === 'MONTHLY' ? task.recurring.monthDay : task.recurring.weekDays;
+  const repeatDescription = getRepeatDescription(frequency);
 
   const taskDeleteModalId = `${task.id}-delete`;
   const taskEditModalId = `${task.id}-edit`;
