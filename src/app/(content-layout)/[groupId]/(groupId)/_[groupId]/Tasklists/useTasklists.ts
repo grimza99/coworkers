@@ -6,7 +6,7 @@ import {
 } from '@/app/(content-layout)/[groupId]/(groupId)/_[groupId]/Tasklists/actions';
 import { Toast } from '@/components/common/Toastify';
 import { Group } from '@/types/group';
-import { Tasklist } from '@/types/tasklist';
+import { Tasklist } from '@/types/task';
 
 export default function useOptimisticTasklists(groupId: Group['id'], tasklists: Tasklist[]) {
   const [optimisticTasklists, setOptimisticTasklists] = useOptimistic(

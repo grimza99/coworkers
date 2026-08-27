@@ -58,10 +58,12 @@ export default function DetailTaskContentField({ task, isDone }: Props) {
             placement="top-6 right-[14px]"
           />
         </div>
-        <div className="flex justify-between">
-          <ProfileBadge user={doneBy.user} />
-          <p className="text-md-rg text-gray300">{format(updatedAt, 'yyyy.MM.dd')}</p>
-        </div>
+        {doneBy.user && (
+          <div className="flex justify-between">
+            <ProfileBadge user={doneBy.user} />
+            <p className="text-md-rg text-gray300">{format(updatedAt, 'yyyy.MM.dd')}</p>
+          </div>
+        )}
         {!isDone && (
           <div className="text-xs-rg text-gray500 flex items-center gap-2.5">
             <div className="flex items-center gap-1.5">

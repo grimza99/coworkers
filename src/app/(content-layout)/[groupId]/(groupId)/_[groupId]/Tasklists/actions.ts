@@ -2,7 +2,7 @@
 import { updateTag } from 'next/cache';
 import axiosServer from '@/lib/axiosServer';
 import { Group } from '@/types/group';
-import { Tasklist } from '@/types/tasklist';
+import { Tasklist } from '@/types/task';
 
 export async function createTasklistAction(groupId: Group['id'], name: string) {
   try {

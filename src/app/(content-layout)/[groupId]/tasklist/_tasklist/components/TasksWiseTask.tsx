@@ -2,7 +2,7 @@
 import TaskListItem from '@/components/task-list-item/TaskListItem';
 import { format, isValid } from 'date-fns';
 import { useEffect, useState } from 'react';
-import { DetailTaskType, Task } from '../types/task-type';
+import { DetailTaskType } from '../types/task-type';
 import RemoveTaskModal from './ModalContents/RemoveTaskModal';
 import { useTaskActions } from '../hooks/use-task-actions';
 import { useTaskModals } from '../hooks/use-task-modals';
@@ -12,6 +12,7 @@ import { useSortable } from '@dnd-kit/sortable';
 import { CSS } from '@dnd-kit/utilities';
 import { useDndMonitor } from '@dnd-kit/core';
 import { useRouter } from 'next/navigation';
+import { Task } from '@/types/task';
 
 interface Props {
   task: Task;

@@ -19,3 +19,13 @@ export interface Task {
   deletedAt: string | null;
   startDate: string | null;
 }
+
+export interface Tasklist {
+  id: number;
+  name: string;
+  createdAt: string;
+  updatedAt: string;
+  groupId: number;
+  displayIndex: number;
+  tasks: Task[];
+}
