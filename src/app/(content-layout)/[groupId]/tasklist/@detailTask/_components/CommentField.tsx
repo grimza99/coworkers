@@ -8,6 +8,7 @@ import { useModal } from '@/contexts/ModalContext';
 import RemoveCommentModal from '../../_tasklist/components/ModalContents/RemoveCommentModal';
 import { Toast } from '@/components/common/Toastify';
 import { revalidateTasks } from '../../_tasklist/actions/task-actions';
+import { BFF_API } from '@/constants/api';
 
 interface Props {
   comment: Comment;
@@ -51,7 +52,7 @@ export default function CommentField({ comment, taskId }: Props) {
 
   const editComment = async () => {
     try {
-      await axiosClient.patch(`/tasks/${taskId}/comments/${comment.id}`, {
+      await axiosClient.patch(BFF_API.task.comment.edit(String(taskId), String(comment.id)), {
         content: currentContent,
       });
       setCurrentComment((prev) => ({ ...prev, content: currentContent }));
