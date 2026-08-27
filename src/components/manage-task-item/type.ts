@@ -1,6 +1,6 @@
 import {
-  Recurring,
   DetailTaskType,
+  Recurring,
 } from '@/app/(content-layout)/[groupId]/tasklist/_tasklist/types/task-type';
 
 export type TaskItem = Pick<

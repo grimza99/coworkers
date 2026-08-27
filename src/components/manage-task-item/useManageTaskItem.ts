@@ -1,5 +1,5 @@
 import { useState } from 'react';
-import { format, getDate, startOfDay, differenceInMinutes } from 'date-fns';
+import { format, getDate, differenceInMinutes } from 'date-fns';
 import { Frequency } from '@/app/(content-layout)/[groupId]/tasklist/_tasklist/types/task-type';
 import generateTime from './time-table';
 import { TaskItemProps, TaskItem, Time } from './type';
@@ -30,9 +30,9 @@ export default function useManageTaskItem({
 
   const [isCalendarOpen, setIsCalendarOpen] = useState(false);
   const [taskItem, setTaskItem] = useState<TaskItem>(() => ({
-    name: detailTask?.name ?? '',
-    description: detailTask?.description ?? '',
-    startDate: task?.startDate ?? startOfDay(new Date()),
+    name: task?.name ?? '',
+    description: task?.description ?? '',
+    startDate: task?.startDate ?? '',
     frequencyType: task?.frequencyType ?? 'ONCE',
   }));
   const [isTimeOpen, setIsTimeOpen] = useState(false);
@@ -76,7 +76,7 @@ export default function useManageTaskItem({
     {
       id: 'date',
       value: format(taskItem.startDate, 'yyyy년 MM월 dd일'),
-      onClick: task
+      onClick: detailTask
         ? undefined
         : () => {
             setIsCalendarOpen((prev) => !prev);
@@ -88,7 +88,7 @@ export default function useManageTaskItem({
     {
       id: 'time',
       value: `${period} ${time}`,
-      onClick: task
+      onClick: detailTask
         ? undefined
         : () => {
             setIsTimeOpen((prev) => !prev);
