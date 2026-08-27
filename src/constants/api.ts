@@ -26,6 +26,19 @@ export const BFF_API = {
     edit: (groupId: string) => `/groups/${groupId}`,
     delete: (groupId: string) => `/groups/${groupId}`,
   },
+  taskLists: {
+    create: (groupId: string) => `/groups/${groupId}/task-lists`,
+  },
+  task: {
+    detail: (groupId: string, taskListId: string, taskId: string) =>
+      `/groups/${groupId}/task-lists/${taskListId}/tasks/${taskId}`,
+    create: (groupId: string, taskListId: string) =>
+      `/groups/${groupId}/task-lists/${taskListId}/tasks`,
+    edit: (groupId: string, taskListId: string, taskId: string) =>
+      `/groups/${groupId}/task-lists/${taskListId}/tasks/${taskId}`,
+    delete: (groupId: string, taskListId: string, taskId: string) =>
+      `/groups/${groupId}/task-lists/${taskListId}/tasks/${taskId}`,
+  },
   image: {
     upload: '/images/upload',
   },
@@ -55,6 +68,19 @@ export const BACKEND_API = {
     create: `${BACKEND_BASEURL}${BFF_API.group.create}`,
     edit: (groupId: string) => `${BACKEND_BASEURL}${BFF_API.group.edit(groupId)}`,
     delete: (groupId: string) => `${BACKEND_BASEURL}${BFF_API.group.delete(groupId)}`,
+  },
+  taskLists: {
+    create: (groupId: string) => `${BACKEND_BASEURL}${BFF_API.taskLists.create(groupId)}`,
+  },
+  task: {
+    detail: (groupId: string, taskListId: string, taskId: string) =>
+      `${BACKEND_BASEURL}${BFF_API.task.detail(groupId, taskListId, taskId)}`,
+    create: (groupId: string, taskListId: string) =>
+      `${BACKEND_BASEURL}${BFF_API.task.create(groupId, taskListId)}`,
+    edit: (groupId: string, taskListId: string, taskId: string) =>
+      `${BACKEND_BASEURL}${BFF_API.task.edit(groupId, taskListId, taskId)}`,
+    delete: (groupId: string, taskListId: string, taskId: string) =>
+      `${BACKEND_BASEURL}${BFF_API.task.delete(groupId, taskListId, taskId)}`,
   },
   image: {
     upload: `${BACKEND_BASEURL}${BFF_API.image.upload}`,
