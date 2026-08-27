@@ -8,7 +8,6 @@ import { useModal } from '@/contexts/ModalContext';
 import { validateEmptyValue } from '@/utils/validators';
 import { Toast } from '../common/Toastify';
 import { revalidateTasks } from '@/app/(content-layout)/[groupId]/tasklist/_tasklist/actions/task-actions';
-import { useRouter } from 'next/navigation';
 import { BFF_API } from '@/constants/api';
 
 const REVERSE_FREQUENCY_MAP: Record<string, Frequency> = {
@@ -28,7 +27,6 @@ export default function useManageTaskItem({
   const { am, pm } = generateTime();
   const { closeModal } = useModal();
   const task = detailTask?.recurring;
-  const router = useRouter();
 
   const [isCalendarOpen, setIsCalendarOpen] = useState(false);
   const [taskItem, setTaskItem] = useState<TaskItem>(() => ({
@@ -218,7 +216,6 @@ export default function useManageTaskItem({
   //-------------------------------------- task 수정 핸들러 ------------------------------------------------
   const handleEditTaskItemSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
-
     if (isEqualTaskItem) {
       Toast.info('변경된 내용이 없습니다.');
       return;
@@ -259,7 +256,7 @@ export default function useManageTaskItem({
   const isWeekly = selectedFrequency === '주 반복';
   const isOnce = task?.frequencyType === 'ONCE';
 
-  const createOrEditSubmit = task ? handleEditTaskItemSubmit : handleCreateTaskItemSubmit;
+  const createOrEditSubmit = detailTask ? handleEditTaskItemSubmit : handleCreateTaskItemSubmit;
 
   return {
     taskItem,
