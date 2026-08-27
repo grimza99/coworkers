@@ -10,7 +10,7 @@ import {
 } from '@/components/common/modal';
 import { useModal, ModalPortal } from '@/contexts/ModalContext';
 import BouncingDots from '@/components/common/loading/BouncingDots';
-import { Tasklist } from '@/types/tasklist';
+import { Tasklist } from '@/types/task';
 
 interface TasklistDeleteModalProps {
   modalId: string;

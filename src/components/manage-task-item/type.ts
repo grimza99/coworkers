@@ -1,10 +1,8 @@
-import {
-  DetailTaskType,
-  Recurring,
-} from '@/app/(content-layout)/[groupId]/tasklist/_tasklist/types/task-type';
+import { RecurringTask } from '@/types/recurring';
+import { Task } from '@/types/task';
 
 export type TaskItem = Pick<
-  Recurring,
+  RecurringTask,
   'name' | 'description' | 'frequencyType' | 'weekDays' | 'monthDay'
 > & {
   startDate: Date | string;
@@ -16,7 +14,7 @@ export interface Time {
 }
 
 export interface TaskItemProps {
-  detailTask?: DetailTaskType;
+  task?: Task;
   groupId: number;
   taskListId: number;
   isDone?: boolean;

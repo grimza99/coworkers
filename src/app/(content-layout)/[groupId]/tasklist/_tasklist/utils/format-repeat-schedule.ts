@@ -1,6 +1,6 @@
-import { Frequency } from '../types/task-type';
+import { Frequency } from '@/types/task';
 
-const DAY_MAP = ['일', '월', '화', '수', '목', '금', '토'];
+// const DAY_MAP = ['일', '월', '화', '수', '목', '금', '토'];
 
 export function getRepeatDescription(frequency: Frequency, schedule?: number[] | number) {
   switch (frequency) {
@@ -9,12 +9,12 @@ export function getRepeatDescription(frequency: Frequency, schedule?: number[] |
     case 'DAILY':
       return '매일 반복';
     case 'MONTHLY':
-      if (Array.isArray(schedule) || schedule == null) return null;
-      return `매 월 ${schedule}일 반복`;
+      // if (Array.isArray(schedule) || schedule == null) return null;
+      return `월 반복`;
     case 'WEEKLY':
-      if (typeof schedule === 'number' || schedule == null) return null;
-      const weekDays = schedule.map((day) => DAY_MAP[day]);
-      return `매주 ${weekDays.join(', ')}요일 반복`;
+      // if (typeof schedule === 'number' || schedule == null) return null;
+      // const weekDays = schedule.map((day) => DAY_MAP[day]);
+      return `매주 반복`;
 
     default:
       return null;

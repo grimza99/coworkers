@@ -1,9 +1,9 @@
 'use server';
 
 import axiosServer from '@/lib/axiosServer';
-import { Task, TaskList } from '../types/task-type';
 import { updateTag } from 'next/cache';
 import { BFF_API } from '@/constants/api';
+import { Task, Tasklist } from '@/types/task';
 
 export const revalidateTasks = async () => {
   updateTag(`getTasks`);
@@ -22,7 +22,7 @@ export const getTaskLists = async (groupId: string) => {
     const { data } = await axiosServer(BFF_API.group.detail(groupId), {
       fetchOptions: { next: { tags: [`getTaskList`] } },
     });
-    const fetchedTaskLists: TaskList[] = data.taskLists;
+    const fetchedTaskLists: Tasklist[] = data.taskLists;
 
     return fetchedTaskLists;
   } catch (error) {
