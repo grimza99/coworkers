@@ -2,7 +2,7 @@
 
 import axiosServer from '@/lib/axiosServer';
 import { Task, TaskList } from '../types/task-type';
-import { revalidateTag, updateTag } from 'next/cache';
+import { updateTag } from 'next/cache';
 import { BFF_API } from '@/constants/api';
 
 export const revalidateTasks = async () => {
@@ -14,7 +14,7 @@ export const revalidateTaskLists = async () => {
 };
 
 export const revalidateDetailTask = async () => {
-  revalidateTag(`getDetailTask`, 'max');
+  updateTag(`getDetailTask`);
 };
 
 export const getTaskLists = async (groupId: string) => {
