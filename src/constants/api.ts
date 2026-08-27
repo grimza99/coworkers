@@ -1,6 +1,8 @@
 const BFF_BASEURL = '/api';
 const BACKEND_BASEURL = process.env.NEXT_PUBLIC_API_URL;
 
+/**--------------------------------------------Next.js api route endpoint------------------------------------------------------------- */
+
 export const BFF_API = {
   entry: BFF_BASEURL,
   auth: {
@@ -38,11 +40,19 @@ export const BFF_API = {
       `/groups/${groupId}/task-lists/${taskListId}/tasks/${taskId}`,
     delete: (groupId: string, taskListId: string, taskId: string) =>
       `/groups/${groupId}/task-lists/${taskListId}/tasks/${taskId}`,
+    comment: {
+      list: (taskId: string) => `/tasks/${taskId}/comments`,
+      create: (taskId: string) => `/tasks/${taskId}/comments`,
+      edit: (taskId: string, commentId: string) => `/tasks/${taskId}/comments/${commentId}`,
+      delete: (taskId: string, commentId: string) => `/tasks/${taskId}/comments/${commentId}`,
+    },
   },
   image: {
     upload: '/images/upload',
   },
 };
+
+/**--------------------------------------------Backend api endpoint------------------------------------------------------------- */
 export const BACKEND_API = {
   user: `${BACKEND_BASEURL}${BFF_API.user}`,
   auth: {
@@ -81,6 +91,14 @@ export const BACKEND_API = {
       `${BACKEND_BASEURL}${BFF_API.task.edit(groupId, taskListId, taskId)}`,
     delete: (groupId: string, taskListId: string, taskId: string) =>
       `${BACKEND_BASEURL}${BFF_API.task.delete(groupId, taskListId, taskId)}`,
+    comment: {
+      list: (taskId: string) => `${BACKEND_BASEURL}${BFF_API.task.comment.list(taskId)}`,
+      create: (taskId: string) => `${BACKEND_BASEURL}${BFF_API.task.comment.create(taskId)}`,
+      edit: (taskId: string, commentId: string) =>
+        `${BACKEND_BASEURL}${BFF_API.task.comment.edit(taskId, commentId)}`,
+      delete: (taskId: string, commentId: string) =>
+        `${BACKEND_BASEURL}${BFF_API.task.comment.edit(taskId, commentId)}`,
+    },
   },
   image: {
     upload: `${BACKEND_BASEURL}${BFF_API.image.upload}`,
