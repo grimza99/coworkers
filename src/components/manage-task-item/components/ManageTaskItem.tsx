@@ -42,7 +42,6 @@ export default function ManageTaskItem({
   const createOrEdit = task ? '수정하기' : '만들기';
 
   const isEdit = !!task;
-
   return (
     <div className="bg-bg200 w-[384px]">
       <div className="flex flex-col gap-6">
@@ -94,7 +93,7 @@ export default function ManageTaskItem({
             {isTimeOpen && <TimePicker selectedTime={selectedTime} onTimeChange={updateTime} />}
           </div>
 
-          {!isOnce && (
+          {!isOnce && !isEdit && (
             <div className="flex flex-col gap-4">
               <label className="text-lg-md">반복 설정</label>
               <Frequency

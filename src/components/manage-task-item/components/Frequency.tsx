@@ -1,7 +1,4 @@
-import Button from '@/components/common/Button';
 import { OptionSelector } from '@/components/common/dropdown/OptionSelector';
-import { useModal } from '@/contexts/ModalContext';
-import DangerModal from '@/components/danger-modal';
 
 interface Frequency {
   isEdit: boolean;
@@ -9,16 +6,14 @@ interface Frequency {
   handleFrequencyChange: (e: React.MouseEvent<HTMLDivElement>) => void;
 }
 
-const DELETE_FREQUENCY_MODAL_ID = 'delete-frequency';
+// const DELETE_FREQUENCY_MODAL_ID = 'delete-frequency';
 
 const FREQUENCY_LIST = ['한 번', '매일', '주 반복', '월 반복'];
 
 export default function Frequency({ isEdit, isOnce, handleFrequencyChange }: Frequency) {
-  const { openModal } = useModal();
-
   return isEdit ? (
     <>
-      {!isOnce && (
+      {/* {!isOnce && (
         <Button
           onClick={() => openModal(DELETE_FREQUENCY_MODAL_ID)}
           type="button"
@@ -41,7 +36,7 @@ export default function Frequency({ isEdit, isOnce, handleFrequencyChange }: Fre
         }
         confirmButton="삭제하기"
         onConfirm={() => {}}
-      />
+      /> */}
     </>
   ) : (
     <div className="flex items-center gap-4">
