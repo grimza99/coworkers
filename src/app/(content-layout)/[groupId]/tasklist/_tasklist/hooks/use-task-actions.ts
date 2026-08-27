@@ -2,6 +2,7 @@ import axiosClient from '@/lib/axiosClient';
 import { Task } from '../types/task-type';
 import { Toast } from '@/components/common/Toastify';
 import { revalidateDetailTask } from '../actions/task-actions';
+import { BFF_API } from '@/constants/api';
 
 export function useTaskActions(task?: Task) {
   const deleteTask = async (
@@ -12,9 +13,9 @@ export function useTaskActions(task?: Task) {
   ) => {
     try {
       const res = await axiosClient.delete(
-        `/groups/${groupId}/task-lists/${taskListId}/tasks/${taskId}`
+        BFF_API.task.delete(groupId, String(taskListId), String(taskId))
       );
-      if (res.status === 204) {
+      if (res.status === 200) {
         setTaskToDeleteState();
         Toast.success('할 일 삭제 성공');
       }

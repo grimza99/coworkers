@@ -55,3 +55,26 @@ export async function PATCH(
     return NextResponse.json({ error: 'Internal Server Error' }, { status: 500 });
   }
 }
+
+/**---------------------------------------------------- task 삭제 ----------------------------------------------------- */
+export async function DELETE(
+  request: NextRequest,
+  { params }: { params: Promise<{ id: string; taskListId: string; taskId: string }> }
+) {
+  const { id: groupId, taskListId, taskId } = await params;
+
+  try {
+    const res = await fetch(`${BACKEND_API.task.delete(groupId, taskListId, taskId)}`, {
+      method: 'DELETE',
+      headers: requestHeader(request),
+    });
+    if (!res.ok) {
+      return NextResponse.json({ message: 'Fetch failed' }, { status: res.status });
+    }
+
+    return NextResponse.json({ status: 200 });
+  } catch (error) {
+    console.error('User Fetch Error:', error);
+    return NextResponse.json({ error: 'Internal Server Error' }, { status: 500 });
+  }
+}
