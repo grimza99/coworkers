@@ -4,8 +4,8 @@ import { useMutation } from '@tanstack/react-query';
 import axiosClient from '@/lib/axiosClient';
 import { useModal } from '@/contexts/ModalContext';
 import { Toast } from '@/components/common/Toastify';
-import { setClientCookie } from '@/lib/cookie/client';
 import { useUser } from '@/contexts/UserContext';
+import { BFF_API } from '@/constants/api';
 
 export interface SignupRequest {
   email: string;
@@ -33,11 +33,11 @@ export interface ErrorResponse {
 }
 
 const signupUser = async (data: SignupRequest): Promise<void> => {
-  await axiosClient.post('/auth/signUp', data);
+  await axiosClient.post(BFF_API.auth.signup, data);
 };
 
 const loginUser = async (data: LoginRequest): Promise<LoginResponse> => {
-  const response = await axiosClient.post('/auth/signIn', data);
+  const response = await axiosClient.post(BFF_API.auth.login, data);
   return response.data;
 };
 
@@ -89,11 +89,11 @@ export const useSignup = () => {
 
   const loginMutation = useMutation({
     mutationFn: loginUser,
-    onSuccess: async (data: LoginResponse) => {
-      const { accessToken, refreshToken } = data;
+    onSuccess: async () => {
+      // const { accessToken, refreshToken } = data;
 
-      setClientCookie('accessToken', accessToken);
-      setClientCookie('refreshToken', refreshToken);
+      // setClientCookie('accessToken', accessToken);
+      // setClientCookie('refreshToken', refreshToken);
 
       await fetchUser();
       router.push('/nogroup');

@@ -1,5 +1,4 @@
-import { Tasklist } from '@/types/tasklist';
-import { Task } from '@/types/task';
+import { Task, Tasklist } from '@/types/task';
 
 export const countDoneTasks = (tasks: Task[] = []): number => {
   return tasks.filter((task) => Boolean(task.doneAt)).length;

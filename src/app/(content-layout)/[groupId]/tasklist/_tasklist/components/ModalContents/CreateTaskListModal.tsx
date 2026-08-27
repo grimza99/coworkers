@@ -17,6 +17,7 @@ import { revalidateTaskLists } from '../../actions/task-actions';
 import { Toast } from '@/components/common/Toastify';
 import { AxiosError } from 'axios';
 import BouncingDots from '@/components/common/loading/BouncingDots';
+import { BFF_API } from '@/constants/api';
 
 interface Props {
   groupId: string;
@@ -45,7 +46,7 @@ export default function CreateTaskListModal({ groupId }: Props) {
     setIsLoading(true);
 
     try {
-      await axiosClient.post(`/groups/${groupId}/task-lists`, { name: currentValue });
+      await axiosClient.post(BFF_API.taskLists.create(groupId), { name: currentValue });
       Toast.success('새로운 목록 생성 성공');
       closeModal('createTaskList');
 

@@ -2,8 +2,8 @@
 import Image from 'next/image';
 import DropDown from '@/components/common/dropdown';
 import kebabIcon from '@/../public/icons/kebab-icon.svg';
-import { Tasklist } from '@/types/tasklist';
 import { useModal } from '@/contexts/ModalContext';
+import { Tasklist } from '@/types/task';
 const ITEM_DROPDOWN_VALUE = ['수정하기', '삭제하기'];
 
 type TasklistItemDropdownProps = {

@@ -4,7 +4,7 @@ import TasklistProgressBadge from '@/app/(content-layout)/[groupId]/(groupId)/_[
 import TasklistItemDropdown from '@/app/(content-layout)/[groupId]/(groupId)/_[groupId]/Tasklists/TasklistItemDropdown';
 import { countDoneTasks } from '@/app/(content-layout)/[groupId]/(groupId)/_[groupId]/taskUtils';
 import PATHS from '@/constants/paths';
-import { Tasklist } from '@/types/tasklist';
+import { Tasklist } from '@/types/task';
 
 type TasklistItemProps = {
   tasklist: Tasklist;

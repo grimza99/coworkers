@@ -2,12 +2,12 @@
 import Check from '@/assets/Check';
 import Button from '@/components/common/Button';
 import clsx from 'clsx';
-import { DetailTaskType } from '../../_tasklist/types/task-type';
 import { useTaskActions } from '../../_tasklist/hooks/use-task-actions';
+import { Task } from '@/types/task';
 
 interface Props {
   isDone: boolean;
-  task: DetailTaskType;
+  task: Task;
 }
 
 export default function ToggleDoneButton({ isDone, task }: Props) {

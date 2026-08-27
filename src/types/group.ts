@@ -1,5 +1,5 @@
 import { Member } from '@/types/user';
-import { Tasklist } from '@/types/tasklist';
+import { Tasklist } from './task';
 
 export interface Group {
   id: number;

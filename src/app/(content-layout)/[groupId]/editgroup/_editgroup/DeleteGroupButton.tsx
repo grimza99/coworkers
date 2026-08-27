@@ -23,7 +23,7 @@ export default function DeleteGroupButton({ groupId }: { groupId: number }) {
       .then(() => {
         fetchUser();
         Toast.success('팀 삭제 성공');
-        router.push('/');
+        router.replace('/');
       })
       .catch(() => Toast.error('팀 삭제 실패'))
       .finally(() => setIsPending(false));

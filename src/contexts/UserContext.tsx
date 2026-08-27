@@ -1,6 +1,5 @@
 'use client';
 import { createContext, useContext, useState, useEffect, useCallback } from 'react';
-import { getClientCookie, deleteClientCookie } from '@/lib/cookie/client';
 import { Membership, User } from '@/types/user';
 import { getUser } from '@/api/user';
 
@@ -11,49 +10,49 @@ interface UserContextType {
   fetchUser: () => Promise<void>;
   logoutUser: () => Promise<void>;
   isLoading: boolean;
-  setUser: React.Dispatch<React.SetStateAction<User | null>>;
+  setUser: (state: User | null) => void;
 }
 
 const UserContext = createContext<UserContextType | null>(null);
 
 export const UserProvider = ({ children }: { children: React.ReactNode }) => {
-  const [user, setUser] = useState<User | null>(null);
+  const [userState, setUserState] = useState<User | null>(null);
   const [email, setEmail] = useState<string | null>(null);
   const [memberships, setMemberships] = useState<Membership[] | null>(null);
   const [isLoading, setIsLoading] = useState(false);
 
-  const fetchUser = useCallback(async () => {
-    setIsLoading(true);
-    const accessToken = getClientCookie('accessToken');
+  const setUser = (state: User | null) => {
+    if (!state) return;
+    setUserState(state);
+  };
 
-    if (!accessToken) {
-      setIsLoading(false);
-      return;
-    }
+  const fetchUser = useCallback(async () => {
+    if (!userState?.id) return;
+    setIsLoading(true);
 
     try {
       const response = await getUser();
-      const { id, nickname, image, email, memberships } = response.data;
-      setUser({ id, nickname, image });
+      const { email, memberships } = response.data;
+      if (!response.data.id) {
+        setIsLoading(false);
+        return;
+      }
       setEmail(email);
       setMemberships(memberships);
     } catch {
-      setUser(null);
       setEmail(null);
       setMemberships(null);
-      deleteClientCookie('accessToken');
-      deleteClientCookie('refreshToken');
     }
     setIsLoading(false);
-  }, [setUser, setEmail]);
+  }, [setEmail, userState]);
 
   const logoutUser = useCallback(async () => {
     setIsLoading(true);
-    setUser(null);
+    setUserState(null);
     setEmail(null);
     setMemberships(null);
     setIsLoading(false);
-  }, [setUser, setEmail, setMemberships]);
+  }, [setUserState, setEmail, setMemberships]);
 
   useEffect(() => {
     fetchUser();
@@ -61,7 +60,7 @@ export const UserProvider = ({ children }: { children: React.ReactNode }) => {
 
   return (
     <UserContext.Provider
-      value={{ user, email, memberships, fetchUser, logoutUser, isLoading, setUser }}
+      value={{ user: userState, email, memberships, fetchUser, logoutUser, isLoading, setUser }}
     >
       {children}
     </UserContext.Provider>
