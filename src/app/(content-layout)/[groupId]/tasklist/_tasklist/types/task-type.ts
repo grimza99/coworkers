@@ -1,5 +1,5 @@
-import { Member } from './member-type';
 import { Task, Tasklist } from '@/types/task';
+import { Member } from '@/types/user';
 
 //teamId/groups/[groupId]:get
 export interface TaskListsApiResponse {
