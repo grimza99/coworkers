@@ -44,6 +44,7 @@ export const BFF_API = {
       list: (taskId: string) => `/tasks/${taskId}/comments`,
       create: (taskId: string) => `/tasks/${taskId}/comments`,
       edit: (taskId: string, commentId: string) => `/tasks/${taskId}/comments/${commentId}`,
+      delete: (taskId: string, commentId: string) => `/tasks/${taskId}/comments/${commentId}`,
     },
   },
   image: {
@@ -94,6 +95,8 @@ export const BACKEND_API = {
       list: (taskId: string) => `${BACKEND_BASEURL}${BFF_API.task.comment.list(taskId)}`,
       create: (taskId: string) => `${BACKEND_BASEURL}${BFF_API.task.comment.create(taskId)}`,
       edit: (taskId: string, commentId: string) =>
+        `${BACKEND_BASEURL}${BFF_API.task.comment.edit(taskId, commentId)}`,
+      delete: (taskId: string, commentId: string) =>
         `${BACKEND_BASEURL}${BFF_API.task.comment.edit(taskId, commentId)}`,
     },
   },

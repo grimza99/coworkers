@@ -33,10 +33,14 @@ export default function CommentField({ comment, taskId }: Props) {
 
   const deleteComment = async () => {
     try {
-      await axiosClient.delete(`/tasks/${taskId}/comments/${comment.id}`);
+      const res = await axiosClient.delete(
+        BFF_API.task.comment.delete(String(taskId), String(comment.id))
+      );
+      if (res.status === 200) {
+        Toast.success('댓글 삭제 성공');
+      }
       setIsDelete(true);
       revalidateTasks();
-      Toast.success('댓글 삭제 성공');
     } catch {
       Toast.error('댓글 삭제 실패');
     }
