@@ -47,6 +47,9 @@ export const BFF_API = {
       delete: (taskId: string, commentId: string) => `/tasks/${taskId}/comments/${commentId}`,
     },
   },
+  member: {
+    copyInvitationCode: (groupId: string) => `/groups/${groupId}/invitation`,
+  },
   image: {
     upload: '/images/upload',
   },
@@ -99,6 +102,10 @@ export const BACKEND_API = {
       delete: (taskId: string, commentId: string) =>
         `${BACKEND_BASEURL}${BFF_API.task.comment.edit(taskId, commentId)}`,
     },
+  },
+  member: {
+    copyInvitationCode: (groupId: string) =>
+      `${BACKEND_BASEURL}${BFF_API.member.copyInvitationCode(groupId)}`,
   },
   image: {
     upload: `${BACKEND_BASEURL}${BFF_API.image.upload}`,
