@@ -95,7 +95,7 @@ export default function MyPageClient() {
               image={image}
               setImage={(newImageUrl: string) => {
                 setImage(newImageUrl);
-                setUser((prev) => (prev ? { ...prev, image: newImageUrl } : null));
+                setUser(user ? { ...user, image: newImageUrl } : null);
               }}
             />
             <NicknameField

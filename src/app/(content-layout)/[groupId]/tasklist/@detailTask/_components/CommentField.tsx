@@ -8,6 +8,7 @@ import { useModal } from '@/contexts/ModalContext';
 import RemoveCommentModal from '../../_tasklist/components/ModalContents/RemoveCommentModal';
 import { Toast } from '@/components/common/Toastify';
 import { revalidateTasks } from '../../_tasklist/actions/task-actions';
+import { BFF_API } from '@/constants/api';
 
 interface Props {
   comment: Comment;
@@ -32,10 +33,14 @@ export default function CommentField({ comment, taskId }: Props) {
 
   const deleteComment = async () => {
     try {
-      await axiosClient.delete(`/tasks/${taskId}/comments/${comment.id}`);
+      const res = await axiosClient.delete(
+        BFF_API.task.comment.delete(String(taskId), String(comment.id))
+      );
+      if (res.status === 200) {
+        Toast.success('댓글 삭제 성공');
+      }
       setIsDelete(true);
       revalidateTasks();
-      Toast.success('댓글 삭제 성공');
     } catch {
       Toast.error('댓글 삭제 실패');
     }
@@ -51,7 +56,7 @@ export default function CommentField({ comment, taskId }: Props) {
 
   const editComment = async () => {
     try {
-      await axiosClient.patch(`/tasks/${taskId}/comments/${comment.id}`, {
+      await axiosClient.patch(BFF_API.task.comment.edit(String(taskId), String(comment.id)), {
         content: currentContent,
       });
       setCurrentComment((prev) => ({ ...prev, content: currentContent }));

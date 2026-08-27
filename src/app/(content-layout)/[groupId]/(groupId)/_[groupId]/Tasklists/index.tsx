@@ -4,8 +4,8 @@ import TasklistItem from '@/app/(content-layout)/[groupId]/(groupId)/_[groupId]/
 import TasklistUpdateModal from '@/app/(content-layout)/[groupId]/(groupId)/_[groupId]/Tasklists/TasklistUpdateModal';
 import TasklistDeleteModal from '@/app/(content-layout)/[groupId]/(groupId)/_[groupId]/Tasklists/TasklistDeleteModal';
 import { Group } from '@/types/group';
-import { Tasklist } from '@/types/tasklist';
 import CreateTaskListModal from '../../../tasklist/_tasklist/components/ModalContents/CreateTaskListModal';
+import { Tasklist } from '@/types/task';
 
 type TasklistsProps = {
   groupId: Group['id'];

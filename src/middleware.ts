@@ -3,6 +3,9 @@ import type { NextRequest } from 'next/server';
 
 export function middleware(request: NextRequest) {
   const { pathname } = request.nextUrl;
+  if (pathname.startsWith('/api')) {
+    return NextResponse.next();
+  }
   const token = request.cookies.get('accessToken')?.value;
   const isPublicPath = ['/', '/login', '/signup', '/reset-password', '/oauth/kakao'].includes(
     pathname

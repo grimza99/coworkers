@@ -1,9 +1,10 @@
 'use server';
 
+import { BFF_API } from '@/constants/api';
 import axiosServer from '@/lib/axiosServer';
 
 export async function getGroupInfo(groupId: number) {
-  const response = await axiosServer.get(`/groups/${groupId}`);
+  const response = await axiosServer.get(BFF_API.group.detail(String(groupId)));
 
   const { id, name, image } = response.data;
   const groupData = { id, name, image };
@@ -12,5 +13,5 @@ export async function getGroupInfo(groupId: number) {
 }
 
 export async function deleteGroup(groupId: number) {
-  await axiosServer.delete(`/groups/${groupId}`);
+  await axiosServer.delete(BFF_API.group.delete(String(groupId)));
 }

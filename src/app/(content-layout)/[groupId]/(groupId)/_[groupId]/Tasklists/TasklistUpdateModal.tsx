@@ -12,7 +12,7 @@ import {
 import { useModal, ModalPortal } from '@/contexts/ModalContext';
 import BouncingDots from '@/components/common/loading/BouncingDots';
 import { validateEmptyValue } from '@/utils/validators';
-import { Tasklist } from '@/types/tasklist';
+import { Tasklist } from '@/types/task';
 
 interface TasklistUpdateModalProps {
   modalId: string;

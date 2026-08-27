@@ -4,10 +4,10 @@ import { useRouter, useSearchParams } from 'next/navigation';
 import { ErrorBoundary } from 'react-error-boundary';
 import { revalidateTasks } from '../actions/task-actions';
 import TaskListPageFallBack from '../../error';
-import { TaskList } from '../types/task-type';
+import { Tasklist } from '@/types/task';
 
 interface Props {
-  taskLists: TaskList[];
+  taskLists: Tasklist[];
   currentTaskListId: string;
 }
 
@@ -18,7 +18,7 @@ export default function TaskLists({ taskLists, currentTaskListId }: Props) {
     (a, b) => new Date(a.createdAt).getTime() - new Date(b.createdAt).getTime()
   );
 
-  const handleClickChangeCurrentTaskList = async (taskList: TaskList) => {
+  const handleClickChangeCurrentTaskList = async (taskList: Tasklist) => {
     const params = new URLSearchParams(searchParams.toString());
 
     revalidateTasks();

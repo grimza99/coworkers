@@ -1,7 +1,7 @@
 import { DragEndEvent, MouseSensor, TouchSensor, useSensor, useSensors } from '@dnd-kit/core';
 import { arrayMove } from '@dnd-kit/sortable';
-import { Task } from '../types/task-type';
 import { useTaskActions } from './use-task-actions';
+import { Task } from '@/types/task';
 
 export default function useDndKit(
   currentTasks: Task[],

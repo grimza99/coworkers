@@ -1,6 +1,5 @@
 import { useState } from 'react';
-import { format, getDate, startOfDay, differenceInMinutes } from 'date-fns';
-import { Frequency } from '@/app/(content-layout)/[groupId]/tasklist/_tasklist/types/task-type';
+import { format, getDate, differenceInMinutes } from 'date-fns';
 import generateTime from './time-table';
 import { TaskItemProps, TaskItem, Time } from './type';
 import axiosClient from '@/lib/axiosClient';
@@ -8,7 +7,8 @@ import { useModal } from '@/contexts/ModalContext';
 import { validateEmptyValue } from '@/utils/validators';
 import { Toast } from '../common/Toastify';
 import { revalidateTasks } from '@/app/(content-layout)/[groupId]/tasklist/_tasklist/actions/task-actions';
-import { useRouter } from 'next/navigation';
+import { BFF_API } from '@/constants/api';
+import { Frequency } from '@/types/task';
 
 const REVERSE_FREQUENCY_MAP: Record<string, Frequency> = {
   '한 번': 'ONCE',
@@ -18,7 +18,7 @@ const REVERSE_FREQUENCY_MAP: Record<string, Frequency> = {
 };
 
 export default function useManageTaskItem({
-  detailTask,
+  task,
   groupId,
   taskListId,
   isDone,
@@ -26,15 +26,13 @@ export default function useManageTaskItem({
 }: TaskItemProps) {
   const { am, pm } = generateTime();
   const { closeModal } = useModal();
-  const task = detailTask?.recurring;
-  const router = useRouter();
 
   const [isCalendarOpen, setIsCalendarOpen] = useState(false);
   const [taskItem, setTaskItem] = useState<TaskItem>(() => ({
-    name: detailTask?.name ?? '',
-    description: detailTask?.description ?? '',
-    startDate: task?.startDate ?? startOfDay(new Date()),
-    frequencyType: task?.frequencyType ?? 'ONCE',
+    name: task?.name ?? '',
+    description: task?.description ?? '',
+    startDate: task?.startDate ? new Date(task?.startDate) : new Date(),
+    frequencyType: task?.frequency ?? 'ONCE',
   }));
   const [isTimeOpen, setIsTimeOpen] = useState(false);
   const [selectedFrequency, setSelectedFrequency] = useState('');
@@ -170,8 +168,9 @@ export default function useManageTaskItem({
     !validateEmptyValue(taskItem.name) && !validateEmptyValue(taskItem.description);
 
   const isEqualTaskItem =
-    taskItem.name === detailTask?.name && taskItem.description === detailTask?.description;
+    taskItem.name === task?.name && taskItem.description === task?.description;
 
+  //-------------------------------------- 태스크 생성 ------------------------------------------------
   const handleCreateTaskItemSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
 
@@ -199,10 +198,12 @@ export default function useManageTaskItem({
         };
       }
       setIsPending(true);
-      await axiosClient.post(`/groups/${groupId}/task-lists/${taskListId}/tasks`, finalTaskItem);
+      await axiosClient.post(
+        BFF_API.task.create(String(groupId), String(taskListId)),
+        finalTaskItem
+      );
 
       revalidateTasks();
-      router.refresh();
       closeTaskItemModal();
     } catch {
       Toast.error('할 일 생성 실패');
@@ -211,9 +212,9 @@ export default function useManageTaskItem({
     }
   };
 
+  //-------------------------------------- task 수정 핸들러 ------------------------------------------------
   const handleEditTaskItemSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
-
     if (isEqualTaskItem) {
       Toast.info('변경된 내용이 없습니다.');
       return;
@@ -223,7 +224,7 @@ export default function useManageTaskItem({
       setIsPending(true);
 
       await axiosClient.patch(
-        `/groups/${groupId}/task-lists/${taskListId}/tasks/${detailTask?.id}`,
+        BFF_API.task.edit(String(groupId), String(taskListId), String(task?.id)),
         {
           done: isDone,
           name: taskItem.name,
@@ -243,7 +244,6 @@ export default function useManageTaskItem({
 
       // await Promise.all(promises);
       revalidateTasks();
-      router.refresh();
       closeTaskItemModal();
     } catch {
       Toast.error('할 일 수정 실패');
@@ -253,7 +253,7 @@ export default function useManageTaskItem({
   };
 
   const isWeekly = selectedFrequency === '주 반복';
-  const isOnce = task?.frequencyType === 'ONCE';
+  const isOnce = task?.frequency === 'ONCE';
 
   const createOrEditSubmit = task ? handleEditTaskItemSubmit : handleCreateTaskItemSubmit;
 
