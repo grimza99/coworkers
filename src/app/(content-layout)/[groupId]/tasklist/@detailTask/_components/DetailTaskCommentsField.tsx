@@ -41,7 +41,7 @@ export default function DetailTaskCommentField({ taskId }: Props) {
 
   const handleSubmitComment = async () => {
     try {
-      const { data } = await axiosClient.post(`/tasks/${taskId}/comments`, {
+      const { data } = await axiosClient.post(BFF_API.task.comment.create(String(taskId)), {
         content: commentValue,
       });
       setCurrentComments((prev) => [...prev, data]);

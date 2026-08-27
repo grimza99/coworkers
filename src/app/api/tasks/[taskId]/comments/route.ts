@@ -27,3 +27,31 @@ export async function GET(
     return NextResponse.json({ error: 'Internal Server Error' }, { status: 500 });
   }
 }
+/**---------------------------------------------------- task 댓글 작성 ----------------------------------------------------- */
+export async function POST(
+  request: NextRequest,
+  { params }: { params: Promise<{ taskId: string }> }
+) {
+  const { taskId } = await params;
+
+  const body = await request.json();
+
+  try {
+    const res = await fetch(`${BACKEND_API.task.comment.create(taskId)}`, {
+      method: 'POST',
+      headers: requestHeader(request),
+      body: JSON.stringify(body),
+    });
+
+    if (!res.ok) {
+      return NextResponse.json({ message: 'Fetch failed' }, { status: res.status });
+    }
+
+    const data = await res.json();
+
+    return NextResponse.json(data, { status: 201 });
+  } catch (error) {
+    console.error('User Fetch Error:', error);
+    return NextResponse.json({ error: 'Internal Server Error' }, { status: 500 });
+  }
+}

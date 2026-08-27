@@ -42,6 +42,7 @@ export const BFF_API = {
       `/groups/${groupId}/task-lists/${taskListId}/tasks/${taskId}`,
     comment: {
       list: (taskId: string) => `/tasks/${taskId}/comments`,
+      create: (taskId: string) => `/tasks/${taskId}/comments`,
     },
   },
   image: {
@@ -90,6 +91,7 @@ export const BACKEND_API = {
       `${BACKEND_BASEURL}${BFF_API.task.delete(groupId, taskListId, taskId)}`,
     comment: {
       list: (taskId: string) => `${BACKEND_BASEURL}${BFF_API.task.comment.list(taskId)}`,
+      create: (taskId: string) => `${BACKEND_BASEURL}${BFF_API.task.comment.create(taskId)}`,
     },
   },
   image: {
