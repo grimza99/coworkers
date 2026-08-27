@@ -8,6 +8,7 @@ import CommentSubmit from '@/assets/CommentSubmit';
 import { Toast } from '@/components/common/Toastify';
 import clsx from 'clsx';
 import { revalidateTasks } from '../../_tasklist/actions/task-actions';
+import { BFF_API } from '@/constants/api';
 
 interface Props {
   taskId: number | undefined;
@@ -22,7 +23,7 @@ export default function DetailTaskCommentField({ taskId }: Props) {
   const fetchComments = useCallback(async () => {
     if (!taskId) return;
     try {
-      const { data } = await axiosClient(`/tasks/${taskId}/comments`);
+      const { data } = await axiosClient(BFF_API.task.comment.list(String(taskId)));
       setCurrentComments(data);
     } catch {
       throw Error;
