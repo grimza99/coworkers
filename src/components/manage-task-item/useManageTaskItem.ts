@@ -31,7 +31,7 @@ export default function useManageTaskItem({
   const [taskItem, setTaskItem] = useState<TaskItem>(() => ({
     name: task?.name ?? '',
     description: task?.description ?? '',
-    startDate: task?.startDate ?? '',
+    startDate: task?.startDate ? new Date(task?.startDate) : new Date(),
     frequencyType: task?.frequency ?? 'ONCE',
   }));
   const [isTimeOpen, setIsTimeOpen] = useState(false);
