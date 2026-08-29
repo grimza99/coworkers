@@ -49,6 +49,7 @@ export const BFF_API = {
   },
   member: {
     copyInvitationCode: (groupId: string) => `/groups/${groupId}/invitation`,
+    acceptInviteCode: '/groups/accept-invitation',
   },
   image: {
     upload: '/images/upload',
@@ -106,6 +107,7 @@ export const BACKEND_API = {
   member: {
     copyInvitationCode: (groupId: string) =>
       `${BACKEND_BASEURL}${BFF_API.member.copyInvitationCode(groupId)}`,
+    acceptInviteCode: `${BACKEND_BASEURL}${BFF_API.member.acceptInviteCode}`,
   },
   image: {
     upload: `${BACKEND_BASEURL}${BFF_API.image.upload}`,
