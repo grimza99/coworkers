@@ -6,66 +6,57 @@ import axiosClient from '@/lib/axiosClient';
 import { BFF_API } from '@/constants/api';
 
 interface UserContextType {
-  user: User | null;
-  email: string | null;
-  memberships: Membership[] | null;
+  user: IUserState | null;
   fetchUser: () => Promise<void>;
   logoutUser: () => Promise<void>;
   isLoading: boolean;
-  setUser: (state: User | null) => void;
+  setUserState: (state: IUserState | null) => void;
 }
 
 const UserContext = createContext<UserContextType | null>(null);
 
+interface IUserState extends User {
+  email: string;
+  memberships: Membership[];
+}
 export const UserProvider = ({ children }: { children: React.ReactNode }) => {
-  const [userState, setUserState] = useState<User | null>(null);
-  const [email, setEmail] = useState<string | null>(null);
-  const [memberships, setMemberships] = useState<Membership[] | null>(null);
+  const [user, setUser] = useState<IUserState | null>(null);
   const [isLoading, setIsLoading] = useState(false);
 
-  const setUser = (state: User | null) => {
-    if (!state) return;
-    setUserState(state);
+  const setUserState = (newState: IUserState | null) => {
+    setUser(newState);
   };
-
   const fetchUser = useCallback(async () => {
-    if (!userState?.id) return;
     setIsLoading(true);
 
     try {
-      const response = await getUser();
-      const { email, memberships } = response.data;
-      if (!response.data.id) {
+      const res = await getUser();
+      const { email, memberships, id, nickname, image } = res.data;
+      if (!id) {
         setIsLoading(false);
         return;
       }
-      setEmail(email);
-      setMemberships(memberships);
+      setUser({ email, memberships, id, nickname, image });
     } catch {
-      setEmail(null);
-      setMemberships(null);
+      setUser(null);
+    } finally {
+      setIsLoading(false);
     }
-    setIsLoading(false);
-  }, [setEmail, userState]);
-
+  }, [setUser]);
   const logoutUser = useCallback(async () => {
     setIsLoading(true);
-    setUserState(null);
-    setEmail(null);
-    setMemberships(null);
+    setUser(null);
     await axiosClient.post(BFF_API.auth.logout);
 
     setIsLoading(false);
-  }, [setUserState, setEmail, setMemberships]);
+  }, [setUser]);
 
   useEffect(() => {
     fetchUser();
   }, [fetchUser]);
 
   return (
-    <UserContext.Provider
-      value={{ user: userState, email, memberships, fetchUser, logoutUser, isLoading, setUser }}
-    >
+    <UserContext.Provider value={{ user, fetchUser, logoutUser, isLoading, setUserState }}>
       {children}
     </UserContext.Provider>
   );

@@ -10,7 +10,7 @@ export default function StartButton({
   children,
   ...props
 }: React.ComponentProps<'button'>) {
-  const { memberships, isLoading } = useUser();
+  const { user, isLoading } = useUser();
 
   if (isLoading) {
     return (
@@ -22,12 +22,12 @@ export default function StartButton({
 
   let determinedHref: string;
 
-  if (!memberships) {
+  if (!user) {
     determinedHref = PATHS.LOGIN;
-  } else if (memberships.length === 0) {
+  } else if (user.memberships.length === 0) {
     determinedHref = PATHS.NOGROUP;
-  } else if (memberships[0].group.id) {
-    const sortedGroups = memberships
+  } else if (user.memberships[0].group.id) {
+    const sortedGroups = user.memberships
       .map((m) => m.group)
       .toSorted((a, b) => new Date(b.createdAt).getTime() - new Date(a.createdAt).getTime());
     determinedHref = PATHS.getGroupPath(sortedGroups[0].id);

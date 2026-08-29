@@ -25,19 +25,19 @@ const MINIMAL_HEADER_PATHS = [
 export default function Header() {
   const pathname = usePathname();
   const { groupId } = useParams<{ groupId: string }>();
-  const { user, memberships, isLoading } = useUser();
+  const { user, isLoading } = useUser();
 
   const [selectedGroupId, setSelectedGroupId] = useState<number | null>(null);
 
   const groups: Group[] =
-    !isLoading && memberships ? memberships.map((membership) => membership.group) : [];
+    !isLoading && user?.memberships ? user.memberships.map((membership) => membership.group) : [];
 
   useEffect(() => {
-    if (!isLoading && memberships) {
+    if (user && !isLoading && user.memberships) {
       // URL에 groupId가 있는 경우
       if (groupId !== null && groupId !== undefined) {
         const numericId = Number(groupId);
-        const isValidGroup = memberships.some((m) => m.group.id === numericId);
+        const isValidGroup = user.memberships.some((m) => m.group.id === numericId);
 
         if (isValidGroup) {
           setSelectedGroupId(numericId);
@@ -46,8 +46,8 @@ export default function Header() {
       }
 
       // URL에 groupId가 없거나 유효하지 않은 경우, 가장 최근 그룹 선택
-      if (memberships.length > 0) {
-        const sortedGroups = memberships
+      if (user.memberships.length > 0) {
+        const sortedGroups = user.memberships
           .map((m) => m.group)
           .toSorted((a, b) => new Date(b.createdAt).getTime() - new Date(a.createdAt).getTime());
 
@@ -56,7 +56,7 @@ export default function Header() {
         setSelectedGroupId(null);
       }
     }
-  }, [groupId, memberships, isLoading]);
+  }, [groupId, user, isLoading]);
 
   const {
     ref: sideMenuRef,
@@ -78,7 +78,7 @@ export default function Header() {
       </header>
     );
   }
-
+  console.log(user);
   return (
     <header className="bg-bg200 border-border sticky top-0 z-200 flex h-15 w-full justify-center border-b-1">
       <div className="mx-5 flex w-full max-w-300 items-center justify-between">

@@ -16,7 +16,7 @@ import FormField from '@/components/common/formField';
 import { useUser } from '@/contexts/UserContext';
 
 export default function MyPageClient() {
-  const { user, email, fetchUser, setUser } = useUser();
+  const { user, fetchUser, setUserState } = useUser();
   const [image, setImage] = useState(user?.image ?? '');
   const [nickname, setNickname] = useState(user?.nickname ?? '');
   const [nicknameError, setNicknameError] = useState('');
@@ -81,8 +81,8 @@ export default function MyPageClient() {
   };
 
   const handlePasswordVerification = async () => {
-    if (!email) return;
-    verifyPasswordMutation.mutate({ email, password });
+    if (!user) return;
+    verifyPasswordMutation.mutate({ email: user.email, password });
   };
 
   return (
@@ -95,7 +95,7 @@ export default function MyPageClient() {
               image={image}
               setImage={(newImageUrl: string) => {
                 setImage(newImageUrl);
-                setUser(user ? { ...user, image: newImageUrl } : null);
+                setUserState(user ? { ...user, image: newImageUrl } : null);
               }}
             />
             <NicknameField
@@ -106,7 +106,7 @@ export default function MyPageClient() {
               onClick={handleNicknameUpdate}
               isLoading={updateNicknameMutation.isPending}
             />
-            <FormField field="input" label="이메일" value={email || ''} readOnly />
+            <FormField field="input" label="이메일" value={user?.email || ''} readOnly />
             <PasswordField
               password={password}
               setPassword={setPassword}
