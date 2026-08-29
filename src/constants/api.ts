@@ -15,6 +15,8 @@ export const BFF_API = {
     list: '/articles',
     create: '/articles',
     detail: (id: string) => `/articles/${id}`,
+    edit: (id: string) => `/articles/${id}`,
+    delete: (id: string) => `/articles/${id}`,
     comment: {
       list: (articleId: string) => `/articles/${articleId}/comments`,
       create: (articleId: string) => `/articles/${articleId}/comments`,
@@ -67,6 +69,9 @@ export const BACKEND_API = {
     list: `${BACKEND_BASEURL}${BFF_API.article.list}`,
     create: `${BACKEND_BASEURL}${BFF_API.article.create}`,
     detail: (id: string) => `${BACKEND_BASEURL}${BFF_API.article.detail(id)}`,
+    edit: (id: string) => `${BACKEND_BASEURL}${BFF_API.article.edit(id)}`,
+    delete: (id: string) => `${BACKEND_BASEURL}${BFF_API.article.delete(id)}`,
+
     comment: {
       list: (articleId: string) => `${BACKEND_BASEURL}${BFF_API.article.comment.list(articleId)}`,
       create: (articleId: string) =>

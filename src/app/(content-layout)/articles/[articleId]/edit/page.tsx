@@ -10,10 +10,12 @@ import postImageUrl from '@/lib/api/image/postImageUrl';
 import { validateEmptyValue } from '@/utils/validators';
 import PATHS from '@/constants/paths';
 import { GetArticleDetailResponse } from '@/types/article';
+import { BFF_API } from '@/constants/api';
 
 export default function Page() {
   const router = useRouter();
   const { articleId } = useParams();
+  const [id, setId] = useState('');
   const [title, setTitle] = useState('');
   const [content, setContent] = useState('');
   const [image, setImage] = useState<File | null>(null);
@@ -36,7 +38,7 @@ export default function Page() {
 
   const submitForm = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
-    if (!canSubmit || isSubmitting) {
+    if (!canSubmit || isSubmitting || !articleId) {
       return;
     }
 
@@ -55,7 +57,7 @@ export default function Page() {
         ...(uploadedImageUrl && { image: uploadedImageUrl }),
       };
 
-      const res = await axiosClient.patch(`/articles/${articleId}`, articlePayload);
+      const res = await axiosClient.patch(BFF_API.article.edit(id), articlePayload);
 
       Toast.success('게시글 수정 완료');
       setTitle('');
@@ -90,7 +92,8 @@ export default function Page() {
     const fetchArticle = async () => {
       try {
         const response = await axiosClient.get<GetArticleDetailResponse>(`/articles/${articleId}`);
-        const { title, content, image } = response.data;
+        const { title, content, image, id } = response.data;
+        setId(String(id));
         setTitle(title);
         setContent(content);
         setPreviewImage(image);
