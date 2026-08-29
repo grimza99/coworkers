@@ -9,6 +9,7 @@ export const BFF_API = {
     login: '/auth/login',
     signup: '/auth/signup',
     kakao_oauth: '/auth/kakao',
+    logout: '/auth/logout', //backend api 없음 bff에서 처리
   },
   user: '/user',
   article: {

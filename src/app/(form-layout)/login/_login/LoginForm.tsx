@@ -22,7 +22,7 @@ export interface loginApiResponse {
 export default function LoginForm() {
   const router = useRouter();
 
-  const { fetchUser, setUser } = useUser();
+  const { fetchUser } = useUser();
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [isPasswordVisible, setIsPasswordVisible] = useState(false);
@@ -44,8 +44,6 @@ export default function LoginForm() {
       const res = await axiosClient.post(BFF_API.auth.login, { email, password });
 
       if (!res.data) return router.push(PATHS.HOME);
-      const data = (await res.data) as loginApiResponse;
-      setUser(data.user);
       fetchUser();
       router.push(PATHS.ARTICLES.BASE);
     } catch (error) {

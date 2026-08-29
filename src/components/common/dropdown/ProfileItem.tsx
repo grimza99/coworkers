@@ -1,3 +1,5 @@
+import { BFF_API } from '@/constants/api';
+import axiosClient from '@/lib/axiosClient';
 import { deleteClientCookie } from '@/lib/cookie/client';
 import Link from 'next/link';
 
@@ -11,9 +13,10 @@ const PROFILE_DROPDOWN_LIST = [
 const DropDownProfileItemList = PROFILE_DROPDOWN_LIST.map((list, index) => {
   const isLast = index === PROFILE_DROPDOWN_LIST.length - 1;
 
-  const handleClickLogOut = () => {
-    deleteClientCookie('accessToken');
-    deleteClientCookie('refreshToken');
+  const handleClickLogOut = async () => {
+    // deleteClientCookie('accessToken');
+    // deleteClientCookie('refreshToken');
+    await axiosClient.post(BFF_API.auth.logout);
     location.reload();
     window.location.href = '/login';
   };
