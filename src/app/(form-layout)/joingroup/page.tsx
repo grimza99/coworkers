@@ -7,6 +7,7 @@ import Button from '@/components/common/Button';
 import FormField from '@/components/common/formField';
 import { Toast } from '@/components/common/Toastify';
 import { useUser } from '@/contexts/UserContext';
+import { BFF_API } from '@/constants/api';
 
 export default function JoinGroup() {
   const [inviteLink, setInviteLink] = useState('');
@@ -17,7 +18,7 @@ export default function JoinGroup() {
     e.preventDefault();
     const token = inviteLink.trim();
     try {
-      const response = await axiosClient.post('/groups/accept-invitation', {
+      const response = await axiosClient.post(BFF_API.member.acceptInviteCode, {
         userEmail,
         token,
       });
