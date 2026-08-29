@@ -2,6 +2,8 @@
 import { createContext, useContext, useState, useEffect, useCallback } from 'react';
 import { Membership, User } from '@/types/user';
 import { getUser } from '@/api/user';
+import axiosClient from '@/lib/axiosClient';
+import { BFF_API } from '@/constants/api';
 
 interface UserContextType {
   user: User | null;
@@ -51,6 +53,8 @@ export const UserProvider = ({ children }: { children: React.ReactNode }) => {
     setUserState(null);
     setEmail(null);
     setMemberships(null);
+    await axiosClient.post(BFF_API.auth.logout);
+
     setIsLoading(false);
   }, [setUserState, setEmail, setMemberships]);
 
