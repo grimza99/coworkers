@@ -13,6 +13,7 @@ import { useUser } from '@/contexts/UserContext';
 import { useModal } from '@/contexts/ModalContext';
 import DetailArticleDropdown from './DetailArticleDropdown';
 import axiosClient from '@/lib/axiosClient';
+import { BFF_API } from '@/constants/api';
 
 const DEFAULT_IMAGE = process.env.NEXT_PUBLIC_DEFAULT_IMAGE;
 
@@ -25,7 +26,7 @@ export default function DetailArticleInfo({ detail }: { detail: GetArticleDetail
   const handleArticleDelete = async () => {
     setIsPending(true);
     try {
-      await axiosClient.delete(`/articles/${detail.id}`);
+      await axiosClient.delete(BFF_API.article.delete(String(detail.id)));
       Toast.success('게시글 삭제 성공');
       router.push('/articles');
     } catch {

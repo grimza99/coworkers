@@ -7,18 +7,20 @@ import Button from '@/components/common/Button';
 import FormField from '@/components/common/formField';
 import { Toast } from '@/components/common/Toastify';
 import { useUser } from '@/contexts/UserContext';
+import { BFF_API } from '@/constants/api';
 
 export default function JoinGroup() {
   const [inviteLink, setInviteLink] = useState('');
   const router = useRouter();
-  const { email: userEmail } = useUser();
+  const { user } = useUser();
 
   const handleJoin = async (e: React.FormEvent) => {
     e.preventDefault();
     const token = inviteLink.trim();
     try {
-      const response = await axiosClient.post('/groups/accept-invitation', {
-        userEmail,
+      if (!user) return;
+      const response = await axiosClient.post(BFF_API.member.acceptInviteCode, {
+        email: user.email,
         token,
       });
       Toast.success('팀 참여 성공!');

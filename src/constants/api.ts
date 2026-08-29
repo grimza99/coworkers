@@ -9,12 +9,15 @@ export const BFF_API = {
     login: '/auth/login',
     signup: '/auth/signup',
     kakao_oauth: '/auth/kakao',
+    logout: '/auth/logout', //backend api 없음 bff에서 처리
   },
   user: '/user',
   article: {
     list: '/articles',
     create: '/articles',
     detail: (id: string) => `/articles/${id}`,
+    edit: (id: string) => `/articles/${id}`,
+    delete: (id: string) => `/articles/${id}`,
     comment: {
       list: (articleId: string) => `/articles/${articleId}/comments`,
       create: (articleId: string) => `/articles/${articleId}/comments`,
@@ -49,6 +52,7 @@ export const BFF_API = {
   },
   member: {
     copyInvitationCode: (groupId: string) => `/groups/${groupId}/invitation`,
+    acceptInviteCode: '/groups/accept-invitation',
   },
   image: {
     upload: '/images/upload',
@@ -67,6 +71,9 @@ export const BACKEND_API = {
     list: `${BACKEND_BASEURL}${BFF_API.article.list}`,
     create: `${BACKEND_BASEURL}${BFF_API.article.create}`,
     detail: (id: string) => `${BACKEND_BASEURL}${BFF_API.article.detail(id)}`,
+    edit: (id: string) => `${BACKEND_BASEURL}${BFF_API.article.edit(id)}`,
+    delete: (id: string) => `${BACKEND_BASEURL}${BFF_API.article.delete(id)}`,
+
     comment: {
       list: (articleId: string) => `${BACKEND_BASEURL}${BFF_API.article.comment.list(articleId)}`,
       create: (articleId: string) =>
@@ -106,6 +113,7 @@ export const BACKEND_API = {
   member: {
     copyInvitationCode: (groupId: string) =>
       `${BACKEND_BASEURL}${BFF_API.member.copyInvitationCode(groupId)}`,
+    acceptInviteCode: `${BACKEND_BASEURL}${BFF_API.member.acceptInviteCode}`,
   },
   image: {
     upload: `${BACKEND_BASEURL}${BFF_API.image.upload}`,
